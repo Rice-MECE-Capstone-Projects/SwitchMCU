@@ -1,0 +1,166 @@
+<mxfile host="Electron" modified="2023-09-10T21:25:46.868Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="TQOV2yNPddBc7LQfQRkr" version="21.6.8" type="device">
+  <diagram name="第 1 页" id="EY_-h3G3PNnX1o24F_rj">
+    <mxGraphModel dx="828" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#000000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-2" value="SPI Controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="103" y="100" width="310" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-5" value="" style="endArrow=classic;html=1;rounded=0;endFill=1;fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160.66" y="100" as="sourcePoint" />
+            <mxPoint x="160.66" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-6" value="MOSI" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="OAOS-e-xg6nneAwfPIRe-5" vertex="1" connectable="0">
+          <mxGeometry x="-0.4978" y="1" relative="1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-7" value="" style="endArrow=none;html=1;rounded=0;startArrow=classic;startFill=1;endFill=0;fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="357.71" y="100" as="sourcePoint" />
+            <mxPoint x="357.91" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-8" value="MISO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="OAOS-e-xg6nneAwfPIRe-7" vertex="1" connectable="0">
+          <mxGeometry x="-0.4978" y="1" relative="1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=classic;endFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-1" target="OAOS-e-xg6nneAwfPIRe-31" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-1" value="Shifter" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="123" y="150" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-1" target="OAOS-e-xg6nneAwfPIRe-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=classic;endFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-11" target="OAOS-e-xg6nneAwfPIRe-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-11" value="TX Buffer" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="123" y="250" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-14" target="OAOS-e-xg6nneAwfPIRe-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-116" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;endArrow=none;endFill=0;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-14" target="OAOS-e-xg6nneAwfPIRe-63" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-14" value="SPI_WDR" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;fontFamily=Source Han Sans HC Medium;" parent="1" vertex="1">
+          <mxGeometry x="123" y="300" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=classic;endFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-16" target="OAOS-e-xg6nneAwfPIRe-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-16" value="Format Converter" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="123" y="200" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-31" value="IO" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="123" y="100" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-36" target="OAOS-e-xg6nneAwfPIRe-44" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-36" value="Shifter" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="323" y="150" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-36" target="OAOS-e-xg6nneAwfPIRe-36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-39" target="OAOS-e-xg6nneAwfPIRe-43" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-39" value="RX Buffer" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="323" y="250" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-41" target="OAOS-e-xg6nneAwfPIRe-39" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-117" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-41" target="OAOS-e-xg6nneAwfPIRe-63" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-41" value="SPI_RDR" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;fontFamily=Source Han Sans HC Medium;" parent="1" vertex="1">
+          <mxGeometry x="323" y="300" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-43" target="OAOS-e-xg6nneAwfPIRe-36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-43" value="Format Converter" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="323" y="200" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-44" value="IO" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="323" y="100" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-45" value="IO" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="223" y="100" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=classic;endFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-46" target="OAOS-e-xg6nneAwfPIRe-45" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dX3jC1EArc-f06inrsLe-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-46" target="OAOS-e-xg6nneAwfPIRe-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dX3jC1EArc-f06inrsLe-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-46" target="OAOS-e-xg6nneAwfPIRe-36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-46" value="SCK Gen" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="223" y="150" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-62" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Control &amp;amp; Status Registers&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;fontFamily=Source Han Sans HC Medium;" parent="1" vertex="1">
+          <mxGeometry x="223" y="300" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;fontFamily=Source Han Sans HC Medium;" parent="1" source="OAOS-e-xg6nneAwfPIRe-63" target="OAOS-e-xg6nneAwfPIRe-62" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-63" value="APB Slave Controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Source Han Sans HC Medium;fillColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="123" y="380" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-68" value="" style="endArrow=classic;html=1;rounded=0;endFill=1;fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="261.73" y="100" as="sourcePoint" />
+            <mxPoint x="261.73" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-69" value="SCK" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Source Han Sans HC Medium;" parent="OAOS-e-xg6nneAwfPIRe-68" vertex="1" connectable="0">
+          <mxGeometry x="-0.4978" y="1" relative="1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-139" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="263" y="520" as="sourcePoint" />
+            <mxPoint x="263" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-150" value="&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PCLK&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PRESETn&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PADDR[31:0]&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PSELx&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PENABLE&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PWRITE&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PWDATA[31:0]&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PREADY&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PRDATA&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;PSLVERR&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Source Han Sans HC Medium;" parent="1" vertex="1">
+          <mxGeometry x="283" y="410" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-154" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="103" y="520" as="sourcePoint" />
+            <mxPoint x="413" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-155" value="APB Master" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Source Han Sans HC Medium;" parent="1" vertex="1">
+          <mxGeometry x="218" y="520" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-156" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="103" y="550" as="sourcePoint" />
+            <mxPoint x="103" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OAOS-e-xg6nneAwfPIRe-157" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontFamily=Source Han Sans HC Medium;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="413" y="550" as="sourcePoint" />
+            <mxPoint x="413" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
