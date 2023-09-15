@@ -70,17 +70,51 @@ initial begin
     #10;
     prstn = 1;
     #10;
-    // write
+    // write SPI_CR 0x0010_0000
     wreq = 1;
     wbuffdata = 'h10;
-    wbuffaddr = 'h00;
+    wbuffaddr = 'h0010_0000;
     #20;
     wreq = 0;
     wbuffdata = 0;
     wbuffaddr = 'h00;
-    //read
+    // write SPI_SR 0x0010_0004
+    wreq = 1;
+    wbuffdata = 'h12;
+    wbuffaddr = 'h0010_0004;
+    #20;
+    wreq = 0;
+    wbuffdata = 0;
+    wbuffaddr = 'h00;
+    //read SPI_CR 0x0010_0000
     rreq = 1;
+    rbuffaddr = 'h0010_0000;
+    #20;
+    rreq = 0;
     rbuffaddr = 'h00;
+    //read SPI_SR 0x0010_0004
+    rreq = 1;
+    rbuffaddr = 'h0010_0004;
+    #20;
+    rreq = 0;
+    rbuffaddr = 'h00;
+    
+    #50;
+
+    // write SPI_WDR 0x0010_0008
+    wreq = 1;
+    wbuffdata = 'h14;
+    wbuffaddr = 'h0010_0008;
+    #20;
+    wreq = 0;
+    wbuffdata = 0;
+    wbuffaddr = 'h00;
+
+    #50;
+    
+    //read SPI_CR 0x0010_0000
+    rreq = 1;
+    rbuffaddr = 'h0010_0008;
     #20;
     rreq = 0;
     rbuffaddr = 'h00;

@@ -158,6 +158,9 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___ctor_var_reset(Vapb_swc_tb___024root* 
     vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state = VL_RAND_RESET_I(2);
     vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate = VL_RAND_RESET_I(2);
     vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_CR = VL_RAND_RESET_I(32);
+    vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_SR = VL_RAND_RESET_I(32);
+    vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_WDR = VL_RAND_RESET_I(32);
+    vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_RDR = VL_RAND_RESET_I(32);
     vlSelf->__Vtrigprevexpr___TOP__apb_swc_tb__DOT__pclk__0 = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
