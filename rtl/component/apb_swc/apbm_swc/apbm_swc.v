@@ -35,9 +35,9 @@ output  reg                     wbuffread   ;
 input                           wreq        ;
 input           [31:0]          wbuffdata   ;
 input           [31:0]          wbuffaddr   ;
-output                          rbuffwrite  ;
+output reg                      rbuffwrite  ;
 input                           rreq        ;
-output          [31:0]          rbuffdata   ;
+output reg      [31:0]          rbuffdata   ;
 input           [31:0]          rbuffaddr   ;
 // State machine signals
 localparam  IDLE     = 0                    ,
@@ -157,7 +157,11 @@ always @(posedge pclk) begin
     end else if(nextstate == IDLE) begin
         wbuffread <= 0;
     end else if(nextstate == STEUP) begin
-        wbuffread <= 1;
+        if(wreq) begin
+            wbuffread <= 1;
+        end else begin
+            wbuffread <= 0;
+        end
     end else if(nextstate == ACCESS) begin
         wbuffread <= 0;
     end else begin
@@ -183,6 +187,36 @@ always @(posedge pclk) begin
         pwrite <= pwrite;
     end else begin
         pwrite <= 0;
+    end
+end
+
+// rbuffdata
+always @(posedge pclk) begin
+    if(!prstn) begin
+        rbuffdata <= 0;
+    end else if(state == ACCESS) begin
+        if(!pwrite && pready) begin
+            rbuffdata <= prdata;
+        end else begin
+            rbuffdata <= 0;
+        end
+    end else begin
+        rbuffdata <= 0;
+    end
+end
+
+// rbuffwrite
+always @(posedge pclk) begin
+    if(!prstn) begin
+        rbuffwrite <= 0;
+    end else if(state == ACCESS) begin
+        if(!pwrite && pready) begin
+            rbuffwrite <= 1;
+        end else begin
+            rbuffwrite <= 0;
+        end
+    end else begin
+        rbuffwrite <= 0;
     end
 end
     
