@@ -38,6 +38,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vapb_swc_tb___024root final : public Verilate
     IData/*31:0*/ apb_swc_tb__DOT__rbuffdata;
     IData/*31:0*/ apb_swc_tb__DOT__rbuffaddr;
     IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_CR;
+    IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_SR;
+    IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_WDR;
+    IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_RDR;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;

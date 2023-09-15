@@ -44,9 +44,11 @@ void Vapb_swc_tb___024root__trace_chg_sub_0(Vapb_swc_tb___024root* vlSelf, Veril
         bufp->chgCData(oldp+14,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state),2);
         bufp->chgBit(oldp+15,((1U & (IData)(vlSelf->apb_swc_tb__DOT__pselx))));
         bufp->chgIData(oldp+16,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_CR),32);
+        bufp->chgIData(oldp+17,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_SR),32);
+        bufp->chgIData(oldp+18,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_WDR),32);
     }
-    bufp->chgBit(oldp+17,(vlSelf->apb_swc_tb__DOT__pclk));
-    bufp->chgCData(oldp+18,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate),2);
+    bufp->chgBit(oldp+19,(vlSelf->apb_swc_tb__DOT__pclk));
+    bufp->chgCData(oldp+20,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate),2);
 }
 
 void Vapb_swc_tb___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {
