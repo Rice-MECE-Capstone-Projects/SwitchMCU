@@ -154,6 +154,8 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___ctor_var_reset(Vapb_swc_tb___024root* 
     vlSelf->apb_swc_tb__DOT__rreq = VL_RAND_RESET_I(1);
     vlSelf->apb_swc_tb__DOT__rbuffdata = VL_RAND_RESET_I(32);
     vlSelf->apb_swc_tb__DOT__rbuffaddr = VL_RAND_RESET_I(32);
+    vlSelf->apb_swc_tb__DOT__done = VL_RAND_RESET_I(1);
+    vlSelf->apb_swc_tb__DOT__resp = VL_RAND_RESET_I(1);
     vlSelf->apb_swc_tb__DOT__cnt = VL_RAND_RESET_I(8);
     vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state = VL_RAND_RESET_I(2);
     vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate = VL_RAND_RESET_I(2);

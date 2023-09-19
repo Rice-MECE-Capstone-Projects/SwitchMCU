@@ -16,9 +16,11 @@ module apbm_swc (
     rbuffwrite  ,
     rreq        ,
     rbuffdata   ,
-    rbuffaddr   
+    rbuffaddr   ,
+    done        ,
+    resp
 );
-// APB Bus Signals
+// APB bus signals
 parameter PD_NUM = 3;   // Peripherals devices number
 input                           pclk        ;
 input                           prstn       ;
@@ -30,7 +32,7 @@ output  reg     [31:0]          pwdata      ;
 input                           pready      ;
 input           [31:0]          prdata      ;
 input                           pslverr     ;
-// Read buff signals
+// Buffer(FIFO) signals
 output  reg                     wbuffread   ;
 input                           wreq        ;
 input           [31:0]          wbuffdata   ;
@@ -39,6 +41,9 @@ output reg                      rbuffwrite  ;
 input                           rreq        ;
 output reg      [31:0]          rbuffdata   ;
 input           [31:0]          rbuffaddr   ;
+// feedback signals
+output reg                      done        ;
+output reg                      resp        ;
 // State machine signals
 localparam  IDLE     = 0                    ,
             STEUP    = 1                    ,
@@ -178,8 +183,6 @@ always @(posedge pclk) begin
     end else if(nextstate == STEUP) begin
         if(wreq) begin
             pwrite <= 1;
-        end else if(rreq) begin
-            pwrite <= 0;
         end else begin
             pwrite <= 0;
         end
@@ -217,6 +220,36 @@ always @(posedge pclk) begin
         end
     end else begin
         rbuffwrite <= 0;
+    end
+end
+
+// done
+always @(posedge pclk) begin
+    if(!prstn) begin
+        done <= 0;
+    end else if(state == ACCESS) begin
+        if(pready) begin
+            done <= 1;
+        end else begin
+            done <= 0;
+        end
+    end else begin
+        done <= 0;
+    end
+end
+
+// resp
+always @(posedge pclk) begin
+    if(!prstn) begin
+        resp <= 0;
+    end else if(state == ACCESS) begin
+        if(pready) begin
+            resp <= pslverr;
+        end else begin
+            resp <= 0;
+        end
+    end else begin
+        resp <= 0;
     end
 end
     
