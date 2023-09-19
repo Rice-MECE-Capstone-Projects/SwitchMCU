@@ -23,8 +23,8 @@ VL_INLINE_OPT VlCoroutine Vapb_swc_tb___024root___eval_initial__TOP__0(Vapb_swc_
     vlSymsp->_traceDumpOpen();
     co_await vlSelf->__VdlySched.delay(0x1f4ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       65);
-    VL_FINISH_MT("apb_swc_tb.v", 65, "");
+                                       69);
+    VL_FINISH_MT("apb_swc_tb.v", 69, "");
 }
 
 #ifdef VL_DEBUG

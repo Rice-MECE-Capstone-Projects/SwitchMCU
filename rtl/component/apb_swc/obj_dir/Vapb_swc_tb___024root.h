@@ -25,6 +25,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vapb_swc_tb___024root final : public Verilate
     CData/*0:0*/ apb_swc_tb__DOT__wreq;
     CData/*0:0*/ apb_swc_tb__DOT__rbuffwrite;
     CData/*0:0*/ apb_swc_tb__DOT__rreq;
+    CData/*0:0*/ apb_swc_tb__DOT__done;
+    CData/*0:0*/ apb_swc_tb__DOT__resp;
     CData/*7:0*/ apb_swc_tb__DOT__cnt;
     CData/*1:0*/ apb_swc_tb__DOT__apbm_swc_inst__DOT__state;
     CData/*1:0*/ apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate;

@@ -43,14 +43,16 @@ void Vapb_swc_tb___024root__trace_chg_sub_0(Vapb_swc_tb___024root* vlSelf, Veril
         bufp->chgBit(oldp+13,(vlSelf->apb_swc_tb__DOT__wbuffread));
         bufp->chgBit(oldp+14,(vlSelf->apb_swc_tb__DOT__rbuffwrite));
         bufp->chgIData(oldp+15,(vlSelf->apb_swc_tb__DOT__rbuffdata),32);
-        bufp->chgCData(oldp+16,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state),2);
-        bufp->chgBit(oldp+17,((1U & (IData)(vlSelf->apb_swc_tb__DOT__pselx))));
-        bufp->chgIData(oldp+18,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_CR),32);
-        bufp->chgIData(oldp+19,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_SR),32);
-        bufp->chgIData(oldp+20,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_WDR),32);
+        bufp->chgBit(oldp+16,(vlSelf->apb_swc_tb__DOT__done));
+        bufp->chgBit(oldp+17,(vlSelf->apb_swc_tb__DOT__resp));
+        bufp->chgCData(oldp+18,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state),2);
+        bufp->chgBit(oldp+19,((1U & (IData)(vlSelf->apb_swc_tb__DOT__pselx))));
+        bufp->chgIData(oldp+20,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_CR),32);
+        bufp->chgIData(oldp+21,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_SR),32);
+        bufp->chgIData(oldp+22,(vlSelf->apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_WDR),32);
     }
-    bufp->chgBit(oldp+21,(vlSelf->apb_swc_tb__DOT__pclk));
-    bufp->chgCData(oldp+22,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate),2);
+    bufp->chgBit(oldp+23,(vlSelf->apb_swc_tb__DOT__pclk));
+    bufp->chgCData(oldp+24,(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate),2);
 }
 
 void Vapb_swc_tb___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {

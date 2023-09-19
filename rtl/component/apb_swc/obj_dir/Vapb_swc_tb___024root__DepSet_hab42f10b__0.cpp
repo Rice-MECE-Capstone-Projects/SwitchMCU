@@ -31,23 +31,23 @@ VL_INLINE_OPT VlCoroutine Vapb_swc_tb___024root___eval_initial__TOP__1(Vapb_swc_
     // Body
     co_await vlSelf->__VdlySched.delay(1ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       69);
+                                       73);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       70);
+                                       74);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__prstn = 1U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       72);
+                                       76);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__wreq = 1U;
     vlSelf->apb_swc_tb__DOT__wbuffdata = 0x10U;
     vlSelf->apb_swc_tb__DOT__wbuffaddr = 0x100000U;
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       77);
+                                       81);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__wreq = 0U;
     vlSelf->apb_swc_tb__DOT__wbuffdata = 0U;
@@ -57,7 +57,7 @@ VL_INLINE_OPT VlCoroutine Vapb_swc_tb___024root___eval_initial__TOP__1(Vapb_swc_
     vlSelf->apb_swc_tb__DOT__wbuffaddr = 0x100004U;
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       85);
+                                       89);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__wreq = 0U;
     vlSelf->apb_swc_tb__DOT__wbuffdata = 0U;
@@ -66,7 +66,7 @@ VL_INLINE_OPT VlCoroutine Vapb_swc_tb___024root___eval_initial__TOP__1(Vapb_swc_
     vlSelf->apb_swc_tb__DOT__rbuffaddr = 0x100000U;
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       92);
+                                       96);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__rreq = 0U;
     vlSelf->apb_swc_tb__DOT__rbuffaddr = 0U;
@@ -74,33 +74,33 @@ VL_INLINE_OPT VlCoroutine Vapb_swc_tb___024root___eval_initial__TOP__1(Vapb_swc_
     vlSelf->apb_swc_tb__DOT__rbuffaddr = 0x100004U;
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       98);
+                                       102);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__rreq = 0U;
     vlSelf->apb_swc_tb__DOT__rbuffaddr = 0U;
     co_await vlSelf->__VdlySched.delay(0x32ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       102);
+                                       106);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__wreq = 1U;
     vlSelf->apb_swc_tb__DOT__wbuffdata = 0x14U;
     vlSelf->apb_swc_tb__DOT__wbuffaddr = 0x100008U;
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       108);
+                                       112);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__wreq = 0U;
     vlSelf->apb_swc_tb__DOT__wbuffdata = 0U;
     vlSelf->apb_swc_tb__DOT__wbuffaddr = 0U;
     co_await vlSelf->__VdlySched.delay(0x32ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       113);
+                                       117);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__rreq = 1U;
     vlSelf->apb_swc_tb__DOT__rbuffaddr = 0x100008U;
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "apb_swc_tb.v", 
-                                       118);
+                                       122);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->apb_swc_tb__DOT__rreq = 0U;
     vlSelf->apb_swc_tb__DOT__rbuffaddr = 0U;
@@ -115,7 +115,7 @@ VL_INLINE_OPT VlCoroutine Vapb_swc_tb___024root___eval_initial__TOP__2(Vapb_swc_
     while (1U) {
         co_await vlSelf->__VdlySched.delay(5ULL, nullptr, 
                                            "apb_swc_tb.v", 
-                                           58);
+                                           62);
         vlSelf->apb_swc_tb__DOT__pclk = (1U & (~ (IData)(vlSelf->apb_swc_tb__DOT__pclk)));
     }
 }
@@ -183,10 +183,13 @@ VL_INLINE_OPT void Vapb_swc_tb___024root___nba_sequent__TOP__0(Vapb_swc_tb___024
                                                : ((2U 
                                                    == (IData)(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate)) 
                                                   & (IData)(vlSelf->apb_swc_tb__DOT__pwrite))));
+        vlSelf->apb_swc_tb__DOT__resp = 0U;
         vlSelf->apb_swc_tb__DOT__wbuffread = ((0U != (IData)(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate)) 
                                               & ((1U 
                                                   == (IData)(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate)) 
                                                  & (IData)(vlSelf->apb_swc_tb__DOT__wreq)));
+        vlSelf->apb_swc_tb__DOT__done = ((2U == (IData)(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state)) 
+                                         & (IData)(vlSelf->apb_swc_tb__DOT__pready));
         vlSelf->apb_swc_tb__DOT__rbuffwrite = ((2U 
                                                 == (IData)(vlSelf->apb_swc_tb__DOT__apbm_swc_inst__DOT__state)) 
                                                & ((~ (IData)(vlSelf->apb_swc_tb__DOT__pwrite)) 
@@ -244,7 +247,9 @@ VL_INLINE_OPT void Vapb_swc_tb___024root___nba_sequent__TOP__0(Vapb_swc_tb___024
                                                : 0U);
     } else {
         __Vdly__apb_swc_tb__DOT__pwrite = 0U;
+        vlSelf->apb_swc_tb__DOT__resp = 0U;
         vlSelf->apb_swc_tb__DOT__wbuffread = 0U;
+        vlSelf->apb_swc_tb__DOT__done = 0U;
         vlSelf->apb_swc_tb__DOT__rbuffwrite = 0U;
         __Vdly__apb_swc_tb__DOT__pwdata = 0U;
         __Vdly__apb_swc_tb__DOT__paddr = 0U;

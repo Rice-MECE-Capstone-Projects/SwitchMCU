@@ -20,6 +20,8 @@ reg                     rbuffwrite      ;
 reg                     rreq            ;
 wire    [31:0]          rbuffdata       ;
 reg     [31:0]          rbuffaddr       ;
+wire                    done            ;
+wire                    resp            ;
 
 apbm_swc apbm_swc_inst(
     .pclk       (pclk       ),
@@ -39,7 +41,9 @@ apbm_swc apbm_swc_inst(
     .rbuffwrite (rbuffwrite ),
     .rreq       (rreq       ),
     .rbuffdata  (rbuffdata  ),
-    .rbuffaddr  (rbuffaddr  )
+    .rbuffaddr  (rbuffaddr  ),
+    .done       (done       ),
+    .resp       (resp       )
 );
 
 apbs_swc  apbs_swc_inst (
