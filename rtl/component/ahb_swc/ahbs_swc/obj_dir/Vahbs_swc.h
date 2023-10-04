@@ -5,20 +5,20 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VAHBS_SWC_TB_H_
-#define VERILATED_VAHBS_SWC_TB_H_  // guard
+#ifndef VERILATED_VAHBS_SWC_H_
+#define VERILATED_VAHBS_SWC_H_  // guard
 
 #include "verilated.h"
 
-class Vahbs_swc_tb__Syms;
-class Vahbs_swc_tb___024root;
+class Vahbs_swc__Syms;
+class Vahbs_swc___024root;
 class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
-class alignas(VL_CACHE_LINE_BYTES) Vahbs_swc_tb VL_NOT_FINAL : public VerilatedModel {
+class alignas(VL_CACHE_LINE_BYTES) Vahbs_swc VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vahbs_swc_tb__Syms* const vlSymsp;
+    Vahbs_swc__Syms* const vlSymsp;
 
   public:
 
@@ -32,19 +32,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vahbs_swc_tb VL_NOT_FINAL : public VerilatedM
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vahbs_swc_tb___024root* const rootp;
+    Vahbs_swc___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vahbs_swc_tb(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vahbs_swc_tb(const char* name = "TOP");
+    explicit Vahbs_swc(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vahbs_swc(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vahbs_swc_tb();
+    virtual ~Vahbs_swc();
   private:
-    VL_UNCOPYABLE(Vahbs_swc_tb);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vahbs_swc);  ///< Copying not allowed
 
   public:
     // API METHODS

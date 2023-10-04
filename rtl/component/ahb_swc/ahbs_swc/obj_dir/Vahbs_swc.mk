@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f Vahbs_swc_tb.mk
+#    make -f Vahbs_swc.mk
 
-default: Vahbs_swc_tb
+default: Vahbs_swc
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -30,9 +30,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = Vahbs_swc_tb
+VM_PREFIX = Vahbs_swc
 # Module prefix (from --prefix)
-VM_MODPREFIX = Vahbs_swc_tb
+VM_MODPREFIX = Vahbs_swc
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 	-DVL_TIME_CONTEXT \
@@ -49,7 +49,7 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include Vahbs_swc_tb_classes.mk
+include Vahbs_swc_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
@@ -58,7 +58,7 @@ VPATH += $(VM_USER_DIR)
 
 
 ### Link rules... (from --exe)
-Vahbs_swc_tb: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+Vahbs_swc: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 
