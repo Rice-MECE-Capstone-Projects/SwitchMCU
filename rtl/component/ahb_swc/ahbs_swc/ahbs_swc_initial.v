@@ -25,15 +25,21 @@ output reg                      resp
 )
 
 	// TODO: Define States as values i.e., IDLE as 2'b01, READ as 2'bXX, so on so forth
-	// parameter IDLE = 4'b0000;
-	// parameter READ = 4'b0000;
-	// parameter WRITE = 4'b0000;
 	// parameter READ_DONE = 4'b0000;
 	// parameter WRITE_DONE = 4'b0000;
+	parameter IDLE = 4'b0000;
+	parameter READ = 4'b0001;
+	parameter WRITE = 4'b0010;
 	
 	// TODO: Define HTRANS states as output by the AHBM (IDLE, NONSEQ, SEQ, BUSY) - Need only IDLE and NONSEQ
-	
-	// TODO: Define state and next_state registers
+	parameter HTRANS_IDLE = 4'b0001;	
+	parameter HTRANS_BUSY = 4'b0001;
+	parameter HTRANS_NONSEQ = 4'b0001;
+	parameter HTRANS_SEQ = 4'b0001;
+
+	// State and next_state register definitions
+	reg     [1:0]           state;
+	reg     [1:0]           nextstate;
 	
 	always @ (posedge hclk) begin
 		if (!hrstn)
@@ -56,31 +62,31 @@ output reg                      resp
 	always @(*) begin
 		case (state)
 		IDLE: begin
-			if (hresp || hrstn || (htrans == IDLE)) 
+			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
 				next_state <= IDLE;
-			else if ((~hwrite) && (htrans == NONSEQ))
+			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
 				next_state <= READ;
-			else if ((hwrite) && (htrans == NONSEQ))
+			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
 				next_state <= WRITE;
 			else
 				next_state <= IDLE;
 		end
 		READ: begin
-			if (hresp || hrstn || (htrans == IDLE)) 
+			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
 				next_state <= IDLE;
-			else if ((~hwrite) && (htrans == NONSEQ))
+			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
 				next_state <= READ;
-			else if ((hwrite) && (htrans == NONSEQ))
+			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
 				next_state <= WRITE;
 			else
 				next_state <= IDLE;
 		end
 		WRITE: begin
-			if (hresp || hrstn || (htrans == IDLE)) 
+			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
 				next_state <= IDLE;
-			else if ((~hwrite) && (htrans == NONSEQ))
+			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
 				next_state <= READ;
-			else if ((hwrite) && (htrans == NONSEQ))
+			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
 				next_state <= WRITE;
 			else
 				next_state <= IDLE;
@@ -101,6 +107,7 @@ output reg                      resp
 			wbuffaddr <= 0;
 			rbuffaddr <= haddr;
 			wbuffdata <= 0;
+			hrdata <= rbuffdata;
 		else if (next_state == WRITE)
 			wreq <= 1;
 			rreq <= 0;
@@ -109,4 +116,3 @@ output reg                      resp
 			wbuffdata <= hwdata;
 	end
 	
-	//TODO: READ Operations
