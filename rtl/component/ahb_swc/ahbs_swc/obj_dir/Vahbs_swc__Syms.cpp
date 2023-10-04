@@ -1,24 +1,24 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vahbs_swc_tb__Syms.h"
-#include "Vahbs_swc_tb.h"
-#include "Vahbs_swc_tb___024root.h"
+#include "Vahbs_swc__Syms.h"
+#include "Vahbs_swc.h"
+#include "Vahbs_swc___024root.h"
 
 // FUNCTIONS
-Vahbs_swc_tb__Syms::~Vahbs_swc_tb__Syms()
+Vahbs_swc__Syms::~Vahbs_swc__Syms()
 {
 #ifdef VM_TRACE
     if (__Vm_dumping) _traceDumpClose();
 #endif  // VM_TRACE
 }
 
-void Vahbs_swc_tb__Syms::_traceDump() {
+void Vahbs_swc__Syms::_traceDump() {
     const VerilatedLockGuard lock(__Vm_dumperMutex);
     __Vm_dumperp->dump(VL_TIME_Q());
 }
 
-void Vahbs_swc_tb__Syms::_traceDumpOpen() {
+void Vahbs_swc__Syms::_traceDumpOpen() {
     const VerilatedLockGuard lock(__Vm_dumperMutex);
     if (VL_UNLIKELY(!__Vm_dumperp)) {
         __Vm_dumperp = new VerilatedVcdC();
@@ -29,13 +29,13 @@ void Vahbs_swc_tb__Syms::_traceDumpOpen() {
     }
 }
 
-void Vahbs_swc_tb__Syms::_traceDumpClose() {
+void Vahbs_swc__Syms::_traceDumpClose() {
     const VerilatedLockGuard lock(__Vm_dumperMutex);
     __Vm_dumping = false;
     VL_DO_CLEAR(delete __Vm_dumperp, __Vm_dumperp = nullptr);
 }
 
-Vahbs_swc_tb__Syms::Vahbs_swc_tb__Syms(VerilatedContext* contextp, const char* namep, Vahbs_swc_tb* modelp)
+Vahbs_swc__Syms::Vahbs_swc__Syms(VerilatedContext* contextp, const char* namep, Vahbs_swc* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

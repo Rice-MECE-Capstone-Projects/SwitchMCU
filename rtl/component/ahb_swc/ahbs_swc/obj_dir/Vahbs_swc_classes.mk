@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vahbs_swc_tb.mk for the caller.
+# See Vahbs_swc.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,26 +23,26 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vahbs_swc_tb \
-	Vahbs_swc_tb___024root__DepSet_hdacbf9b5__0 \
-	Vahbs_swc_tb___024root__DepSet_hc4b2ce52__0 \
-	Vahbs_swc_tb__main \
+	Vahbs_swc \
+	Vahbs_swc___024root__DepSet_h11c71285__0 \
+	Vahbs_swc___024root__DepSet_h8089c420__0 \
+	Vahbs_swc__main \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vahbs_swc_tb__ConstPool_0 \
-	Vahbs_swc_tb___024root__Slow \
-	Vahbs_swc_tb___024root__DepSet_hdacbf9b5__0__Slow \
-	Vahbs_swc_tb___024root__DepSet_hc4b2ce52__0__Slow \
+	Vahbs_swc__ConstPool_0 \
+	Vahbs_swc___024root__Slow \
+	Vahbs_swc___024root__DepSet_h11c71285__0__Slow \
+	Vahbs_swc___024root__DepSet_h8089c420__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	Vahbs_swc_tb__Trace__0 \
+	Vahbs_swc__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vahbs_swc_tb__Syms \
-	Vahbs_swc_tb__Trace__0__Slow \
+	Vahbs_swc__Syms \
+	Vahbs_swc__Trace__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

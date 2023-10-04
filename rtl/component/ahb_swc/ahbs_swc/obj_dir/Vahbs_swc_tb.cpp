@@ -1,111 +1,143 @@
 // Verilated -*- C++ -*-
-// DESCRIPTION: Verilator output: Design implementation internals
-// See Vahbs_swc_tb.h for the primary calling header
+// DESCRIPTION: Verilator output: Model implementation (design independent parts)
 
 #include "Vahbs_swc_tb.h"
 #include "Vahbs_swc_tb__Syms.h"
+#include "verilated_vcd_c.h"
 
-//==========
+//============================================================
+// Constructors
+
+Vahbs_swc_tb::Vahbs_swc_tb(VerilatedContext* _vcontextp__, const char* _vcname__)
+    : VerilatedModel{*_vcontextp__}
+    , vlSymsp{new Vahbs_swc_tb__Syms(contextp(), _vcname__, this)}
+    , rootp{&(vlSymsp->TOP)}
+{
+    // Register model with the context
+    contextp()->addModel(this);
+}
+
+Vahbs_swc_tb::Vahbs_swc_tb(const char* _vcname__)
+    : Vahbs_swc_tb(Verilated::threadContextp(), _vcname__)
+{
+}
+
+//============================================================
+// Destructor
+
+Vahbs_swc_tb::~Vahbs_swc_tb() {
+    delete vlSymsp;
+}
+
+//============================================================
+// Evaluation function
+
+#ifdef VL_DEBUG
+void Vahbs_swc_tb___024root___eval_debug_assertions(Vahbs_swc_tb___024root* vlSelf);
+#endif  // VL_DEBUG
+void Vahbs_swc_tb___024root___eval_static(Vahbs_swc_tb___024root* vlSelf);
+void Vahbs_swc_tb___024root___eval_initial(Vahbs_swc_tb___024root* vlSelf);
+void Vahbs_swc_tb___024root___eval_settle(Vahbs_swc_tb___024root* vlSelf);
+void Vahbs_swc_tb___024root___eval(Vahbs_swc_tb___024root* vlSelf);
 
 void Vahbs_swc_tb::eval_step() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vahbs_swc_tb::eval\n"); );
-    Vahbs_swc_tb__Syms* __restrict vlSymsp = this->__VlSymsp;  // Setup global symbol table
-    Vahbs_swc_tb* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vahbs_swc_tb::eval_step\n"); );
 #ifdef VL_DEBUG
     // Debug assertions
-    _eval_debug_assertions();
+    Vahbs_swc_tb___024root___eval_debug_assertions(&(vlSymsp->TOP));
 #endif  // VL_DEBUG
-    // Initialize
-    if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) _eval_initial_loop(vlSymsp);
-    // Evaluate till stable
-    int __VclockLoop = 0;
-    QData __Vchange = 1;
-    do {
-        VL_DEBUG_IF(VL_DBG_MSGF("+ Clock loop\n"););
-        _eval(vlSymsp);
-        if (VL_UNLIKELY(++__VclockLoop > 100)) {
-            // About to fail, so enable debug to see what's not settling.
-            // Note you must run make with OPT=-DVL_DEBUG for debug prints.
-            int __Vsaved_debug = Verilated::debug();
-            Verilated::debug(1);
-            __Vchange = _change_request(vlSymsp);
-            Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("ahbs_swc_tb.v", 3, "",
-                "Verilated model didn't converge\n"
-                "- See DIDNOTCONVERGE in the Verilator manual");
-        } else {
-            __Vchange = _change_request(vlSymsp);
-        }
-    } while (VL_UNLIKELY(__Vchange));
+    vlSymsp->__Vm_activity = true;
+    vlSymsp->__Vm_deleter.deleteAll();
+    if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) {
+        vlSymsp->__Vm_didInit = true;
+        VL_DEBUG_IF(VL_DBG_MSGF("+ Initial\n"););
+        Vahbs_swc_tb___024root___eval_static(&(vlSymsp->TOP));
+        Vahbs_swc_tb___024root___eval_initial(&(vlSymsp->TOP));
+        Vahbs_swc_tb___024root___eval_settle(&(vlSymsp->TOP));
+    }
+    // MTask 0 start
+    VL_DEBUG_IF(VL_DBG_MSGF("MTask0 starting\n"););
+    Verilated::mtaskId(0);
+    VL_DEBUG_IF(VL_DBG_MSGF("+ Eval\n"););
+    Vahbs_swc_tb___024root___eval(&(vlSymsp->TOP));
+    // Evaluate cleanup
+    Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
+    Verilated::endOfEval(vlSymsp->__Vm_evalMsgQp);
 }
 
-void Vahbs_swc_tb::_eval_initial_loop(Vahbs_swc_tb__Syms* __restrict vlSymsp) {
-    vlSymsp->__Vm_didInit = true;
-    _eval_initial(vlSymsp);
-    // Evaluate till stable
-    int __VclockLoop = 0;
-    QData __Vchange = 1;
-    do {
-        _eval_settle(vlSymsp);
-        _eval(vlSymsp);
-        if (VL_UNLIKELY(++__VclockLoop > 100)) {
-            // About to fail, so enable debug to see what's not settling.
-            // Note you must run make with OPT=-DVL_DEBUG for debug prints.
-            int __Vsaved_debug = Verilated::debug();
-            Verilated::debug(1);
-            __Vchange = _change_request(vlSymsp);
-            Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("ahbs_swc_tb.v", 3, "",
-                "Verilated model didn't DC converge\n"
-                "- See DIDNOTCONVERGE in the Verilator manual");
-        } else {
-            __Vchange = _change_request(vlSymsp);
-        }
-    } while (VL_UNLIKELY(__Vchange));
+void Vahbs_swc_tb::eval_end_step() {
+    VL_DEBUG_IF(VL_DBG_MSGF("+eval_end_step Vahbs_swc_tb::eval_end_step\n"); );
+#ifdef VM_TRACE
+    // Tracing
+    if (VL_UNLIKELY(vlSymsp->__Vm_dumping)) vlSymsp->_traceDump();
+#endif  // VM_TRACE
 }
 
-VL_INLINE_OPT void Vahbs_swc_tb::_combo__TOP__3(Vahbs_swc_tb__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb::_combo__TOP__3\n"); );
-    Vahbs_swc_tb* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlTOPp->ahbs_swc_tb__DOT__hclk = (1U & (~ (IData)(vlTOPp->ahbs_swc_tb__DOT__hclk)));
+//============================================================
+// Events and timing
+bool Vahbs_swc_tb::eventsPending() { return !vlSymsp->TOP.__VdlySched.empty(); }
+
+uint64_t Vahbs_swc_tb::nextTimeSlot() { return vlSymsp->TOP.__VdlySched.nextTimeSlot(); }
+
+//============================================================
+// Utilities
+
+const char* Vahbs_swc_tb::name() const {
+    return vlSymsp->name();
 }
 
-void Vahbs_swc_tb::_eval(Vahbs_swc_tb__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb::_eval\n"); );
-    Vahbs_swc_tb* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlTOPp->_combo__TOP__3(vlSymsp);
-    // Final
-    vlTOPp->__Vclklast__TOP____VinpClk__TOP__ahbs_swc_tb__DOT__hclk 
-        = vlTOPp->__VinpClk__TOP__ahbs_swc_tb__DOT__hclk;
-    vlTOPp->__VinpClk__TOP__ahbs_swc_tb__DOT__hclk 
-        = vlTOPp->ahbs_swc_tb__DOT__hclk;
+//============================================================
+// Invoke final blocks
+
+void Vahbs_swc_tb___024root___eval_final(Vahbs_swc_tb___024root* vlSelf);
+
+VL_ATTR_COLD void Vahbs_swc_tb::final() {
+    Vahbs_swc_tb___024root___eval_final(&(vlSymsp->TOP));
 }
 
-VL_INLINE_OPT QData Vahbs_swc_tb::_change_request(Vahbs_swc_tb__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb::_change_request\n"); );
-    Vahbs_swc_tb* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    return (vlTOPp->_change_request_1(vlSymsp));
+//============================================================
+// Implementations of abstract methods from VerilatedModel
+
+const char* Vahbs_swc_tb::hierName() const { return vlSymsp->name(); }
+const char* Vahbs_swc_tb::modelName() const { return "Vahbs_swc_tb"; }
+unsigned Vahbs_swc_tb::threads() const { return 1; }
+void Vahbs_swc_tb::prepareClone() const { contextp()->prepareClone(); }
+void Vahbs_swc_tb::atClone() const {
+    contextp()->threadPoolpOnClone();
+}
+std::unique_ptr<VerilatedTraceConfig> Vahbs_swc_tb::traceConfig() const {
+    return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
+};
+
+//============================================================
+// Trace configuration
+
+void Vahbs_swc_tb___024root__trace_init_top(Vahbs_swc_tb___024root* vlSelf, VerilatedVcd* tracep);
+
+VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
+    // Callback from tracep->open()
+    Vahbs_swc_tb___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vahbs_swc_tb___024root*>(voidSelf);
+    Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    if (!vlSymsp->_vm_contextp__->calcUnusedSigs()) {
+        VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
+            "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
+    }
+    vlSymsp->__Vm_baseCode = code;
+    tracep->scopeEscape(' ');
+    tracep->pushNamePrefix(std::string{vlSymsp->name()} + ' ');
+    Vahbs_swc_tb___024root__trace_init_top(vlSelf, tracep);
+    tracep->popNamePrefix();
+    tracep->scopeEscape('.');
 }
 
-VL_INLINE_OPT QData Vahbs_swc_tb::_change_request_1(Vahbs_swc_tb__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb::_change_request_1\n"); );
-    Vahbs_swc_tb* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    // Change detection
-    QData __req = false;  // Logically a bool
-    __req |= ((vlTOPp->ahbs_swc_tb__DOT__hclk ^ vlTOPp->__Vchglast__TOP__ahbs_swc_tb__DOT__hclk));
-    VL_DEBUG_IF( if(__req && ((vlTOPp->ahbs_swc_tb__DOT__hclk ^ vlTOPp->__Vchglast__TOP__ahbs_swc_tb__DOT__hclk))) VL_DBG_MSGF("        CHANGE: ahbs_swc_tb.v:5: ahbs_swc_tb.hclk\n"); );
-    // Final
-    vlTOPp->__Vchglast__TOP__ahbs_swc_tb__DOT__hclk 
-        = vlTOPp->ahbs_swc_tb__DOT__hclk;
-    return __req;
-}
+VL_ATTR_COLD void Vahbs_swc_tb___024root__trace_register(Vahbs_swc_tb___024root* vlSelf, VerilatedVcd* tracep);
 
-#ifdef VL_DEBUG
-void Vahbs_swc_tb::_eval_debug_assertions() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb::_eval_debug_assertions\n"); );
+VL_ATTR_COLD void Vahbs_swc_tb::trace(VerilatedVcdC* tfp, int levels, int options) {
+    if (tfp->isOpen()) {
+        vl_fatal(__FILE__, __LINE__, __FILE__,"'Vahbs_swc_tb::trace()' shall not be called after 'VerilatedVcdC::open()'.");
+    }
+    if (false && levels && options) {}  // Prevent unused
+    tfp->spTrace()->addModel(this);
+    tfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
+    Vahbs_swc_tb___024root__trace_register(&(vlSymsp->TOP), tfp->spTrace());
 }
-#endif  // VL_DEBUG

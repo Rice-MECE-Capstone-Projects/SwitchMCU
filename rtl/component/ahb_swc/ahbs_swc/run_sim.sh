@@ -1,14 +1,10 @@
 #!/bin/bash
 
+# Find all .v files in the current directory and subdirectories
+V_FILES=$(find . -type f -name "*.v" | tr '\n' ' ')
+
 # Verilate the design
-#verilator --exe -j 16 *.v --trace
+verilator --binary -j 16 $V_FILES --trace --top ahbs_swc_tb
 
 # Run the generated executable
-#./obj_dir/Vahbs_swc_tb
-
-clear
-rm -rf obj_dir
-verilator --cc *.v --exe
-cd obj_dir
-make -j -f Vahbs_swc_tb.mk Vahbs_swc_tb
-./Vahbs_swc_tb
+./obj_dir/Vahbs_swc_tb
