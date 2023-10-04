@@ -22,7 +22,7 @@ output          [31:0]          rbuffaddr   ,
 // feedback signals
 output reg                      done        ,
 output reg                      resp        
-)
+);
 
 	// TODO: Define States as values i.e., IDLE as 2'b01, READ as 2'bXX, so on so forth
 	// parameter READ_DONE = 4'b0000;
@@ -32,20 +32,20 @@ output reg                      resp
 	parameter WRITE = 4'b0010;
 	
 	// TODO: Define HTRANS states as output by the AHBM (IDLE, NONSEQ, SEQ, BUSY) - Need only IDLE and NONSEQ
-	parameter HTRANS_IDLE = 4'b0001;	
-	parameter HTRANS_BUSY = 4'b0001;
-	parameter HTRANS_NONSEQ = 4'b0001;
-	parameter HTRANS_SEQ = 4'b0001;
+	parameter HTRANS_IDLE = 2'b00;	
+	parameter HTRANS_BUSY = 2'b01;
+	parameter HTRANS_NONSEQ = 2'b10;
+	parameter HTRANS_SEQ = 2'b11;
 
 	// State and next_state register definitions
-	reg     [1:0]           state;
-	reg     [1:0]           nextstate;
+	reg     [3:0]           state;
+	reg     [3:0]           next_state;
 	
 	always @ (posedge hclk) begin
 		if (!hrstn)
 			state <= IDLE;
 		else 
-			state <= next_state
+			state <= next_state;
 	end
 	
 	// next_state generation logic
@@ -63,56 +63,65 @@ output reg                      resp
 		case (state)
 		IDLE: begin
 			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
-				next_state <= IDLE;
+				next_state = IDLE;
 			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state <= READ;
+				next_state = READ;
 			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state <= WRITE;
+				next_state = WRITE;
 			else
-				next_state <= IDLE;
+				next_state = IDLE;
 		end
 		READ: begin
 			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
-				next_state <= IDLE;
+				next_state = IDLE;
 			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state <= READ;
+				next_state = READ;
 			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state <= WRITE;
+				next_state = WRITE;
 			else
-				next_state <= IDLE;
+				next_state = IDLE;
 		end
 		WRITE: begin
 			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
-				next_state <= IDLE;
+				next_state = IDLE;
 			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state <= READ;
+				next_state = READ;
 			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state <= WRITE;
+				next_state = WRITE;
 			else
-				next_state <= IDLE;
+				next_state = IDLE;
 		end
+		default: next_state = IDLE;
+		endcase
 	end
 	
 	// Output Generation Logic (from current state)
 	always @(posedge hclk) begin
 		if ((!hrstn) || (next_state == IDLE))
+		begin
 			wreq <= 0;
 			rreq <= 0;
 			wbuffaddr <= 0;
 			rbuffaddr <= 0;
 			wbuffdata <= 0;
-		else if  (next_state == READ)
+		end
+		else if (next_state == READ)
+		begin
 			wreq <= 0;
 			rreq <= 1;
 			wbuffaddr <= 0;
 			rbuffaddr <= haddr;
 			wbuffdata <= 0;
 			hrdata <= rbuffdata;
+		end
 		else if (next_state == WRITE)
+		begin
 			wreq <= 1;
 			rreq <= 0;
 			wbuffaddr <= haddr;
 			rbuffaddr <= 0;
 			wbuffdata <= hwdata;
+		end
 	end
-	
+
+endmodule

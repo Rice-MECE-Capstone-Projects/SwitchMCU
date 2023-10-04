@@ -1,3 +1,5 @@
+/* verilator lint_off STMTDLY */
+
 module ahbs_swc_tb;
   //Ports
   reg                   hclk  = 1   ;
@@ -87,3 +89,4 @@ initial begin
 end
 
 endmodule
+/* verilator lint_on STMTDLY */
