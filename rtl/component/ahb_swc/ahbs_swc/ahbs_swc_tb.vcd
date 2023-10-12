@@ -5,24 +5,24 @@ $timescale 1ps $end
   $scope module ahbs_swc_tb $end
    $var wire  1 7 done $end
    $var wire 32 $ haddr [31:0] $end
-   $var wire  1 2 hclk $end
+   $var wire  1 0 hclk $end
    $var wire  1 % hmastlock $end
    $var wire  7 & hprot [6:0] $end
-   $var wire 32 + hrdata [31:0] $end
+   $var wire 32 * hrdata [31:0] $end
    $var wire  1 4 hready $end
    $var wire  1 5 hresp $end
    $var wire  1 # hrstn $end
    $var wire  3 ' hsize [2:0] $end
    $var wire  2 ( htrans [1:0] $end
-   $var wire 32 ) hwdata [31:0] $end
-   $var wire  1 * hwrite $end
-   $var wire 32 0 rbuffaddr [31:0] $end
+   $var wire 32 3 hwdata [31:0] $end
+   $var wire  1 ) hwrite $end
+   $var wire 32 / rbuffaddr [31:0] $end
    $var wire 32 6 rbuffdata [31:0] $end
    $var wire  1 8 resp $end
-   $var wire  1 / rreq $end
-   $var wire 32 . wbuffaddr [31:0] $end
-   $var wire 32 - wbuffdata [31:0] $end
-   $var wire  1 , wreq $end
+   $var wire  1 . rreq $end
+   $var wire 32 - wbuffaddr [31:0] $end
+   $var wire 32 , wbuffdata [31:0] $end
+   $var wire  1 + wreq $end
    $scope module ahbs_swc_inst $end
     $var wire  2 = HTRANS_BUSY [1:0] $end
     $var wire  2 < HTRANS_IDLE [1:0] $end
@@ -33,26 +33,26 @@ $timescale 1ps $end
     $var wire  4 ; WRITE [3:0] $end
     $var wire  1 7 done $end
     $var wire 32 $ haddr [31:0] $end
-    $var wire  1 2 hclk $end
+    $var wire  1 0 hclk $end
     $var wire  1 % hmastlock $end
     $var wire  7 & hprot [6:0] $end
-    $var wire 32 + hrdata [31:0] $end
+    $var wire 32 * hrdata [31:0] $end
     $var wire  1 4 hready $end
     $var wire  1 5 hresp $end
     $var wire  1 # hrstn $end
     $var wire  3 ' hsize [2:0] $end
     $var wire  2 ( htrans [1:0] $end
-    $var wire 32 ) hwdata [31:0] $end
-    $var wire  1 * hwrite $end
-    $var wire  4 3 next_state [3:0] $end
-    $var wire 32 0 rbuffaddr [31:0] $end
+    $var wire 32 3 hwdata [31:0] $end
+    $var wire  1 ) hwrite $end
+    $var wire  4 2 next_state [3:0] $end
+    $var wire 32 / rbuffaddr [31:0] $end
     $var wire 32 6 rbuffdata [31:0] $end
     $var wire  1 8 resp $end
-    $var wire  1 / rreq $end
+    $var wire  1 . rreq $end
     $var wire  4 1 state [3:0] $end
-    $var wire 32 . wbuffaddr [31:0] $end
-    $var wire 32 - wbuffdata [31:0] $end
-    $var wire  1 , wreq $end
+    $var wire 32 - wbuffaddr [31:0] $end
+    $var wire 32 , wbuffdata [31:0] $end
+    $var wire  1 + wreq $end
    $upscope $end
   $upscope $end
  $upscope $end
@@ -66,17 +66,17 @@ b00000000000000000000000000000000 $
 b0000000 &
 b000 '
 b00 (
-b00000000000000000000000000000000 )
-0*
-b00000000000000000000000000000000 +
-0,
+0)
+b00000000000000000000000000000000 *
+0+
+b00000000000000000000000000000000 ,
 b00000000000000000000000000000000 -
-b00000000000000000000000000000000 .
-0/
-b00000000000000000000000000000000 0
+0.
+b00000000000000000000000000000000 /
+10
 b0000 1
-12
-b0000 3
+b0000 2
+b00000000000000000000000000000000 3
 04
 05
 b00000000000000000000000000000000 6
@@ -91,219 +91,334 @@ b10 >
 b11 ?
 #1
 #5
-02
+00
 #10
-12
+10
 #11
 1#
 #15
-02
+00
 #20
-12
+10
 #21
-b00010001000000010000000100000000 $
 b010 '
-b10 (
-b11011110101011011011111011101111 )
-1*
 #25
-02
+00
 #30
-12
+10
 #31
-0*
-#35
-02
-#40
-12
-#41
-b00 (
-#45
-02
-#50
-12
-#51
-b00000000000000000000000000000000 $
 b10 (
+1)
+b0010 2
+#35
+00
+#40
+1+
+10
+b0010 1
+#41
+0)
+b0001 2
+#45
+00
+#50
+0+
+1.
+10
+b0001 1
+#51
+1)
+b0010 2
 #55
-02
+00
 #60
-12
+1+
+0.
+10
+b0010 1
 #61
-b00 (
+0)
+b0001 2
 #65
-02
+00
 #70
-12
+0+
+1.
+10
+b0001 1
+#71
+1)
+b0010 2
 #75
-02
+00
 #80
-12
+1+
+0.
+10
+b0010 1
+#81
+0)
+b0001 2
 #85
-02
+00
 #90
-12
+0+
+1.
+10
+b0001 1
+#91
+1)
+b0010 2
 #95
-02
+00
 #100
-12
+1+
+0.
+10
+b0010 1
+#101
 #105
-02
+00
 #110
-12
+10
+#111
 #115
-02
+00
 #120
-12
+10
+#121
 #125
-02
+00
 #130
-12
+10
+#131
 #135
-02
+00
 #140
-12
+10
+#141
 #145
-02
+00
 #150
-12
+10
+#151
+0)
+b0001 2
 #155
-02
+00
 #160
-12
+0+
+1.
+10
+b0001 1
+#161
 #165
-02
+00
 #170
-12
+10
+#171
 #175
-02
+00
 #180
-12
+10
+#181
 #185
-02
+00
 #190
-12
+10
+#191
 #195
-02
+00
 #200
-12
+10
+#201
 #205
-02
+00
 #210
-12
+10
+#211
+1)
+b0010 2
 #215
-02
+00
 #220
-12
+1+
+0.
+10
+b0010 1
+#221
+0#
+b0000 1
+b0000 2
 #225
-02
+00
 #230
-12
+0+
+10
+#231
+1#
+b0010 2
 #235
-02
+00
 #240
-12
+1+
+10
+b0010 1
+#241
 #245
-02
+00
 #250
-12
+10
+#251
 #255
-02
+00
 #260
-12
+10
+#261
+0#
+b0000 1
+b0000 2
 #265
-02
+00
 #270
-12
+0+
+10
+#271
+1#
+b0010 2
 #275
-02
+00
 #280
-12
+1+
+10
+b0010 1
+#281
+0)
+b0001 2
 #285
-02
+00
 #290
-12
+0+
+1.
+10
+b0001 1
+#291
 #295
-02
+00
 #300
-12
+10
+#301
+0#
+b0000 1
+b0000 2
 #305
-02
+00
 #310
-12
+0.
+10
+#311
+1#
+b0001 2
 #315
-02
+00
 #320
-12
+1.
+10
+b0001 1
+#321
+1)
+b0010 2
 #325
-02
+00
 #330
-12
+1+
+0.
+10
+b0010 1
+#331
+0)
+b0001 2
 #335
-02
+00
 #340
-12
+0+
+1.
+10
+b0001 1
+#341
+0#
+b0000 1
+b0000 2
 #345
-02
+00
 #350
-12
+0.
+10
+#351
+1#
+b0001 2
 #355
-02
+00
 #360
-12
+1.
+10
+b0001 1
+#361
+b00010001000000010000000100000000 $
 #365
-02
+00
 #370
-12
+b00010001000000010000000100000000 /
+10
 #375
-02
+00
 #380
-12
+10
 #385
-02
+00
 #390
-12
+10
 #395
-02
+00
 #400
-12
+10
 #405
-02
+00
 #410
-12
+10
 #415
-02
+00
 #420
-12
+10
 #425
-02
+00
 #430
-12
+10
 #435
-02
+00
 #440
-12
+10
 #445
-02
+00
 #450
-12
+10
 #455
-02
+00
 #460
-12
+10
 #465
-02
+00
 #470
-12
+10
 #475
-02
+00
 #480
-12
+10
 #485
-02
+00
 #490
-12
+10
 #495
-02
+00
 #500
-12
+10

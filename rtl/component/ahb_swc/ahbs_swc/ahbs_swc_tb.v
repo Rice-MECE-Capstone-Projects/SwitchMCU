@@ -61,30 +61,208 @@ initial begin
     #10;
     hrstn = 1;
 
-    // Write transaction
+    // Setup
     #10;
-    haddr = 32'h11010100;
     hmastlock = 0;
-    hprot = 7'b0000000;
     hsize = 3'b010; // Word transfer
+    hprot = 7'b0000000;
+
+    // FSM Testbench
+    // WRITE+READ 3x
+    // WRITE 6x
+    // READ 6x
+    // WRITE -> RESET -> WRITE
+    // WRITE -> RESET -> READ
+    // READ -> RESET -> WRITE
+    // READ -> RESET -> READ
+    // WRITE -> ERROR -> WRITE
+    // WRITE -> ERROR -> READ
+    // READ -> ERROR -> WRITE
+    // READ -> ERROR -> READ
+    // WRITE -> IDLE -> WRITE
+    // WRITE -> IDLE -> READ
+    // READ -> IDLE -> WRITE
+    // READ -> IDLE -> READ
+
+    // WRITE
+    #10;
     htrans = 2'b10; // NONSEQ
-    hwdata = 32'hDEAD_BEEF;
+    hwrite = 1;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    // WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    // READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+
+        // WRITE -> RESET -> WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
     hwrite = 1;
     #10;
-    haddr = 32'h11010100;
-    hsize = 3'b010; // Word transfer
+    hrstn = 0; // RESET
+    #10;
+    hrstn = 1; // Exit RESET
+    #10;
     htrans = 2'b10; // NONSEQ
-    hwrite = 0;
-    #10 
-    htrans = 2'b00; // IDLE
+    hwrite = 1;
 
-    // Read transaction
-    #10 
-    haddr = 32'h0000_0000;
+    // WRITE -> RESET -> READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+    #10;
+    hrstn = 0; // RESET
+    #10;
+    hrstn = 1; // Exit RESET
+    #10;
     htrans = 2'b10; // NONSEQ
     hwrite = 0;
-    #10 
-    htrans = 2'b00; // IDLE
+
+    // READ -> RESET -> WRITE
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    #10;
+    hrstn = 0; // RESET
+    #10;
+    hrstn = 1; // Exit RESET
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 1;
+
+    // READ -> RESET -> READ
+    #10;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+    #10;
+    hrstn = 0; // RESET
+    #10;
+    hrstn = 1; // Exit RESET
+    #10;
+    haddr = 32'h11010100;
+    htrans = 2'b10; // NONSEQ
+    hwrite = 0;
+
+    // // WRITE -> ERROR -> WRITE
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 1;
+    // #10;
+    // hresp = 1; // ERROR
+    // #10;
+    // hresp = 0; // Exit ERROR
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 1;
+
+    // // WRITE -> ERROR -> READ
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 1;
+    // #10;
+    // hresp = 1; // ERROR
+    // #10;
+    // hresp = 0; // Exit ERROR
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 0;
+
+    // // READ -> ERROR -> WRITE
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 0;
+    // #10;
+    // hresp = 1; // ERROR
+    // #10;
+    // hresp = 0; // Exit ERROR
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 1;
+
+    // // READ -> ERROR -> READ
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 0;
+    // #10;
+    // hresp = 1; // ERROR
+    // #10;
+    // hresp = 0; // Exit ERROR
+    // #10;
+    // haddr = 32'h11010100;
+    // htrans = 2'b10; // NONSEQ
+    // hwrite = 0;
 
 end
 
