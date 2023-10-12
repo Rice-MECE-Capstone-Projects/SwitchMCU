@@ -22,6 +22,8 @@ void Vahbs_swc_tb___024root___eval_initial(Vahbs_swc_tb___024root* vlSelf) {
     Vahbs_swc_tb___024root___eval_initial__TOP__2(vlSelf);
     vlSelf->__Vtrigprevexpr___TOP__ahbs_swc_tb__DOT__hclk__0 
         = vlSelf->ahbs_swc_tb__DOT__hclk;
+    vlSelf->__Vtrigprevexpr___TOP__ahbs_swc_tb__DOT__hrstn__0 
+        = vlSelf->ahbs_swc_tb__DOT__hrstn;
 }
 
 VL_INLINE_OPT VlCoroutine Vahbs_swc_tb___024root___eval_initial__TOP__1(Vahbs_swc_tb___024root* vlSelf) {
@@ -43,38 +45,206 @@ VL_INLINE_OPT VlCoroutine Vahbs_swc_tb___024root___eval_initial__TOP__1(Vahbs_sw
                                        "ahbs_swc_tb.v", 
                                        65);
     vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__haddr = 0x11010100U;
     vlSelf->ahbs_swc_tb__DOT__hmastlock = 0U;
-    vlSelf->ahbs_swc_tb__DOT__hprot = 0U;
     vlSelf->ahbs_swc_tb__DOT__hsize = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hprot = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       88);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xdeadbeefU;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       73);
+                                       92);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       96);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       100);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       104);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       108);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       113);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       117);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       121);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       125);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       129);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       133);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       138);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       142);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       146);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       150);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       154);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       158);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       163);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       166);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       168);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       170);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       175);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       178);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       180);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       182);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       187);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       190);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       192);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       194);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       199);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       202);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       204);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       206);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__haddr = 0x11010100U;
-    vlSelf->ahbs_swc_tb__DOT__hsize = 2U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       78);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       82);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__haddr = 0U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       86);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 0U;
     vlSelf->__Vm_traceActivity[2U] = 1U;
 }
 
@@ -91,25 +261,22 @@ VL_INLINE_OPT VlCoroutine Vahbs_swc_tb___024root___eval_initial__TOP__2(Vahbs_sw
     }
 }
 
-extern const VlUnpacked<CData/*3:0*/, 512> Vahbs_swc_tb__ConstPool__TABLE_h911c20df_0;
+extern const VlUnpacked<CData/*3:0*/, 32> Vahbs_swc_tb__ConstPool__TABLE_h70c66861_0;
 
 VL_INLINE_OPT void Vahbs_swc_tb___024root___act_sequent__TOP__0(Vahbs_swc_tb___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb___024root___act_sequent__TOP__0\n"); );
     // Init
-    SData/*8:0*/ __Vtableidx1;
+    CData/*4:0*/ __Vtableidx1;
     __Vtableidx1 = 0;
     // Body
     __Vtableidx1 = (((IData)(vlSelf->ahbs_swc_tb__DOT__hwrite) 
-                     << 8U) | (((IData)(vlSelf->ahbs_swc_tb__DOT__htrans) 
-                                << 6U) | (((IData)(vlSelf->ahbs_swc_tb__DOT__hrstn) 
-                                           << 5U) | 
-                                          (((IData)(vlSelf->ahbs_swc_tb__DOT__hresp) 
-                                            << 4U) 
-                                           | (IData)(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__state)))));
+                     << 4U) | (((IData)(vlSelf->ahbs_swc_tb__DOT__htrans) 
+                                << 2U) | (((IData)(vlSelf->ahbs_swc_tb__DOT__hrstn) 
+                                           << 1U) | (IData)(vlSelf->ahbs_swc_tb__DOT__hresp))));
     vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__next_state 
-        = Vahbs_swc_tb__ConstPool__TABLE_h911c20df_0
+        = Vahbs_swc_tb__ConstPool__TABLE_h70c66861_0
         [__Vtableidx1];
 }
 
@@ -118,7 +285,7 @@ void Vahbs_swc_tb___024root___eval_act(Vahbs_swc_tb___024root* vlSelf) {
     Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb___024root___eval_act\n"); );
     // Body
-    if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
         Vahbs_swc_tb___024root___act_sequent__TOP__0(vlSelf);
     }
 }
@@ -127,6 +294,17 @@ VL_INLINE_OPT void Vahbs_swc_tb___024root___nba_sequent__TOP__0(Vahbs_swc_tb___0
     if (false && vlSelf) {}  // Prevent unused
     Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb___024root___nba_sequent__TOP__0\n"); );
+    // Body
+    vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__state 
+        = ((IData)(vlSelf->ahbs_swc_tb__DOT__hrstn)
+            ? (IData)(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__next_state)
+            : 0U);
+}
+
+VL_INLINE_OPT void Vahbs_swc_tb___024root___nba_sequent__TOP__1(Vahbs_swc_tb___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb___024root___nba_sequent__TOP__1\n"); );
     // Body
     if ((1U & ((~ (IData)(vlSelf->ahbs_swc_tb__DOT__hrstn)) 
                | (0U == (IData)(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__next_state))))) {
@@ -154,10 +332,6 @@ VL_INLINE_OPT void Vahbs_swc_tb___024root___nba_sequent__TOP__0(Vahbs_swc_tb___0
             vlSelf->ahbs_swc_tb__DOT__hrdata = vlSelf->ahbs_swc_tb__DOT__rbuffdata;
         }
     }
-    vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__state 
-        = ((IData)(vlSelf->ahbs_swc_tb__DOT__hrstn)
-            ? (IData)(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__next_state)
-            : 0U);
 }
 
 void Vahbs_swc_tb___024root___eval_nba(Vahbs_swc_tb___024root* vlSelf) {
@@ -167,9 +341,12 @@ void Vahbs_swc_tb___024root___eval_nba(Vahbs_swc_tb___024root* vlSelf) {
     // Body
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vahbs_swc_tb___024root___nba_sequent__TOP__0(vlSelf);
+    }
+    if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
+        Vahbs_swc_tb___024root___nba_sequent__TOP__1(vlSelf);
         vlSelf->__Vm_traceActivity[3U] = 1U;
     }
-    if ((3ULL & vlSelf->__VnbaTriggered.word(0U))) {
+    if ((4ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vahbs_swc_tb___024root___act_sequent__TOP__0(vlSelf);
     }
 }
@@ -188,7 +365,7 @@ void Vahbs_swc_tb___024root___eval(Vahbs_swc_tb___024root* vlSelf) {
     Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb___024root___eval\n"); );
     // Init
-    VlTriggerVec<2> __VpreTriggered;
+    VlTriggerVec<3> __VpreTriggered;
     IData/*31:0*/ __VnbaIterCount;
     CData/*0:0*/ __VnbaContinue;
     // Body
@@ -237,7 +414,7 @@ void Vahbs_swc_tb___024root___timing_resume(Vahbs_swc_tb___024root* vlSelf) {
     Vahbs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahbs_swc_tb___024root___timing_resume\n"); );
     // Body
-    if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
         vlSelf->__VdlySched.resume();
     }
 }

@@ -41,59 +41,27 @@ output reg                      resp
 	reg     [3:0]           state;
 	reg     [3:0]           next_state;
 	
-	always @ (posedge hclk) begin
-		if (!hrstn)
-			state <= IDLE;
-		else 
-			state <= next_state;
+	always @ (posedge hclk or negedge hrstn) begin
+	if (!hrstn)
+		state <= IDLE;
+	else 
+		state <= next_state;
 	end
 	
+	/* verilator lint_off CASEINCOMPLETE */
 	// next_state generation logic
 	// Check current state and any and all necessary inputs to get the next state
-	// Do we need these as functions of the state? These should be direct functions of the inputs
-	//always @(*) begin
-	//	case ({hresp, hrstn, htrans, hwrite})
-	//		7'b0000000: next_state <= IDLE;
-	//		7'b0000000: next_state <= READ;
-	//		7'b0000000: next_state <= WRITE;
-	//	endcase
-	//end
-	
 	always @(*) begin
-		case (state)
-		IDLE: begin
-			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
-				next_state = IDLE;
-			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state = READ;
-			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state = WRITE;
-			else
-				next_state = IDLE;
-		end
-		READ: begin
-			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
-				next_state = IDLE;
-			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state = READ;
-			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state = WRITE;
-			else
-				next_state = IDLE;
-		end
-		WRITE: begin
-			if (hresp || hrstn || (htrans == HTRANS_IDLE)) 
-				next_state = IDLE;
-			else if ((~hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state = READ;
-			else if ((hwrite) && (htrans == HTRANS_NONSEQ))
-				next_state = WRITE;
-			else
-				next_state = IDLE;
-		end
-		default: next_state = IDLE;
+		next_state = IDLE;
+		casez ({hresp, hrstn, htrans, hwrite})
+			5'b1_1_??_?: next_state = IDLE; // Error Case 
+			5'b?_0_??_?: next_state = IDLE; // Reset Case
+			5'b0_1_00_?: next_state = IDLE; // htrans = IDLE Case
+			5'b0_1_10_0: next_state = READ;
+			5'b0_1_10_1: next_state = WRITE;
 		endcase
 	end
+	/* verilator lint_on CASEINCOMPLETE */
 	
 	// Output Generation Logic (from current state)
 	always @(posedge hclk) begin
