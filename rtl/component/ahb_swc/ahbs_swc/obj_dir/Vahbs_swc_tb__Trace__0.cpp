@@ -31,19 +31,21 @@ void Vahbs_swc_tb___024root__trace_chg_sub_0(Vahbs_swc_tb___024root* vlSelf, Ver
         bufp->chgCData(oldp+3,(vlSelf->ahbs_swc_tb__DOT__hprot),7);
         bufp->chgCData(oldp+4,(vlSelf->ahbs_swc_tb__DOT__hsize),3);
         bufp->chgCData(oldp+5,(vlSelf->ahbs_swc_tb__DOT__htrans),2);
-        bufp->chgBit(oldp+6,(vlSelf->ahbs_swc_tb__DOT__hwrite));
+        bufp->chgIData(oldp+6,(vlSelf->ahbs_swc_tb__DOT__hwdata),32);
+        bufp->chgBit(oldp+7,(vlSelf->ahbs_swc_tb__DOT__hwrite));
+        bufp->chgIData(oldp+8,(vlSelf->ahbs_swc_tb__DOT__rbuffdata),32);
     }
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[3U])) {
-        bufp->chgIData(oldp+7,(vlSelf->ahbs_swc_tb__DOT__hrdata),32);
-        bufp->chgBit(oldp+8,(vlSelf->ahbs_swc_tb__DOT__wreq));
-        bufp->chgIData(oldp+9,(vlSelf->ahbs_swc_tb__DOT__wbuffdata),32);
-        bufp->chgIData(oldp+10,(vlSelf->ahbs_swc_tb__DOT__wbuffaddr),32);
-        bufp->chgBit(oldp+11,(vlSelf->ahbs_swc_tb__DOT__rreq));
-        bufp->chgIData(oldp+12,(vlSelf->ahbs_swc_tb__DOT__rbuffaddr),32);
+        bufp->chgIData(oldp+9,(vlSelf->ahbs_swc_tb__DOT__hrdata),32);
+        bufp->chgBit(oldp+10,(vlSelf->ahbs_swc_tb__DOT__wreq));
+        bufp->chgIData(oldp+11,(vlSelf->ahbs_swc_tb__DOT__wbuffdata),32);
+        bufp->chgIData(oldp+12,(vlSelf->ahbs_swc_tb__DOT__wbuffaddr),32);
+        bufp->chgBit(oldp+13,(vlSelf->ahbs_swc_tb__DOT__rreq));
+        bufp->chgIData(oldp+14,(vlSelf->ahbs_swc_tb__DOT__rbuffaddr),32);
     }
-    bufp->chgBit(oldp+13,(vlSelf->ahbs_swc_tb__DOT__hclk));
-    bufp->chgCData(oldp+14,(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__state),4);
-    bufp->chgCData(oldp+15,(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__next_state),4);
+    bufp->chgBit(oldp+15,(vlSelf->ahbs_swc_tb__DOT__hclk));
+    bufp->chgCData(oldp+16,(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__state),4);
+    bufp->chgCData(oldp+17,(vlSelf->ahbs_swc_tb__DOT__ahbs_swc_inst__DOT__next_state),4);
 }
 
 void Vahbs_swc_tb___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {

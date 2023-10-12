@@ -54,197 +54,253 @@ VL_INLINE_OPT VlCoroutine Vahbs_swc_tb___024root___eval_initial__TOP__1(Vahbs_sw
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe11U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba11U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       92);
+                                       94);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf011U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba11U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       96);
+                                       101);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe12U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba12U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       100);
+                                       107);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf012U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba12U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       104);
+                                       114);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe13U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba13U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       108);
+                                       120);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf013U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba13U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       113);
+                                       128);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe21U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba21U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       117);
+                                       134);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe22U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba22U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       121);
+                                       140);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       125);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       129);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       133);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       138);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       142);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe23U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba23U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
                                        146);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe24U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba24U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       150);
+                                       152);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       154);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe25U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba25U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
                                        158);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe26U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba26U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       163);
+                                       165);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf031U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba31U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       172);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf032U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba32U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       179);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf033U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba33U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       186);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf034U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba34U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       193);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf035U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba35U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       200);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf036U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba36U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       208);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe31U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba31U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       166);
+                                       213);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbeefU;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       168);
+                                       217);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe32U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba32U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       170);
+                                       225);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe41U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba41U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       175);
+                                       230);
     vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbeefU;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       234);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf041U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba41U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       243);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf051U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba51U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       249);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbeefU;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       253);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbe51U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafeba51U;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       178);
+                                       261);
+    vlSelf->__Vm_traceActivity[2U] = 1U;
+    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
+    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf061U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba61U;
+    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
+                                       "ahbs_swc_tb.v", 
+                                       267);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xdeadbeefU;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
     co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
                                        "ahbs_swc_tb.v", 
-                                       180);
+                                       271);
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       182);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
     vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       187);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       190);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       192);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       194);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       199);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       202);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__hrstn = 0U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       204);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__hrstn = 1U;
-    co_await vlSelf->__VdlySched.delay(0xaULL, nullptr, 
-                                       "ahbs_swc_tb.v", 
-                                       206);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->ahbs_swc_tb__DOT__haddr = 0x11010100U;
-    vlSelf->ahbs_swc_tb__DOT__htrans = 2U;
-    vlSelf->ahbs_swc_tb__DOT__hwrite = 0U;
+    vlSelf->ahbs_swc_tb__DOT__haddr = 0xbaadf062U;
+    vlSelf->ahbs_swc_tb__DOT__hwdata = 0xcafebabeU;
+    vlSelf->ahbs_swc_tb__DOT__rbuffdata = 0xabbaba62U;
     vlSelf->__Vm_traceActivity[2U] = 1U;
 }
 
