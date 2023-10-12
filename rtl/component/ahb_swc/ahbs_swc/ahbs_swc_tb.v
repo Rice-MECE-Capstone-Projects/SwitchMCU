@@ -86,132 +86,200 @@ initial begin
 
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE11;
+    hwdata = 32'hCAFEBA11;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF011;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA11;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE12;
+    hwdata = 32'hCAFEBA12;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF012;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA12;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE13;
+    hwdata = 32'hCAFEBA13;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF013;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA13;
 
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE21;
+    hwdata = 32'hCAFEBA21;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE22;
+    hwdata = 32'hCAFEBA22;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE23;
+    hwdata = 32'hCAFEBA23;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE24;
+    hwdata = 32'hCAFEBA24;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE25;
+    hwdata = 32'hCAFEBA25;
     // WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE26;
+    hwdata = 32'hCAFEBA26;
 
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF031;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA31;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF032;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA32;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF033;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA33;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF034;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA34;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF035;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA35;
     // READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF036;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA36;
 
-        // WRITE -> RESET -> WRITE
+    // WRITE -> RESET -> WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE31;
+    hwdata = 32'hCAFEBA31;
     #10;
     hrstn = 0; // RESET
+    haddr = 32'hDEADBEEF;
+    hwdata = 32'hCAFEBABE;
     #10;
     hrstn = 1; // Exit RESET
-    #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE32;
+    hwdata = 32'hCAFEBA32;
 
     // WRITE -> RESET -> READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE41;
+    hwdata = 32'hCAFEBA41;
     #10;
     hrstn = 0; // RESET
+    haddr = 32'hDEADBEEF;
+    hwdata = 32'hCAFEBABE;
     #10;
-    hrstn = 1; // Exit RESET
-    #10;
-    htrans = 2'b10; // NONSEQ
+    hrstn = 1; // READ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF041;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA41;
 
     // READ -> RESET -> WRITE
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF051;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA51;
     #10;
     hrstn = 0; // RESET
+    haddr = 32'hDEADBEEF;
+    hwdata = 32'hCAFEBABE;
     #10;
     hrstn = 1; // Exit RESET
-    #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 1;
+    haddr = 32'hDEADBE51;
+    hwdata = 32'hCAFEBA51;
 
     // READ -> RESET -> READ
     #10;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF061;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA61;
     #10;
     hrstn = 0; // RESET
+    haddr = 32'hDEADBEEF;
+    hwdata = 32'hCAFEBABE;
     #10;
     hrstn = 1; // Exit RESET
-    #10;
-    haddr = 32'h11010100;
-    htrans = 2'b10; // NONSEQ
+    htrans = 2'b10; 
     hwrite = 0;
+    haddr = 32'hBAADF062;
+    hwdata = 32'hCAFEBABE;
+    rbuffdata = 32'hABBABA62;
 
     // // WRITE -> ERROR -> WRITE
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 1;
     // #10;
     // hresp = 1; // ERROR
@@ -219,13 +287,13 @@ initial begin
     // hresp = 0; // Exit ERROR
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 1;
 
     // // WRITE -> ERROR -> READ
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 1;
     // #10;
     // hresp = 1; // ERROR
@@ -233,13 +301,13 @@ initial begin
     // hresp = 0; // Exit ERROR
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 0;
 
     // // READ -> ERROR -> WRITE
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 0;
     // #10;
     // hresp = 1; // ERROR
@@ -247,13 +315,13 @@ initial begin
     // hresp = 0; // Exit ERROR
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 1;
 
     // // READ -> ERROR -> READ
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 0;
     // #10;
     // hresp = 1; // ERROR
@@ -261,7 +329,7 @@ initial begin
     // hresp = 0; // Exit ERROR
     // #10;
     // haddr = 32'h11010100;
-    // htrans = 2'b10; // NONSEQ
+    // htrans = 2'b10; 
     // hwrite = 0;
 
 end
