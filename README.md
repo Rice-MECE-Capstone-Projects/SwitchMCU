@@ -99,6 +99,19 @@ Introduction of tools
 
   The GOWIN IDE provides a comprehensive platform for FPGA development. It allows users to design, simulate, and program GOWIN FPGA devices.
 
+## Testing Platform
+
+- #### C++ based SoC emulator
+
+  #### under construction
+
+- #### FPGA prototype platform
+
+  #### Tang Nano 20K is a development board, using the [GW2AR-18 QN88](http://www.gowinsemi.com.cn/prod_view.aspx?TypeId=10&FId=t3:10:3&Id=167#GW2AR) FPGA, containing 20736 LUT4 logic cells and 15552 Filp-Flops. There are 2 PLL in this FPGA chip, and many DSP units supporting 18 bit x 18 bit multiplication. Onboard [BL616](https://bouffalolab.com/product/?type=detail&id=21) is used for downloading bitstream into FPGA, and it's also used as USB to serial convertor to communicate FPGA with computer via UART. The 27MHz crystal generates the clock for HDMI display, onboard MS5351 clock generating chip also provides mutiple clocks.
+
+  <img src="README.assets/tang_nano_20k_3920_top.png" alt="img" style="zoom:33%;" />
+
+  <img src="README.assets/tang_nano_20k_3920_bot.png" alt="img" style="zoom:33%;" />
 
 ## Reference
 
