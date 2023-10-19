@@ -43,6 +43,8 @@ Over the last decade, the computing industry has steadily moved from CISC to RIS
 
 # 1. Memory and bus architecture
 
+
+
 # 2. Reset and clock control (RCC)
 
 # 3. Interrupts and events
