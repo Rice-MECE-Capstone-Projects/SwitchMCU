@@ -3,7 +3,7 @@ module forwarding_unit_swc(
     input [4:0] EX_WB_RegDst, MEM_WB_RegDst,
     input EX_WB_RegWrite, MEM_WB_RegWrite,
     output [1:0] forward_A, forward_B,
-    output stall
+    output Stall
 );
     
     // TODO: CHECK IF REGISTERS ARE ZERO
@@ -39,6 +39,6 @@ module forwarding_unit_swc(
 		endcase
 	end
 	
-    assign stall = (forward_A == 2'b01) | (forward_B == 2'b01);
+    assign Stall = (forward_A == 2'b01) | (forward_B == 2'b01);
 	
 endmodule
