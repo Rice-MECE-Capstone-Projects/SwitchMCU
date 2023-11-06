@@ -8,15 +8,18 @@ module spictrl_swc (
     pwdata      ,
     pready      ,
     prdata      ,
-    pslverr     
+    pslverr     ,
+    sck         ,
+    mosi        ,
+    miso        
 );
 // Address
-parameter SPI_CR_ADDR   = 'h0010_0000;
-parameter SPI_SR_ADDR   = 'h0010_0004;
-parameter SPI_WDR_ADDR  = 'h0010_0008;
-parameter SPI_RDR_ADDR  = 'h0010_000C;
+localparam SPI_CR_ADDR   = 'h0010_0000;
+localparam SPI_SR_ADDR   = 'h0010_0004;
+localparam SPI_WDR_ADDR  = 'h0010_0008;
+localparam SPI_RDR_ADDR  = 'h0010_000C;
 // APB Bus Signals
-parameter PD_NUM = 3;   // Peripherals devices number
+localparam PD_NUM = 3;   // Peripherals devices number
 input                           pclk        ;
 input                           prstn       ;
 input           [31:0]          paddr       ;
@@ -26,19 +29,81 @@ input                           pwrite      ;
 input           [31:0]          pwdata      ;
 output reg                      pready      ;
 output reg      [31:0]          prdata      ;
-output                          pslverr     ;
+output reg                      pslverr     ;
+output reg                      sck         ;
+output reg                      mosi        ;
+input                           miso        ;
 
 reg             [31:0]          SPI_CR      ;
 reg             [31:0]          SPI_SR      ;
-reg             [31:0]          SPI_WDR     ;
 reg             [31:0]          SPI_RDR     ;
 
+// State machine
+localparam APB_TRANS_IDLE       =   0   ,
+           APB_TRANS_READY      =   1   ,
+           APB_TRANS_READ       =   2   ,
+           APB_TRANS_DELAY      =   3   ;
+
+reg     [2:0]                   apb_state       ;
+reg     [2:0]                   apb_nextstate   ;
+
+always @(posedge pclk) begin
+    if(!prstn) begin
+        apb_state <= APB_TRANS_IDLE;
+    end else begin
+        apb_state <= apb_nextstate;
+    end 
+end
+        
+always @(*) begin
+    case(apb_state)
+    APB_TRANS_IDLE: begin
+        if(psel && !pwrite && paddr == SPI_RDR_ADDR) begin
+            apb_nextstate = APB_TRANS_READ;
+        end else if(psel) begin
+            apb_nextstate = APB_TRANS_READY;
+        end else begin
+            apb_nextstate = APB_TRANS_IDLE;
+        end
+    end
+    APB_TRANS_READY: begin
+        apb_nextstate = APB_TRANS_IDLE;
+    end
+    APB_TRANS_READ: begin
+        apb_nextstate = APB_TRANS_DELAY;
+    end
+    APB_TRANS_DELAY:begin
+        apb_nextstate = APB_TRANS_READY;
+    end
+    endcase
+end
+
+// addr_error = 1 indicates there's a request with error address on apb bus
+wire addr_error;
+
+// addr_error
+assign addr_error = psel && !(paddr == SPI_CR_ADDR || paddr == SPI_SR_ADDR || paddr == SPI_WDR_ADDR || paddr == SPI_RDR_ADDR);
+
 // pslverr
-assign pslverr = 0;
+always @(posedge pclk) begin
+    if(!prstn) begin
+        pslverr <= 0;
+    end else if(apb_nextstate == APB_TRANS_READY) begin
+        if(addr_error) begin
+            pslverr <= 1;
+        end else begin
+            pslverr <= 0;
+        end
+    end else begin
+        pslverr <= 0;
+    end
+end
 
 // pready
 always @(posedge pclk) begin
-    if(psel) begin
+    if(!prstn) begin
+        pready <= 0;
+    end else if(apb_nextstate == APB_TRANS_READY) begin
         pready <= 1;
     end else begin
         pready <= 0;
@@ -49,32 +114,21 @@ end
 always @(posedge pclk) begin
     if(!prstn) begin
         SPI_CR <= 'h0000_0000;
-    end else if(psel && penable && pwrite && paddr == SPI_CR_ADDR) begin
+    end else if(apb_state == APB_TRANS_READY && pwrite && paddr == SPI_CR_ADDR) begin
         SPI_CR <= pwdata;
     end else begin
         SPI_CR <= SPI_CR;
     end
 end
 
-// SPI_SR
+// rdr_ren
 always @(posedge pclk) begin
     if(!prstn) begin
-        SPI_SR <= 'h0000_0002;
-    end else if(psel && penable && pwrite && paddr == SPI_SR_ADDR) begin
-        SPI_SR <= pwdata;
+        rdr_ren <= 0;
+    end else if(apb_nextstate == APB_TRANS_READ) begin
+        rdr_ren <= 1;
     end else begin
-        SPI_SR <= SPI_SR;
-    end
-end
-
-// SPI_WDR
-always @(posedge pclk) begin
-    if(!prstn) begin
-        SPI_WDR <= 'h0000_0000;
-    end else if(psel && penable && pwrite && paddr == SPI_WDR_ADDR && !full) begin
-        SPI_WDR <= pwdata;
-    end else begin
-        SPI_WDR <= SPI_WDR;
+        rdr_ren <= 0;
     end
 end
 
@@ -82,153 +136,353 @@ end
 always @(posedge pclk) begin
     if(!prstn) begin
         prdata <= 0;
-    end else if(psel && !pwrite && paddr == SPI_CR_ADDR) begin
+    end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_CR_ADDR) begin
         prdata <= SPI_CR;
-    end else if(psel && !pwrite && paddr == SPI_SR_ADDR) begin
+    end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_SR_ADDR) begin
         prdata <= SPI_SR;
-    end else if(psel && !pwrite && paddr == SPI_WDR_ADDR) begin
-        prdata <= SPI_WDR;
+    end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_WDR_ADDR) begin
+        prdata <= 0;
+    end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_RDR_ADDR) begin
+        prdata <= {16'b0, rdr_rdata};
     end else begin
         prdata <= 0;
     end
 end
 
+// FIFO Width
+localparam FIFO_WIDTH = 16;
+
 // WDR FIFO control
-reg                     wen         ;
-reg         [31:0]      wdata       ;
-wire                    full        ;
-reg                     ren         ;
-wire        [31:0]      rdata       ;
-wire                    empty       ;
+reg                                 wdr_wen         ;
+reg         [FIFO_WIDTH-1:0]        wdr_wdata       ;
+wire                                wdr_full        ;
+reg                                 wdr_ren         ;
+wire        [FIFO_WIDTH-1:0]        wdr_rdata       ;
+wire                                wdr_empty       ;
 
 // WDR_FIFO
-syncfifo_swc  wdr_syncfifo_swc_inst (
-    .rstn       (prstn      ),
-    .clk        (pclk       ),
-    .wen        (wen        ),
-    .wdata      (wdata      ),
-    .full       (full       ),
-    .ren        (ren        ),
-    .rdata      (rdata      ),
-    .empty      (empty      )
+syncfifo_swc #(
+    .data_width     (FIFO_WIDTH     ),
+    .ram_size       (16             )
+) wdr_syncfifo_swc_inst (
+    .rstn           (prstn          ),
+    .clk            (pclk           ),
+    .wen            (wdr_wen        ),
+    .wdata          (wdr_wdata      ),
+    .full           (wdr_full       ),
+    .ren            (wdr_ren        ),
+    .rdata          (wdr_rdata      ),
+    .empty          (wdr_empty      )
 );
 
-// wen
+// wdr_wen
 always @(posedge pclk) begin
     if(!prstn) begin
-        wen <= 0;
-    end else if(psel && penable && pwrite && paddr == SPI_WDR_ADDR && !full) begin
-        wen <= 1;
+        wdr_wen <= 0;
+    end else if(psel && penable && pwrite && paddr == SPI_WDR_ADDR && !wdr_full) begin
+        wdr_wen <= 1;
     end else begin
-        wen <= 0;
+        wdr_wen <= 0;
     end
 end
 
-// wdata
+// wdr_wdata
 always @(posedge pclk) begin
     if(!prstn) begin
-        wdata <= 0;
-    end else if(psel && penable && pwrite && paddr == SPI_WDR_ADDR && !full) begin
-        wdata <= pwdata;
+        wdr_wdata <= 0;
+    end else if(psel && penable && pwrite && paddr == SPI_WDR_ADDR && !wdr_full) begin
+        wdr_wdata <= pwdata[FIFO_WIDTH-1:0];
     end else begin
-        wdata <= 0;
+        wdr_wdata <= 0;
     end
 end
 
-// define counter
-localparam COUNTER_WIDTH = 11;
-localparam IDLE     =   0 ,
-           READ     =   1 ,
-           DELAY    =   2 ,
-           STORE    =   3 ,
-           COUNT    =   4 ;
+// Signals for SPI transfer
+localparam COUNTER_WIDTH = 12;
+wire    [2:0]                   SPI_CR_BR       ;
+wire                            SPI_CR_CPOL     ;
+wire                            SPI_CR_CPHA     ;
+wire                            SPI_CR_DFF      ;
+wire                            SPI_CR_LSBFIRST ;
+wire                            SPI_CR_SPE      ;
+reg     [COUNTER_WIDTH-1:0]     cnt             ;
+reg     [FIFO_WIDTH-1:0]        spiwdata        ;
+wire    [COUNTER_WIDTH-1:0]     maxcnt          ;
 
-reg     [COUNTER_WIDTH-1:0]     counter         ;
-reg     [2:0]                   state           ;
-reg     [2:0]                   nextstate       ;
-reg     [31:0]                  spi_wdata       ;
-wire    [COUNTER_WIDTH-1:0]     max_cnt         ;
-
-// assign max_cnt = (16 << SPI_CR[5:3]) - 1;
-assign max_cnt = 15;
+// SPI_CR_BR
+assign SPI_CR_BR = SPI_CR[5:3];
+// SPI_CR_CPOL
+assign SPI_CR_CPOL = SPI_CR[1];
+// SPI_CR_CPHA
+assign SPI_CR_CPHA = SPI_CR[0];
+// SPI_CR_DFF
+assign SPI_CR_DFF = SPI_CR[11];
+// SPI_CR_LSBFIRST
+assign SPI_CR_LSBFIRST = SPI_CR[7];
+// SPI_CR_SPE
+assign SPI_CR_SPE = SPI_CR[6];
+// maxcnt
+assign maxcnt = ((16 << SPI_CR_BR) << SPI_CR_DFF) - 1;
 
 // State machine
+localparam SPI_TRANS_IDLE     =   0   ,
+           SPI_TRANS_READ     =   1   ,
+           SPI_TRANS_DELAY    =   2   ,
+           SPI_TRANS_BUFFER   =   3   ,
+           SPI_TRANS_COUNT    =   4   ,
+           SPI_TRANS_WRITE    =   5   ;
+
+reg     [2:0]                   spi_state       ;
+reg     [2:0]                   spi_nextstate   ;
+           
 always @(posedge pclk) begin
     if(!prstn) begin
-        state <= IDLE;
+        spi_state <= SPI_TRANS_IDLE;
     end else begin
-        state <= nextstate;
+        spi_state <= spi_nextstate;
     end 
 end
 
 always @(*) begin
-  case(state)
-    IDLE: begin
-        if(!empty) begin
-            nextstate = READ;  
+  case(spi_state)
+    SPI_TRANS_IDLE: begin
+        if(!wdr_empty && SPI_CR_SPE) begin
+            spi_nextstate = SPI_TRANS_READ;  
         end else begin
-            nextstate = IDLE;
-        end     
+            spi_nextstate = SPI_TRANS_IDLE;
+        end
     end
-    READ: begin
-        nextstate = DELAY;  
+    SPI_TRANS_READ: begin
+        spi_nextstate = SPI_TRANS_DELAY;  
     end
-    DELAY: begin
-        nextstate = STORE;
+    SPI_TRANS_DELAY: begin
+        spi_nextstate = SPI_TRANS_BUFFER;
     end
-    STORE: begin
-        nextstate = COUNT;    
+    SPI_TRANS_BUFFER: begin
+        spi_nextstate = SPI_TRANS_COUNT;    
     end
-    COUNT: begin
-        if(!empty)begin
-            nextstate = READ;    
-        end else if(counter == max_cnt) begin
-            nextstate = IDLE;
+    SPI_TRANS_COUNT: begin
+        if(cnt == maxcnt) begin
+            spi_nextstate = SPI_TRANS_WRITE;
         end else begin
-            nextstate = COUNT;
+            spi_nextstate = SPI_TRANS_COUNT;
         end      
     end
+    SPI_TRANS_WRITE: begin
+        if(!wdr_empty)begin
+            spi_nextstate = SPI_TRANS_READ;
+        end else begin
+            spi_nextstate = SPI_TRANS_IDLE;
+        end
+    end
+    default:
+        spi_nextstate = SPI_TRANS_IDLE;
   endcase
 end
 
-// counter
+// cnt
 always @(posedge pclk) begin
     if(!prstn) begin
-        counter <= 0;
-    end else if(nextstate == COUNT) begin
-        if(counter == max_cnt) begin
-            counter <= counter;
+        cnt <= 0;
+    end else if(spi_nextstate == SPI_TRANS_COUNT) begin
+        if(cnt == maxcnt) begin
+            cnt <= cnt;
         end else begin
-            counter <= counter + 1;
+            cnt <= cnt + 1;
         end
     end else begin
-        counter <= 0;
+        cnt <= 0;
     end
 end
 
-// ren
-always @(posedge pclk ) begin
+// wdr_ren
+always @(posedge pclk) begin
     if (!prstn) begin
-        ren <= 0;
-    end else if(nextstate == READ)begin
-        ren <= 1;
+        wdr_ren <= 0;
+    end else if(spi_nextstate == SPI_TRANS_READ)begin
+        wdr_ren <= 1;
     end else begin
-        ren <= 0;
+        wdr_ren <= 0;
     end   
 end
 
-always @(posedge pclk ) begin
+// spiwdata
+always @(posedge pclk) begin
     if (!prstn) begin
-        spi_wdata <= 0;
-    end else if(nextstate == STORE)begin
-        spi_wdata <= rdata;
+        spiwdata <= 0;
+    end else if(spi_nextstate == SPI_TRANS_BUFFER)begin
+        spiwdata <= wdr_rdata;
+    end else if(spi_nextstate == SPI_TRANS_COUNT)begin
+        spiwdata <= spiwdata;
     end else begin
-        spi_wdata <= spi_wdata;
+        spiwdata <= 0;
     end   
 end
 
+wire sck_source;
 
-// spi_wdata
+// sck_source
+assign sck_source = cnt[{1'b0, SPI_CR_BR}];
 
+// sck
+always @(posedge pclk) begin
+    if (!prstn) begin
+        sck <= 0;
+    end else if(spi_nextstate == SPI_TRANS_COUNT || spi_state == SPI_TRANS_COUNT)begin
+        if(SPI_CR_CPOL) begin
+            sck <= SPI_CR_CPHA ? sck_source : !sck_source;
+        end else begin
+            sck <= SPI_CR_CPHA ? !sck_source : sck_source;
+        end
+    end else begin
+        sck <= SPI_CR_CPOL;
+    end
+end
+
+wire [COUNTER_WIDTH-1:0]    exindex     ;
+reg  [3:0]                  index       ;
+
+// exindex
+assign exindex = cnt >> (SPI_CR_BR + 1);
+
+// index
+always @(*) begin
+    if(SPI_CR_LSBFIRST) begin
+        index = exindex[3:0];
+    end else begin
+        if(SPI_CR_DFF) begin
+            index = 15 - exindex[3:0];
+        end else begin
+            index = 7 - exindex[3:0];
+        end
+    end
+end
+
+// mosi
+always @(posedge pclk) begin
+    if (!prstn) begin
+        mosi <= 0;
+    end else if(spi_nextstate == SPI_TRANS_COUNT || spi_state == SPI_TRANS_COUNT)begin
+        mosi <= spiwdata[index];
+    end else begin
+        mosi <= 0;
+    end   
+end
+
+// RDR FIFO control
+reg                                 rdr_wen         ;
+wire        [FIFO_WIDTH-1:0]        rdr_wdata       ;
+wire                                rdr_full        ;
+reg                                 rdr_ren         ;
+wire        [FIFO_WIDTH-1:0]        rdr_rdata       ;
+wire                                rdr_empty       ;
+
+// RDR_FIFO
+syncfifo_swc #(
+    .data_width     (FIFO_WIDTH     ),
+    .ram_size       (16             )
+) rdr_syncfifo_swc_inst (
+    .rstn           (prstn          ),
+    .clk            (pclk           ),
+    .wen            (rdr_wen        ),
+    .wdata          (rdr_wdata      ),
+    .full           (rdr_full       ),
+    .ren            (rdr_ren        ),
+    .rdata          (rdr_rdata      ),
+    .empty          (rdr_empty      )
+);
+
+reg                                 sck_source_r    ;
+
+// sck_source_r
+always @(posedge pclk) begin
+    if (!prstn) begin
+        sck_source_r <= 0;
+    end else begin
+        sck_source_r <= sck_source;
+    end
+end
+
+wire shift_trig;
+
+// rdr_wen_source
+assign shift_trig =  (!sck_source_r && sck_source);
+
+reg         [15:0]                  spirdata        ;
+
+// spirdata
+always @(posedge pclk) begin
+    if (!prstn) begin
+        spirdata <= 0;
+    end else if(shift_trig) begin
+        spirdata <= {spirdata[14:0], miso};
+    end else if(spi_nextstate == SPI_TRANS_COUNT || spi_nextstate == SPI_TRANS_WRITE) begin
+        spirdata <= spirdata;
+    end else begin
+        spirdata <= 0;
+    end
+end
+
+// rdr_wen
+always @(posedge pclk) begin
+    if (!prstn) begin
+        rdr_wen <= 0;
+    end else if(spi_nextstate == SPI_TRANS_WRITE && !rdr_full) begin
+        rdr_wen <= 1;
+    end else begin
+        rdr_wen <= 0;
+    end
+end
+
+// rdr_wdata
+assign rdr_wdata = spirdata;
+
+// rdr_ren
+always @(posedge pclk) begin
+    if (!prstn) begin
+        rdr_ren <= 0;
+    end else if(!rdr_empty) begin
+        rdr_ren <= 1;
+    end else begin
+        rdr_ren <= 0;
+    end
+end
+
+// SPI_SR
+always @(posedge pclk) begin
+    SPI_SR[0] <= rdr_empty ;
+    SPI_SR[1] <= ~wdr_empty ;
+    SPI_SR[6] <= rdr_full ;   
+end
+
+always @(posedge pclk) begin
+    if(!prstn) begin
+        SPI_SR[7] <= 0 ; 
+    end else if((spi_nextstate == SPI_TRANS_IDLE)) begin
+        SPI_SR[7] <= 0 ;
+    end else begin
+        SPI_SR[7] <= 1 ;
+    end 
+end
+
+wire    BSY  ;
+wire    OVR  ;
+wire    TXE  ;
+wire    RXNE ;
+
+assign  BSY = SPI_SR[7];
+assign  OVR = SPI_SR[6];
+assign  TXE = SPI_SR[1];
+assign  RXNE = SPI_SR[0];
+// SPI_RDR
+// always @(posedge pclk) begin
+//     if(!prstn) begin
+//         SPI_RDR <= 'h0000_0000;
+//     end else if() begin
+//         SPI_RDR <= pwdata;
+//     end else begin
+//         SPI_RDR <= SPI_WDR;
+//     end
+// end
 
 endmodule
