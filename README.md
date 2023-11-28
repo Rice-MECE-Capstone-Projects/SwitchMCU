@@ -1,7 +1,22 @@
 # SwitchMCU
 
+![image-20231128151134599](README.assets/image-20231128151134599.png)
 
-## Prerequisites
+## Background
+
+Over the last decade, the computing industry has steadily moved from CISC to RISC, especially in low-power use cases, or where performance/watt is of utmost importance. This is a direct response to the ever-growing need for more powerful, efficient computing, especially in embedded and edge applications. Our proposed solution is to provide the front-end, RTL design of a pipelined processor (with a currently indeterminate pipeline stage count) that realizes the RV32I instruction set. Additionally, the processor is aimed as a general-purpose biomedical application processor and thus requires integrated interface support, such as SPI, UART, etc. for ADC/DAC and other peripheral control. The aim is to provide a synthesizable RTL core with a fully validated module-level/unit-test level design.
+
+## Architecture
+
+- Harvard architecture
+- Support 5-stage pipeline.
+- ITCM/DTCM memory for instruction/data storage.
+- AMBA AHB bus used for CPU and memory.
+- AMBA APB bus used for peripherals.
+- Support UART, SPI peripherals.
+- Temporarily no cache and MMU.
+
+## Tool chains
 
 Tools for team members
 
@@ -98,6 +113,97 @@ Introduction of tools
   https://www.gowinsemi.com/en/support/home/
 
   The GOWIN IDE provides a comprehensive platform for FPGA development. It allows users to design, simulate, and program GOWIN FPGA devices.
+
+## Prerequisites
+
+1. #### Getting the sources
+
+  ```shell
+  git clone https://github.com/Rice-MECE-Capstone-Projects/SwitchMCU.git
+  ```
+
+2. Install verilator
+
+   ```shell
+   # Prerequisites:
+   #sudo apt-get install git help2man perl python3 make autoconf g++ flex bison ccache
+   #sudo apt-get install libgoogle-perftools-dev numactl perl-doc
+   #sudo apt-get install libfl2  # Ubuntu only (ignore if gives error)
+   #sudo apt-get install libfl-dev  # Ubuntu only (ignore if gives error)
+   #sudo apt-get install zlibc zlib1g zlib1g-dev  # Ubuntu only (ignore if gives error)
+   
+   git clone https://github.com/verilator/verilator   # Only first time
+   
+   # Every time you need to build:
+   unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
+   unset VERILATOR_ROOT  # For bash
+   cd verilator
+   git pull         # Make sure git repository is up-to-date
+   git tag          # See what versions exist
+   #git checkout master      # Use development branch (e.g. recent bug fixes)
+   #git checkout stable      # Use most recent stable release
+   #git checkout v{version}  # Switch to specified release version
+   
+   autoconf         # Create ./configure script
+   ./configure      # Configure and create Makefile
+   make -j `nproc`  # Build Verilator itself (if error, try just 'make')
+   sudo make install
+   ```
+
+3. Install Gtkwave
+
+   ```shell
+   sudo apt-get update
+   sudo apt-get install gtkwave
+   gtkwave --version
+   ```
+
+4. Install RISC-V GNU Compiler Tool chain
+
+   ```shell
+   git clone https://github.com/riscv/riscv-gnu-toolchain
+   sudo apt-get install autoconf automake autotools-dev curl python3 python3-pip libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build git cmake libglib2.0-dev
+   ./configure --prefix=/opt/riscv --enable-multilib
+   make
+   ```
+
+5. Install Unicorn Engine
+
+   ```shell
+   git clone https://github.com/unicorn-engine/unicorn.git
+   sudo apt install cmake pkg-config
+   mkdir build; cd build
+   cmake .. -DCMAKE_BUILD_TYPE=Release
+   make
+   ```
+
+6. Install Capstone
+
+   ```shell
+   ./make.sh
+   sudo ./make.sh install
+   ```
+
+7. Install GMP
+
+   ```shell
+   ./configure
+   make
+   make check
+   make install
+   ```
+
+8. Install QEMU
+
+   ```shell
+   wget https://download.qemu.org/qemu-8.2.0-rc1.tar.xz
+   tar xvJf qemu-8.2.0-rc1.tar.xz
+   cd qemu-8.2.0-rc1
+   ./configure
+   make
+   ```
+
+## 
 
 ## Testing Platform
 
