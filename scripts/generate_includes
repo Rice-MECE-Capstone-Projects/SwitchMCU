@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import os
+import argparse
+
+def generate_includes(source_dir, output_dir):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    header_files = [f for f in os.listdir(source_dir) if f.endswith(".h")]
+
+    output_filename = os.path.join(output_dir, "rtl_headers.h")
+    with open(output_filename, 'w') as f:
+        for header in header_files:
+            f.write(f'#include "{header}"\n')
+
+    print(f"Generated {output_filename} with {len(header_files)} includes.")
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate a header file that includes other header files.")
+    parser.add_argument("source_dir", help="Source directory containing header files")
+    parser.add_argument("output_dir", help="Output directory for the generated header file")
+
+    args = parser.parse_args()
+    generate_includes(args.source_dir, args.output_dir)
+
+if __name__ == "__main__":
+    main()
