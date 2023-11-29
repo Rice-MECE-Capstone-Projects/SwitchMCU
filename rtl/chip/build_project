@@ -1,0 +1,18 @@
+#!/bin/bash
+
+BIN_FILE="$PROJECT_DIR/tb/rom/add.bin"
+
+# bin2rom.py $BIN_FILE
+
+# Find all .v files in the current directory and subdirectories
+V_FILES=$(find . -type f -name "*.v" | tr '\n' ' ')
+echo "$V_FILES" > .config/verilog_files.txt
+
+# Verilate the design
+verilator --cc --exe --build -j 16 sim_main.cpp $V_FILES --top-module chip_tb --timing --trace --public
+
+generate_includes obj_dir obj_dir/chipsim
+
+vhier $V_FILES --xml --cells -o .config/verilog_hierarchy.xml
+
+verilator $V_FILES --top-module chip_tb --timing -xml-output .config/verilog_details.xml
