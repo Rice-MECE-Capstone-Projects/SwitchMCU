@@ -1,0 +1,89 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Design implementation internals
+// See Vchip_tb.h for the primary calling header
+
+#include "verilated.h"
+
+#include "Vchip_tb__Syms.h"
+#include "Vchip_tb__Syms.h"
+#include "Vchip_tb___024root.h"
+
+// Parameter definitions for Vchip_tb___024root
+constexpr VlWide<5>/*159:0*/ Vchip_tb___024root::chip_tb__DOT__ITCM_DATA_PATH;
+constexpr VlWide<5>/*159:0*/ Vchip_tb___024root::chip_tb__DOT__DTCM_DATA_PATH;
+constexpr VlWide<5>/*159:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__ITCM_DATA_PATH;
+constexpr VlWide<5>/*159:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__DTCM_DATA_PATH;
+constexpr VlWide<5>/*159:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__itcm_swc_inst__DOT__DATA_PATH;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__itcm_swc_inst__DOT__SRAM_SIZE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__itcm_swc_inst__DOT__HTRANS_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__itcm_swc_inst__DOT__HTRANS_BUSY;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__itcm_swc_inst__DOT__HTRANS_NONSEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__itcm_swc_inst__DOT__HTRANS_SEQ;
+constexpr VlWide<5>/*159:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__dtcm_swc_inst__DOT__DATA_PATH;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__dtcm_swc_inst__DOT__SRAM_SIZE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__dtcm_swc_inst__DOT__HTRANS_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__dtcm_swc_inst__DOT__HTRANS_BUSY;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__dtcm_swc_inst__DOT__HTRANS_NONSEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__dtcm_swc_inst__DOT__HTRANS_SEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__HTRANS_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__HTRANS_BUSY;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__HTRANS_NONSEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__HTRANS_SEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__START;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__WAIT1;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__ifu_swc_inst__DOT__WAIT2;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_jump_swc_inst__DOT__FLUSH_DISABLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_jump_swc_inst__DOT__FLUSH_CYCLE_1;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_jump_swc_inst__DOT__FLUSH_CYCLE_2;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_branch_swc_inst__DOT__FLUSH_DISABLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_branch_swc_inst__DOT__FLUSH_CYCLE_1;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_branch_swc_inst__DOT__FLUSH_CYCLE_2;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_load_swc_inst__DOT__LOAD_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_load_swc_inst__DOT__LOAD_BTYE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_load_swc_inst__DOT__LOAD_HALFWORD;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_load_swc_inst__DOT__LOAD_WORD;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_store_swc_inst__DOT__STORE_BTYE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_store_swc_inst__DOT__STORE_HALFWORD;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_store_swc_inst__DOT__STORE_WORD;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__exu_store_swc_inst__DOT__STORE_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__ex_flush_swc_inst__DOT__FLUSH_DISABLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__ex_flush_swc_inst__DOT__FLUSH_CYCLE_1;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__ex_flush_swc_inst__DOT__FLUSH_CYCLE_2;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__ex_flush_swc_inst__DOT__IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__ex_flush_swc_inst__DOT__STATE_1;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__exu_top_swc_inst__DOT__ex_flush_swc_inst__DOT__STATE_2;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__HTRANS_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__HTRANS_BUSY;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__HTRANS_NONSEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__HTRANS_SEQ;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__READ_START;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__READ_WAIT1;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__READ_WAIT2;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__WRITE_START;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__WRITE_WAIT;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__CNT_MAX;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__LOAD_IDLE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__LOAD_BTYE;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__LOAD_HALFWORD;
+constexpr IData/*31:0*/ Vchip_tb___024root::chip_tb__DOT__chip_top_inst__DOT__core_top_swc_inst__DOT__mau_swc_inst__DOT__LOAD_WORD;
+
+
+void Vchip_tb___024root___ctor_var_reset(Vchip_tb___024root* vlSelf);
+
+Vchip_tb___024root::Vchip_tb___024root(Vchip_tb__Syms* symsp, const char* v__name)
+    : VerilatedModule{v__name}
+    , __VdlySched{*symsp->_vm_contextp__}
+    , vlSymsp{symsp}
+ {
+    // Reset structure values
+    Vchip_tb___024root___ctor_var_reset(this);
+}
+
+void Vchip_tb___024root::__Vconfigure(bool first) {
+    if (false && first) {}  // Prevent unused
+}
+
+Vchip_tb___024root::~Vchip_tb___024root() {
+}

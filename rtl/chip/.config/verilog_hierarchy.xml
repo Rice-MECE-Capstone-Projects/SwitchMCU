@@ -1,0 +1,64 @@
+<vhier>
+ <cells>
+  <cell name="ahb2apb_swc_tb" submodname="ahb2apb_swc_tb" hier="ahb2apb_swc_tb" filename="./lib/peripherals_swc/ahb2apb_swc_tb.v">
+    <cell name="ahb2apb_swc_inst" submodname="ahb2apb_swc" hier="ahb2apb_swc_tb.ahb2apb_swc_inst" filename="./lib/peripherals_swc/ahb2apb_swc/ahb2apb_swc.v">
+      <cell name="ahb2apb_ahbs_swc_inst" submodname="ahb2apb_ahbs_swc" hier="ahb2apb_swc_tb.ahb2apb_swc_inst.ahb2apb_ahbs_swc_inst" filename="./lib/peripherals_swc/ahb2apb_swc/ahb2apb_ahbs_swc.v">
+      </cell>
+      <cell name="ahb2apb_apbm_swc_inst" submodname="ahb2apb_apbm_swc" hier="ahb2apb_swc_tb.ahb2apb_swc_inst.ahb2apb_apbm_swc_inst" filename="./lib/peripherals_swc/ahb2apb_swc/ahb2apb_apbm_swc.v">
+      </cell>
+    </cell>
+    <cell name="ahbm_swc_inst" submodname="ahbm_swc" hier="ahb2apb_swc_tb.ahbm_swc_inst" filename="./lib/peripherals_swc/ahbm_swc.v">
+    </cell>
+    <cell name="spictrl_swc_inst" submodname="spictrl_swc" hier="ahb2apb_swc_tb.spictrl_swc_inst" filename="./lib/peripherals_swc/spictrl_swc/spictrl_swc.v">
+      <cell name="rdr_syncfifo_swc_inst" submodname="syncfifo_swc" hier="ahb2apb_swc_tb.spictrl_swc_inst.rdr_syncfifo_swc_inst" filename="./lib/syncfifo_swc/syncfifo_swc.v">
+      </cell>
+      <cell name="wdr_syncfifo_swc_inst" submodname="syncfifo_swc" hier="ahb2apb_swc_tb.spictrl_swc_inst.wdr_syncfifo_swc_inst" filename="./lib/syncfifo_swc/syncfifo_swc.v">
+      </cell>
+    </cell>
+  </cell>
+  <cell name="chip_tb" submodname="chip_tb" hier="chip_tb" filename="./chip_tb.v">
+    <cell name="chip_top_inst" submodname="chip_top" hier="chip_tb.chip_top_inst" filename="./chip_top.v">
+      <cell name="core_top_swc_inst" submodname="core_top_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst" filename="./core/core_top_swc.v">
+        <cell name="dec_swc_inst" submodname="dec_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.dec_swc_inst" filename="./core/dec_swc/dec_swc.v">
+        </cell>
+        <cell name="exu_top_swc_inst" submodname="exu_top_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst" filename="./core/exu_swc/exu_top_swc.v">
+          <cell name="ex_flush_swc_inst" submodname="ex_flush_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.ex_flush_swc_inst" filename="./core/exu_swc/exu_flush_swc.v">
+          </cell>
+          <cell name="ex_imm_en_inst" submodname="ex_imm_en" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.ex_imm_en_inst" filename="./core/exu_swc/exu_imm_swc.v">
+          </cell>
+          <cell name="exu_branch_swc_inst" submodname="exu_branch_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.exu_branch_swc_inst" filename="./core/exu_swc/exu_branch_swc.v">
+          </cell>
+          <cell name="exu_jump_swc_inst" submodname="exu_jump_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.exu_jump_swc_inst" filename="./core/exu_swc/exu_jump_swc.v">
+          </cell>
+          <cell name="exu_load_swc_inst" submodname="exu_load_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.exu_load_swc_inst" filename="./core/exu_swc/exu_load_swc.v">
+          </cell>
+          <cell name="exu_reg_swc_inst" submodname="exu_reg_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.exu_reg_swc_inst" filename="./core/exu_swc/exu_reg_swc.v">
+          </cell>
+          <cell name="exu_store_swc_inst" submodname="exu_store_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.exu_store_swc_inst" filename="./core/exu_swc/exu_store_swc.v">
+          </cell>
+          <cell name="exu_upper_en_inst" submodname="exu_upper_en" hier="chip_tb.chip_top_inst.core_top_swc_inst.exu_top_swc_inst.exu_upper_en_inst" filename="./core/exu_swc/exu_upper_swc.v">
+          </cell>
+        </cell>
+        <cell name="ifu_swc_inst" submodname="ifu_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.ifu_swc_inst" filename="./core/ifu_swc/ifu_swc.v">
+        </cell>
+        <cell name="mau_swc_inst" submodname="mau_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.mau_swc_inst" filename="./core/mau_swc/mau_swc.v">
+        </cell>
+        <cell name="regfile_swc_inst" submodname="regfile_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.regfile_swc_inst" filename="./core/regfile_swc/regfile_swc.v">
+        </cell>
+        <cell name="wbu_swc_inst" submodname="wbu_swc" hier="chip_tb.chip_top_inst.core_top_swc_inst.wbu_swc_inst" filename="./core/wbu_swc/wbu_swc.v">
+        </cell>
+      </cell>
+      <cell name="dtcm_swc_inst" submodname="sram_swc" hier="chip_tb.chip_top_inst.dtcm_swc_inst" filename="./lib/sram_swc/sram_swc.v">
+      </cell>
+      <cell name="itcm_swc_inst" submodname="sram_swc" hier="chip_tb.chip_top_inst.itcm_swc_inst" filename="./lib/sram_swc/sram_swc.v">
+      </cell>
+    </cell>
+  </cell>
+  <cell name="syncfifo_swc_tb" submodname="syncfifo_swc_tb" hier="syncfifo_swc_tb" filename="./lib/syncfifo_swc/syncfifo_swc_tb.v">
+    <cell name="syncfifo_swc_inst" submodname="syncfifo_swc" hier="syncfifo_swc_tb.syncfifo_swc_inst" filename="./lib/syncfifo_swc/syncfifo_swc.v">
+    </cell>
+  </cell>
+  <cell name="uart_swc" submodname="uart_swc" hier="uart_swc" filename="./lib/peripherals_swc/uart_swc/uart_swc.v">
+  </cell>
+ </cells>
+</vhier>
