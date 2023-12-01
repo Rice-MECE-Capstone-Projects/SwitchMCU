@@ -12,3 +12,5 @@ verilator --binary -j 16 $V_FILES --trace --top chip_tb
 
 # Run the generated executable
 ./obj_dir/Vchip_tb
+
+# This script is created with help of chatgpt

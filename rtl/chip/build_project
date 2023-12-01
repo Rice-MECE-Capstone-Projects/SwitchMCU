@@ -16,3 +16,5 @@ generate_includes obj_dir obj_dir/chipsim
 vhier $V_FILES --xml --cells -o .config/verilog_hierarchy.xml
 
 verilator $V_FILES --top-module chip_tb --timing -xml-output .config/verilog_details.xml
+
+# This script is created with help of chatgpt

@@ -118,9 +118,9 @@ Introduction of tools
 
 1. #### Getting the sources
 
-  ```shell
-  git clone https://github.com/Rice-MECE-Capstone-Projects/SwitchMCU.git
-  ```
+   ```shell
+   git clone https://github.com/Rice-MECE-Capstone-Projects/SwitchMCU.git
+   ```
 
 2. Install verilator
 
@@ -203,7 +203,7 @@ Introduction of tools
    make
    ```
 
-## 
+
 
 ## Testing Platform
 
