@@ -3,9 +3,9 @@
 We use the Unicorn Engine to randomly generate assembly language, input it into SRAM, and then use the existing Capstone library to generate the expected results. Afterward, we will export the results from SRAM and compare them with the expected results to determine if there are any issues with the core.
 For this part, data needs to be stored in SRAM. Currently, we only have a backup version of SRAM for testing the AMBA part that is usable when we do the core design. Further modifications are required. Therefore, at this stage, we can use the Unicorn Engine to generate random RV32I instructions.
 
-## Random RV32I instructions binary code generator
+## 1. Random RV32I instructions binary code generator
 
-### **Instruction Generation Functions**
+### **1.1 Instruction Generation Functions**
 
 ```python
 def create_r_type(opcode, funct3, funct7):
@@ -17,7 +17,7 @@ def create_r_type(opcode, funct3, funct7):
 
 Functions like **`create_r_type`**, **`create_b_type`**, **`create_i_type`**, **`create_s_type`**, **`create_u_type`**, and **`create_j_type`** are used to generate different types of RISC-V instructions. Each function combines various fields according to the format of its instruction type, such as **`opcode`**, **`funct3`**, **`funct7`**, register addresses (**`rd`**, **`rs1`**, **`rs2`**), and immediate values (**`imm`**).
 
-### **Instruction Set Opcodes**
+### **1.2 Instruction Set Opcodes**
 
 ```python
 opcodes = {
@@ -74,7 +74,7 @@ opcodes = {
 
 This opcodes file defines a part of the RISC-V instruction set, including different types of instructions like U-type, J-type, I-type, S-type, B-type, and R-type. Each entry consists of the instruction name, opcode, corresponding creation function, and additional arguments (such as the values for **`funct3`** and **`funct7`**).
 
-### **Machine Code Generation Function**
+### **1.3 Machine Code Generation Function**
 
 ```python
 def generate_machine_code():
@@ -94,7 +94,7 @@ def generate_machine_code():
 
 This function randomly selects an instruction type from the opcodes and invokes the corresponding creation function to generate the instruction. It generates 1000 random instructions.
 
-### **Byte String Conversion Function**
+### **1.4 Byte String Conversion Function**
 
 ```python
 def convert_to_byte_string(instructions):
@@ -108,11 +108,11 @@ This function converts the generated instructions (in integer form) into byte st
 
 Overall, this script is for creating a binary file containing 1000 random RISC-V instructions, which is used to test core of our RISC-V processor. Since these instructions are randomly generated, they might not form a meaningful program but can be useful for basic functionality testing.
 
-## RSIC-V Processor Emulator Based on Unicorn Engine
+## 2. RSIC-V Processor Emulator Based on Unicorn Engine
 
 This script is designed to simulate RISC-V architecture code using the Unicorn engine, a CPU emulator, and Capstone, a disassembly framework. 
 
-### **Loading Machine Code**
+### **2.1 Loading Machine Code**
 
 ```python
 from unicorn import *
@@ -126,7 +126,7 @@ with open("machine_code.bin", "rb") as file:
 
 Reads a binary file **`machine_code.bin`**, which presumably contains RISC-V machine code, into **`RV32_MACHINE_CODE`**.
 
-### **Set Up Memory and Emulator**:
+### **2.2 Set Up Memory and Emulator**:
 
 ```python
 ADDRESS = 0x10000000  # Address in memory
@@ -146,7 +146,7 @@ mu.mem_write(ADDRESS, RV32_MACHINE_CODE)
 - Maps a memory region for the emulator, starting at **`ADDRESS`** and with a size of **`0x20000000`** bytes. Size here can be modified by users for specific requirement.
 - Writes the previously read machine code (**`RV32_MACHINE_CODE`**) into the simulated memory at **`ADDRESS`**.
 
-### **Initialize Program Counter and Registers**
+### **2.3 Initialize Program Counter and Registers**
 
 ```python
 # Set PC (Program Counter)
@@ -159,7 +159,7 @@ for reg_id in range(UC_RISCV_REG_X0, UC_RISCV_REG_X31 + 1):
 - Sets the program counter (PC) to the start of the memory region (**`ADDRESS`**).
 - Initializes all RISC-V general-purpose registers (**`X0`** to **`X31`**) with random values.
 
-### **Read and Print Register Status and Memory Status**
+### **2.4 Read and Print Register Status and Memory Status**
 
 ```python
 # Read and print register status
@@ -177,7 +177,7 @@ print("Memory content at 0x10000000:", memory_content)
 
 • Reads a block of memory (of size **`total_length`**, which is set to 400 bytes and you can set other value to meet your reqirement) starting from **`ADDRESS`** and prints the content, showing what's in the memory after emulation.
 
-### **Disassemble and Print Executed Instructions**
+### **2.5 Disassemble and Print Executed Instructions**
 
 ```python
 md = Cs(CS_ARCH_RISCV, CS_MODE_RISCV32)
@@ -187,7 +187,7 @@ for i in md.disasm(memory_content, 0x1000):
 
 Uses Capstone to disassemble the memory content (starting from an offset of **`0x1000`**) and prints out the disassembled instructions. This shows the human read representation of the executed machine code.
 
-## To Start with Unicorn Engine You May Try:
+## 3. To Start with Unicorn Engine You May Try:
 
 ```python
 from __future__ import print_function
