@@ -219,6 +219,14 @@ Introduction of tools
 
   <img src="README.assets/tang_nano_20k_3920_bot.png" alt="img" style="zoom:33%;" />
 
+
+## Project Final Report
+
+- IC Design team final report from ELEC 594 Capstone Project in Fall 2023 at Rice University.
+
+  https://github.com/Rice-MECE-Capstone-Projects/SwitchMCU/blob/main/doc/ELEC594_Capstone_project_report_RISC_V_RV32I_IC_.pdf
+
+
 ## Reference
 
 - riscv-operating-system-mooc
