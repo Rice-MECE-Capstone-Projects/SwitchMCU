@@ -1,7 +1,7 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vahb2apb_swc_tb__Syms.h"
+#include "Vahb2apb_swc_tb__pch.h"
 #include "Vahb2apb_swc_tb.h"
 #include "Vahb2apb_swc_tb___024root.h"
 

@@ -70,6 +70,12 @@ class alignas(VL_CACHE_LINE_BYTES) Vahb2apb_swc_tb VL_NOT_FINAL : public Verilat
     const char* hierName() const override final;
     const char* modelName() const override final;
     unsigned threads() const override final;
+    /// Prepare for cloning the model at the process level (e.g. fork in Linux)
+    /// Release necessary resources. Called before cloning.
+    void prepareClone() const;
+    /// Re-init after cloning the model at the process level (e.g. fork in Linux)
+    /// Re-allocate necessary resources. Called after cloning.
+    void atClone() const;
     std::unique_ptr<VerilatedTraceConfig> traceConfig() const override final;
 };
 
