@@ -2,9 +2,7 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vahb2apb_swc_tb.h for the primary calling header
 
-#include "verilated.h"
-
-#include "Vahb2apb_swc_tb__Syms.h"
+#include "Vahb2apb_swc_tb__pch.h"
 #include "Vahb2apb_swc_tb__Syms.h"
 #include "Vahb2apb_swc_tb___024root.h"
 

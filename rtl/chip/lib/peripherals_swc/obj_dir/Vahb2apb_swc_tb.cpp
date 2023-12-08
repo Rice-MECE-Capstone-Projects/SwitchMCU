@@ -1,8 +1,7 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Model implementation (design independent parts)
 
-#include "Vahb2apb_swc_tb.h"
-#include "Vahb2apb_swc_tb__Syms.h"
+#include "Vahb2apb_swc_tb__pch.h"
 #include "verilated_vcd_c.h"
 
 //============================================================
@@ -55,13 +54,9 @@ void Vahb2apb_swc_tb::eval_step() {
         Vahb2apb_swc_tb___024root___eval_initial(&(vlSymsp->TOP));
         Vahb2apb_swc_tb___024root___eval_settle(&(vlSymsp->TOP));
     }
-    // MTask 0 start
-    VL_DEBUG_IF(VL_DBG_MSGF("MTask0 starting\n"););
-    Verilated::mtaskId(0);
     VL_DEBUG_IF(VL_DBG_MSGF("+ Eval\n"););
     Vahb2apb_swc_tb___024root___eval(&(vlSymsp->TOP));
     // Evaluate cleanup
-    Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
     Verilated::endOfEval(vlSymsp->__Vm_evalMsgQp);
 }
 
@@ -101,6 +96,10 @@ VL_ATTR_COLD void Vahb2apb_swc_tb::final() {
 const char* Vahb2apb_swc_tb::hierName() const { return vlSymsp->name(); }
 const char* Vahb2apb_swc_tb::modelName() const { return "Vahb2apb_swc_tb"; }
 unsigned Vahb2apb_swc_tb::threads() const { return 1; }
+void Vahb2apb_swc_tb::prepareClone() const { contextp()->prepareClone(); }
+void Vahb2apb_swc_tb::atClone() const {
+    contextp()->threadPoolpOnClone();
+}
 std::unique_ptr<VerilatedTraceConfig> Vahb2apb_swc_tb::traceConfig() const {
     return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
 };
@@ -119,11 +118,9 @@ VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32
             "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
     }
     vlSymsp->__Vm_baseCode = code;
-    tracep->scopeEscape(' ');
-    tracep->pushNamePrefix(std::string{vlSymsp->name()} + ' ');
+    tracep->pushPrefix(std::string{vlSymsp->name()}, VerilatedTracePrefixType::SCOPE_MODULE);
     Vahb2apb_swc_tb___024root__trace_init_top(vlSelf, tracep);
-    tracep->popNamePrefix();
-    tracep->scopeEscape('.');
+    tracep->popPrefix();
 }
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_register(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd* tracep);

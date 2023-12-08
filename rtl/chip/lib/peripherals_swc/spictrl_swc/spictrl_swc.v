@@ -19,7 +19,6 @@ localparam SPI_SR_ADDR   = 'h0010_0004;
 localparam SPI_WDR_ADDR  = 'h0010_0008;
 localparam SPI_RDR_ADDR  = 'h0010_000C;
 // APB Bus Signals
-localparam PD_NUM = 3;   // Peripherals devices number
 input                           pclk        ;
 input                           prstn       ;
 input           [31:0]          paddr       ;
@@ -27,16 +26,24 @@ input                           psel        ;
 input                           penable     ;
 input                           pwrite      ;
 input           [31:0]          pwdata      ;
-output reg                      pready      ;
-output reg      [31:0]          prdata      ;
-output reg                      pslverr     ;
+output                          pready      ;
+output          [31:0]          prdata      ;
+output                          pslverr     ;
 output reg                      sck         ;
 output reg                      mosi        ;
 input                           miso        ;
-
+reg                             pready_buff ;
+reg             [31:0]          prdata_buff ;
+reg                             pslverr_buff;
+// Registers
 reg             [31:0]          SPI_CR      ;
 reg             [31:0]          SPI_SR      ;
 reg             [31:0]          SPI_RDR     ;
+
+// Buffer the outputs
+assign pready  = psel ? pready_buff  : 'z;
+assign prdata  = psel ? prdata_buff  : 'z;
+assign pslverr = psel ? pslverr_buff : 'z;
 
 // State machine
 localparam APB_TRANS_IDLE       =   0   ,
@@ -67,7 +74,11 @@ always @(*) begin
         end
     end
     APB_TRANS_READY: begin
-        apb_nextstate = APB_TRANS_IDLE;
+        if(penable) begin
+            apb_nextstate = APB_TRANS_IDLE;
+        end else begin
+            apb_nextstate = APB_TRANS_READY;
+        end
     end
     APB_TRANS_READ: begin
         apb_nextstate = APB_TRANS_DELAY;
@@ -84,29 +95,29 @@ wire addr_error;
 // addr_error
 assign addr_error = psel && !(paddr == SPI_CR_ADDR || paddr == SPI_SR_ADDR || paddr == SPI_WDR_ADDR || paddr == SPI_RDR_ADDR);
 
-// pslverr
+// pslverr_buff
 always @(posedge pclk) begin
     if(!prstn) begin
-        pslverr <= 0;
+        pslverr_buff <= 0;
     end else if(apb_nextstate == APB_TRANS_READY) begin
         if(addr_error) begin
-            pslverr <= 1;
+            pslverr_buff <= 1;
         end else begin
-            pslverr <= 0;
+            pslverr_buff <= 0;
         end
     end else begin
-        pslverr <= 0;
+        pslverr_buff <= 0;
     end
 end
 
-// pready
+// pready_buff
 always @(posedge pclk) begin
     if(!prstn) begin
-        pready <= 0;
+        pready_buff <= 0;
     end else if(apb_nextstate == APB_TRANS_READY) begin
-        pready <= 1;
+        pready_buff <= 1;
     end else begin
-        pready <= 0;
+        pready_buff <= 0;
     end
 end
 
@@ -114,7 +125,7 @@ end
 always @(posedge pclk) begin
     if(!prstn) begin
         SPI_CR <= 'h0000_0000;
-    end else if(apb_state == APB_TRANS_READY && pwrite && paddr == SPI_CR_ADDR) begin
+    end else if(psel && penable && pwrite && paddr == SPI_CR_ADDR) begin
         SPI_CR <= pwdata;
     end else begin
         SPI_CR <= SPI_CR;
@@ -132,20 +143,20 @@ always @(posedge pclk) begin
     end
 end
 
-// prdata
+// prdata_buff
 always @(posedge pclk) begin
     if(!prstn) begin
-        prdata <= 0;
+        prdata_buff <= 0;
     end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_CR_ADDR) begin
-        prdata <= SPI_CR;
+        prdata_buff <= SPI_CR;
     end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_SR_ADDR) begin
-        prdata <= SPI_SR;
+        prdata_buff <= SPI_SR;
     end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_WDR_ADDR) begin
-        prdata <= 0;
+        prdata_buff <= 0;
     end else if(apb_nextstate == APB_TRANS_READY && !pwrite && paddr == SPI_RDR_ADDR) begin
-        prdata <= {16'b0, rdr_rdata};
+        prdata_buff <= {16'b0, rdr_rdata};
     end else begin
-        prdata <= 0;
+        prdata_buff <= 0;
     end
 end
 
@@ -205,9 +216,9 @@ wire                            SPI_CR_CPHA     ;
 wire                            SPI_CR_DFF      ;
 wire                            SPI_CR_LSBFIRST ;
 wire                            SPI_CR_SPE      ;
-reg     [COUNTER_WIDTH-1:0]     cnt             ;
 reg     [FIFO_WIDTH-1:0]        spiwdata        ;
-wire    [COUNTER_WIDTH-1:0]     maxcnt          ;
+reg     [COUNTER_WIDTH-1:0]     cnt             ;
+wire    [COUNTER_WIDTH-1:0]     max_cnt         ;
 
 // SPI_CR_BR
 assign SPI_CR_BR = SPI_CR[5:3];
@@ -221,8 +232,8 @@ assign SPI_CR_DFF = SPI_CR[11];
 assign SPI_CR_LSBFIRST = SPI_CR[7];
 // SPI_CR_SPE
 assign SPI_CR_SPE = SPI_CR[6];
-// maxcnt
-assign maxcnt = ((16 << SPI_CR_BR) << SPI_CR_DFF) - 1;
+// max_cnt
+assign max_cnt = ((16 << SPI_CR_BR) << SPI_CR_DFF) - 1;
 
 // State machine
 localparam SPI_TRANS_IDLE     =   0   ,
@@ -244,7 +255,7 @@ always @(posedge pclk) begin
 end
 
 always @(*) begin
-  case(spi_state)
+    case(spi_state)
     SPI_TRANS_IDLE: begin
         if(!wdr_empty && SPI_CR_SPE) begin
             spi_nextstate = SPI_TRANS_READ;  
@@ -262,7 +273,7 @@ always @(*) begin
         spi_nextstate = SPI_TRANS_COUNT;    
     end
     SPI_TRANS_COUNT: begin
-        if(cnt == maxcnt) begin
+        if(cnt == max_cnt) begin
             spi_nextstate = SPI_TRANS_WRITE;
         end else begin
             spi_nextstate = SPI_TRANS_COUNT;
@@ -277,7 +288,7 @@ always @(*) begin
     end
     default:
         spi_nextstate = SPI_TRANS_IDLE;
-  endcase
+    endcase
 end
 
 // cnt
@@ -285,7 +296,7 @@ always @(posedge pclk) begin
     if(!prstn) begin
         cnt <= 0;
     end else if(spi_nextstate == SPI_TRANS_COUNT) begin
-        if(cnt == maxcnt) begin
+        if(cnt == max_cnt) begin
             cnt <= cnt;
         end else begin
             cnt <= cnt + 1;
@@ -392,21 +403,21 @@ syncfifo_swc #(
     .empty          (rdr_empty      )
 );
 
-reg                                 sck_source_r    ;
+reg                                 sck_source_dly    ;
 
-// sck_source_r
+// sck_source_dly
 always @(posedge pclk) begin
     if (!prstn) begin
-        sck_source_r <= 0;
+        sck_source_dly <= 0;
     end else begin
-        sck_source_r <= sck_source;
+        sck_source_dly <= sck_source;
     end
 end
 
 wire shift_trig;
 
 // rdr_wen_source
-assign shift_trig =  (!sck_source_r && sck_source);
+assign shift_trig =  (!sck_source_dly && sck_source);
 
 reg         [15:0]                  spirdata        ;
 
@@ -415,7 +426,7 @@ always @(posedge pclk) begin
     if (!prstn) begin
         spirdata <= 0;
     end else if(shift_trig) begin
-        spirdata <= {spirdata[14:0], miso};
+        spirdata <= SPI_CR_LSBFIRST ? {miso, spirdata[15:1]} : {spirdata[14:0], miso};
     end else if(spi_nextstate == SPI_TRANS_COUNT || spi_nextstate == SPI_TRANS_WRITE) begin
         spirdata <= spirdata;
     end else begin
@@ -436,17 +447,6 @@ end
 
 // rdr_wdata
 assign rdr_wdata = spirdata;
-
-// rdr_ren
-always @(posedge pclk) begin
-    if (!prstn) begin
-        rdr_ren <= 0;
-    end else if(!rdr_empty) begin
-        rdr_ren <= 1;
-    end else begin
-        rdr_ren <= 0;
-    end
-end
 
 // SPI_SR
 always @(posedge pclk) begin

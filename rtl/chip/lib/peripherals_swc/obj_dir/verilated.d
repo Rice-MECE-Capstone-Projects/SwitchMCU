@@ -8,5 +8,4 @@ verilated.o: /usr/local/share/verilator/include/verilated.cpp \
  /usr/local/share/verilator/include/verilated_syms.h \
  /usr/local/share/verilator/include/verilated_sym_props.h \
  /usr/local/share/verilator/include/verilated_threads.h \
- /usr/local/share/verilator/include/verilated_trace.h \
- /usr/local/share/verilator/include/verilated_trace_defs.h
+ /usr/local/share/verilator/include/verilated_trace.h
