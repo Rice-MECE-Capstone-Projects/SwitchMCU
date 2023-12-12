@@ -30,7 +30,7 @@ For efficient SRAM communication, our SwitchMCU consists of two components:
 
  1. **AHB Master -** This component is integrated within the Core and is responsible for initiating and managing the high-speed data transfers and communications on the Advanced High-performance Bus (AHB) from the core components. Its primary function is to act as the central communicator with other components in the system. 
  2. **AHB Slave -** This is housed within the back_up_plan version of the SRAM. The AHB Slave acts as a responder to the requests made by the AHB Master. It facilitates the reading from and writing to the SRAM, managing the data transfer processes to ensure accurate and efficient access to data stored within SRAM.
- 3. 
+ 
 The overall process design is illustrated in the diagram below. The relevant files and configurations for this setup are located in the `SRAM_SWC` folder. This folder contains all the necessary code and documentation detailing how the SRAM is interfaced and managed via the AMBA bus system
 
  
