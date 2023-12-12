@@ -27,11 +27,11 @@ Over the last decade, the computing industry has steadily moved from CISC to RIS
 
   
 
-- Harvard architecture
+- Harvard architecture.
 
   
 
-- Support 5-stage pipeline.
+- Supports 5-stage pipeline.
 
   
 
