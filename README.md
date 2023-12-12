@@ -467,7 +467,8 @@ make
 ```shell
 git  clone  https://github.com/unicorn-engine/unicorn.git
 sudo  apt  install  cmake  pkg-config
-mkdir  build; cd  build
+mkdir  build;
+cd  build
 cmake  ..  -DCMAKE_BUILD_TYPE=Release
 make
 ```
