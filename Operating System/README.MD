@@ -30,6 +30,7 @@ Below are the original links and README excerpts from two GitHub projects, in se
 
 =============================================================================
 https://github.com/plctlab/riscv-operating-system-mooc
+
 **Step by step, learn to develop an operating system on RISC-V**
 =============================================================================
 
@@ -98,6 +99,7 @@ The design of this course refers to the following network resources, thank you :
 
 =============================================================================
 https://github.com/riscv/riscv-gnu-toolchain
+
 RISC-V GNU Compiler Toolchain
 =============================================================================
 
