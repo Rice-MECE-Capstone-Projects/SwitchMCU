@@ -50,14 +50,14 @@ In fact, control unit is achieved by a Finite State Machine.
 1.CONFIG_0~2: After pressing the reset button/powering on, initialize the configuration of the GPIO peripherals.
 
 Among them, CONFIG_0:
-Configure GPIO pins 0~3 in input mode and connect the Key button of the FPGA development board for observation
-Configure the 4~7 pins of the GPIO to output mode and connect the LED lights of the FPGA development board for driver control.
+Configure GPIO pins 0 to 3 in input mode and connect the Key button of the FPGA development board for observation
+Configure the 4 to 7 pins of the GPIO to output mode and connect the LED lights of the FPGA development board for driver control.
 
 CONFIG_1:
 Set the output levels of GPIO pins 4 to 7 to high level 1 (the LEDs on this development board are common anodes, high level pin = LED light goes out)
 
 CONFIG_2:
-Enable output on GPIO pins 4~7
+Enable output on GPIO pins 4 to 7
 
 2.READ_DATA_RO:
 Read the DATA_RO register of GPIO and learn the Key status according to the value of register [3:0].
@@ -65,12 +65,12 @@ This state is the core state of FSM,
 After configuring the DIRM, OEN, and DATA registers of GPIO,
 We will start to read DATA_RO repeatedly, that is, observe the status of KEY,
 Then get the corresponding LED_mode according to the value of KEY,
-Then it will jump from this state to WRITE_DATA_0~3, configure the DATA register, and control the LED light to light up or turn off.
+Then it will jump from this state to WRITE_DATA_0 to 3, configure the DATA register, and control the LED light to light up or turn off.
 
-3.WRITE_DATA_0~1:
+3.WRITE_DATA_0 to 1:
 Configure different running water lamp working modes. The mode is determined by the KEY status.
 Press KEY1 to enter working mode 0, press KEY2 to enter working mode 1
-In the initial static state, working mode 0 can only be entered by pressing KEY0~1 at the same time.
+In the initial static state, working mode 0 can only be entered by pressing KEY0 to 1 at the same time.
 At this time, pressing a single KEY will not cause any reaction.
 
 As the FSM status changes, the CU module will issue different read and write commands to the AHB bus to realize the register configuration of the GPIO module.
