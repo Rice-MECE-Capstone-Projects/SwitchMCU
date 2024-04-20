@@ -1,0 +1,266 @@
+m255
+K4
+z2
+Z0 !s12c _opt
+Z1 !s99 nomlopt
+R0
+R1
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z2 d/storage-home/c/cl201/risc/Questa
+T_opt
+!s110 1712200175
+VjU55F`3GiLOee1SW2Q=`]1
+04 19 4 work processor_testbench fast 0
+=1-d09466164d60-660e19ee-c1887-89990
+R1
+!s12b OEM100
+!s124 OEM100
+o-quiet -auto_acc_if_foreign -work work -debugdb +acc
+Z3 tCvgOpt 0
+n@_opt
+OL;O;2023.2;77
+vbranchPC
+Z4 2tb_processor.v|branchPC.v|dataMem.v|decode.v|exec.v|insMem.v|pc.v|pipeproc.v|regfile.v|ins_fsm.v
+Z5 !s110 1712200164
+!i10b 1
+!s100 `OIjHzOf_=99d`^[PXYjn0
+IzCC0DB7zZBnWPec5[Ydb@0
+R2
+w1711648504
+8branchPC.v
+FbranchPC.v
+!i122 9
+L0 3 13
+Z6 VDg1SIo80bB@j0V0VzS_@n1
+Z7 OL;L;2023.2;77
+r1
+!s85 0
+31
+Z8 !s108 1712200164.000000
+Z9 !s107 ins_fsm.v|regfile.v|pipeproc.v|pc.v|insMem.v|exec.v|decode.v|dataMem.v|branchPC.v|tb_processor.v|
+Z10 !s90 tb_processor.v|branchPC.v|dataMem.v|decode.v|exec.v|insMem.v|pc.v|pipeproc.v|regfile.v|ins_fsm.v|
+!i113 0
+Z11 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R3
+nbranch@p@c
+vdataMem
+R4
+R5
+!i10b 1
+!s100 aAHBdRcc]Ln[1D7]C?Wb@0
+I=OmkY[m>c0L?PVMb^_U`j3
+R2
+Z12 w1711647836
+8dataMem.v
+FdataMem.v
+!i122 9
+L0 3 39
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+ndata@mem
+vdecode
+R4
+R5
+!i10b 1
+!s100 FOc[7D<gz1G:F:g[SgG9S3
+ISaTnMolcNVaDMfVdd]jVW1
+R2
+R12
+8decode.v
+Fdecode.v
+!i122 9
+L0 12 35
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+vexecute
+R4
+R5
+!i10b 1
+!s100 _C<[VRJ=[?UJX[d_PT0Q13
+I0UhjRidE4o@>NedHbWNNB0
+R2
+w1711647837
+Z13 8exec.v
+Z14 Fexec.v
+!i122 9
+L0 4 21
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+vins_fsm
+R4
+R5
+!i10b 1
+!s100 R`9;[ED9ZmC47b@h9=X^a3
+IzFBNJ[<:Vh_?fLfKcl7Ko0
+R2
+w1712198942
+8ins_fsm.v
+Fins_fsm.v
+Z15 8regfile.v
+Z16 Fregfile.v
+!i122 9
+L0 5 132
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+vinsMem
+R4
+R5
+!i10b 1
+!s100 o20iBh8zo]QiQd6N_h_]E3
+IfBioNPzKzIgd3Hg2RmJE90
+R2
+w1711648898
+8insMem.v
+FinsMem.v
+R13
+R14
+!i122 9
+L0 2 110
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+nins@mem
+vPC
+R4
+R5
+!i10b 1
+!s100 nG=6Qz69S[E4bC`h3mI4i3
+IaH@BM[@WIzzammlY6b3gC1
+R2
+w1712198274
+8pc.v
+Fpc.v
+!i122 9
+L0 3 28
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+n@p@c
+vprocessor
+R4
+R5
+!i10b 1
+!s100 YQJf6AoYiG;9U9??Q5NbJ0
+I<9T_Pn51TR3PT5KO[4QM@2
+R2
+w1712199336
+8pipeproc.v
+Fpipeproc.v
+!i122 9
+L0 23 166
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+vprocessor_testbench
+R4
+R5
+!i10b 1
+!s100 4lBZhl<7U_]lF6MUDSUUZ3
+IY0:C<nOMHmgQi1A2^dX><1
+R2
+w1712200156
+8tb_processor.v
+Ftb_processor.v
+!i122 9
+L0 3 213
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+vregFile
+R4
+R5
+!i10b 1
+!s100 ^DHFc@SZVO<Bkd1c9eGLN2
+IKMUf3ImLX8OAo[SeBMVG60
+R2
+w1711647838
+R15
+R16
+!i122 9
+L0 3 35
+R6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R3
+nreg@file
