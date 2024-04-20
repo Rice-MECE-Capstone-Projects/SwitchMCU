@@ -6,11 +6,16 @@ Over the last decade, the computing industry has steadily moved from CISC to RIS
 - Harvard architecture.
 - Supports 5-stage pipeline.
 - ITCM/DTCM memory for instruction/data storage.
-- AMBA AHB bus used for CPU and memory communication.
-- AMBA APB bus used for peripherals.
-- Support UART, SPI peripherals.
+- AMBA AHB bus used for CPU, memory communication and Core control unit.
+- AMBA APB and AHB2APB bus used for peripherals.
+- Support UART, SPI, GPIO peripherals.
+- Sychronous and Asychronous FIFO for data transmission.
 - Temporarily no cache and MMU.
 ## Repository Layout
+
+#### `SwitchMCU/AMBA/`
+Contains AMBA interface design for GPIO control system inplemented in 2024 spring. Overall design overflow and code are all included.
+
 #### `SwitchMCU/code/`
 Contains basic ISA tests of the RV32I core, enabling ROM file generation and simulation of the core through minimal modifications/linking scripts.
 
@@ -63,6 +68,8 @@ Digital assests such as figures and diagrams used in the README.md file.
 
   - GTKWave
 
+  - ModelSim - Intel FPGA Starter Edition 2021.1 (Quartus Prime Pro 21.1)
+
 - Verification Engineers
 
   - Verilator
@@ -76,6 +83,8 @@ Digital assests such as figures and diagrams used in the README.md file.
   - Capstone
 
   - GNU Multiple Precision Arithmetic Library (GMP)
+
+  - Vivado
 
 - System Engineers
     
@@ -165,7 +174,23 @@ GTKWave is an open-source waveform viewer that can display VCD (Value Change Dum
 
   
 
-  
+  - ModelSim - Intel FPGA Starter Edition 2021.1 (Quartus Prime Pro 21.1)
+
+
+
+https://www.intel.com/content/www/us/en/software-kit/750563/modelsim-intel-fpgas-pro-edition-software-version-21-1.html
+
+
+
+ModelSim-Intel® FPGA is a hardware description language (HDL) simulation tool provided by Intel (formerly Altera) for FPGA (Field-Programmable Gate Array) design and verification. ModelSim-Intel FPGA Edition is specifically tailored for simulating Intel FPGA designs written in HDL languages such as VHDL (VHSIC Hardware Description Language) and Verilog.
+
+
+
+
+
+
+
+
 
   
 
@@ -285,7 +310,14 @@ GMP, standing for the GNU Multiple Precision Arithmetic Library, is a free and o
 
   
 
-  
+- Vivado
+
+https://www.xilinx.com/support/download.html
+
+
+Vivado is a comprehensive design environment provided by Xilinx for FPGA (Field-Programmable Gate Array) design, analysis, and implementation. It is a powerful tool used by FPGA designers to create and deploy custom logic designs onto Xilinx FPGAs.
+
+Vivado supports various design entry methods including RTL (Register Transfer Level) synthesis using HDLs (Hardware Description Languages) such as Verilog, VHDL, and SystemVerilog. It also includes high-level synthesis (HLS) for converting C, C++, and SystemC code into RTL, enabling designers to accelerate the development process.
 
   
 
@@ -450,7 +482,15 @@ gtkwave  --version
 ```
   
 
-4.  #### Install RISC-V GNU Compiler Tool chain
+4.  #### Install ModelSim
+
+``` shell
+sudo cp  patch_2010 sfk /opt/Modelsim
+sudo chmod 755 patch_calibre2011_linux sfk 
+sudo ./patch_calibre2011_linux  
+```
+
+5.  #### Install RISC-V GNU Compiler Tool chain
   
 
 ```shell
@@ -459,9 +499,13 @@ sudo  apt-get  install  autoconf  automake  autotools-dev  curl  python3  python
 ./configure  --prefix=/opt/riscv  --enable-multilib
 make
 ```
-  
+6.  #### Install Vivado
+```shell
+sudo chmod +x Xilinx_Unified_2022.2_1014_8888_Lin64.bin
+sudo sh ./Xilinx_Unified_2022.2_1014_8888_Lin64.bin
+```
 
-5.  #### Install Unicorn Engine
+7.  #### Install Unicorn Engine
   
 
 ```shell
@@ -474,7 +518,7 @@ make
 ```
   
 
-6.  #### Install Capstone
+8.  #### Install Capstone
   
 
 ```shell
@@ -483,7 +527,7 @@ sudo  ./make.sh  install
 ```
   
 
-7.  #### Install GMP
+9.  #### Install GMP
   
 
 ```shell
@@ -494,7 +538,7 @@ make  install
 ```
   
 
-8.  #### Install QEMU
+10.  #### Install QEMU
   
 
 ```shell
