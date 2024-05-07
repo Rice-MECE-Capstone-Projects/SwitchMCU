@@ -1,12 +1,12 @@
 Edge Detector Module Documentation
 
-Overview
+Overview:
 This project involves the design of a Verilog module named edge_detect, which detects rising and falling edges of a digital signal. The module is essential for digital signal processing applications where edge detection triggers specific actions or marks significant events.
 
-Design Philosophy
+Design Philosophy:
 The edge detection module is designed to be simple yet robust, capable of functioning reliably in various digital environments. The design focuses on sensitivity to both rising and falling edges, allowing for precise edge detection that can be used in timing-critical applications.
 
-Module Description
+Module Description:
 edge_detect
 Inputs:
 clk: Clock input for synchronizing the operations.
