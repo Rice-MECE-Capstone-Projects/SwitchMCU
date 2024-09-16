@@ -1,7 +1,7 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vregs_swc_tb__Syms.h"
+#include "Vregs_swc_tb__pch.h"
 #include "Vregs_swc_tb.h"
 #include "Vregs_swc_tb___024root.h"
 
@@ -42,6 +42,8 @@ Vregs_swc_tb__Syms::Vregs_swc_tb__Syms(VerilatedContext* contextp, const char* n
     // Setup module instances
     , TOP{this, namep}
 {
+        // Check resources
+        Verilated::stackCheck(27);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
     _vm_contextp__->timeprecision(-12);

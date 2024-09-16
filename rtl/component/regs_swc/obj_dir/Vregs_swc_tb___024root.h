@@ -26,7 +26,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vregs_swc_tb___024root final : public Verilat
     IData/*31:0*/ regs_swc_tb__DOT__wdata;
     IData/*31:0*/ regs_swc_tb__DOT__rdata;
     VlWide<10>/*319:0*/ regs_swc_tb__DOT__regs_swc_inst__DOT__regs;
-    IData/*31:0*/ regs_swc_tb__DOT__regs_swc_inst__DOT____Vlvbound_hb0973023__0;
+    IData/*31:0*/ regs_swc_tb__DOT__regs_swc_inst__DOT____Vlvbound_hea5d4e64__0;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;
     VlDelayScheduler __VdlySched;

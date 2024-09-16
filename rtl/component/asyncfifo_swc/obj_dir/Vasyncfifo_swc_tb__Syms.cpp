@@ -1,7 +1,7 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vasyncfifo_swc_tb__Syms.h"
+#include "Vasyncfifo_swc_tb__pch.h"
 #include "Vasyncfifo_swc_tb.h"
 #include "Vasyncfifo_swc_tb___024root.h"
 
@@ -42,6 +42,8 @@ Vasyncfifo_swc_tb__Syms::Vasyncfifo_swc_tb__Syms(VerilatedContext* contextp, con
     // Setup module instances
     , TOP{this, namep}
 {
+        // Check resources
+        Verilated::stackCheck(1078);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
     _vm_contextp__->timeprecision(-12);

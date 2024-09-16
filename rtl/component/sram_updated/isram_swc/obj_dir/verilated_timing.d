@@ -1,8 +1,8 @@
 verilated_timing.o: \
-  /opt/local/share/verilator/include/verilated_timing.cpp \
-  /opt/local/share/verilator/include/verilated_timing.h \
-  /opt/local/share/verilator/include/verilated.h \
-  /opt/local/share/verilator/include/verilatedos.h \
-  /opt/local/share/verilator/include/verilated_config.h \
-  /opt/local/share/verilator/include/verilated_types.h \
-  /opt/local/share/verilator/include/verilated_funcs.h
+ /usr/local/share/verilator/include/verilated_timing.cpp \
+ /usr/local/share/verilator/include/verilated_timing.h \
+ /usr/local/share/verilator/include/verilated.h \
+ /usr/local/share/verilator/include/verilatedos.h \
+ /usr/local/share/verilator/include/verilated_config.h \
+ /usr/local/share/verilator/include/verilated_types.h \
+ /usr/local/share/verilator/include/verilated_funcs.h

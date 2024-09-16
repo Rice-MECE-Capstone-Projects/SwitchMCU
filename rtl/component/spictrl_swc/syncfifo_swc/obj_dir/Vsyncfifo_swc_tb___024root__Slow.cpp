@@ -2,9 +2,7 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vsyncfifo_swc_tb.h for the primary calling header
 
-#include "verilated.h"
-
-#include "Vsyncfifo_swc_tb__Syms.h"
+#include "Vsyncfifo_swc_tb__pch.h"
 #include "Vsyncfifo_swc_tb__Syms.h"
 #include "Vsyncfifo_swc_tb___024root.h"
 
@@ -20,7 +18,7 @@ Vsyncfifo_swc_tb___024root::Vsyncfifo_swc_tb___024root(Vsyncfifo_swc_tb__Syms* s
 }
 
 void Vsyncfifo_swc_tb___024root::__Vconfigure(bool first) {
-    if (false && first) {}  // Prevent unused
+    (void)first;  // Prevent unused variable warning
 }
 
 Vsyncfifo_swc_tb___024root::~Vsyncfifo_swc_tb___024root() {

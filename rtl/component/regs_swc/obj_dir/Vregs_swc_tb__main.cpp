@@ -29,7 +29,11 @@ int main(int argc, char** argv, char**) {
         VL_DEBUG_IF(VL_PRINTF("+ Exiting without $finish; no events left\n"););
     }
 
-    // Final model cleanup
+    // Execute 'final' processes
     topp->final();
+
+    // Print statistical summary report
+    contextp->statsPrintSummary();
+
     return 0;
 }
