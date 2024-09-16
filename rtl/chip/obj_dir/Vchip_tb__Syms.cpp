@@ -1,7 +1,7 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vchip_tb__Syms.h"
+#include "Vchip_tb__pch.h"
 #include "Vchip_tb.h"
 #include "Vchip_tb___024root.h"
 
@@ -42,6 +42,8 @@ Vchip_tb__Syms::Vchip_tb__Syms(VerilatedContext* contextp, const char* namep, Vc
     // Setup module instances
     , TOP{this, namep}
 {
+        // Check resources
+        Verilated::stackCheck(182);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
     _vm_contextp__->timeprecision(-12);

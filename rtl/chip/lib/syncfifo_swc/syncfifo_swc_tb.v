@@ -4,11 +4,11 @@ module syncfifo_swc_tb;
 	reg 						      clk   ;
 
 	reg 						      wen   ;
-	reg 	      [15:0]	          wdata ;
+	reg 	      [31:0]	          wdata ;
 	wire						      full  ;
 				
 	reg 						      ren   ;
-	wire	      [15:0]	          rdata ;
+	wire	      [31:0]	          rdata ;
 	wire	 					      empty ;
 
     syncfifo_swc syncfifo_swc_inst
@@ -47,7 +47,7 @@ module syncfifo_swc_tb;
         ren = 1;
         #20000;
         ren = 0;
-        $stop; 
+        $finish; 
     end
 
     initial begin

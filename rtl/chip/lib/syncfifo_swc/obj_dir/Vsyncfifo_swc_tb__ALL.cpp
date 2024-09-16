@@ -10,3 +10,4 @@
 #include "Vsyncfifo_swc_tb___024root__DepSet_h8d92c397__0__Slow.cpp"
 #include "Vsyncfifo_swc_tb__Syms.cpp"
 #include "Vsyncfifo_swc_tb__Trace__0__Slow.cpp"
+#include "Vsyncfifo_swc_tb__TraceDecls__0__Slow.cpp"

@@ -8,7 +8,7 @@
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_static__TOP(Vahb2apb_swc_tb___024root* vlSelf);
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_static(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_static\n"); );
     // Body
@@ -16,7 +16,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_static(Vahb2apb_swc_tb___024r
 }
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_static__TOP(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_static__TOP\n"); );
     // Body
@@ -25,7 +25,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_static__TOP(Vahb2apb_swc_tb__
 }
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_final(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_final\n"); );
 }
@@ -36,7 +36,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__stl(Vahb2apb_swc_tb
 VL_ATTR_COLD bool Vahb2apb_swc_tb___024root___eval_phase__stl(Vahb2apb_swc_tb___024root* vlSelf);
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_settle(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_settle\n"); );
     // Init
@@ -51,7 +51,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_settle(Vahb2apb_swc_tb___024r
 #ifdef VL_DEBUG
             Vahb2apb_swc_tb___024root___dump_triggers__stl(vlSelf);
 #endif
-            VL_FATAL_MT("/home/nand/mcu_backup/rtl/chip/lib/peripherals_swc/ahb2apb_swc_tb.v", 2, "", "Settle region did not converge.");
+            VL_FATAL_MT("ahb2apb_swc_tb.v", 2, "", "Settle region did not converge.");
         }
         __VstlIterCount = ((IData)(1U) + __VstlIterCount);
         __VstlContinue = 0U;
@@ -64,11 +64,11 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_settle(Vahb2apb_swc_tb___024r
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__stl(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___dump_triggers__stl\n"); );
     // Body
-    if ((1U & (~ (IData)(vlSelf->__VstlTriggered.any())))) {
+    if ((1U & (~ vlSelf->__VstlTriggered.any()))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
@@ -77,12 +77,30 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__stl(Vahb2apb_swc_tb
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*1:0*/, 64> Vahb2apb_swc_tb__ConstPool__TABLE_hb0b052cf_0;
-extern const VlUnpacked<CData/*2:0*/, 128> Vahb2apb_swc_tb__ConstPool__TABLE_h9b2e284d_0;
-extern const VlUnpacked<CData/*1:0*/, 32> Vahb2apb_swc_tb__ConstPool__TABLE_he9652106_0;
+VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_tb___024root* vlSelf);
+
+VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_stl(Vahb2apb_swc_tb___024root* vlSelf) {
+    (void)vlSelf;  // Prevent unused variable warning
+    Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_stl\n"); );
+    // Body
+    if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
+        Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(vlSelf);
+        vlSelf->__Vm_traceActivity[5U] = 1U;
+        vlSelf->__Vm_traceActivity[4U] = 1U;
+        vlSelf->__Vm_traceActivity[3U] = 1U;
+        vlSelf->__Vm_traceActivity[2U] = 1U;
+        vlSelf->__Vm_traceActivity[1U] = 1U;
+        vlSelf->__Vm_traceActivity[0U] = 1U;
+    }
+}
+
+extern const VlUnpacked<CData/*1:0*/, 64> Vahb2apb_swc_tb__ConstPool__TABLE_h679089d1_0;
+extern const VlUnpacked<CData/*2:0*/, 128> Vahb2apb_swc_tb__ConstPool__TABLE_he2ce0227_0;
+extern const VlUnpacked<CData/*1:0*/, 32> Vahb2apb_swc_tb__ConstPool__TABLE_hb770ac03_0;
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___stl_sequent__TOP__0\n"); );
     // Init
@@ -93,7 +111,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_t
     CData/*4:0*/ __Vtableidx4;
     __Vtableidx4 = 0;
     // Body
-    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0 
+    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1 
         = ((2U & (vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1 
                   >> 0xbU)) | (1U & (vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1 
                                      >> 0xaU)));
@@ -178,7 +196,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_t
                                             << 2U) 
                                            | (IData)(vlSelf->ahb2apb_swc_tb__DOT__ahbm_swc_inst__DOT__state)))));
     vlSelf->ahb2apb_swc_tb__DOT__ahbm_swc_inst__DOT__nextstate 
-        = Vahb2apb_swc_tb__ConstPool__TABLE_hb0b052cf_0
+        = Vahb2apb_swc_tb__ConstPool__TABLE_h679089d1_0
         [__Vtableidx1];
     __Vtableidx3 = ((((~ (IData)(vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__done_rrr)) 
                       & (IData)(vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__done_rr)) 
@@ -186,7 +204,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_t
                                 << 5U) | (((IData)(vlSelf->ahb2apb_swc_tb__DOT__htrans) 
                                            << 3U) | (IData)(vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__ahb2apb_ahbs_swc_inst__DOT__state))));
     vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__ahb2apb_ahbs_swc_inst__DOT__nextstate 
-        = Vahb2apb_swc_tb__ConstPool__TABLE_h9b2e284d_0
+        = Vahb2apb_swc_tb__ConstPool__TABLE_he2ce0227_0
         [__Vtableidx3];
     vlSelf->ahb2apb_swc_tb__DOT__spictrl_swc_inst__DOT__max_cnt 
         = (0xfffU & ((((IData)(0x10U) << (7U & (vlSelf->ahb2apb_swc_tb__DOT__spictrl_swc_inst__DOT__SPI_CR 
@@ -252,9 +270,9 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_t
                                 << 3U) | (((IData)(vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__wreq_apbm) 
                                            << 2U) | (IData)(vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__ahb2apb_apbm_swc_inst__DOT__state))));
     vlSelf->ahb2apb_swc_tb__DOT__ahb2apb_swc_inst__DOT__ahb2apb_apbm_swc_inst__DOT__nextstate 
-        = Vahb2apb_swc_tb__ConstPool__TABLE_he9652106_0
+        = Vahb2apb_swc_tb__ConstPool__TABLE_hb770ac03_0
         [__Vtableidx4];
-    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata 
+    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata 
         = (0xffffU & ((0xffffU & ((IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata_full) 
                                   << (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__data_start))) 
                       >> ((0x1000U & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1)
@@ -313,26 +331,10 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(Vahb2apb_swc_t
                                             : 0U));
 }
 
-VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_stl(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_stl\n"); );
-    // Body
-    if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
-        Vahb2apb_swc_tb___024root___stl_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[5U] = 1U;
-        vlSelf->__Vm_traceActivity[4U] = 1U;
-        vlSelf->__Vm_traceActivity[3U] = 1U;
-        vlSelf->__Vm_traceActivity[2U] = 1U;
-        vlSelf->__Vm_traceActivity[1U] = 1U;
-        vlSelf->__Vm_traceActivity[0U] = 1U;
-    }
-}
-
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_triggers__stl(Vahb2apb_swc_tb___024root* vlSelf);
 
 VL_ATTR_COLD bool Vahb2apb_swc_tb___024root___eval_phase__stl(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_phase__stl\n"); );
     // Init
@@ -348,11 +350,11 @@ VL_ATTR_COLD bool Vahb2apb_swc_tb___024root___eval_phase__stl(Vahb2apb_swc_tb___
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__act(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___dump_triggers__act\n"); );
     // Body
-    if ((1U & (~ (IData)(vlSelf->__VactTriggered.any())))) {
+    if ((1U & (~ vlSelf->__VactTriggered.any()))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
@@ -369,11 +371,11 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__act(Vahb2apb_swc_tb
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__nba(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___dump_triggers__nba\n"); );
     // Body
-    if ((1U & (~ (IData)(vlSelf->__VnbaTriggered.any())))) {
+    if ((1U & (~ vlSelf->__VnbaTriggered.any()))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
@@ -389,7 +391,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__nba(Vahb2apb_swc_tb
 #endif  // VL_DEBUG
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___ctor_var_reset(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___ctor_var_reset\n"); );
     // Body
@@ -530,14 +532,14 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___ctor_var_reset(Vahb2apb_swc_tb___0
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uart_rx_state = VL_RAND_RESET_I(3);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uart_rx_nextstate = VL_RAND_RESET_I(3);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata_full = VL_RAND_RESET_I(16);
-    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata = VL_RAND_RESET_I(16);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__data_start = VL_RAND_RESET_I(4);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wen = VL_RAND_RESET_I(1);
+    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata = VL_RAND_RESET_I(16);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_full = VL_RAND_RESET_I(1);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_ren = VL_RAND_RESET_I(1);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_rdata = VL_RAND_RESET_I(16);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_empty = VL_RAND_RESET_I(1);
-    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0 = 0;
+    vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1 = VL_RAND_RESET_I(2);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_syncfifo_swc_inst__DOT__waddr_ptr = VL_RAND_RESET_I(5);
     vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_syncfifo_swc_inst__DOT__raddr_ptr = VL_RAND_RESET_I(5);
     for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {

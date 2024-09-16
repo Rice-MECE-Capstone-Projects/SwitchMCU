@@ -18,7 +18,7 @@ Vahb2apb_swc_tb___024root::Vahb2apb_swc_tb___024root(Vahb2apb_swc_tb__Syms* syms
 }
 
 void Vahb2apb_swc_tb___024root::__Vconfigure(bool first) {
-    if (false && first) {}  // Prevent unused
+    (void)first;  // Prevent unused variable warning
 }
 
 Vahb2apb_swc_tb___024root::~Vahb2apb_swc_tb___024root() {

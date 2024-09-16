@@ -16,4 +16,5 @@ Vahb2apb_swc_tb__ALL.o: Vahb2apb_swc_tb__ALL.cpp Vahb2apb_swc_tb.cpp \
  Vahb2apb_swc_tb__ConstPool_0.cpp Vahb2apb_swc_tb___024root__Slow.cpp \
  Vahb2apb_swc_tb___024root__DepSet_h50f898ce__0__Slow.cpp \
  Vahb2apb_swc_tb___024root__DepSet_h19820512__0__Slow.cpp \
- Vahb2apb_swc_tb__Syms.cpp Vahb2apb_swc_tb__Trace__0__Slow.cpp
+ Vahb2apb_swc_tb__Syms.cpp Vahb2apb_swc_tb__Trace__0__Slow.cpp \
+ Vahb2apb_swc_tb__TraceDecls__0__Slow.cpp
