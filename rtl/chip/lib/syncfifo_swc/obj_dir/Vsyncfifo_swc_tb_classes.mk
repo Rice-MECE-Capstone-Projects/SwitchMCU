@@ -42,6 +42,7 @@ VM_SUPPORT_FAST += \
 VM_SUPPORT_SLOW += \
 	Vsyncfifo_swc_tb__Syms \
 	Vsyncfifo_swc_tb__Trace__0__Slow \
+	Vsyncfifo_swc_tb__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

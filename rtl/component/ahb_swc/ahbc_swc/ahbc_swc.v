@@ -16,7 +16,7 @@ module ahb_top(
     output [31:0]   slave_wbuffdata,
     output          slave_rreq,
     output [31:0]   slave_rbuffaddr,
-    input  [31:0]   slave_rbuffdata,
+    input  [31:0]   slave_rbuffdata
 );
 
     // Internal AHB signals

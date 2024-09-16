@@ -17,7 +17,7 @@ void Vahb2apb_swc_tb___024root__trace_chg_0(void* voidSelf, VerilatedVcd::Buffer
 }
 
 void Vahb2apb_swc_tb___024root__trace_chg_0_sub_0(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd::Buffer* bufp) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root__trace_chg_0_sub_0\n"); );
     // Init
@@ -265,16 +265,16 @@ void Vahb2apb_swc_tb___024root__trace_chg_0_sub_0(Vahb2apb_swc_tb___024root* vlS
         bufp->chgBit(oldp+167,((1U & (~ VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata)))));
         bufp->chgBit(oldp+168,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__tx_parity_bit));
         bufp->chgSData(oldp+169,((0xffffU & VL_SHIFTL_III(16,16,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U))),16);
-        bufp->chgSData(oldp+170,(((2U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0))
+        bufp->chgSData(oldp+170,(((2U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1))
                                    ? (0xfc00U | (0x3ffU 
                                                  & VL_SHIFTL_III(10,10,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U)))
-                                   : ((3U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0))
+                                   : ((3U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1))
                                        ? (0xf800U | 
                                           (((IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__tx_parity_bit) 
                                             << 0xaU) 
                                            | (0x3ffU 
                                               & VL_SHIFTL_III(10,10,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U))))
-                                       : ((0U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0))
+                                       : ((0U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1))
                                            ? (0xfe00U 
                                               | (0x1ffU 
                                                  & VL_SHIFTL_III(9,9,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U)))
@@ -294,16 +294,16 @@ void Vahb2apb_swc_tb___024root__trace_chg_0_sub_0(Vahb2apb_swc_tb___024root* vlS
                                                           (0xffffU 
                                                            & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_BRR), 1U))),16);
         bufp->chgSData(oldp+178,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata_full),16);
-        bufp->chgSData(oldp+179,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata),16);
+        bufp->chgSData(oldp+179,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata),16);
         bufp->chgCData(oldp+180,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__data_start),4);
         bufp->chgCData(oldp+181,(((0x1000U & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1)
                                    ? 7U : 8U)),4);
         bufp->chgBit(oldp+182,((1U & ((~ (vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1 
                                           >> 0xaU)) 
                                       | ((0x200U & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1)
-                                          ? (1U & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata))
+                                          ? (1U & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata))
                                           : (~ (1U 
-                                                & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata))))))));
+                                                & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata))))))));
         bufp->chgBit(oldp+183,((1U & ((2U == (3U & 
                                               (vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR2 
                                                >> 0xcU)))

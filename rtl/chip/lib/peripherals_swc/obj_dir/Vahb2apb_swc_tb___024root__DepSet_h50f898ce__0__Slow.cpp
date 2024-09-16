@@ -7,7 +7,7 @@
 #include "Vahb2apb_swc_tb___024root.h"
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_initial__TOP(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_initial__TOP\n"); );
     // Init
@@ -27,7 +27,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root___dump_triggers__stl(Vahb2apb_swc_tb
 #endif  // VL_DEBUG
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root___eval_triggers__stl(Vahb2apb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root___eval_triggers__stl\n"); );
     // Body

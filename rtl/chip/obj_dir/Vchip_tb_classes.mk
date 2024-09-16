@@ -26,6 +26,7 @@ VM_CLASSES_FAST += \
 	Vchip_tb \
 	Vchip_tb___024root__DepSet_h1cb9fd02__0 \
 	Vchip_tb___024root__DepSet_h9aa80e4e__0 \
+	Vchip_tb__main \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
@@ -42,6 +43,7 @@ VM_SUPPORT_FAST += \
 VM_SUPPORT_SLOW += \
 	Vchip_tb__Syms \
 	Vchip_tb__Trace__0__Slow \
+	Vchip_tb__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

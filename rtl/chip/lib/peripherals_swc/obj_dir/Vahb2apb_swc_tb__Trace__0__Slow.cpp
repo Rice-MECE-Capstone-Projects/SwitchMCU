@@ -5,7 +5,7 @@
 
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_init_sub__TOP__0(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd* tracep) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root__trace_init_sub__TOP__0\n"); );
     // Init
@@ -464,7 +464,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_init_sub__TOP__0(Vahb2apb_swc
 }
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_init_top(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd* tracep) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root__trace_init_top\n"); );
     // Body
@@ -477,7 +477,7 @@ void Vahb2apb_swc_tb___024root__trace_chg_0(void* voidSelf, VerilatedVcd::Buffer
 void Vahb2apb_swc_tb___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/);
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_register(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd* tracep) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root__trace_register\n"); );
     // Body
@@ -499,7 +499,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_const_0(void* voidSelf, Veril
 }
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_const_0_sub_0(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd::Buffer* bufp) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root__trace_const_0_sub_0\n"); );
     // Init
@@ -552,7 +552,7 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_full_0(void* voidSelf, Verila
 }
 
 VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_full_0_sub_0(Vahb2apb_swc_tb___024root* vlSelf, VerilatedVcd::Buffer* bufp) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vahb2apb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vahb2apb_swc_tb___024root__trace_full_0_sub_0\n"); );
     // Init
@@ -788,15 +788,15 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_full_0_sub_0(Vahb2apb_swc_tb_
     bufp->fullBit(oldp+168,((1U & (~ VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata)))));
     bufp->fullBit(oldp+169,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__tx_parity_bit));
     bufp->fullSData(oldp+170,((0xffffU & VL_SHIFTL_III(16,16,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U))),16);
-    bufp->fullSData(oldp+171,(((2U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0))
+    bufp->fullSData(oldp+171,(((2U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1))
                                 ? (0xfc00U | (0x3ffU 
                                               & VL_SHIFTL_III(10,10,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U)))
-                                : ((3U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0))
+                                : ((3U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1))
                                     ? (0xf800U | (((IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__tx_parity_bit) 
                                                    << 0xaU) 
                                                   | (0x3ffU 
                                                      & VL_SHIFTL_III(10,10,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U))))
-                                    : ((0U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0))
+                                    : ((0U == (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1))
                                         ? (0xfe00U 
                                            | (0x1ffU 
                                               & VL_SHIFTL_III(9,9,32, (IData)(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_rdata), 1U)))
@@ -816,15 +816,15 @@ VL_ATTR_COLD void Vahb2apb_swc_tb___024root__trace_full_0_sub_0(Vahb2apb_swc_tb_
                                                        (0xffffU 
                                                         & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_BRR), 1U))),16);
     bufp->fullSData(oldp+179,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata_full),16);
-    bufp->fullSData(oldp+180,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata),16);
+    bufp->fullSData(oldp+180,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata),16);
     bufp->fullCData(oldp+181,(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__data_start),4);
     bufp->fullCData(oldp+182,(((0x1000U & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1)
                                 ? 7U : 8U)),4);
     bufp->fullBit(oldp+183,((1U & ((~ (vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1 
                                        >> 0xaU)) | 
                                    ((0x200U & vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR1)
-                                     ? (1U & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata))
-                                     : (~ (1U & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata))))))));
+                                     ? (1U & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata))
+                                     : (~ (1U & VL_REDXOR_16(vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata))))))));
     bufp->fullBit(oldp+184,((1U & ((2U == (3U & (vlSelf->ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__UART_CR2 
                                                  >> 0xcU)))
                                     ? (3U == (3U & 

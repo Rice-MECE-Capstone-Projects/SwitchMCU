@@ -4,9 +4,9 @@ clear
 V_FILES=$(find . -type f -name "*.v" | tr '\n' ' ')
 
 # Verilate the design
-verilator --binary -j 16 $V_FILES --trace --top ahbc_swc_tb
+verilator --binary -j 16 $V_FILES --trace --top ahbm_swc_tb
 
 # Run the generated executable
-./obj_dir/Vahbc_swc_tb
+./obj_dir/Vahbm_swc_tb
 
-Gtkwave *.vcd
+gtkwave *.vcd

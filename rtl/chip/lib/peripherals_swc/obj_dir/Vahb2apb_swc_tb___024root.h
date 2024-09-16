@@ -115,7 +115,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vahb2apb_swc_tb___024root final : public Veri
         CData/*0:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_full;
         CData/*0:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_ren;
         CData/*0:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_empty;
-        CData/*1:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgTmp_h61eca0c6__0;
+        CData/*1:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT____VdfgRegularize_h5899cdc5_1_1;
         CData/*4:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_syncfifo_swc_inst__DOT__waddr_ptr;
         CData/*4:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__wdr_syncfifo_swc_inst__DOT__raddr_ptr;
         CData/*4:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_syncfifo_swc_inst__DOT__waddr_ptr;
@@ -140,7 +140,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vahb2apb_swc_tb___024root final : public Veri
         SData/*15:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__tx_bit_cnt;
         SData/*15:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rx_bit_cnt;
         SData/*15:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata_full;
-        SData/*15:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__uartrdata;
+        SData/*15:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_wdata;
         SData/*15:0*/ ahb2apb_swc_tb__DOT__uart_swc_inst__DOT__rdr_rdata;
         IData/*31:0*/ ahb2apb_swc_tb__DOT__paddr;
         IData/*31:0*/ ahb2apb_swc_tb__DOT__pwdata;

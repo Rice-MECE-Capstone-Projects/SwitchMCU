@@ -11,3 +11,4 @@
 #include "Vahb2apb_swc_tb___024root__DepSet_h19820512__0__Slow.cpp"
 #include "Vahb2apb_swc_tb__Syms.cpp"
 #include "Vahb2apb_swc_tb__Trace__0__Slow.cpp"
+#include "Vahb2apb_swc_tb__TraceDecls__0__Slow.cpp"
