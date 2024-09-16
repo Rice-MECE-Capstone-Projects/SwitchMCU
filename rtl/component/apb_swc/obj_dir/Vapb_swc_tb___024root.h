@@ -30,6 +30,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vapb_swc_tb___024root final : public Verilate
     CData/*7:0*/ apb_swc_tb__DOT__cnt;
     CData/*1:0*/ apb_swc_tb__DOT__apbm_swc_inst__DOT__state;
     CData/*1:0*/ apb_swc_tb__DOT__apbm_swc_inst__DOT__nextstate;
+    CData/*0:0*/ __VstlFirstIteration;
     CData/*0:0*/ __Vtrigprevexpr___TOP__apb_swc_tb__DOT__pclk__0;
     CData/*0:0*/ __VactContinue;
     IData/*31:0*/ apb_swc_tb__DOT__paddr;
@@ -43,7 +44,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vapb_swc_tb___024root final : public Verilate
     IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_SR;
     IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_WDR;
     IData/*31:0*/ apb_swc_tb__DOT__apbs_swc_inst__DOT__SPI_RDR;
-    IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;
     VlDelayScheduler __VdlySched;

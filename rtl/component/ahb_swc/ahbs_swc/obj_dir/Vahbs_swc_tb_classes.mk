@@ -24,16 +24,16 @@ VM_TRACE_FST = 0
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
 	Vahbs_swc_tb \
-	Vahbs_swc_tb___024root__DepSet_hdacbf9b5__0 \
-	Vahbs_swc_tb___024root__DepSet_hc4b2ce52__0 \
+	Vahbs_swc_tb___024root__DepSet_hfddf717f__0 \
+	Vahbs_swc_tb___024root__DepSet_h99aff08f__0 \
 	Vahbs_swc_tb__main \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
 	Vahbs_swc_tb__ConstPool_0 \
 	Vahbs_swc_tb___024root__Slow \
-	Vahbs_swc_tb___024root__DepSet_hdacbf9b5__0__Slow \
-	Vahbs_swc_tb___024root__DepSet_hc4b2ce52__0__Slow \
+	Vahbs_swc_tb___024root__DepSet_hfddf717f__0__Slow \
+	Vahbs_swc_tb___024root__DepSet_h99aff08f__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
@@ -43,6 +43,7 @@ VM_SUPPORT_FAST += \
 VM_SUPPORT_SLOW += \
 	Vahbs_swc_tb__Syms \
 	Vahbs_swc_tb__Trace__0__Slow \
+	Vahbs_swc_tb__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

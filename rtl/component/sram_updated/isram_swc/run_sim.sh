@@ -9,4 +9,4 @@ verilator --binary -j 16 $V_FILES --trace --top isram_swc_tb
 # Run the generated executable
 ./obj_dir/Visram_swc_tb
 
-Gtkwave *.vcd
+#Gtkwave *.vcd

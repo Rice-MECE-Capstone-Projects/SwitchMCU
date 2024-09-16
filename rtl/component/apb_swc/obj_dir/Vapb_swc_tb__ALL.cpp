@@ -11,3 +11,4 @@
 #include "Vapb_swc_tb___024root__DepSet_hab42f10b__0__Slow.cpp"
 #include "Vapb_swc_tb__Syms.cpp"
 #include "Vapb_swc_tb__Trace__0__Slow.cpp"
+#include "Vapb_swc_tb__TraceDecls__0__Slow.cpp"

@@ -14,6 +14,8 @@ Visram_swc_tb::Visram_swc_tb(VerilatedContext* _vcontextp__, const char* _vcname
 {
     // Register model with the context
     contextp()->addModel(this);
+    contextp()->traceBaseModelCbAdd(
+        [this](VerilatedTraceBaseC* tfp, int levels, int options) { traceBaseModel(tfp, levels, options); });
 }
 
 Visram_swc_tb::Visram_swc_tb(const char* _vcname__)
@@ -107,6 +109,8 @@ std::unique_ptr<VerilatedTraceConfig> Visram_swc_tb::traceConfig() const {
 //============================================================
 // Trace configuration
 
+void Visram_swc_tb___024root__trace_decl_types(VerilatedVcd* tracep);
+
 void Visram_swc_tb___024root__trace_init_top(Visram_swc_tb___024root* vlSelf, VerilatedVcd* tracep);
 
 VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
@@ -119,18 +123,21 @@ VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32
     }
     vlSymsp->__Vm_baseCode = code;
     tracep->pushPrefix(std::string{vlSymsp->name()}, VerilatedTracePrefixType::SCOPE_MODULE);
+    Visram_swc_tb___024root__trace_decl_types(tracep);
     Visram_swc_tb___024root__trace_init_top(vlSelf, tracep);
     tracep->popPrefix();
 }
 
 VL_ATTR_COLD void Visram_swc_tb___024root__trace_register(Visram_swc_tb___024root* vlSelf, VerilatedVcd* tracep);
 
-VL_ATTR_COLD void Visram_swc_tb::trace(VerilatedVcdC* tfp, int levels, int options) {
-    if (tfp->isOpen()) {
-        vl_fatal(__FILE__, __LINE__, __FILE__,"'Visram_swc_tb::trace()' shall not be called after 'VerilatedVcdC::open()'.");
+VL_ATTR_COLD void Visram_swc_tb::traceBaseModel(VerilatedTraceBaseC* tfp, int levels, int options) {
+    (void)levels; (void)options;
+    VerilatedVcdC* const stfp = dynamic_cast<VerilatedVcdC*>(tfp);
+    if (VL_UNLIKELY(!stfp)) {
+        vl_fatal(__FILE__, __LINE__, __FILE__,"'Visram_swc_tb::trace()' called on non-VerilatedVcdC object;"
+            " use --trace-fst with VerilatedFst object, and --trace with VerilatedVcd object");
     }
-    if (false && levels && options) {}  // Prevent unused
-    tfp->spTrace()->addModel(this);
-    tfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
-    Visram_swc_tb___024root__trace_register(&(vlSymsp->TOP), tfp->spTrace());
+    stfp->spTrace()->addModel(this);
+    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
+    Visram_swc_tb___024root__trace_register(&(vlSymsp->TOP), stfp->spTrace());
 }

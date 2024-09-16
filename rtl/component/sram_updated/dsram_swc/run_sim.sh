@@ -11,4 +11,4 @@ verilator --binary -j 16 $V_FILES --trace --top dsram_swc_tb
 # Run the generated executable
 ./obj_dir/Vdsram_swc_tb
 
-Gtkwave *.vcd
+#gtkwave sram_.vcd

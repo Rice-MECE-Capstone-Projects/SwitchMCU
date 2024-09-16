@@ -5,7 +5,7 @@
 
 
 VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_init_sub__TOP__0(Vdsram_swc_tb___024root* vlSelf, VerilatedVcd* tracep) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vdsram_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vdsram_swc_tb___024root__trace_init_sub__TOP__0\n"); );
     // Init
@@ -48,7 +48,7 @@ VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_init_sub__TOP__0(Vdsram_swc_tb_
 }
 
 VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_init_top(Vdsram_swc_tb___024root* vlSelf, VerilatedVcd* tracep) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vdsram_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vdsram_swc_tb___024root__trace_init_top\n"); );
     // Body
@@ -61,7 +61,7 @@ void Vdsram_swc_tb___024root__trace_chg_0(void* voidSelf, VerilatedVcd::Buffer* 
 void Vdsram_swc_tb___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/);
 
 VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_register(Vdsram_swc_tb___024root* vlSelf, VerilatedVcd* tracep) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vdsram_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vdsram_swc_tb___024root__trace_register\n"); );
     // Body
@@ -83,7 +83,7 @@ VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_const_0(void* voidSelf, Verilat
 }
 
 VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_const_0_sub_0(Vdsram_swc_tb___024root* vlSelf, VerilatedVcd::Buffer* bufp) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vdsram_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vdsram_swc_tb___024root__trace_const_0_sub_0\n"); );
     // Init
@@ -109,7 +109,7 @@ VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_full_0(void* voidSelf, Verilate
 }
 
 VL_ATTR_COLD void Vdsram_swc_tb___024root__trace_full_0_sub_0(Vdsram_swc_tb___024root* vlSelf, VerilatedVcd::Buffer* bufp) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vdsram_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vdsram_swc_tb___024root__trace_full_0_sub_0\n"); );
     // Init

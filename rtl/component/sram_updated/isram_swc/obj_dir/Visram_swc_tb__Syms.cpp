@@ -42,6 +42,8 @@ Visram_swc_tb__Syms::Visram_swc_tb__Syms(VerilatedContext* contextp, const char*
     // Setup module instances
     , TOP{this, namep}
 {
+        // Check resources
+        Verilated::stackCheck(34);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
     _vm_contextp__->timeprecision(-12);

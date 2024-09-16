@@ -22,6 +22,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vasyncfifo_swc_tb___024root final : public Ve
     CData/*0:0*/ asyncfifo_swc_tb__DOT__full;
     CData/*0:0*/ asyncfifo_swc_tb__DOT__ren;
     CData/*0:0*/ asyncfifo_swc_tb__DOT__empty;
+    CData/*0:0*/ __VstlFirstIteration;
     CData/*0:0*/ __Vtrigprevexpr___TOP__asyncfifo_swc_tb__DOT__rstn__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__asyncfifo_swc_tb__DOT__wclk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__asyncfifo_swc_tb__DOT__rclk__0;
@@ -37,7 +38,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vasyncfifo_swc_tb___024root final : public Ve
     SData/*8:0*/ asyncfifo_swc_tb__DOT__asyncfifo_swc_inst__DOT__waddr_ptr_restore;
     SData/*8:0*/ asyncfifo_swc_tb__DOT__asyncfifo_swc_inst__DOT__raddr_ptr_restore;
     SData/*15:0*/ __Vdly__asyncfifo_swc_tb__DOT__wdata;
-    IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<SData/*15:0*/, 256> asyncfifo_swc_tb__DOT__asyncfifo_swc_inst__DOT__fifo_ram;
     VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;

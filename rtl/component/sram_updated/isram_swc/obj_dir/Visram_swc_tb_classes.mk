@@ -24,15 +24,15 @@ VM_TRACE_FST = 0
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
 	Visram_swc_tb \
-	Visram_swc_tb___024root__DepSet_h47462d8c__0 \
-	Visram_swc_tb___024root__DepSet_h59a222e6__0 \
+	Visram_swc_tb___024root__DepSet_ha566d590__0 \
+	Visram_swc_tb___024root__DepSet_hf76be7c6__0 \
 	Visram_swc_tb__main \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
 	Visram_swc_tb___024root__Slow \
-	Visram_swc_tb___024root__DepSet_h47462d8c__0__Slow \
-	Visram_swc_tb___024root__DepSet_h59a222e6__0__Slow \
+	Visram_swc_tb___024root__DepSet_ha566d590__0__Slow \
+	Visram_swc_tb___024root__DepSet_hf76be7c6__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
@@ -42,6 +42,7 @@ VM_SUPPORT_FAST += \
 VM_SUPPORT_SLOW += \
 	Visram_swc_tb__Syms \
 	Visram_swc_tb__Trace__0__Slow \
+	Visram_swc_tb__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

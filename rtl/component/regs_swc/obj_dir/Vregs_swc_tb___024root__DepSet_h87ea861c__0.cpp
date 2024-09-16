@@ -2,9 +2,7 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vregs_swc_tb.h for the primary calling header
 
-#include "verilated.h"
-
-#include "Vregs_swc_tb__Syms.h"
+#include "Vregs_swc_tb__pch.h"
 #include "Vregs_swc_tb__Syms.h"
 #include "Vregs_swc_tb___024root.h"
 
@@ -13,7 +11,7 @@ VL_ATTR_COLD void Vregs_swc_tb___024root___dump_triggers__act(Vregs_swc_tb___024
 #endif  // VL_DEBUG
 
 void Vregs_swc_tb___024root___eval_triggers__act(Vregs_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vregs_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vregs_swc_tb___024root___eval_triggers__act\n"); );
     // Body

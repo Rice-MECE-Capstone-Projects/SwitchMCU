@@ -9,4 +9,4 @@ verilator --binary -j 16 $V_FILES --trace --top ahbs_swc_tb
 # Run the generated executable
 ./obj_dir/Vahbs_swc_tb
 
-Gtkwave *.vcd
+gtkwave ahbs_swc_tb.vcd

@@ -2,9 +2,7 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vregs_swc_tb.h for the primary calling header
 
-#include "verilated.h"
-
-#include "Vregs_swc_tb__Syms.h"
+#include "Vregs_swc_tb__pch.h"
 #include "Vregs_swc_tb__Syms.h"
 #include "Vregs_swc_tb___024root.h"
 
@@ -20,7 +18,7 @@ Vregs_swc_tb___024root::Vregs_swc_tb___024root(Vregs_swc_tb__Syms* symsp, const 
 }
 
 void Vregs_swc_tb___024root::__Vconfigure(bool first) {
-    if (false && first) {}  // Prevent unused
+    (void)first;  // Prevent unused variable warning
 }
 
 Vregs_swc_tb___024root::~Vregs_swc_tb___024root() {

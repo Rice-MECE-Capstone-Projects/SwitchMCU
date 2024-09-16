@@ -2,15 +2,13 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vapb_swc_tb.h for the primary calling header
 
-#include "verilated.h"
-
-#include "Vapb_swc_tb__Syms.h"
+#include "Vapb_swc_tb__pch.h"
 #include "Vapb_swc_tb___024root.h"
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___eval_static__TOP(Vapb_swc_tb___024root* vlSelf);
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___eval_static(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___eval_static\n"); );
     // Body
@@ -22,7 +20,7 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___eval_static(Vapb_swc_tb___024root* vlS
 }
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___eval_static__TOP(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___eval_static__TOP\n"); );
     // Body
@@ -31,51 +29,50 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___eval_static__TOP(Vapb_swc_tb___024root
 }
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___eval_final(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___eval_final\n"); );
 }
 
-VL_ATTR_COLD void Vapb_swc_tb___024root___eval_triggers__stl(Vapb_swc_tb___024root* vlSelf);
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__stl(Vapb_swc_tb___024root* vlSelf);
 #endif  // VL_DEBUG
-VL_ATTR_COLD void Vapb_swc_tb___024root___eval_stl(Vapb_swc_tb___024root* vlSelf);
+VL_ATTR_COLD bool Vapb_swc_tb___024root___eval_phase__stl(Vapb_swc_tb___024root* vlSelf);
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___eval_settle(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___eval_settle\n"); );
     // Init
+    IData/*31:0*/ __VstlIterCount;
     CData/*0:0*/ __VstlContinue;
     // Body
-    vlSelf->__VstlIterCount = 0U;
+    __VstlIterCount = 0U;
+    vlSelf->__VstlFirstIteration = 1U;
     __VstlContinue = 1U;
     while (__VstlContinue) {
-        __VstlContinue = 0U;
-        Vapb_swc_tb___024root___eval_triggers__stl(vlSelf);
-        if (vlSelf->__VstlTriggered.any()) {
-            __VstlContinue = 1U;
-            if (VL_UNLIKELY((0x64U < vlSelf->__VstlIterCount))) {
+        if (VL_UNLIKELY((0x64U < __VstlIterCount))) {
 #ifdef VL_DEBUG
-                Vapb_swc_tb___024root___dump_triggers__stl(vlSelf);
+            Vapb_swc_tb___024root___dump_triggers__stl(vlSelf);
 #endif
-                VL_FATAL_MT("apb_swc_tb.v", 1, "", "Settle region did not converge.");
-            }
-            vlSelf->__VstlIterCount = ((IData)(1U) 
-                                       + vlSelf->__VstlIterCount);
-            Vapb_swc_tb___024root___eval_stl(vlSelf);
+            VL_FATAL_MT("apb_swc_tb.v", 1, "", "Settle region did not converge.");
         }
+        __VstlIterCount = ((IData)(1U) + __VstlIterCount);
+        __VstlContinue = 0U;
+        if (Vapb_swc_tb___024root___eval_phase__stl(vlSelf)) {
+            __VstlContinue = 1U;
+        }
+        vlSelf->__VstlFirstIteration = 0U;
     }
 }
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__stl(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___dump_triggers__stl\n"); );
     // Body
-    if ((1U & (~ (IData)(vlSelf->__VstlTriggered.any())))) {
+    if ((1U & (~ vlSelf->__VstlTriggered.any()))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
@@ -87,7 +84,7 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__stl(Vapb_swc_tb___024ro
 void Vapb_swc_tb___024root___act_sequent__TOP__0(Vapb_swc_tb___024root* vlSelf);
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___eval_stl(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___eval_stl\n"); );
     // Body
@@ -96,13 +93,30 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___eval_stl(Vapb_swc_tb___024root* vlSelf
     }
 }
 
+VL_ATTR_COLD void Vapb_swc_tb___024root___eval_triggers__stl(Vapb_swc_tb___024root* vlSelf);
+
+VL_ATTR_COLD bool Vapb_swc_tb___024root___eval_phase__stl(Vapb_swc_tb___024root* vlSelf) {
+    (void)vlSelf;  // Prevent unused variable warning
+    Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___eval_phase__stl\n"); );
+    // Init
+    CData/*0:0*/ __VstlExecute;
+    // Body
+    Vapb_swc_tb___024root___eval_triggers__stl(vlSelf);
+    __VstlExecute = vlSelf->__VstlTriggered.any();
+    if (__VstlExecute) {
+        Vapb_swc_tb___024root___eval_stl(vlSelf);
+    }
+    return (__VstlExecute);
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__act(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___dump_triggers__act\n"); );
     // Body
-    if ((1U & (~ (IData)(vlSelf->__VactTriggered.any())))) {
+    if ((1U & (~ vlSelf->__VactTriggered.any()))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
@@ -116,11 +130,11 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__act(Vapb_swc_tb___024ro
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__nba(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___dump_triggers__nba\n"); );
     // Body
-    if ((1U & (~ (IData)(vlSelf->__VnbaTriggered.any())))) {
+    if ((1U & (~ vlSelf->__VnbaTriggered.any()))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
@@ -133,7 +147,7 @@ VL_ATTR_COLD void Vapb_swc_tb___024root___dump_triggers__nba(Vapb_swc_tb___024ro
 #endif  // VL_DEBUG
 
 VL_ATTR_COLD void Vapb_swc_tb___024root___ctor_var_reset(Vapb_swc_tb___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
+    (void)vlSelf;  // Prevent unused variable warning
     Vapb_swc_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vapb_swc_tb___024root___ctor_var_reset\n"); );
     // Body

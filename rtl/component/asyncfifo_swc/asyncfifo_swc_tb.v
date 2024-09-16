@@ -54,7 +54,7 @@ module asyncfifo_swc_tb;
         ren = 1;
         #20000;
         ren = 0;
-        $stop; 
+        $finish; 
     end
 
     initial begin

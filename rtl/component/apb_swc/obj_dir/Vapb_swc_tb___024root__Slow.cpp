@@ -2,9 +2,7 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vapb_swc_tb.h for the primary calling header
 
-#include "verilated.h"
-
-#include "Vapb_swc_tb__Syms.h"
+#include "Vapb_swc_tb__pch.h"
 #include "Vapb_swc_tb__Syms.h"
 #include "Vapb_swc_tb___024root.h"
 
@@ -20,7 +18,7 @@ Vapb_swc_tb___024root::Vapb_swc_tb___024root(Vapb_swc_tb__Syms* symsp, const cha
 }
 
 void Vapb_swc_tb___024root::__Vconfigure(bool first) {
-    if (false && first) {}  // Prevent unused
+    (void)first;  // Prevent unused variable warning
 }
 
 Vapb_swc_tb___024root::~Vapb_swc_tb___024root() {

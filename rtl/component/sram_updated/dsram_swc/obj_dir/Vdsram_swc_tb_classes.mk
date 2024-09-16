@@ -24,15 +24,15 @@ VM_TRACE_FST = 0
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
 	Vdsram_swc_tb \
-	Vdsram_swc_tb___024root__DepSet_h389b5422__0 \
-	Vdsram_swc_tb___024root__DepSet_h0cd8a650__0 \
+	Vdsram_swc_tb___024root__DepSet_hb7f37ac3__0 \
+	Vdsram_swc_tb___024root__DepSet_h19e3a6e5__0 \
 	Vdsram_swc_tb__main \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
 	Vdsram_swc_tb___024root__Slow \
-	Vdsram_swc_tb___024root__DepSet_h389b5422__0__Slow \
-	Vdsram_swc_tb___024root__DepSet_h0cd8a650__0__Slow \
+	Vdsram_swc_tb___024root__DepSet_hb7f37ac3__0__Slow \
+	Vdsram_swc_tb___024root__DepSet_h19e3a6e5__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
@@ -42,6 +42,7 @@ VM_SUPPORT_FAST += \
 VM_SUPPORT_SLOW += \
 	Vdsram_swc_tb__Syms \
 	Vdsram_swc_tb__Trace__0__Slow \
+	Vdsram_swc_tb__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

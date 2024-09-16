@@ -30,6 +30,7 @@ VM_CLASSES_FAST += \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
+	Vregs_swc_tb__ConstPool_0 \
 	Vregs_swc_tb___024root__Slow \
 	Vregs_swc_tb___024root__DepSet_h87ea861c__0__Slow \
 	Vregs_swc_tb___024root__DepSet_heca5083d__0__Slow \
@@ -42,6 +43,7 @@ VM_SUPPORT_FAST += \
 VM_SUPPORT_SLOW += \
 	Vregs_swc_tb__Syms \
 	Vregs_swc_tb__Trace__0__Slow \
+	Vregs_swc_tb__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

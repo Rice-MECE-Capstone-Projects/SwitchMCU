@@ -18,7 +18,7 @@ Visram_swc_tb___024root::Visram_swc_tb___024root(Visram_swc_tb__Syms* symsp, con
 }
 
 void Visram_swc_tb___024root::__Vconfigure(bool first) {
-    if (false && first) {}  // Prevent unused
+    (void)first;  // Prevent unused variable warning
 }
 
 Visram_swc_tb___024root::~Visram_swc_tb___024root() {

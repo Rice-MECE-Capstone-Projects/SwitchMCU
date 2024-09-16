@@ -18,7 +18,7 @@ Vdsram_swc_tb___024root::Vdsram_swc_tb___024root(Vdsram_swc_tb__Syms* symsp, con
 }
 
 void Vdsram_swc_tb___024root::__Vconfigure(bool first) {
-    if (false && first) {}  // Prevent unused
+    (void)first;  // Prevent unused variable warning
 }
 
 Vdsram_swc_tb___024root::~Vdsram_swc_tb___024root() {
