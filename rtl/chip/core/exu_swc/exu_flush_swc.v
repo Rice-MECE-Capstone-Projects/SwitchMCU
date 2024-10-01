@@ -1,4 +1,4 @@
-module exu_flush_swc (
+module ex_flush_swc (
     hclk                                        ,
     hrstn                                       ,
     cycle_cnt                                   ,
