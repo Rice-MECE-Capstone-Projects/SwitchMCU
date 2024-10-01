@@ -1,4 +1,4 @@
-module ex_flush_swc (
+module exu_flush_swc (
     hclk                                        ,
     hrstn                                       ,
     cycle_cnt                                   ,
@@ -10,8 +10,13 @@ input                       hrstn               ;
 input           [3:0]       cycle_cnt           ;
 input           [1:0]       flush               ;
 output reg                  flush_stall         ;
+/*
+Outputs a flush_stall value based on inputs. The states only update during the 4th clock cycle.
+If we are in flush cycle 2 we stay with flush_stall high until the flush cycle 2 signal ends, and then we stay in high for one more cycle and then return to IDLE.
+If we are in flush cycle 1 we stay in high for one cycle and then return to IDLE.
+*/
 
-// state machine
+// state machine values
 localparam FLUSH_DISABLE = 0, FLUSH_CYCLE_1 = 1, FLUSH_CYCLE_2 = 2;
 localparam IDLE = 0, STATE_1 = 1, STATE_2 = 2;
 reg  [1:0] state;
@@ -25,6 +30,7 @@ always @(posedge hclk) begin
     end
 end
 
+// state machine cases
 always @(*) begin
     case (state)
         IDLE: begin
