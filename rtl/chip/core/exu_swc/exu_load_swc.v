@@ -22,7 +22,11 @@ module exu_load_swc (
     reg_ren_1                                   ,
     reg_rdata_1                                 
 );
-
+/*
+Sends signals the the mau to execute load instructions, which are encoded in an I-type format
+the Effective Address is obtained by adding the register rs1 to the immediate
+the value from the Effective Address in the memory is copied to register rd
+*/
 // general signals
 input                       hclk                ;
 input                       hrstn               ;
@@ -63,7 +67,7 @@ always@(posedge hclk or negedge hrstn) begin
         mid_reg_raddr_1 <= 0;
         mid_reg_ren_1   <= 0;
     end else if(dec_load_en)begin
-        if(cycle_cnt == 1) begin
+        if(cycle_cnt == 1) begin // on cycle 1, we assign the temp read address to the decoded rs1 and enable reading
             mid_reg_raddr_1 <= dec_rs1;
             mid_reg_ren_1   <= 1;
         end else begin
@@ -85,6 +89,7 @@ reg      [1:0]       exu_load_size_buff         ;
 reg                  exu_load_en_buff           ;
 localparam LOAD_IDLE = 0, LOAD_BTYE = 1, LOAD_HALFWORD = 2, LOAD_WORD = 3;
 
+// assign the buffer signals on cycle 3 and hold for cycle 4
 always@(posedge hclk or negedge hrstn) begin
     if(!hrstn) begin
         exu_load_rd_buff        <= 0;
@@ -94,24 +99,24 @@ always@(posedge hclk or negedge hrstn) begin
         exu_load_size_buff      <= LOAD_IDLE;
         exu_load_en_buff        <= 0;
     end else if(dec_load_en)begin
-        if(cycle_cnt == 3)begin
+        if(cycle_cnt == 3)begin // on cycle 3, all the values are set
             exu_load_rd_buff        <=   dec_rd;
             exu_load_base_addr_buff <=   reg_rdata_1;
             exu_load_offset_buff    <=   {{20{dec_imm_type_i[11]}}, dec_imm_type_i};
-            exu_load_sext_buff      <=   dec_lb | dec_lh | dec_lw;
+            exu_load_sext_buff      <=   dec_lb | dec_lh | dec_lw; // we sign extend for any of the non unsigned commands
             exu_load_size_buff      <=   (dec_lb | dec_lbu) ? LOAD_BTYE      :
                                          (dec_lh | dec_lhu) ? LOAD_HALFWORD  :
                                          (dec_lw)           ? LOAD_WORD      :
                                          LOAD_IDLE                           ;
             exu_load_en_buff        <=   1;
-        end else if(cycle_cnt == 4)begin
+        end else if(cycle_cnt == 4)begin // hold the values on cycle 4
             exu_load_rd_buff        <= exu_load_rd_buff       ;
             exu_load_base_addr_buff <= exu_load_base_addr_buff;
             exu_load_offset_buff    <= exu_load_offset_buff   ;
             exu_load_sext_buff      <= exu_load_sext_buff     ;
             exu_load_size_buff      <= exu_load_size_buff     ;
             exu_load_en_buff        <= exu_load_en_buff       ;
-        end else begin
+        end else begin // clear the values
             exu_load_rd_buff        <= 0;
             exu_load_base_addr_buff <= 0;
             exu_load_offset_buff    <= 0;
@@ -129,6 +134,7 @@ always@(posedge hclk or negedge hrstn) begin
     end
 end
 
+// assign the outputs to the buffer values on cycle 4
 always@(posedge hclk or negedge hrstn) begin
     if(!hrstn) begin
         exu_load_rd        <= 0;

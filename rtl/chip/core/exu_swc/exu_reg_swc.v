@@ -28,6 +28,12 @@ module exu_reg_swc (
     reg_ren_2                                   ,
     exu_stall                                   
 );
+/*
+Performs Integer Register-Register Operations.
+
+Reads the values from the dec_rs1 and dec_rs2 registers as source operands.
+Writes the result into dec_rd.
+*/
 input                       hclk                ;
 input                       hrstn               ;
 input           [3:0]       cycle_cnt           ;
@@ -78,7 +84,7 @@ assign reg_raddr_2 = mid_reg_ren_2 ? mid_reg_raddr_2  : 'z  ;
 assign reg_ren_2   = mid_reg_ren_2 ? mid_reg_ren_2    : 'z  ;
 
 always@(posedge hclk or negedge hrstn) begin
-    if(!hrstn) begin
+    if(!hrstn) begin // on a reset clear all the temp read and write values
         mid_reg_raddr_1 <= 0;
         mid_reg_ren_1   <= 0;
 
@@ -88,8 +94,8 @@ always@(posedge hclk or negedge hrstn) begin
         mid_reg_waddr   <= 0;
         mid_reg_wen     <= 0;
         mid_reg_wdata   <= 0;
-    end else if(en && !exu_stall)begin
-        if(cycle_cnt == 1) begin
+    end else if(en && !exu_stall)begin // if enabled and we are not stalling, continue
+        if(cycle_cnt == 1) begin // on cycle 1, assign the read registers and enable them
             mid_reg_raddr_1 <= dec_rs1;
             mid_reg_ren_1   <= 1;
 
@@ -99,7 +105,7 @@ always@(posedge hclk or negedge hrstn) begin
             mid_reg_waddr   <= 0;
             mid_reg_wen     <= 0;
             mid_reg_wdata   <= 0;
-        end else if(cycle_cnt == 2) begin
+        end else if(cycle_cnt == 2) begin // on cycle 2 clear all
             mid_reg_raddr_1 <= 0;
             mid_reg_ren_1   <= 0;
 
@@ -109,7 +115,7 @@ always@(posedge hclk or negedge hrstn) begin
             mid_reg_waddr   <= 0;
             mid_reg_wen     <= 0;
             mid_reg_wdata   <= 0;
-        end else if(cycle_cnt == 3)begin
+        end else if(cycle_cnt == 3)begin // on cycle 3 assign the write address and enable it
             mid_reg_raddr_1 <= 0;
             mid_reg_ren_1   <= 0;
 
@@ -118,7 +124,7 @@ always@(posedge hclk or negedge hrstn) begin
 
             mid_reg_waddr   <= dec_rd;
             mid_reg_wen     <= 1;
-            
+            // perform the operation and assign the temp write data to the result of the operation
             if(dec_add)
                 mid_reg_wdata <= reg_rdata_1 + reg_rdata_2;
             else if(dec_sub)
@@ -141,7 +147,7 @@ always@(posedge hclk or negedge hrstn) begin
                 mid_reg_wdata <= reg_rdata_1 & reg_rdata_2;
             else
                 mid_reg_wdata <= 0;
-        end else begin
+        end else begin // on cycle 4 clear all
             mid_reg_raddr_1 <= 0;
             mid_reg_ren_1   <= 0;
 

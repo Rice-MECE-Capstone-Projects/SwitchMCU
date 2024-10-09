@@ -111,7 +111,7 @@ always@(posedge hclk or negedge hrstn) begin
 end
 
 // create temp values to update the program counter
-wire [31:0] pc_real = pc - 4; // pc is already updated, so subtract 8 to get actual value
+wire [31:0] pc_real = pc - 8; // pc is already updated, so subtract 8 to get actual value
 wire [31:0] pc_next = pc_real  + sext_imm_type_b; // add the imm
 wire        branch  = dec_beq  ? (reg_rdata_1 == reg_rdata_2) :
                       dec_bne  ? (reg_rdata_1 != reg_rdata_2) :
