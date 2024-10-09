@@ -34,13 +34,14 @@ end
 
 initial begin
   hrstn = 0;
-  flush = 1;
-  #20;
+  flush = 0;
+  #20
   hrstn = 1;
+  #20;
+  flush = 2;
   #100;
   flush = 0;
   #50;
-  flush = 2;
   #100;
   flush = 1;
   #10000;
