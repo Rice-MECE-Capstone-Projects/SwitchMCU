@@ -90,6 +90,9 @@ module exu_top_swc(
     reg_rdata_2                                     ,
     reg_ren_2                                       
 );
+/*
+Takes in signals from the decoder and uses them to initialize the other exu modules
+*/
 
 // general signals
 input                   hclk                        ;
@@ -194,7 +197,7 @@ wire                    flush_stall                 ;
 wire                    exu_stall                   ;
 
 // exu_stall
-assign exu_stall = flush_stall || ifu_dec_stall;
+assign exu_stall = flush_stall || ifu_dec_stall; // We stall if cued to by flush or load
 
 exu_upper_en  exu_upper_en_inst (
     .hclk               (hclk                       ),
