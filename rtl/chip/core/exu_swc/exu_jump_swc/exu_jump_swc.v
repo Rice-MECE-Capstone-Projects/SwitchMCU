@@ -71,7 +71,7 @@ assign reg_wdata   = mid_reg_wen   ? mid_reg_wdata    : 'z  ;
 assign reg_raddr_1 = mid_reg_ren_1 ? mid_reg_raddr_1  : 'z  ;
 assign reg_ren_1   = mid_reg_ren_1 ? mid_reg_ren_1    : 'z  ;
 
-assign sext_imm_type_j = {{11{dec_imm_type_j[19]}}, dec_imm_type_j};
+assign sext_imm_type_j = {{11{dec_imm_type_j[20]}}, dec_imm_type_j};
 assign sext_imm_type_i = {{20{dec_imm_type_i[11]}}, dec_imm_type_i};
 
 wire [31:0] pc_real = pc - 8;
