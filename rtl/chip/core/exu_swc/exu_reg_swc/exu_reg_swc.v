@@ -130,7 +130,7 @@ always@(posedge hclk or negedge hrstn) begin
             else if(dec_sub)
                 mid_reg_wdata <= reg_rdata_1 - reg_rdata_2;
             else if(dec_sll)
-                mid_reg_wdata <= reg_rdata_1 << reg_rdata_2;
+                mid_reg_wdata <= reg_rdata_1 << reg_rdata_2[4:0];
             else if(dec_slt)
                 mid_reg_wdata <= {31'b0, $signed(reg_rdata_1) < $signed(reg_rdata_2)};
             else if(dec_sltu)
