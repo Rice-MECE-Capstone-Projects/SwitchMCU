@@ -20,18 +20,13 @@ async def start_cycle_cnt(dut):
         else:
             dut.cycle_cnt.value = int(str(dut.cycle_cnt.value),2) + 1
 
-def assign_call(i):
-    beq = 0
-    bne = 0
-    blt = 0
-    bge = 0
-    bltu = 0
-    bgeu = 0
-    vect = [beq, bne, blt, bltu, bge, bgeu]
-    call_dict = {0: "beq", 1: "bne", 2: "blt", 3: "bltu", 4: "bge", 5: "bgeu"}
-    vect[i] = 1
-    
-    return call_dict[i], vect
+async def initialize_commands(dut, cmd):
+    dut.dec_beq.value = (cmd == "beq")
+    dut.dec_bne.value = (cmd == "bne")
+    dut.dec_blt.value = (cmd == "blt")
+    dut.dec_bltu.value = (cmd == "bltu")
+    dut.dec_bge.value = (cmd == "bge")
+    dut.dec_bgeu.value = (cmd == "bgeu")
 
     
 def twos_comp(val, bits):
@@ -40,25 +35,32 @@ def twos_comp(val, bits):
         val = val - (1 << bits)        # compute negative value
     return val   
 
-
-def branch_model(rs1, rs2, imm, beq, bne, blt, bltu, bge, bgeu, curr):
+def sign_extend(val, curr_bits, out_bits):
+    sign_bit = (val & (1<< (curr_bits-1)) != 0)
+    if (sign_bit == 0):
+        return val
+    else:
+        return ((1<<out_bits) - 1) ^ ((1 << curr_bits) - 1) | val
+    
+def branch_model(rs1, rs2, imm, curr, cmd):
     """Model of the functionality of the branch module"""
+    imm = sign_extend(imm, 12, 32)
     if(int(imm) == 4 or int(imm) == 8):
         return 0
-    elif(beq):
+    elif(cmd == "beq"):
         return (rs1 == rs2)*((curr + imm)-8)
-    elif(bne):
-        return (rs1 != rs2)*((curr + imm)-8)
-    elif (blt):
-        return (twos_comp(rs1, 32) < twos_comp(rs2, 32))*((curr + imm)-8)
-    elif(bltu):
-        return (rs1 < rs2)*((curr + imm)-8)
-    elif(bge):
-        return (twos_comp(rs1, 32) >= twos_comp(rs2, 32))*((curr+imm)-8)
-    elif(bgeu):
-        return (rs1 >= rs2)*((curr+imm)-8)
+    elif(cmd == "bne"):
+        return  (rs1 != rs2)*((curr + imm)-8)
+    elif (cmd == "blt"):
+        return  (twos_comp(rs1, 32) < twos_comp(rs2, 32))*((curr + imm)-8)
+    elif(cmd == "bltu"):
+        return  (rs1 < rs2)*((curr + imm)-8)
+    elif(cmd == "bge"):
+        return  (twos_comp(rs1, 32) >= twos_comp(rs2, 32))*((curr+imm)-8)
+    elif(cmd == "bgeu"):
+        return  (rs1 >= rs2)*((curr+imm)-8)
     else:
-        return 0
+        return  0
     
 async def initialize_values(dut):
     dut.hrstn.value = 0
@@ -71,24 +73,24 @@ async def initialize_values(dut):
 
 @cocotb.test()
 async def exu_branch_cocotb(dut):
-    """Testing BEQ, where rs1 is equal to rs2, branch by the imm_type_b"""
+    """Testing BLTU, where rs1 is less than to rs2, branch by the imm_type_b"""
     # Define our variables
-    reg_rdata_1 = 2
-    reg_rdata_2 = 2
-    imm = 5
-
+    reg_rdata_1 = 1485475987
+    reg_rdata_2 = 2140999007
+    imm = 2606
+    cmd = "bltu"
     # Assign values to the DUT
     dut.pc.value = 0
     dut.reg_rdata_1.value = reg_rdata_1
     dut.reg_rdata_2.value = reg_rdata_2
     dut.dec_imm_type_b.value = imm
-    dut.dec_beq.value = 1
     dut.pc.value = 10
     dut.dec_branch_en.value = 1
+    await initialize_commands(dut, cmd)
     await initialize_values(dut)
 
     # Get the results from the model
-    result = branch_model(reg_rdata_1, reg_rdata_2, imm, 1, 0, 0, 0, 0, 0, int(str(dut.pc.value), 2))
+    result = branch_model(reg_rdata_1, reg_rdata_2, imm, int(str(dut.pc.value), 2), cmd)
     # Get the actual results from the simulation
     actual = int(str(dut.pc_wdata.value),2)
     # Report the data
@@ -98,38 +100,46 @@ async def exu_branch_cocotb(dut):
 
 @cocotb.test()
 async def exu_branch_randomized_test(dut):
-    """Test 20 random calls with random reg and imm values"""
+    """Test 50 random calls with random reg and imm values"""
     dut.pc.value = 0
-    for i in range(20):
+    coverage = []
+    for i in range(50):
         # Initialize the values
         # Set random values for the register data, immediate, and call
-        reg_rdata_1 = random.randint(0, 15)
-        reg_rdata_2 = random.randint(0, 15)
-        imm = random.randint(0, 15)
-        call_sel = random.randint(0,5)
-
+        reg_rdata_1 = random.randint(0, 0xFFFFFFFF)
+        reg_rdata_2 = random.randint(0, 0xFFFFFFFF)
+        imm = random.randint(0, 0xFFF)
+        cmd_sel = random.randint(0,5)
+        cmds = ["beq", "bne", "blt", "bltu", "bge", "bgeu"]
+        cmd = cmds[cmd_sel]
+        if cmd not in coverage:
+            coverage.append(cmd)
         # Assign the values to the dut
         dut.reg_rdata_1.value = reg_rdata_1
         dut.reg_rdata_2.value = reg_rdata_2
         dut.dec_imm_type_b.value = imm
-        call, call_vec = assign_call(call_sel)
-        [dut.dec_beq.value, dut.dec_bne.value, dut.dec_blt.value, dut.dec_bltu.value, dut.dec_bge.value, dut.dec_bgeu.value] = call_vec
         dut.dec_branch_en.value = 1
+
+        await initialize_commands(dut, cmd)
         await initialize_values(dut)
 
         # Get the results from the model
-        result = branch_model(reg_rdata_1, reg_rdata_2, imm, call_vec[0], call_vec[1], call_vec[2], call_vec[3], call_vec[4], call_vec[5], int(str(dut.pc.value), 2))
+        result = branch_model(reg_rdata_1, reg_rdata_2, imm, int(str(dut.pc.value), 2), cmd)
         # Get the actual results from the simulation
         actual = int(str(dut.pc_wdata.value),2)
-        actual = twos_comp(actual, 32)
+        # actual = twos_comp(actual, 32)
         # Report the data
         dut._log.info("Running Test %s", i)
-        dut._log.info(f"Call is {call}")
+        dut._log.info(f"Call is {cmd}")
         dut._log.info("Data1 = %s, Data2 = %s", reg_rdata_1, reg_rdata_2)
+        dut._log.info("Imm = %s", imm)
         dut._log.info("pc_wdata is %s", actual)
         dut._log.info("Result should be %s", result)
         dut._log.info("____________________________________")
         
-        assert actual == result, f"Branch result is incorrect: for {call}, with X={reg_rdata_1} and Y={reg_rdata_2} and immediate {imm}, starting at pc={dut.pc.value}, we got {actual} when it should be {result}"
+        assert actual == result, f"Branch result is incorrect: for {cmd}, with X={reg_rdata_1} and Y={reg_rdata_2} and immediate {imm}, starting at pc={dut.pc.value}, we got {actual} when it should be {result}"
+
+    dut._log.info(f"Coverage: {len(coverage)} out of 6 commands tested")
+
 
 

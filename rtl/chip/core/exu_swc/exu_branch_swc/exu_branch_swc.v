@@ -43,7 +43,7 @@ input                       dec_blt             ;
 input                       dec_bge             ;
 input                       dec_bltu            ;
 input                       dec_bgeu            ;
-input           [12:0]      dec_imm_type_b      ;
+input           [11:0]      dec_imm_type_b      ;
 input           [4:0]       dec_rs1             ;
 input           [4:0]       dec_rs2             ; 
 // PC signals
@@ -73,8 +73,8 @@ assign reg_ren_1   = mid_reg_ren_1 ? mid_reg_ren_1    : 'z  ;
 assign reg_raddr_2 = mid_reg_ren_2 ? mid_reg_raddr_2  : 'z  ;
 assign reg_ren_2   = mid_reg_ren_2 ? mid_reg_ren_2    : 'z  ;
 
-// sign extends the imm_type_b from 13 to 32 digits
-assign sext_imm_type_b = {{19{dec_imm_type_b[11]}}, dec_imm_type_b};
+// sign extends the imm_type_b from 12 to 32 digits
+assign sext_imm_type_b = {{20{dec_imm_type_b[11]}}, dec_imm_type_b};
 
 always@(posedge hclk or negedge hrstn) begin
     if(!hrstn) begin
