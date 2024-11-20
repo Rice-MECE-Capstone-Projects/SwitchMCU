@@ -9,7 +9,7 @@ module exu_branch_wrapper (
     input dec_bge,
     input dec_bltu,
     input dec_bgeu,
-    input [12:0] dec_imm_type_b,
+    input [11:0] dec_imm_type_b,
     input [4:0] dec_rs1,
     input [4:0] dec_rs2,
     input [31:0] pc,
