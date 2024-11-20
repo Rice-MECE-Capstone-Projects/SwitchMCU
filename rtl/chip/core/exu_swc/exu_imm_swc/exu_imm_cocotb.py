@@ -30,31 +30,40 @@ def twos_comp(val, bits):
 def logical_right(val, n):
     return val >>n if val >=0 else (val +0x10000000)>>n
 
-def logical_left(val, n):
+def arithmetic_right(val, n):
+    shifted = val
+    bits = 32
+    sign_bit = (val & (1<< (bits-1)) != 0)
     for i in range(n):
-        val = (val <<1) | ((1 << val.bit_length())-1)
-    return val
-def imm_model(call, register, immediate):
+         shifted = shifted >> 1 | sign_bit << (bits-1)
+    return shifted
+
+def sign_extend(dut, val, curr_bits, out_bits):
+    sign_bit = (val & (1<< (curr_bits-1)) != 0)
+    if (sign_bit == 0):
+        return val
+    else:
+        return ((1<<out_bits) - 1) ^ ((1 << curr_bits) - 1) | val
+def imm_model(dut, call, register, immediate):
     """Model of the functionality of the imm module"""
     if(call == "addi"):
-        return register + immediate
+        return (register + sign_extend(dut, immediate, 12, 32)) & 0xFFFFFFFF
     elif(call == "slti"):
         return twos_comp(register, 32) < twos_comp(immediate,12)
     elif(call == "sltiu"):
-        return register < immediate
+        return register < sign_extend(dut, immediate, 12, 32)
     elif(call == "xori"):
-        return register ^ immediate
+        return register ^ sign_extend(dut, immediate, 12, 32)
     elif(call == "ori"):
-        return register | immediate
+        return register | sign_extend(dut, immediate, 12, 32)
     elif(call == "andi"):
-        return register & immediate
+        return register & sign_extend(dut, immediate, 12, 32)
     elif(call == "slli"):
         return (register << (immediate&0x1f)) & 0xFFFFFFFF
-        # return logical_left(register, (immediate & 0x1f))
     elif(call == "srli"):
-        return logical_right(register, (immediate & 0x1f)) & 0xFFFFFFFF
+        return logical_right(register, (immediate & 0x1f))
     elif(call == "srai"):
-        return (register >> (immediate&0x1f)) & 0xFFFFFFFF
+        return arithmetic_right(register, immediate&0x1f)
     else:
         return 0
     
@@ -82,10 +91,9 @@ async def initialize_commands(dut, cmd):
 async def exu_imm_cocotb(dut):
     """Testing adding 5+3"""
     # Define our variables
-    reg_rdata_1 = 14
-    dut._log.info(bin(reg_rdata_1))
-    imm = 93
-    cmd = "slli"
+    reg_rdata_1 = 5
+    imm = 3
+    cmd = "addi"
     
     # Assign values to the DUT
     dut.pc.value = 0
@@ -97,12 +105,13 @@ async def exu_imm_cocotb(dut):
     await initialize_values(dut)
 
     # Get the results from the model
-    result = imm_model(cmd, reg_rdata_1, imm)
+    result = imm_model(dut, cmd, reg_rdata_1, imm)
     # Get the actual results from the simulation
     actual = int(str(dut.reg_wdata.value),2)
     # Report the data
     dut._log.info("reg_wdata is     %s", actual)
     dut._log.info("Result should be %s", result)
+    dut._log.info("For reg=%s, imm=%s", reg_rdata_1, imm)
     assert actual == result, f"Branch result is incorrect: {actual} != {result}"
 
 @cocotb.test()
@@ -113,8 +122,8 @@ async def exu_imm_randomized_test(dut):
     for i in range(50):
         # Initialize the values
         # Set random values for the register data, immediate, and call
-        reg_rdata_1 = random.randint(0, 200)
-        imm = random.randint(0, 200)
+        reg_rdata_1 = random.randint(0, 0xFFFFFFFF)
+        imm = random.randint(0, 0xFFF)
         call_sel = random.randint(0,8)
         calls = ["addi", "slti", "sltiu", "xori", "ori", "andi", "slli", "srli", "srai"]
         cmd = calls[call_sel]
@@ -130,7 +139,7 @@ async def exu_imm_randomized_test(dut):
         
 
         # Get the results from the model
-        result = imm_model(cmd, reg_rdata_1, imm)
+        result = imm_model(dut, cmd, reg_rdata_1, imm)
         # Get the actual results from the simulation
         actual = int(str(dut.reg_wdata.value),2)
         # Report the data
@@ -141,7 +150,7 @@ async def exu_imm_randomized_test(dut):
         dut._log.info("Result should be %s", result)
         dut._log.info("____________________________________")
         
-        assert actual == result, f"Branch result is incorrect: for {cmd}, with Register={reg_rdata_1} and Immediate={imm}, we got {actual} when it should be {result}"
+        assert actual == result, f"Imm result is incorrect: for {cmd}, with Register={reg_rdata_1} and Immediate={imm}, we got {actual} when it should be {result}"
 
     dut._log.info(f"Coverage: {len(coverage)} out of 9 commands tested")
 
