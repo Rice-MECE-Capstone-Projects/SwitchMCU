@@ -13,7 +13,7 @@ async def generate_clock(dut):
 async def start_cycle_cnt(dut):
     """Generate the cycle count"""
     dut.cycle_cnt.value = 1
-    for cycle in range(15):
+    for cycle in range(30):
         await RisingEdge(dut.hclk)
         if(int(str(dut.cycle_cnt.value), 2) == 4):
             dut.cycle_cnt.value = 1
@@ -22,15 +22,23 @@ async def start_cycle_cnt(dut):
   
 def twos_comp(val, bits):
     """compute the 2's complement of int value val"""
-    if (val & (1 << (bits - 1))) != 0: # if sign bit is set e.g., 8bit: 128-255
+    if (val & (1 << (bits - 1))) != 0: # if sign bit is 1
         val = val - (1 << bits)        # compute negative value
     return val   
+
+def sign_extend(val, curr_bits, out_bits):
+    sign_bit = (val & (1<< (curr_bits-1)) != 0)
+    if (sign_bit == 0):
+        return val
+    else:
+        return ((1<<out_bits) - 1) ^ ((1 << curr_bits) - 1) | val
+
 
 def load_model(cmd, rd, data, imm):
     """Model of the functionality of the load module"""
     load_rd = rd
     load_addr = data
-    load_offset = twos_comp(imm, 12)
+    load_offset = sign_extend(imm, 12, 32)
     load_sext = ((cmd == "lb") | (cmd == "lh") | (cmd == "lw"))
     load_size = ((cmd == "lb") | (cmd == "lbu")) * 1 + ((cmd == "lh") | (cmd == "lhu"))*2 + (cmd == "lw")*3
     load_en = 1
@@ -44,11 +52,11 @@ async def report_data(dut, actual_rd, actual_addr, actual_offset, actual_sext, a
     dut._log.info("load_size is %s when it should be %s", actual_size, size)
     dut._log.info("load_en is %s when it should be %s", actual_en, en)
     assert actual_rd == rd, f"Load result for rd is incorrect: {actual_rd} != {rd}"
-    assert actual_rd == rd, f"Load result for addr is incorrect: {actual_addr} != {addr}"
-    assert actual_rd == rd, f"Load result for offset is incorrect: {actual_offset} != {offset}"
-    assert actual_rd == rd, f"Load result for sext is incorrect: {actual_sext} != {sext}"
-    assert actual_rd == rd, f"Load result for size is incorrect: {actual_size} != {size}"
-    assert actual_rd == rd, f"Load result for en is incorrect: {actual_en} != {en}"
+    assert actual_addr == addr, f"Load result for addr is incorrect: {actual_addr} != {addr}"
+    assert actual_offset == offset, f"Load result for offset is incorrect: {actual_offset} != {offset}"
+    assert actual_sext == sext, f"Load result for sext is incorrect: {actual_sext} != {sext}"
+    assert actual_size == size, f"Load result for size is incorrect: {actual_size} != {size}"
+    assert actual_en == en, f"Load result for en is incorrect: {actual_en} != {en}"
 
 async def initialize_values(dut):
     dut.hrstn.value = 0
@@ -98,7 +106,7 @@ async def exu_load_cocotb(dut):
     await report_data(dut, actual_load_rd, actual_load_addr, actual_load_offset, actual_load_sext, actual_load_size, actual_load_en, load_rd, load_addr, load_offset, load_sext, load_size, load_en)
 
 @cocotb.test()
-async def exu_loda_randomized_test(dut):
+async def exu_load_randomized_test(dut):
     """Test 50 random calls with random reg, imm, and rd values"""
     coverage = []
     for i in range(50):
