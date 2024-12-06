@@ -4,8 +4,8 @@ Using ModelSim SE (System Edition):
 Create a new project, skip adding any files and add makefile command lines shown below in the command window. The UVM library version installed is modelsim-win64-10.7-se.exe. After successful installation and activation, you can see the compiled UVM library in the modelsim installation directory, and generate a .dll file for UVM verification.
 
 Makefile command:
-```
-vlib work```
+
+```vlib work```
 ```set UVM HOME D:/Modelsimse/verilog_src/uvm-1.1d```
 UVM_HOME indicates the place where your UVM library is
 ```set WORK HOME D:/M2/UVM/UVM example```
