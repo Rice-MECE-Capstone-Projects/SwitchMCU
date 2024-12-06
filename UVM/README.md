@@ -18,8 +18,8 @@ vsim -c -sv lib D:/Modelsimse/uvm-1.1d/win64/uvm_dpi +UVM TESTNAME=my _driver wo
 ```
 
 
-# On Linux platform
-## RICE CLEAR ENVIRONMENT
+## On Linux platform
+### RICE CLEAR ENVIRONMENT
 In a Questasim UVM environment, start by ensuring the shell is set to Bash (check with echo $SHELL) and coordinate with IT if necessary to convert initialization files from setup*.csh to setup*.sh for proper EDA license sourcing. Because UVM-1.2 is not compatible with Questasim 2023.1, switch to UVM-1.1d by setting the environment variable:
 
 ```export UVM_HOME=/clear/apps/siemens-2023/questa/2023.2/questasim/verilog_src/uvm-1.1d```
