@@ -26,7 +26,7 @@ Then compile both the design and testbench, ensuring UVM sources are included:
 ```vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src design.sv testbench.sv```
 If necessary, you can compile them separately:
 ```vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src design.sv
-vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src testbench.sv'''
+vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src testbench.sv```
 Invoke the simulation with:
 ```vsim top_module_name```
 To run without the GUI:
