@@ -19,3 +19,18 @@ vsim -c -sv lib D:/Modelsimse/uvm-1.1d/win64/uvm_dpi +UVM TESTNAME=my _driver wo
 
 
 ## On Linux platform
+# RICE CLEAR ENVIRONMENT
+In a Questasim UVM environment, start by ensuring the shell is set to Bash (check with echo $SHELL) and coordinate with IT if necessary to convert initialization files from setup*.csh to setup*.sh for proper EDA license sourcing. Because UVM-1.2 is not compatible with Questasim 2023.1, switch to UVM-1.1d by setting the environment variable:
+export UVM_HOME=/clear/apps/siemens-2023/questa/2023.2/questasim/verilog_src/uvm-1.1d
+Then compile both the design and testbench, ensuring UVM sources are included:
+vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src design.sv testbench.sv
+If necessary, you can compile them separately:
+vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src design.sv
+vlog -sv -timescale 1ns/1ns -mfcu +incdir+./+$UVM_HOME/src testbench.sv
+Invoke the simulation with:
+vsim top_module_name
+To run without the GUI:
+vsim tbench_top -do "run; quit"
+For coverage:
+vsim -c -coverage tbench_top -do "run -all; quit"
+Successful setup is confirmed by the appearance of UVM messages, a “TEST PASS” message, and coverage statistics (e.g., “Coverage is 66.67%”) in the output.
