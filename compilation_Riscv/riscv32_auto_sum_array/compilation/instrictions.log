@@ -1,0 +1,85 @@
+
+program.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <write_to_peripheral>:
+   0:	000407b7          	lui	a5,0x40
+   4:	00a7a023          	sw	a0,0(a5) # 40000 <_sdata>
+   8:	00008067          	ret
+
+0000000c <_start>:
+   c:	00040117          	auipc	sp,0x40
+  10:	ff410113          	addi	sp,sp,-12 # 40000 <_sdata>
+  14:	008000ef          	jal	1c <_etext>
+  18:	ff5ff06f          	j	c <_start>
+
+Disassembly of section .text.startup:
+
+0000001c <main>:
+  1c:	fffff2b7          	lui	t0,0xfffff
+  20:	06028293          	addi	t0,t0,96 # fffff060 <_stack_start+0xfff7f060>
+  24:	00510133          	add	sp,sp,t0
+  28:	00010793          	mv	a5,sp
+  2c:	00010693          	mv	a3,sp
+  30:	00000713          	li	a4,0
+  34:	3e800613          	li	a2,1000
+  38:	00170713          	addi	a4,a4,1
+  3c:	00e6a023          	sw	a4,0(a3)
+  40:	00468693          	addi	a3,a3,4
+  44:	fec71ae3          	bne	a4,a2,38 <main+0x1c>
+  48:	00001637          	lui	a2,0x1
+  4c:	fa060613          	addi	a2,a2,-96 # fa0 <main+0xf84>
+  50:	00c78633          	add	a2,a5,a2
+  54:	00000713          	li	a4,0
+  58:	0007a683          	lw	a3,0(a5)
+  5c:	00478793          	addi	a5,a5,4
+  60:	00d70733          	add	a4,a4,a3
+  64:	fec79ae3          	bne	a5,a2,58 <main+0x3c>
+  68:	000407b7          	lui	a5,0x40
+  6c:	000012b7          	lui	t0,0x1
+  70:	00e7a023          	sw	a4,0(a5) # 40000 <_sdata>
+  74:	fa028293          	addi	t0,t0,-96 # fa0 <main+0xf84>
+  78:	00000513          	li	a0,0
+  7c:	00510133          	add	sp,sp,t0
+  80:	00008067          	ret
+
+Disassembly of section .data:
+
+00040000 <_sdata>:
+   40000:	0000                	.insn	2, 0x
+   40002:	0008                	.insn	2, 0x0008
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.insn	4, 0x3a434347
+   4:	2820                	.insn	2, 0x2820
+   6:	36343067          	.insn	4, 0x36343067
+   a:	3639                	.insn	2, 0x3639
+   c:	6664                	.insn	2, 0x6664
+   e:	3930                	.insn	2, 0x3930
+  10:	3336                	.insn	2, 0x3336
+  12:	2029                	.insn	2, 0x2029
+  14:	3431                	.insn	2, 0x3431
+  16:	322e                	.insn	2, 0x322e
+  18:	302e                	.insn	2, 0x302e
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1b41                	.insn	2, 0x1b41
+   2:	0000                	.insn	2, 0x
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <_start+0x8>
+   c:	0011                	.insn	2, 0x0011
+   e:	0000                	.insn	2, 0x
+  10:	1004                	.insn	2, 0x1004
+  12:	7205                	.insn	2, 0x7205
+  14:	3376                	.insn	2, 0x3376
+  16:	6932                	.insn	2, 0x6932
+  18:	7032                	.insn	2, 0x7032
+  1a:	0031                	.insn	2, 0x0031
