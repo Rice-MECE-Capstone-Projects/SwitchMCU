@@ -1,0 +1,179 @@
+$date
+	Tue Nov 19 19:04:02 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module ifu_swc_wrapper $end
+$var wire 4 ! cycle_cnt [3:0] $end
+$var wire 3 " hburst [2:0] $end
+$var wire 1 # hclk $end
+$var wire 1 $ hmastlock $end
+$var wire 32 % hrdata [31:0] $end
+$var wire 1 & hready $end
+$var wire 1 ' hresp $end
+$var wire 1 ( hrstn $end
+$var wire 3 ) hsize [2:0] $end
+$var wire 1 * hwrite $end
+$var wire 1 + ifu_dec_stall $end
+$var wire 1 , itcm_ready $end
+$var wire 32 - pc_wdata [31:0] $end
+$var wire 1 . pc_write $end
+$var wire 32 / pc [31:0] $end
+$var wire 32 0 inst_out [31:0] $end
+$var wire 1 1 ifu_idle $end
+$var wire 32 2 hwdata [31:0] $end
+$var wire 2 3 htrans [1:0] $end
+$var wire 7 4 hprot [6:0] $end
+$var wire 32 5 haddr [31:0] $end
+$scope module dut $end
+$var wire 4 6 cycle_cnt [3:0] $end
+$var wire 3 7 hburst [2:0] $end
+$var wire 1 # hclk $end
+$var wire 1 $ hmastlock $end
+$var wire 32 8 hrdata [31:0] $end
+$var wire 1 & hready $end
+$var wire 1 ' hresp $end
+$var wire 1 ( hrstn $end
+$var wire 3 9 hsize [2:0] $end
+$var wire 1 * hwrite $end
+$var wire 1 + ifu_dec_stall $end
+$var wire 1 , itcm_ready $end
+$var wire 32 : pc_wdata [31:0] $end
+$var wire 1 . pc_write $end
+$var parameter 32 ; HTRANS_BUSY $end
+$var parameter 32 < HTRANS_IDLE $end
+$var parameter 32 = HTRANS_NONSEQ $end
+$var parameter 32 > HTRANS_SEQ $end
+$var parameter 32 ? IDLE $end
+$var parameter 32 @ START $end
+$var parameter 32 A WAIT1 $end
+$var parameter 32 B WAIT2 $end
+$var reg 32 C haddr [31:0] $end
+$var reg 7 D hprot [6:0] $end
+$var reg 2 E htrans [1:0] $end
+$var reg 32 F hwdata [31:0] $end
+$var reg 1 1 ifu_idle $end
+$var reg 32 G inst_out [31:0] $end
+$var reg 32 H inst_out_buff [31:0] $end
+$var reg 2 I nextstate [1:0] $end
+$var reg 32 J pc [31:0] $end
+$var reg 2 K state [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b11 B
+b10 A
+b1 @
+b0 ?
+b11 >
+b10 =
+b0 <
+b1 ;
+$end
+#0
+$dumpvars
+b0 K
+b0 J
+b0 I
+b0 H
+b0 G
+bx F
+b0 E
+bx D
+b0 C
+bz :
+b10 9
+bz 8
+b0 7
+bz 6
+b0 5
+bx 4
+b0 3
+bx 2
+01
+b0 0
+b0 /
+z.
+bz -
+z,
+z+
+0*
+b10 )
+0(
+z'
+z&
+bz %
+0$
+1#
+b0 "
+bz !
+$end
+#5000
+0#
+#10000
+b1 I
+b11011110101011011011111011101111 %
+b11011110101011011011111011101111 8
+11
+1#
+b1 !
+b1 6
+1&
+0+
+0.
+1(
+#15000
+0#
+#20000
+b10 !
+b10 6
+b11 I
+b1 K
+b10 3
+b10 E
+01
+1#
+#25000
+0#
+#30000
+b11 !
+b11 6
+b0 I
+b0 3
+b0 E
+b11 K
+1#
+#35000
+0#
+#40000
+b100 !
+b100 6
+b0 K
+b11011110101011011011111011101111 H
+11
+1#
+#45000
+0#
+#50000
+b101 !
+b101 6
+b11011110101011011011111011101111 0
+b11011110101011011011111011101111 G
+b100 /
+b100 J
+1#
+#55000
+0#
+#60000
+b110 !
+b110 6
+1#
+#65000
+0#
+#70001

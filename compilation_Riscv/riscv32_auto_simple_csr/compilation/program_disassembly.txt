@@ -1,0 +1,66 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+       0:	fe010113          	addi	sp,sp,-32
+       4:	00112e23          	sw	ra,28(sp)
+       8:	00812c23          	sw	s0,24(sp)
+       c:	02010413          	addi	s0,sp,32
+      10:	b00027f3          	csrr	a5,mcycle
+      14:	fef42623          	sw	a5,-20(s0)
+      18:	fec42783          	lw	a5,-20(s0)
+      1c:	00078513          	mv	a0,a5
+      20:	01c12083          	lw	ra,28(sp)
+      24:	01812403          	lw	s0,24(sp)
+      28:	02010113          	addi	sp,sp,32
+      2c:	00008067          	ret
+      30:	fe010113          	addi	sp,sp,-32
+      34:	00112e23          	sw	ra,28(sp)
+      38:	00812c23          	sw	s0,24(sp)
+      3c:	02010413          	addi	s0,sp,32
+      40:	fea42623          	sw	a0,-20(s0)
+      44:	fec42783          	lw	a5,-20(s0)
+      48:	30579073          	csrw	mtvec,a5
+      4c:	00000013          	nop
+      50:	01c12083          	lw	ra,28(sp)
+      54:	01812403          	lw	s0,24(sp)
+      58:	02010113          	addi	sp,sp,32
+      5c:	00008067          	ret
+      60:	fe010113          	addi	sp,sp,-32
+      64:	00112e23          	sw	ra,28(sp)
+      68:	00812c23          	sw	s0,24(sp)
+      6c:	02010413          	addi	s0,sp,32
+      70:	00100537          	lui	a0,0x100
+      74:	fbdff0ef          	jal	0x30
+      78:	f89ff0ef          	jal	0x0
+      7c:	fea42623          	sw	a0,-20(s0)
+      80:	fe042023          	sw	zero,-32(s0)
+      84:	0100006f          	j	0x94
+      88:	fe042783          	lw	a5,-32(s0)
+      8c:	00178793          	addi	a5,a5,1
+      90:	fef42023          	sw	a5,-32(s0)
+      94:	fe042703          	lw	a4,-32(s0)
+      98:	3e700793          	li	a5,999
+      9c:	fee7d6e3          	bge	a5,a4,0x88
+      a0:	f61ff0ef          	jal	0x0
+      a4:	fea42423          	sw	a0,-24(s0)
+      a8:	fe842703          	lw	a4,-24(s0)
+      ac:	fec42783          	lw	a5,-20(s0)
+      b0:	40f707b3          	sub	a5,a4,a5
+      b4:	fef42223          	sw	a5,-28(s0)
+      b8:	00000793          	li	a5,0
+      bc:	00078513          	mv	a0,a5
+      c0:	01c12083          	lw	ra,28(sp)
+      c4:	01812403          	lw	s0,24(sp)
+      c8:	02010113          	addi	sp,sp,32
+      cc:	00008067          	ret
+      d0:	00040117          	auipc	sp,0x40
+      d4:	f3010113          	addi	sp,sp,-208 # 0x40000
+      d8:	f89ff0ef          	jal	0x60
+      dc:	ff5ff06f          	j	0xd0
+	...
+   40000:	0000                	unimp
+   40002:	0008                	.insn	2, 0x0008
