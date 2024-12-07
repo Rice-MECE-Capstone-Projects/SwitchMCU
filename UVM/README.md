@@ -21,7 +21,7 @@ sv_lib is where your uvm_dpi package is located.
 
 ```vsim -c -sv lib D:/Modelsimse/uvm-1.1d/win64/uvm_dpi +UVM TESTNAME=my _driver work.top_tb -voptargs=+acc```
 
-Then, run all the command lines at a time and the compilation will success and gives the report
+Then, run all the command lines at a time and the compilation will success and gives the report.
 
 
 
