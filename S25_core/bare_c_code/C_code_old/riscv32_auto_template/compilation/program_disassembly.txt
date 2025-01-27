@@ -1,0 +1,43 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+       0:	000407b7          	lui	a5,0x40
+       4:	00f50533          	add	a0,a0,a5
+       8:	00b52023          	sw	a1,0(a0)
+       c:	00008067          	ret
+      10:	00040117          	auipc	sp,0x40
+      14:	ff010113          	addi	sp,sp,-16 # 0x40000
+      18:	008000ef          	jal	0x20
+      1c:	ff5ff06f          	j	0x10
+      20:	fd010113          	addi	sp,sp,-48
+      24:	00100793          	li	a5,1
+      28:	00012423          	sw	zero,8(sp)
+      2c:	00f12623          	sw	a5,12(sp)
+      30:	00810713          	addi	a4,sp,8
+      34:	02810593          	addi	a1,sp,40
+      38:	00000693          	li	a3,0
+      3c:	00078613          	mv	a2,a5
+      40:	00d787b3          	add	a5,a5,a3
+      44:	00f72423          	sw	a5,8(a4)
+      48:	00470713          	addi	a4,a4,4
+      4c:	00060693          	mv	a3,a2
+      50:	feb716e3          	bne	a4,a1,0x3c
+      54:	00810793          	addi	a5,sp,8
+      58:	00040637          	lui	a2,0x40
+      5c:	40f60633          	sub	a2,a2,a5
+      60:	0007a683          	lw	a3,0(a5) # 0x40000
+      64:	00f60733          	add	a4,a2,a5
+      68:	00478793          	addi	a5,a5,4
+      6c:	00d72023          	sw	a3,0(a4)
+      70:	03010713          	addi	a4,sp,48
+      74:	fee796e3          	bne	a5,a4,0x60
+      78:	00000513          	li	a0,0
+      7c:	03010113          	addi	sp,sp,48
+      80:	00008067          	ret
+	...
+   40000:	0000                	unimp
+   40002:	0008                	.insn	2, 0x0008

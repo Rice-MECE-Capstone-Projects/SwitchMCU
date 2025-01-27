@@ -1,0 +1,10 @@
+XilinxUnisimLibrary/
+**/XilinxUnisimLibrary/
+**/sim.vcd
+**/sim.log
+**/*-sim
+**/gatesim.vcd
+**/gatesim.log
+**/*-gatesim
+**/synth.log
+# **/synth.log

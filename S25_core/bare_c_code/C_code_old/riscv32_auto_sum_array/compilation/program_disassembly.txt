@@ -1,0 +1,43 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+       0:	000407b7          	lui	a5,0x40
+       4:	00a7a023          	sw	a0,0(a5) # 0x40000
+       8:	00008067          	ret
+       c:	00040117          	auipc	sp,0x40
+      10:	ff410113          	addi	sp,sp,-12 # 0x40000
+      14:	008000ef          	jal	0x1c
+      18:	ff5ff06f          	j	0xc
+      1c:	fffff2b7          	lui	t0,0xfffff
+      20:	06028293          	addi	t0,t0,96 # 0xfffff060
+      24:	00510133          	add	sp,sp,t0
+      28:	00010793          	mv	a5,sp
+      2c:	00010693          	mv	a3,sp
+      30:	00000713          	li	a4,0
+      34:	3e800613          	li	a2,1000
+      38:	00170713          	addi	a4,a4,1
+      3c:	00e6a023          	sw	a4,0(a3)
+      40:	00468693          	addi	a3,a3,4
+      44:	fec71ae3          	bne	a4,a2,0x38
+      48:	00001637          	lui	a2,0x1
+      4c:	fa060613          	addi	a2,a2,-96 # 0xfa0
+      50:	00c78633          	add	a2,a5,a2
+      54:	00000713          	li	a4,0
+      58:	0007a683          	lw	a3,0(a5)
+      5c:	00478793          	addi	a5,a5,4
+      60:	00d70733          	add	a4,a4,a3
+      64:	fec79ae3          	bne	a5,a2,0x58
+      68:	000407b7          	lui	a5,0x40
+      6c:	000012b7          	lui	t0,0x1
+      70:	00e7a023          	sw	a4,0(a5) # 0x40000
+      74:	fa028293          	addi	t0,t0,-96 # 0xfa0
+      78:	00000513          	li	a0,0
+      7c:	00510133          	add	sp,sp,t0
+      80:	00008067          	ret
+	...
+   40000:	0000                	unimp
+   40002:	0008                	.insn	2, 0x0008
