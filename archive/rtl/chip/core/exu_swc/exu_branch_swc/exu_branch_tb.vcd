@@ -1,0 +1,182 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Wed Nov  6 13:56:49 2024
+[*]
+[dumpfile] "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_branch_swc/dump.vcd"
+[dumpfile_mtime] "Wed Nov  6 13:56:15 2024"
+[dumpfile_size] 2502
+[savefile] "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_branch_swc/exu_branch_tb.vcd"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*0.000000 2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] exu_branch_wrapper.
+[sst_width] 276
+[signals_width] 198
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@22
+exu_branch_wrapper.dec_imm_type_b[12:0]
+exu_branch_wrapper.dec_rs1[4:0]
+@420
+exu_branch_wrapper.dut.FLUSH_CYCLE_1
+@22
+exu_branch_wrapper.dut.dec_imm_type_b[12:0]
+exu_branch_wrapper.dut.dec_rs1[4:0]
+@28
+exu_branch_wrapper.dut.flush[1:0]
+exu_branch_wrapper.dut.mid_flush[1:0]
+@22
+exu_branch_wrapper.dut.mid_pc_wdata[31:0]
+exu_branch_wrapper.dut.mid_reg_raddr_1[4:0]
+@28
+exu_branch_wrapper.dut.mid_reg_ren_1
+@22
+exu_branch_wrapper.dut.pc[31:0]
+exu_branch_wrapper.dut.pc_next[31:0]
+exu_branch_wrapper.dut.pc_real[31:0]
+exu_branch_wrapper.dut.pc_wdata[31:0]
+exu_branch_wrapper.dut.reg_raddr_1[4:0]
+exu_branch_wrapper.dut.reg_rdata_1[31:0]
+exu_branch_wrapper.dut.reg_rdata_2[31:0]
+@28
+exu_branch_wrapper.dut.reg_ren_1
+@23
+exu_branch_wrapper.dut.sext_imm_type_b[31:0]
+@28
+exu_branch_wrapper.flush[1:0]
+@22
+exu_branch_wrapper.pc[31:0]
+exu_branch_wrapper.pc_wdata[31:0]
+exu_branch_wrapper.reg_raddr_1[4:0]
+exu_branch_wrapper.reg_rdata_1[31:0]
+exu_branch_wrapper.reg_rdata_2[31:0]
+@28
+exu_branch_wrapper.reg_ren_1
+exu_branch_wrapper.dec_bgeu
+exu_branch_wrapper.dut.dec_bgeu
+@22
+exu_branch_wrapper.dec_imm_type_b[12:0]
+exu_branch_wrapper.dec_rs1[4:0]
+@420
+exu_branch_wrapper.dut.FLUSH_CYCLE_1
+@22
+exu_branch_wrapper.dut.dec_imm_type_b[12:0]
+exu_branch_wrapper.dut.dec_rs1[4:0]
+@28
+exu_branch_wrapper.dut.flush[1:0]
+exu_branch_wrapper.dut.mid_flush[1:0]
+@22
+exu_branch_wrapper.dut.mid_pc_wdata[31:0]
+exu_branch_wrapper.dut.mid_reg_raddr_1[4:0]
+@28
+exu_branch_wrapper.dut.mid_reg_ren_1
+@22
+exu_branch_wrapper.dut.pc[31:0]
+exu_branch_wrapper.dut.pc_next[31:0]
+exu_branch_wrapper.dut.pc_real[31:0]
+exu_branch_wrapper.dut.pc_wdata[31:0]
+exu_branch_wrapper.dut.reg_raddr_1[4:0]
+exu_branch_wrapper.dut.reg_rdata_1[31:0]
+exu_branch_wrapper.dut.reg_rdata_2[31:0]
+@28
+exu_branch_wrapper.dut.reg_ren_1
+@22
+exu_branch_wrapper.dut.sext_imm_type_b[31:0]
+@28
+exu_branch_wrapper.flush[1:0]
+@22
+exu_branch_wrapper.pc[31:0]
+exu_branch_wrapper.pc_wdata[31:0]
+exu_branch_wrapper.reg_raddr_1[4:0]
+exu_branch_wrapper.reg_rdata_1[31:0]
+exu_branch_wrapper.reg_rdata_2[31:0]
+@28
+exu_branch_wrapper.reg_ren_1
+exu_branch_wrapper.dec_bgeu
+exu_branch_wrapper.dut.dec_bgeu
+@22
+exu_branch_wrapper.cycle_cnt[3:0]
+@28
+exu_branch_wrapper.dec_beq
+exu_branch_wrapper.dec_bge
+exu_branch_wrapper.dec_bgeu
+exu_branch_wrapper.dec_blt
+exu_branch_wrapper.dec_bltu
+exu_branch_wrapper.dec_bne
+exu_branch_wrapper.dec_branch_en
+@22
+exu_branch_wrapper.dec_imm_type_b[12:0]
+exu_branch_wrapper.dec_rs1[4:0]
+exu_branch_wrapper.dec_rs2[4:0]
+@420
+exu_branch_wrapper.dut.FLUSH_CYCLE_1
+exu_branch_wrapper.dut.FLUSH_CYCLE_2
+exu_branch_wrapper.dut.FLUSH_DISABLE
+@28
+exu_branch_wrapper.dut.branch
+@22
+exu_branch_wrapper.dut.cycle_cnt[3:0]
+@28
+exu_branch_wrapper.dut.dec_beq
+exu_branch_wrapper.dut.dec_bge
+exu_branch_wrapper.dut.dec_bgeu
+exu_branch_wrapper.dut.dec_blt
+exu_branch_wrapper.dut.dec_bltu
+exu_branch_wrapper.dut.dec_bne
+exu_branch_wrapper.dut.dec_branch_en
+@22
+exu_branch_wrapper.dut.dec_imm_type_b[12:0]
+exu_branch_wrapper.dut.dec_rs1[4:0]
+exu_branch_wrapper.dut.dec_rs2[4:0]
+@28
+exu_branch_wrapper.dut.flush[1:0]
+exu_branch_wrapper.dut.hclk
+exu_branch_wrapper.dut.hrstn
+exu_branch_wrapper.dut.mid_flush[1:0]
+@22
+exu_branch_wrapper.dut.mid_pc_wdata[31:0]
+@28
+exu_branch_wrapper.dut.mid_pc_write
+@22
+exu_branch_wrapper.dut.mid_reg_raddr_1[4:0]
+exu_branch_wrapper.dut.mid_reg_raddr_2[4:0]
+@28
+exu_branch_wrapper.dut.mid_reg_ren_1
+exu_branch_wrapper.dut.mid_reg_ren_2
+@22
+exu_branch_wrapper.dut.pc[31:0]
+exu_branch_wrapper.dut.pc_next[31:0]
+exu_branch_wrapper.dut.pc_real[31:0]
+exu_branch_wrapper.dut.pc_wdata[31:0]
+@28
+exu_branch_wrapper.dut.pc_write
+@22
+exu_branch_wrapper.dut.reg_raddr_1[4:0]
+exu_branch_wrapper.dut.reg_raddr_2[4:0]
+exu_branch_wrapper.dut.reg_rdata_1[31:0]
+exu_branch_wrapper.dut.reg_rdata_2[31:0]
+@28
+exu_branch_wrapper.dut.reg_ren_1
+exu_branch_wrapper.dut.reg_ren_2
+@22
+exu_branch_wrapper.dut.sext_imm_type_b[31:0]
+@28
+exu_branch_wrapper.flush[1:0]
+exu_branch_wrapper.hclk
+exu_branch_wrapper.hrstn
+@22
+exu_branch_wrapper.pc[31:0]
+exu_branch_wrapper.pc_wdata[31:0]
+@28
+exu_branch_wrapper.pc_write
+@22
+exu_branch_wrapper.reg_raddr_1[4:0]
+exu_branch_wrapper.reg_raddr_2[4:0]
+exu_branch_wrapper.reg_rdata_1[31:0]
+exu_branch_wrapper.reg_rdata_2[31:0]
+@28
+exu_branch_wrapper.reg_ren_1
+exu_branch_wrapper.reg_ren_2
+[pattern_trace] 1
+[pattern_trace] 0

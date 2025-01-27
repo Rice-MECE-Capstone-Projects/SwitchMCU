@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Fri Nov  8 23:57:37 2024
+[*]
+[dumpfile] "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_flush_swc/dump.vcd"
+[dumpfile_mtime] "Fri Nov  8 23:55:48 2024"
+[dumpfile_size] 1188
+[savefile] "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_flush_swc/exu_flush_tb.vcd"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ex_flush_wrapper.
+[sst_width] 276
+[signals_width] 142
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@420
+ex_flush_wrapper.dut.FLUSH_DISABLE
+@22
+ex_flush_wrapper.cycle_cnt[3:0]
+@420
+ex_flush_wrapper.dut.FLUSH_CYCLE_1
+ex_flush_wrapper.dut.STATE_1
+@22
+ex_flush_wrapper.dut.cycle_cnt[3:0]
+@28
+ex_flush_wrapper.dut.flush[1:0]
+ex_flush_wrapper.dut.nextstate[1:0]
+ex_flush_wrapper.dut.state[1:0]
+ex_flush_wrapper.flush[1:0]
+@420
+ex_flush_wrapper.dut.IDLE
+@22
+ex_flush_wrapper.cycle_cnt[3:0]
+@420
+ex_flush_wrapper.dut.FLUSH_CYCLE_1
+ex_flush_wrapper.dut.STATE_1
+@22
+ex_flush_wrapper.dut.cycle_cnt[3:0]
+@28
+ex_flush_wrapper.dut.flush[1:0]
+@29
+ex_flush_wrapper.dut.nextstate[1:0]
+@28
+ex_flush_wrapper.dut.state[1:0]
+ex_flush_wrapper.flush[1:0]
+[pattern_trace] 1
+[pattern_trace] 0
