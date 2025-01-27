@@ -1,0 +1,98 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Mon Nov 11 17:15:56 2024
+[*]
+[dumpfile] "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_jump_swc/exu_jump_swc.vcd"
+[dumpfile_mtime] "Mon Nov 11 17:15:25 2024"
+[dumpfile_size] 3759
+[savefile] "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_jump_swc/exu_jump_tb.vcd"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] exu_jump_swc_wrapper.
+[sst_width] 276
+[signals_width] 198
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@22
+exu_jump_swc_wrapper.dec_rs1[4:0]
+exu_jump_swc_wrapper.dut.dec_rs1[4:0]
+exu_jump_swc_wrapper.cycle_cnt[3:0]
+exu_jump_swc_wrapper.dec_imm_type_i[11:0]
+exu_jump_swc_wrapper.dec_imm_type_j[20:0]
+exu_jump_swc_wrapper.dec_rd[4:0]
+exu_jump_swc_wrapper.dec_rs1[4:0]
+exu_jump_swc_wrapper.dut.cycle_cnt[3:0]
+exu_jump_swc_wrapper.dut.dec_imm_type_i[11:0]
+exu_jump_swc_wrapper.dut.dec_imm_type_j[20:0]
+exu_jump_swc_wrapper.dut.dec_rd[4:0]
+exu_jump_swc_wrapper.dut.dec_rs1[4:0]
+@28
+exu_jump_swc_wrapper.dut.flush[1:0]
+exu_jump_swc_wrapper.dut.mid_flush[1:0]
+@22
+exu_jump_swc_wrapper.dut.mid_pc_wdata[31:0]
+exu_jump_swc_wrapper.dut.mid_reg_raddr_1[4:0]
+exu_jump_swc_wrapper.dut.mid_reg_waddr[4:0]
+exu_jump_swc_wrapper.dut.mid_reg_wdata[31:0]
+exu_jump_swc_wrapper.dut.pc[31:0]
+exu_jump_swc_wrapper.dut.pc_next[31:0]
+exu_jump_swc_wrapper.dut.pc_real[31:0]
+exu_jump_swc_wrapper.dut.pc_wdata[31:0]
+exu_jump_swc_wrapper.dut.reg_raddr_1[4:0]
+exu_jump_swc_wrapper.dut.reg_rdata_1[31:0]
+exu_jump_swc_wrapper.dut.reg_waddr[4:0]
+exu_jump_swc_wrapper.dut.reg_wdata[31:0]
+exu_jump_swc_wrapper.dut.sext_imm_type_i[31:0]
+exu_jump_swc_wrapper.dut.sext_imm_type_j[31:0]
+@28
+exu_jump_swc_wrapper.flush[1:0]
+@22
+exu_jump_swc_wrapper.pc[31:0]
+exu_jump_swc_wrapper.pc_wdata[31:0]
+exu_jump_swc_wrapper.reg_raddr_1[4:0]
+exu_jump_swc_wrapper.reg_rdata_1[31:0]
+exu_jump_swc_wrapper.reg_waddr[4:0]
+exu_jump_swc_wrapper.reg_wdata[31:0]
+exu_jump_swc_wrapper.dec_rs1[4:0]
+exu_jump_swc_wrapper.dut.dec_rs1[4:0]
+exu_jump_swc_wrapper.cycle_cnt[3:0]
+exu_jump_swc_wrapper.dec_imm_type_i[11:0]
+exu_jump_swc_wrapper.dec_imm_type_j[20:0]
+exu_jump_swc_wrapper.dec_rd[4:0]
+exu_jump_swc_wrapper.dec_rs1[4:0]
+exu_jump_swc_wrapper.dut.cycle_cnt[3:0]
+exu_jump_swc_wrapper.dut.dec_imm_type_i[11:0]
+exu_jump_swc_wrapper.dut.dec_imm_type_j[20:0]
+exu_jump_swc_wrapper.dut.dec_rd[4:0]
+exu_jump_swc_wrapper.dut.dec_rs1[4:0]
+@28
+exu_jump_swc_wrapper.dut.flush[1:0]
+exu_jump_swc_wrapper.dut.mid_flush[1:0]
+@22
+exu_jump_swc_wrapper.dut.mid_pc_wdata[31:0]
+exu_jump_swc_wrapper.dut.mid_reg_raddr_1[4:0]
+exu_jump_swc_wrapper.dut.mid_reg_waddr[4:0]
+exu_jump_swc_wrapper.dut.mid_reg_wdata[31:0]
+exu_jump_swc_wrapper.dut.pc[31:0]
+exu_jump_swc_wrapper.dut.pc_next[31:0]
+exu_jump_swc_wrapper.dut.pc_real[31:0]
+exu_jump_swc_wrapper.dut.pc_wdata[31:0]
+exu_jump_swc_wrapper.dut.reg_raddr_1[4:0]
+exu_jump_swc_wrapper.dut.reg_rdata_1[31:0]
+exu_jump_swc_wrapper.dut.reg_waddr[4:0]
+exu_jump_swc_wrapper.dut.reg_wdata[31:0]
+exu_jump_swc_wrapper.dut.sext_imm_type_i[31:0]
+exu_jump_swc_wrapper.dut.sext_imm_type_j[31:0]
+@28
+exu_jump_swc_wrapper.flush[1:0]
+@22
+exu_jump_swc_wrapper.pc[31:0]
+exu_jump_swc_wrapper.pc_wdata[31:0]
+exu_jump_swc_wrapper.reg_raddr_1[4:0]
+exu_jump_swc_wrapper.reg_rdata_1[31:0]
+exu_jump_swc_wrapper.reg_waddr[4:0]
+exu_jump_swc_wrapper.reg_wdata[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

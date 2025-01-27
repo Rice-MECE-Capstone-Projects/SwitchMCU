@@ -1,0 +1,27 @@
+#! /usr/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2009.vpi";
+S_0x555f1b612510 .scope package, "$unit" "$unit" 2 1;
+ .timescale -9 -12;
+S_0x555f1b6126a0 .scope module, "my_design" "my_design" 3 4;
+ .timescale -9 -9;
+    .port_info 0 /INPUT 1 "clk";
+o0x7f5d5cc2e018 .functor BUFZ 1, C4<z>; HiZ drive
+v0x555f1b624430_0 .net "clk", 0 0, o0x7f5d5cc2e018;  0 drivers
+L_0x7f5d5cbe5018 .functor BUFT 1, C4<x>, C4<0>, C4<0>, C4<0>;
+v0x555f1b659260_0 .net "my_signal_1", 0 0, L_0x7f5d5cbe5018;  1 drivers
+L_0x7f5d5cbe5060 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x555f1b659320_0 .net "my_signal_2", 0 0, L_0x7f5d5cbe5060;  1 drivers
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/cocotb_test/my_design.sv";
