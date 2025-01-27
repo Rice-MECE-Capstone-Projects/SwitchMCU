@@ -13,7 +13,7 @@ Over the last decade, the computing industry has steadily moved from CISC to RIS
 - Temporarily no cache and MMU.
 ## Repository Layout
 
-### 'Archived Work'
+### 'rchive
 #### `SwitchMCU/AMBA/`
 Contains AMBA interface design for GPIO control system inplemented in 2024 spring. Overall design overflow and code are all included.
 
@@ -43,7 +43,19 @@ Digital assests such as figures and diagrams used in the README.md file.
 
   
   
-  
+### Verification
+
+#### Pynq_FPGA
+
+Code for FPGA emulation 
+
+#### UVM
+
+Code for testing with the Universal Verification Methodology
+
+#### coco_tb
+
+Code for a verification suite using CocoTb that extensively verifies the core in the archived rtl
   
   
   
