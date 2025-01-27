@@ -13,6 +13,7 @@ Over the last decade, the computing industry has steadily moved from CISC to RIS
 - Temporarily no cache and MMU.
 ## Repository Layout
 
+### 'Archived Work'
 #### `SwitchMCU/AMBA/`
 Contains AMBA interface design for GPIO control system inplemented in 2024 spring. Overall design overflow and code are all included.
 
