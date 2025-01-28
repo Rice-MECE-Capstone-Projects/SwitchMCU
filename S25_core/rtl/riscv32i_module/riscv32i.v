@@ -104,6 +104,11 @@ wire [31:0] imm_stage1;
 wire [63:0] Single_Instruction_stage1;
 wire [31:0] alu_result_1;
 wire [31:0] alu_result_2;
+//exec 
+wire [31:0] operand1_into_exec;
+wire [31:0] operand2_into_exec;
+
+
 
 
 wire [31:0] pc_stage_2;
@@ -179,7 +184,7 @@ wire jump_inst_wire,branch_inst_wire;
 .reset(reset), 
 .reg1_pi(rs1_o), 
 .reg2_pi(rs2_o), 
-.destReg_pi(rd_o), 
+.destReg_pi(rd_stage3), 
 .we_pi(write_reg_file_wire_stage3), 
 .writeData_pi(writeData_pi), 
 .operand1_po(operand1_po),
@@ -189,8 +194,8 @@ wire jump_inst_wire,branch_inst_wire;
 execute  #(.N_param(32)) execute 
     (.i_clk(clk),    
      .Single_Instruction_i(Single_Instruction_stage1),
-     .operand1_pi(operand1_stage1),
-     .operand2_pi(operand2_stage1),
+     .operand1_pi(operand1_into_exec),
+     .operand2_pi(operand2_into_exec),
      .instruction(instruction_stage_1),
      .pc_i(pc_stage_1),
      .rd_i(rd_stage1),
@@ -218,6 +223,19 @@ dataMem  #(.mem_size(4096)) dataMem
 .SD_memory_avalible(SD_memory_avalible),
 .load_into_reg(load_into_reg)
 );
+
+hazard hazard (
+.rs1_stage1(rs1_stage1),
+.rs2_stage1(rs2_stage1),
+.destination_reg_stage2(rd_stage2),
+.write_reg_stage2(write_reg_file_wire_stage2),
+.destination_reg_stage3(rd_stage3),
+.write_reg_stage3(write_reg_file_wire_stage3|load_into_reg_stage3),
+.src1Forward_po(src1Forward_alu),
+.src2Forward_po(src2Forward_alu) 
+);
+
+
 
 
 // assign we_pi = (==);
@@ -270,7 +288,13 @@ assign write_reg_file_wire_stage3 = pipeReg3[`reg_write_en      ];
 assign load_into_reg_stage3       = pipeReg3[`load_reg          ];  
 assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
 
-wire   delete_reg1_reg3 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
+wire [1:0] src1Forward_alu, src2Forward_alu ;
+assign operand1_into_exec = src1Forward_alu[1] ? (alu_result_1_stage2) :(src1Forward_alu[0] ? writeData_pi: operand1_stage1 ) ;
+assign operand2_into_exec = src2Forward_alu[1] ? (alu_result_1_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
+
+// debuh condition
+wire   delete_reg1_reg3; 
+assign delete_reg1_reg3 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
 assign writeData_pi = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
 
  // assign fun3_stage1 =                pipeReg1[`fun3]; // assign fun7_stage1 =                pipeReg1[`fun7]; // assign INST_typ_stage1 =            pipeReg1[`INST_typ]; // assign opcode_stage1 =              pipeReg1[`opcode];

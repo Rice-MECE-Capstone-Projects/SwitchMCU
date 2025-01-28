@@ -11,7 +11,7 @@ output wire [31:0] operand1_po,
 output wire [31:0] operand2_po
 );
 
-reg [31:0] REG_FILE[0:63];  // 32 32-bit registers
+reg [31:0] REG_FILE[0:31];  // 32 32-bit registers
 
    wire   cntrl1, cntrl2;
    assign cntrl1 =  (reg1_pi  == destReg_pi) &&  we_pi;
@@ -21,7 +21,7 @@ reg [31:0] REG_FILE[0:63];  // 32 32-bit registers
 integer j;
 
 initial begin 
- for (i=0; i < 32; i=i+1)begin 
+ for (j=0; j < 32; j=j+1)begin 
 	  	  REG_FILE[j] <= 32'b0;	 
  end
 end
