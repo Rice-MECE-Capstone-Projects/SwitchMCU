@@ -41,7 +41,7 @@ wire signed [31:0] imm_i_signed       = imm_i;
 
 reg  branch_inst, jump_inst,write_reg_file;
 assign jump_inst_wire  = jump_inst;
-assign branch_inst_wire = branch_inst | result[0];
+assign branch_inst_wire = branch_inst & result[0];
 assign write_reg_file_wire = write_reg_file;
 
 

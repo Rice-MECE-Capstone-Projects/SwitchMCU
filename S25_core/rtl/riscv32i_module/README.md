@@ -35,4 +35,11 @@ all other .v files --> modules used in the main riscv32i.v
 
 
 
+pc.v  --> program counter, 
+
+ins_mem.v --> instruction memory, here the starting address of the code is places, ex: address 0x120
+
+
+
+
 
