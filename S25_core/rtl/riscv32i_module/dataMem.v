@@ -7,12 +7,14 @@ input wire      [31:0] address,
 input wire      [31:0] storeData, 
 output wire     [31:0] loadData_w,
 output wire LD_memory_avalible,
-output wire SD_memory_avalible
+output wire SD_memory_avalible,
+output wire load_into_reg
+
 );
 
     assign LD_memory_avalible = 1'b1;
     assign SD_memory_avalible = 1'b1;
-
+    assign load_into_reg = load_wire;
     reg  [31:0] DMEM [0:mem_size-1];
     wire [11:0] word_address;
     wire [ 1:0] byte_address;
