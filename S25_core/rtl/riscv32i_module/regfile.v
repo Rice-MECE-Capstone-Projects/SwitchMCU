@@ -13,19 +13,25 @@ output wire [31:0] operand2_po
 
 reg [31:0] REG_FILE[0:63];  // 32 32-bit registers
 
-
    wire   cntrl1, cntrl2;
    assign cntrl1 =  (reg1_pi  == destReg_pi) &&  we_pi;
    assign cntrl2 =  (reg2_pi  == destReg_pi) &&  we_pi ;
    assign operand1_po = cntrl1  ? writeData_pi : REG_FILE[reg1_pi];
    assign operand2_po = cntrl2  ? writeData_pi : REG_FILE[reg2_pi];
+integer j;
 
+initial begin 
+ for (i=0; i < 32; i=i+1)begin 
+	  	  REG_FILE[j] <= 32'b0;	 
+ end
+end
 
 integer i;
 always @(posedge clk) begin
       if (reset)
-       	  for (i=0; i < 32; i=i+1)
-	  	  REG_FILE[i] <= 32'b0;	
+       	  for (i=0; i < 32; i=i+1) begin 
+	  	     REG_FILE[i] <= 32'b0;	
+           end
 	else
 	   if (we_pi && (destReg_pi!=0))  
 		   REG_FILE[destReg_pi] <= writeData_pi;

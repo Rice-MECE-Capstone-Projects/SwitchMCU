@@ -26,7 +26,7 @@ ${XILINX_CELLS_DIR}:
 	git clone ${XILINX_CELLS_URL}
 
 gatesim: ./riscv32i-gatesim
-	./$< +VCDFILE=gatesim.vcd +VCDLEVEL=3 | tee gatesim.log
+	./$< +VCDFILE=gatesim.vcd +VCDLEVEL=4 | tee gatesim.log
 
 riscv32i-gatesim: riscv32iTB.v riscv32i.netlist.v | ${XILINX_CELLS_DIR}
 	${IVERILOG} -g2005-sv -s riscv32iTB -DGATESIM -y ${XILINX_CELLS_DIR} -y ${XILINX_CELLS_DIR}/unisims -o $@ $^
