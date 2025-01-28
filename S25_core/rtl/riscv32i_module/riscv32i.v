@@ -65,7 +65,7 @@ end
         .halt_i(halt_i),
         .jump_inst_wire(jump_inst_wire),
         .branch_inst_wire(branch_inst_wire),
-        .targetPC_i(result_secondary)
+        .targetPC_i(result_secondary),
         .pc_o(pc_i)
     );
 
@@ -137,6 +137,9 @@ wire [31:0] alu_result_1_stage3;
 wire [31:0] alu_result_2_stage3;
 wire LD_memory_avalible_stage3;
 wire SD_memory_avalible_stage3;
+
+
+wire [31:0] result_secondary;
 
 wire jump_inst_wire,branch_inst_wire;
 

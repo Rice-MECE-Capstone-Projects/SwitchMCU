@@ -7,4 +7,5 @@ XilinxUnisimLibrary/
 **/gatesim.log
 **/*-gatesim
 **/synth.log
+**/sanity.hex
 # **/synth.log
