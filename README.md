@@ -642,7 +642,7 @@ https://github.com/Rice-MECE-Capstone-Projects/SwitchMCU/blob/main/doc/ELEC594_C
   
 
 - Verification Team final report from ELEC 594 Capstone Project in Fall 2024 at Rice University.
-- 
+
 https://github.com/Rice-MECE-Capstone-Projects/SwitchMCU/blob/main/archive/doc/Verification_Team_Final_Report.pdf
 
 
