@@ -45,15 +45,15 @@ Digital assests such as figures and diagrams used in the README.md file.
   
 ### Verification
 
-#### Pynq_FPGA
+#### `SwitchMCU/verification/Pynq_FPGA/`
 
 Code for FPGA emulation 
 
-#### UVM
+#### `SwitchMCU/verification/UVM/`
 
 Code for testing with the Universal Verification Methodology
 
-#### coco_tb
+#### `SwitchMCU/verification/coco_tb/`
 
 Code for a verification suite using CocoTb that extensively verifies the core in the archived rtl
   
