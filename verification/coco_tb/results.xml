@@ -1,0 +1,16 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1738599223" />
+    <testcase name="test_R" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="14" time="0.013933420181274414" sim_time_ns="70.001" ratio_time="5023.963900412382">
+      <failure message="Test failed with RANDOM_SEED=1738599223" />
+    </testcase>
+    <testcase name="test_I" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="35" time="0.0025186538696289062" sim_time_ns="70.001" ratio_time="27793.021043544115" />
+    <testcase name="test_S" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="53" time="0.002662181854248047" sim_time_ns="70.00099999999998" ratio_time="26294.597376320966" />
+    <testcase name="test_B" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="71" time="0.002290010452270508" sim_time_ns="70.00100000000003" ratio_time="30567.98274898492" />
+    <testcase name="test_U" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="89" time="0.002400636672973633" sim_time_ns="70.00099999999998" ratio_time="29159.347929685162" />
+    <testcase name="test_J" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="106" time="0.0017771720886230469" sim_time_ns="70.00099999999998" ratio_time="39388.982332170635" />
+    <testcase name="test_add_addi" classname="test_decode" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode.py" lineno="123" time="0.0018434524536132812" sim_time_ns="60.00100000000003" ratio_time="32548.16791308848">
+      <failure message="Test failed with RANDOM_SEED=1738599223" />
+    </testcase>
+  </testsuite>
+</testsuites>
