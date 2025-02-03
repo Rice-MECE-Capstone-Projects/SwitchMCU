@@ -18,8 +18,8 @@ output wire load_into_reg
     reg  [31:0] DMEM [0:mem_size-1];
     wire [11:0] word_address;
     wire [ 1:0] byte_address;
-    reg  [ 3:0] load_wire;
-    reg  [ 3:0] store_wire;
+    reg         load_wire;
+    reg         store_wire;
     wire [31:0] raw_word;
     reg [31:0] loadData;           // Data to be loaded
     // reg [31:0] storeData;           // Data to be loaded
@@ -102,38 +102,86 @@ integer i;
         {inst_SB    }:begin
             // loadData = {DMEM[word_address][(byte_address * 8) +: 8]};
 
-        last_stored_address <= word_address;
+        // last_stored_address <= word_address;
         DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
+        // last_stored_data    <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
+        // stored_happened      <= 1;
+        end
+        {inst_SH    }:begin
+        DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
+        // last_stored_data    <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
+        // last_stored_address <= word_address;
+        // stored_happened      <= 1;
+        end
+        {inst_SW    }:begin
+        DMEM[word_address]   <= storeData;
+        // last_stored_data    <= storeData;
+        // last_stored_address <= word_address;
+        // stored_happened      <= 1;
+        end
+        // default: begin 
+        // last_stored_address <= 0;
+        // last_stored_data    <= 0; 
+        // stored_happened     <= 0;
+        //         end
+        endcase
+                
+                // DMEM[word_address] <= storeData;
+        end
+        // else begin
+        // last_stored_address <= 0;
+        // last_stored_data    <= 0; 
+        // stored_happened     <= 0;
+        //      end
+
+        end
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+     always @(*) begin
+        if (store_wire) begin
+        case(Single_Instruction) 
+        {inst_SB    }:begin
+            // loadData = {DMEM[word_address][(byte_address * 8) +: 8]};
+
+        last_stored_address <= word_address;
         last_stored_data    <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
         stored_happened      <= 1;
         end
         {inst_SH    }:begin
-        DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
         last_stored_data    <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
         last_stored_address <= word_address;
         stored_happened      <= 1;
         end
         {inst_SW    }:begin
-        DMEM[word_address]   <= storeData;
         last_stored_data    <= storeData;
         last_stored_address <= word_address;
         stored_happened      <= 1;
         end
-        // default: begin 
-        //     error <=1;
-        // end
+        default: begin 
+        last_stored_address <= 0;
+        last_stored_data    <= 0; 
+        stored_happened     <= 0;
+                end
         endcase
-                
-                // DMEM[word_address] <= storeData;
-            end else begin
+        end else begin
         last_stored_address <= 0;
         last_stored_data    <= 0; 
         stored_happened     <= 0;
              end
 
         end
-
- 
 
 
 //DEBUG BELOW
