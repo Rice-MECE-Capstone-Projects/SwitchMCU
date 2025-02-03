@@ -14,7 +14,7 @@ all: sim synth gatesim
 sim: riscv32i-sim
 	./$< +VCDFILE=sim.vcd +VCDLEVEL=0 | tee sim.log
 
-riscv32i-sim: riscv32iTB.v ${DUT} ins_mem.v decode.v regfile.v excute.v pc.v dataMem.v hazard.v | ${XILINX_CELLS_DIR}
+riscv32i-sim: riscv32iTB.v ${DUT} ins_mem.v decode.v regfile.v excute.v pc.v dataMem.v hazard.v debug.v | ${XILINX_CELLS_DIR}
 	${IVERILOG} -g2005-sv -s riscv32iTB -y ${XILINX_CELLS_DIR} -o $@ $^
 
 synth: riscv32i.netlist.v
@@ -30,6 +30,11 @@ gatesim: ./riscv32i-gatesim
 
 riscv32i-gatesim: riscv32iTB.v riscv32i.netlist.v | ${XILINX_CELLS_DIR}
 	${IVERILOG} -g2005-sv -s riscv32iTB -DGATESIM -y ${XILINX_CELLS_DIR} -y ${XILINX_CELLS_DIR}/unisims -o $@ $^
+
+
+clear:
+	$(RM) riscv32i-sim 
+	
 
 clean:
 	$(RM) riscv32i-sim sim.log
