@@ -3,7 +3,6 @@
 `define instruct            63:32   //[31:00]
 `define alu_res1            95:34   //[31:00]
 // `define alu_res1            95:34   //[31:00]
-
 `define load_reg           101
 `define jump_en            102     //[ 4:0]
 `define branch_en          103     //[ 4:0]
@@ -162,6 +161,15 @@ wire [31:0] result_secondary;
 
 wire jump_inst_wire,branch_inst_wire;
 
+
+
+debug # (.Param_delay(1),.regCount(0), .pc_en(1) ) debug_0 (.i_clk(clk),.pipeReg(pipeReg0), .pc_o(pc_i));
+debug # (.Param_delay(2),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
+debug # (.Param_delay(3),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
+debug # (.Param_delay(4),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
+
+
+
     decode #(.N_param(N_param)) decode_debug
     (
    .i_clk(clk),
@@ -202,6 +210,7 @@ execute  #(.N_param(32)) execute
      .rs1_i(rs1_stage1), 
      .rs2_i(rs2_stage1), 
      .imm_i(imm_stage1),
+     .Noop(delete_reg1_reg2),
      .alu_result_1(alu_result_1),
      .alu_result_2(alu_result_2),
      .branch_inst_wire(branch_inst_wire),
@@ -230,11 +239,10 @@ hazard hazard (
 .destination_reg_stage2(rd_stage2),
 .write_reg_stage2(write_reg_file_wire_stage2),
 .destination_reg_stage3(rd_stage3),
-.write_reg_stage3(write_reg_file_wire_stage3|load_into_reg_stage3),
+.write_reg_stage3(write_reg_stage3),
 .src1Forward_po(src1Forward_alu),
 .src2Forward_po(src2Forward_alu) 
 );
-
 
 
 
@@ -291,13 +299,16 @@ assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];
 wire [1:0] src1Forward_alu, src2Forward_alu ;
 assign operand1_into_exec = src1Forward_alu[1] ? (alu_result_1_stage2) :(src1Forward_alu[0] ? writeData_pi: operand1_stage1 ) ;
 assign operand2_into_exec = src2Forward_alu[1] ? (alu_result_1_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
-
+wire delete_reg0_reg1;
 // debuh condition
 wire   delete_reg1_reg2; 
+wire write_reg_stage3;
+assign write_reg_stage3 = write_reg_file_wire_stage3|load_into_reg_stage3;
+
 assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
+assign delete_reg0_reg1 = branch_inst_wire|jump_inst_wire;
 assign writeData_pi = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
 
- // assign fun3_stage1 =                pipeReg1[`fun3]; // assign fun7_stage1 =                pipeReg1[`fun7]; // assign INST_typ_stage1 =            pipeReg1[`INST_typ]; // assign opcode_stage1 =              pipeReg1[`opcode];
 
 always @(posedge clk)begin
 if (reset) begin 
@@ -319,6 +330,7 @@ else begin
 
 
     if (delete_reg1_reg2) begin 
+    // pipeReg0 <= 512'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
     end else 
@@ -408,5 +420,7 @@ endmodule
 
 
 
-  
+
+
+
 
