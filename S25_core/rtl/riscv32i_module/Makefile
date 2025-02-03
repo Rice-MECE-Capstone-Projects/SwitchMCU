@@ -32,7 +32,7 @@ riscv32i-gatesim: riscv32iTB.v riscv32i.netlist.v | ${XILINX_CELLS_DIR}
 	${IVERILOG} -g2005-sv -s riscv32iTB -DGATESIM -y ${XILINX_CELLS_DIR} -y ${XILINX_CELLS_DIR}/unisims -o $@ $^
 
 clean:
-	$(RM) riscv32i-sim sim.log sim.vcd
+	$(RM) riscv32i-sim sim.log
 	$(RM) riscv32i-gatesim gatesim.log gatesim.vcd
 	$(RM) riscv32i.netlist.v synth.log
 	

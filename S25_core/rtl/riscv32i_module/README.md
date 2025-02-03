@@ -1,6 +1,12 @@
 # SPring_2025_core
 
 
+
+
+
+
+
+
 ## Tool flow 
 Make
 gtkwave
@@ -24,6 +30,10 @@ params.vh    --> All paramters accross the design are defined here and none shou
 program.hex  --> This is the program memory that is loaded into instrtion memory 
 
 assembly/program_disassembly.txt and assembly/instructions.log --> This is the instructions in assebly generagted by compiler but annotated to be human readable (NOTE the code does not start at address zero )
+
+#### assembly/instructions.log  will have the starting address to put in pc.v 
+Example:
+000000ec <_start>: --> starting address should be 0xEC
 
 Makefile --> script which runs the i-verilog simulation, generates vcd and simulation file (these files are not uploaded into git)
 

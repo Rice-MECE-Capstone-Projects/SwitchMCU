@@ -293,8 +293,8 @@ assign operand1_into_exec = src1Forward_alu[1] ? (alu_result_1_stage2) :(src1For
 assign operand2_into_exec = src2Forward_alu[1] ? (alu_result_1_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
 
 // debuh condition
-wire   delete_reg1_reg3; 
-assign delete_reg1_reg3 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
+wire   delete_reg1_reg2; 
+assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
 assign writeData_pi = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
 
  // assign fun3_stage1 =                pipeReg1[`fun3]; // assign fun7_stage1 =                pipeReg1[`fun7]; // assign INST_typ_stage1 =            pipeReg1[`INST_typ]; // assign opcode_stage1 =              pipeReg1[`opcode];
@@ -318,7 +318,7 @@ else begin
     // <-- stage 0 //
 
 
-    if (branch_inst_wire_stage2 | jump_inst_wire_stage2) begin 
+    if (delete_reg1_reg2) begin 
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
     end else 
