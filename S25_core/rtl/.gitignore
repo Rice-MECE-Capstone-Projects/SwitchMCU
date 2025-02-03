@@ -1,7 +1,7 @@
 XilinxUnisimLibrary/
 **/XilinxUnisimLibrary/
 **/sim.vcd
-**/sim.log
+# **/sim.log
 **/*-sim
 **/gatesim.vcd
 **/gatesim.log

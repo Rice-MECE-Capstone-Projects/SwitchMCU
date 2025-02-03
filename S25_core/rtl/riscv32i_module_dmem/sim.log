@@ -1,0 +1,9 @@
+LB: Address=0x00000004, LoadData=0x00000001
+LH: Address=0x00000018, LoadData=0x00000006
+LW: Address=0x00000008, LoadData=0xffff0002
+LBU: Address=0x00000004, LoadData=0x00000001
+LHU: Address=0x00000006, LoadData=0x0000ffff
+SB: Address=0x00000004, StoredData=0x000000aa
+SH: Address=0x00000006, StoredData=0x0000bbcc
+SW: Address=0x00000008, StoredData=0xdeadbeef
+riscv32iTB.v:284: $finish called at 175000 (1ps)
