@@ -5,6 +5,7 @@ module debug # (
     ) (
 input wire           i_clk,
 input wire [ 31:0]    pc_o,
+input wire [ 31:0]    Cycle_count,
 input wire [511:0] pipeReg
 );
 
@@ -36,7 +37,7 @@ always @(negedge i_clk) begin
 
 if (pc_en == 1) begin 
     $write("\n\n----------------------------------------------------------------------------------START\n ");
-    $write("\npc_o  %h ",pc_o);
+    $write("\npc_o  %10h, Cycle_count %d",pc_o,Cycle_count);
 end
 // if (regCount == 3 )begin
 //     $write("\n----------------------------------------------------------------------------------\n ");
