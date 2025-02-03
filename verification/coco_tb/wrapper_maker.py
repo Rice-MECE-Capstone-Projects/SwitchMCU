@@ -9,6 +9,7 @@ def generate_wrapper(verilog_file, wrapper_file):
     inputs = []
     outputs = []
     inouts = []
+    parameters = []
     in_module = False
 
     for line in lines:
@@ -16,6 +17,10 @@ def generate_wrapper(verilog_file, wrapper_file):
         if line.startswith("module"):
             in_module = True
             module_name = line.split()[1].split("(")[0]
+        elif line.startswith("parameter"):
+            # Parse parameters
+            param_str = line.replace("parameter", "").strip().rstrip(";")
+            parameters.append(param_str)
         elif in_module:
             if line.startswith("input"):
                 inputs.append(line.replace("input", "").strip().rstrip(";"))
@@ -40,7 +45,9 @@ def generate_wrapper(verilog_file, wrapper_file):
         outputs[i] = ' '.join(outputs[i].strip().split())
 
     with open(wrapper_file, 'w') as wfile:
-        wfile.write(f"module {module_name}_wrapper (\n")
+        wfile.write(f"module {module_name}_wrapper # (\n")
+        for param in parameters:
+            wfile.write(f"    parameter {param}\n")
         for inp in inputs:
             wfile.write(f"    input {inp},\n")
         ino_i = 0
@@ -83,6 +90,6 @@ def generate_wrapper(verilog_file, wrapper_file):
         wfile.write("endmodule\n")
 
 if len(sys.argv) > 1:
-    generate_wrapper('./DUT/{}.v'.format(sys.argv[1]), 'DUT_Wrapper/{}_wrapper.v'.format(sys.argv[1]))
+    generate_wrapper('./DUT_2025/{}.v'.format(sys.argv[1]), 'DUT_2025_Wrapper/{}_wrapper.v'.format(sys.argv[1]))
 else:
-    generate_wrapper('./DUT/toggle_bit.v', 'DUT_Wrapper/toggle_bit_wrapper.v')
+    generate_wrapper('./DUT_2025/toggle_bit.v', 'DUT_2025_Wrapper/toggle_bit_wrapper.v')
