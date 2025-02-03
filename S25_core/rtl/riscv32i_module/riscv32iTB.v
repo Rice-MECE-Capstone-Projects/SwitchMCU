@@ -25,6 +25,7 @@ module riscv32iTB
     wire  [6:0] fun7_o;
     wire [31:0] imm_o;
     wire [6:0] INST_typ_o;
+    reg [31:0] Cycle_count;
 
 
 
@@ -37,7 +38,8 @@ module riscv32iTB
 `endif
     dut (
         .clk(   tb_clk),
-        .reset(tb_reset)
+        .reset(tb_reset),
+        .Cycle_count(Cycle_count)
 );
 
 
@@ -84,6 +86,19 @@ module riscv32iTB
 
         $finish;
     end
+
+always @(posedge tb_clk) begin
+//     $display("Time: %3d\thalt: %d\tisTakenBranch: %d\tnextPC: %d\tpc_po: %d",$time, halt_pi, isTakenBranch_pi, PC, pc_po);
+  	 if (tb_reset)
+	    Cycle_count  <= 32'h0;
+      //Starting memory address, this logic must be changed later
+	 else 
+ 	    // if (change_PC_condition | ~halt_i)  begin
+            Cycle_count <= Cycle_count + 1;
+	// end
+  end
+
+
 
 //  always @(negedge tb_clk) begin : checker
 //             $display("%t:      fun3_o:{%h}, fun7_o:{%h}          ",

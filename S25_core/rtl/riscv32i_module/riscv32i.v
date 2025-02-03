@@ -27,7 +27,9 @@ module riscv32i
     parameter   N_param = 32
    ) (
     input  wire clk,
-    input  wire reset
+    input  wire reset,
+    input  wire [31:0] Cycle_count
+
     // input  wire en
 );
 
@@ -163,7 +165,8 @@ wire jump_inst_wire,branch_inst_wire;
 
 
 
-debug # (.Param_delay(1),.regCount(0), .pc_en(1) ) debug_0 (.i_clk(clk),.pipeReg(pipeReg0), .pc_o(pc_i));
+debug # (.Param_delay(1),.regCount(0), .pc_en(1)
+                                      ) debug_0 (.i_clk(clk),.pipeReg(pipeReg0), .pc_o(pc_i), .Cycle_count(Cycle_count));
 debug # (.Param_delay(2),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
 debug # (.Param_delay(3),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
 debug # (.Param_delay(4),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));

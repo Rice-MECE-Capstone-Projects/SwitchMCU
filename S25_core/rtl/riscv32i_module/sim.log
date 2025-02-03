@@ -6,7 +6,7 @@ VCD warning: $dumpvars: Package ($unit) is not dumpable with VCD.
 
 ----------------------------------------------------------------------------------START
  
-pc_o  xxxxxxxx 
+pc_o    xxxxxxxx, Cycle_count          x
 PipeReg          0  PC: xxxxxxxx: E:x I:{xxxxxxxx}    not_encoded  rd_i_a    x rs1_a    x rs2_a    x  rs1_d          x rs2_d          x  result          x imm_i           x
 
 PipeReg          1  PC: xxxxxxxx: E:x I:{xxxxxxxx}    not_encoded  rd_i_a    x rs1_a    x rs2_a    x  rs1_d          x rs2_d          x  result          x imm_i           x
@@ -22,7 +22,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  000000ec 
+pc_o    000000ec, Cycle_count          0
 PipeReg          0  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -38,7 +38,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  000000f0 
+pc_o    000000f0, Cycle_count          1
 PipeReg          0  PC: 000000ec: E:1 I:{00001117}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result       1093 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -54,7 +54,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  000000f4 
+pc_o    000000f4, Cycle_count          2
 PipeReg          0  PC: 000000f0: E:1 I:{f1410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1011892292 imm_i           0
 
 PipeReg          1  PC: 000000ec: E:0 I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result       1093 imm_i        4096
@@ -70,7 +70,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  000000f8 
+pc_o    000000f8, Cycle_count          3
 PipeReg          0  PC: 000000f4: E:1 I:{f49ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1026030651 imm_i           0
 
 PipeReg          1  PC: 000000f0: E:0 I:{f1410113}    inst_ADDI   rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1011892292 imm_i        -236
@@ -86,7 +86,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  000000fc 
+pc_o    000000fc, Cycle_count          4
 PipeReg          0  PC: 000000f8: E:1 I:{ff5ff06f}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1071119387 imm_i           0
 
 PipeReg          1  PC: 000000f4: E:0 I:{f49ff0ef}    inst_JAL    rd_i_a    1 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1026030651 imm_i        -184
@@ -102,7 +102,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000100 
+pc_o    00000100, Cycle_count          5
 PipeReg          0  PC: 000000fc: E:1 I:{xxxxxxxx}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          X imm_i           0
 
 PipeReg          1  PC: 000000f8: E:0 I:{ff5ff06f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1071119387 imm_i         -12
@@ -118,7 +118,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000003c 
+pc_o    0000003c, Cycle_count          6
 PipeReg          0  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -134,7 +134,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000040 
+pc_o    00000040, Cycle_count          7
 PipeReg          0  PC: 0000003c: E:1 I:{f6010113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1031815236 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -150,7 +150,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000044 
+pc_o    00000044, Cycle_count          8
 PipeReg          0  PC: 00000040: E:1 I:{08112e23}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   33835912 imm_i           0
 
 PipeReg          1  PC: 0000003c: E:0 I:{f6010113}    inst_ADDI   rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 4294967060 rs2_d          0  result 1031815236 imm_i        -160
@@ -166,7 +166,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000048 
+pc_o    00000048, Cycle_count          9
 PipeReg          0  PC: 00000044: E:1 I:{08812c23}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   35670792 imm_i           0
 
 PipeReg          1  PC: 00000040: E:0 I:{08112e23}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    1  rs1_d 4294967060 rs2_d        248  result   33835912 imm_i         156
@@ -182,7 +182,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000004c 
+pc_o    0000004c, Cycle_count         10
 PipeReg          0  PC: 00000048: E:1 I:{0a010413}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   41959684 imm_i           0
 
 PipeReg          1  PC: 00000044: E:0 I:{08812c23}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    8  rs1_d 4294967060 rs2_d          0  result   35670792 imm_i         152
@@ -198,7 +198,7 @@ DATA_MEM:
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000050 
+pc_o    00000050, Cycle_count         11
 PipeReg          0  PC: 0000004c: E:1 I:{fe042623}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065421192 imm_i           0
 
 PipeReg          1  PC: 00000048: E:0 I:{0a010413}    inst_ADDI   rd_i_a    8 rs1_a    0 rs2_a    0  rs1_d 4294967136 rs2_d          0  result   41959684 imm_i         160
@@ -215,7 +215,7 @@ DATA STORED:  D39:  000000f8
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000054 
+pc_o    00000054, Cycle_count         12
 PipeReg          0  PC: 00000050: E:1 I:{fe042423}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065421064 imm_i           0
 
 PipeReg          1  PC: 0000004c: E:0 I:{fe042623}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065421192 imm_i         -20
@@ -232,7 +232,7 @@ DATA STORED:  D1003:  00000000
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000058 
+pc_o    00000058, Cycle_count         13
 PipeReg          0  PC: 00000054: E:1 I:{02c0006f}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   11534363 imm_i           0
 
 PipeReg          1  PC: 00000050: E:0 I:{fe042423}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065421064 imm_i         -24
@@ -248,7 +248,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000005c 
+pc_o    0000005c, Cycle_count         14
 PipeReg          0  PC: 00000058: E:1 I:{fe842783}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i           0
 
 PipeReg          1  PC: 00000054: E:0 I:{02c0006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   11534363 imm_i          44
@@ -265,7 +265,7 @@ DATA STORED:  D1019:  00000000
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000060 
+pc_o    00000060, Cycle_count         15
 PipeReg          0  PC: 0000005c: E:1 I:{00178713}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     385476 imm_i           0
 
 PipeReg          1  PC: 00000058: E:0 I:{fe842783}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i         -24
@@ -282,7 +282,7 @@ DATA STORED:  D1018:  00000000
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000080 
+pc_o    00000080, Cycle_count         16
 PipeReg          0  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -298,7 +298,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000084 
+pc_o    00000084, Cycle_count         17
 PipeReg          0  PC: 00000080: E:1 I:{fe842703}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518400 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d         88 rs2_d         88  result          0 imm_i           0
@@ -314,7 +314,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000088 
+pc_o    00000088, Cycle_count         18
 PipeReg          0  PC: 00000084: E:1 I:{01d00793}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    7602660 imm_i           0
 
 PipeReg          1  PC: 00000080: E:0 I:{fe842703}    inst_LW     rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518400 imm_i         -24
@@ -330,7 +330,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000008c 
+pc_o    0000008c, Cycle_count         19
 PipeReg          0  PC: 00000088: E:1 I:{fce7d8e3}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1060763192 imm_i           0
 
 PipeReg          1  PC: 00000084: E:0 I:{01d00793}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    7602660 imm_i          29
@@ -347,7 +347,7 @@ DATA LOADED:  D1018:  00000000
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000090 
+pc_o    00000090, Cycle_count         20
 PipeReg          0  PC: 0000008c: E:1 I:{fe042223}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065420936 imm_i           0
 
 PipeReg          1  PC: 00000088: E:0 I:{fce7d8e3}    inst_BGE    rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d          0 rs2_d          0  result 1060763192 imm_i         -48
@@ -363,7 +363,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000094 
+pc_o    00000094, Cycle_count         21
 PipeReg          0  PC: 00000090: E:1 I:{0300006f}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   12582939 imm_i           0
 
 PipeReg          1  PC: 0000008c: E:0 I:{fe042223}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065420936 imm_i         -28
@@ -379,7 +379,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000058 
+pc_o    00000058, Cycle_count         22
 PipeReg          0  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -395,7 +395,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000005c 
+pc_o    0000005c, Cycle_count         23
 PipeReg          0  PC: 00000058: E:1 I:{fe842783}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -411,7 +411,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000060 
+pc_o    00000060, Cycle_count         24
 PipeReg          0  PC: 0000005c: E:1 I:{00178713}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     385476 imm_i           0
 
 PipeReg          1  PC: 00000058: E:0 I:{fe842783}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i         -24
@@ -427,7 +427,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000064 
+pc_o    00000064, Cycle_count         25
 PipeReg          0  PC: 00000060: E:1 I:{fe842683}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518368 imm_i           0
 
 PipeReg          1  PC: 0000005c: E:0 I:{00178713}    inst_ADDI   rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d         29 rs2_d          0  result     385476 imm_i           1
@@ -444,7 +444,7 @@ DATA LOADED:  D1018:  00000000
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000068 
+pc_o    00000068, Cycle_count         26
 PipeReg          0  PC: 00000064: E:1 I:{f6c40793}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1035010532 imm_i           0
 
 PipeReg          1  PC: 00000060: E:0 I:{fe842683}    inst_LW     rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518368 imm_i         -24
@@ -460,7 +460,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000006c 
+pc_o    0000006c, Cycle_count         27
 PipeReg          0  PC: 00000068: E:1 I:{00269693}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     632228 imm_i           0
 
 PipeReg          1  PC: 00000064: E:0 I:{f6c40793}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1035010532 imm_i        -148
@@ -477,7 +477,7 @@ DATA LOADED:  D1018:  00000000
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000070 
+pc_o    00000070, Cycle_count         28
 PipeReg          0  PC: 0000006c: E:1 I:{00f687b3}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    4039148 imm_i           0
 
 PipeReg          1  PC: 00000068: E:0 I:{00269693}    inst_SLLI   rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     632228 imm_i           2
@@ -493,7 +493,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000074 
+pc_o    00000074, Cycle_count         29
 PipeReg          0  PC: 00000070: E:1 I:{00e7a023}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    3794952 imm_i           0
 
 PipeReg          1  PC: 0000006c: E:0 I:{00f687b3}    inst_ADD    rd_i_a   15 rs1_a    0 rs2_a   15  rs1_d          0 rs2_d          0  result    4039148 imm_i           0
@@ -509,7 +509,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000078 
+pc_o    00000078, Cycle_count         30
 PipeReg          0  PC: 00000074: E:1 I:{fe842783}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i           0
 
 PipeReg          1  PC: 00000070: E:0 I:{00e7a023}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d 4294967148 rs2_d          1  result    3794952 imm_i           0
@@ -525,7 +525,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000007c 
+pc_o    0000007c, Cycle_count         31
 PipeReg          0  PC: 00000078: E:1 I:{00178793}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     385508 imm_i           0
 
 PipeReg          1  PC: 00000074: E:0 I:{fe842783}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i         -24
@@ -541,7 +541,7 @@ DATA_MEM:     D39:  000000f8,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000080 
+pc_o    00000080, Cycle_count         32
 PipeReg          0  PC: 0000007c: E:1 I:{fef42423}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1069353224 imm_i           0
 
 PipeReg          1  PC: 00000078: E:0 I:{00178793}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d 4294967148 rs2_d          0  result     385508 imm_i           1
@@ -559,7 +559,7 @@ DATA STORED:  D987:  00000001
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000084 
+pc_o    00000084, Cycle_count         33
 PipeReg          0  PC: 00000080: E:1 I:{fe842703}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518400 imm_i           0
 
 PipeReg          1  PC: 0000007c: E:0 I:{fef42423}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   15  rs1_d          0 rs2_d 4294967148  result 1069353224 imm_i         -24
@@ -575,7 +575,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000088 
+pc_o    00000088, Cycle_count         34
 PipeReg          0  PC: 00000084: E:1 I:{01d00793}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    7602660 imm_i           0
 
 PipeReg          1  PC: 00000080: E:0 I:{fe842703}    inst_LW     rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518400 imm_i         -24
@@ -591,7 +591,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000008c 
+pc_o    0000008c, Cycle_count         35
 PipeReg          0  PC: 00000088: E:1 I:{fce7d8e3}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1060763192 imm_i           0
 
 PipeReg          1  PC: 00000084: E:0 I:{01d00793}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    7602660 imm_i          29
@@ -609,7 +609,7 @@ DATA STORED:  D1018:  ffffff6c
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000090 
+pc_o    00000090, Cycle_count         36
 PipeReg          0  PC: 0000008c: E:1 I:{fe042223}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065420936 imm_i           0
 
 PipeReg          1  PC: 00000088: E:0 I:{fce7d8e3}    inst_BGE    rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d 4294967149 rs2_d          1  result 1060763192 imm_i         -48
@@ -625,7 +625,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000094 
+pc_o    00000094, Cycle_count         37
 PipeReg          0  PC: 00000090: E:1 I:{0300006f}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result   12582939 imm_i           0
 
 PipeReg          1  PC: 0000008c: E:0 I:{fe042223}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1065420936 imm_i         -28
@@ -641,7 +641,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000058 
+pc_o    00000058, Cycle_count         38
 PipeReg          0  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -657,7 +657,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000005c 
+pc_o    0000005c, Cycle_count         39
 PipeReg          0  PC: 00000058: E:1 I:{fe842783}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i           0
 
 PipeReg          1  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
@@ -673,7 +673,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000060 
+pc_o    00000060, Cycle_count         40
 PipeReg          0  PC: 0000005c: E:1 I:{00178713}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     385476 imm_i           0
 
 PipeReg          1  PC: 00000058: E:0 I:{fe842783}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i         -24
@@ -689,7 +689,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000064 
+pc_o    00000064, Cycle_count         41
 PipeReg          0  PC: 00000060: E:1 I:{fe842683}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518368 imm_i           0
 
 PipeReg          1  PC: 0000005c: E:0 I:{00178713}    inst_ADDI   rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d         29 rs2_d          0  result     385476 imm_i           1
@@ -706,7 +706,7 @@ DATA LOADED:  D1018:  ffffff6c
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000068 
+pc_o    00000068, Cycle_count         42
 PipeReg          0  PC: 00000064: E:1 I:{f6c40793}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1035010532 imm_i           0
 
 PipeReg          1  PC: 00000060: E:0 I:{fe842683}    inst_LW     rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518368 imm_i         -24
@@ -722,7 +722,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000006c 
+pc_o    0000006c, Cycle_count         43
 PipeReg          0  PC: 00000068: E:1 I:{00269693}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     632228 imm_i           0
 
 PipeReg          1  PC: 00000064: E:0 I:{f6c40793}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1035010532 imm_i        -148
@@ -739,7 +739,7 @@ DATA LOADED:  D1018:  ffffff6c
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000070 
+pc_o    00000070, Cycle_count         44
 PipeReg          0  PC: 0000006c: E:1 I:{00f687b3}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    4039148 imm_i           0
 
 PipeReg          1  PC: 00000068: E:0 I:{00269693}    inst_SLLI   rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     632228 imm_i           2
@@ -755,7 +755,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000074 
+pc_o    00000074, Cycle_count         45
 PipeReg          0  PC: 00000070: E:1 I:{00e7a023}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result    3794952 imm_i           0
 
 PipeReg          1  PC: 0000006c: E:0 I:{00f687b3}    inst_ADD    rd_i_a   15 rs1_a    0 rs2_a   15  rs1_d 4294967148 rs2_d 4294967148  result    4039148 imm_i           0
@@ -771,7 +771,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000078 
+pc_o    00000078, Cycle_count         46
 PipeReg          0  PC: 00000074: E:1 I:{fe842783}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i           0
 
 PipeReg          1  PC: 00000070: E:0 I:{00e7a023}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d 4294967148 rs2_d          1  result    3794952 imm_i           0
@@ -787,7 +787,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  0000007c 
+pc_o    0000007c, Cycle_count         47
 PipeReg          0  PC: 00000078: E:1 I:{00178793}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result     385508 imm_i           0
 
 PipeReg          1  PC: 00000074: E:0 I:{fe842783}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518432 imm_i         -24
@@ -803,7 +803,7 @@ DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000080 
+pc_o    00000080, Cycle_count         48
 PipeReg          0  PC: 0000007c: E:1 I:{fef42423}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1069353224 imm_i           0
 
 PipeReg          1  PC: 00000078: E:0 I:{00178793}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d 4294967000 rs2_d          0  result     385508 imm_i           1
@@ -821,7 +821,7 @@ DATA STORED:  D987:  00000001
 
 ----------------------------------------------------------------------------------START
  
-pc_o  00000084 
+pc_o    00000084, Cycle_count         49
 PipeReg          0  PC: 00000080: E:1 I:{fe842703}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 1067518400 imm_i           0
 
 PipeReg          1  PC: 0000007c: E:0 I:{fef42423}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   15  rs1_d          0 rs2_d 4294967000  result 1069353224 imm_i         -24
@@ -833,4 +833,4 @@ PipeReg          3  PC: 00000074: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  fffffed8,
 DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
-riscv32iTB.v:85: $finish called at 505000 (1ps)
+riscv32iTB.v:87: $finish called at 505000 (1ps)
