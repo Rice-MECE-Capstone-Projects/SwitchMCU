@@ -210,7 +210,7 @@ execute  #(.N_param(32)) execute
      .rs1_i(rs1_stage1), 
      .rs2_i(rs2_stage1), 
      .imm_i(imm_stage1),
-     .Noop(delete_reg1_reg2),
+    //  .Noop(delete_reg1_reg2),
      .alu_result_1(alu_result_1),
      .alu_result_2(alu_result_2),
      .branch_inst_wire(branch_inst_wire),
@@ -330,7 +330,7 @@ else begin
 
 
     if (delete_reg1_reg2) begin 
-    // pipeReg0 <= 512'b0;
+    pipeReg0 <= 512'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
     end else 

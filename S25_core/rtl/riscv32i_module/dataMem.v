@@ -83,7 +83,8 @@ end
     always @(posedge clk) begin
         if (reset) begin
             for (i = 0; i < mem_size; i = i + 1) begin
-                DMEM[i] <= i+ 32'hFFFF0000;
+                DMEM[i] <= 32'h0;
+                // DMEM[i] <= i+ 32'hFFFF0000;
                 // DMEM[i] <= 32'b0;
             end end else if (store_wire) begin
 
@@ -111,4 +112,28 @@ end
         end
 
  
+
+
+
+
+integer M;
+always @(negedge clk) begin
+      #120
+      $write("\nDATA_MEM:   ");
+      for (M=0; M < mem_size; M=M+1) begin 
+	  	// DMEM[i] <= 32'b0;
+      if (DMEM[M] != 0) begin
+      $write("   R%0d: %9h,", M, DMEM[M]);
+      end
+      end
+    $write("\n----------------------------------------------------------------------------------END\n");
+
+end
+
+
+
+
+
+
+
 endmodule
