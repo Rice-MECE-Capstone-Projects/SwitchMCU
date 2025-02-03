@@ -16,7 +16,7 @@ PipeReg          2  PC: xxxxxxxx: E:x I:{xxxxxxxx}    not_encoded  rd_i_a    x r
 PipeReg          3  PC: xxxxxxxx: E:x I:{xxxxxxxx}    not_encoded  rd_i_a    x rs1_a    x rs2_a    x  rs1_d          x rs2_d          x  result          x imm_i           x
 
 REGFILE:   
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -32,7 +32,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:   
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -48,7 +48,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:   
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -64,7 +64,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:   
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -80,7 +80,7 @@ PipeReg          2  PC: 000000ec: E:0 I:{000043b3}    inst_AUIPC  rd_i_a    2 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:   
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -96,7 +96,7 @@ PipeReg          2  PC: 000000f0: E:0 I:{fffffc53}    inst_ADDI   rd_i_a    2 rs
 PipeReg          3  PC: 000000ec: E:0 I:{000043b3}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result       4332 imm_i        4096
 
 REGFILE:   
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -112,7 +112,7 @@ PipeReg          2  PC: 000000f4: E:0 I:{000003e3}    inst_JAL    rd_i_a    1 rs
 PipeReg          3  PC: 000000f0: E:0 I:{fffffc53}    inst_ADDI   rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967060 imm_i        -236
 
 REGFILE:      R2:  000010ec,
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -128,7 +128,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 000000f4: E:0 I:{000003e3}    inst_JAL    rd_i_a    1 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result        248 imm_i        -184
 
 REGFILE:      R2:  ffffff14,
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -144,7 +144,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff14,
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -160,7 +160,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff14,
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -176,7 +176,7 @@ PipeReg          2  PC: 0000003c: E:0 I:{fffffd83}    inst_ADDI   rd_i_a    2 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff14,
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -192,7 +192,7 @@ PipeReg          2  PC: 00000040: E:0 I:{00000273}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 0000003c: E:0 I:{fffffd83}    inst_ADDI   rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 4294967060 rs2_d          0  result 4294967136 imm_i        -160
 
 REGFILE:      R1:  000000f8,   R2:  ffffff14,
-DATA_MEM:   
+DATA_MEM:  
 ----------------------------------------------------------------------------------END
 
 
@@ -208,7 +208,8 @@ PipeReg          2  PC: 00000044: E:0 I:{fffffeb3}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 00000040: E:0 I:{00000273}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    1  rs1_d 4294967060 rs2_d        248  result        156 imm_i         156
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA STORED:  D39:  000000f8
 ----------------------------------------------------------------------------------END
 
 
@@ -224,7 +225,8 @@ PipeReg          2  PC: 00000048: E:0 I:{00000003}    inst_ADDI   rd_i_a    8 rs
 PipeReg          3  PC: 00000044: E:0 I:{fffffeb3}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    8  rs1_d 4294967060 rs2_d          0  result 4294967212 imm_i         152
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA STORED:  D1003:  00000000
 ----------------------------------------------------------------------------------END
 
 
@@ -240,7 +242,7 @@ PipeReg          2  PC: 0000004c: E:0 I:{ffffffb3}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 00000048: E:0 I:{00000003}    inst_ADDI   rd_i_a    8 rs1_a    0 rs2_a    0  rs1_d 4294967136 rs2_d          0  result          0 imm_i         160
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -256,7 +258,8 @@ PipeReg          2  PC: 00000050: E:0 I:{ffffffa3}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 0000004c: E:0 I:{ffffffb3}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967276 imm_i         -20
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA STORED:  D1019:  00000000
 ----------------------------------------------------------------------------------END
 
 
@@ -272,7 +275,8 @@ PipeReg          2  PC: 00000054: E:0 I:{00000163}    inst_JAL    rd_i_a    0 rs
 PipeReg          3  PC: 00000050: E:0 I:{ffffffa3}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA STORED:  D1018:  00000000
 ----------------------------------------------------------------------------------END
 
 
@@ -288,7 +292,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000054: E:0 I:{00000163}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result         88 imm_i          44
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -304,7 +308,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -320,7 +324,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -336,7 +340,8 @@ PipeReg          2  PC: 00000080: E:0 I:{ffffffa3}    inst_LW     rd_i_a   14 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d         88 rs2_d         88  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA LOADED:  D1018:  00000000
 ----------------------------------------------------------------------------------END
 
 
@@ -352,7 +357,7 @@ PipeReg          2  PC: 00000084: E:0 I:{00000077}    inst_ADDI   rd_i_a   15 rs
 PipeReg          3  PC: 00000080: E:0 I:{ffffffa3}    inst_LW     rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -368,7 +373,7 @@ PipeReg          2  PC: 00000088: E:0 I:{00000007}    inst_BGE    rd_i_a    0 rs
 PipeReg          3  PC: 00000084: E:0 I:{00000077}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result         29 imm_i          29
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -384,7 +389,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000088: E:0 I:{00000007}    inst_BGE    rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d          0 rs2_d          0  result          1 imm_i         -48
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -400,7 +405,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -416,7 +421,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -432,7 +437,8 @@ PipeReg          2  PC: 00000058: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA LOADED:  D1018:  00000000
 ----------------------------------------------------------------------------------END
 
 
@@ -448,7 +454,7 @@ PipeReg          2  PC: 0000005c: E:0 I:{00000007}    inst_ADDI   rd_i_a   14 rs
 PipeReg          3  PC: 00000058: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -464,7 +470,8 @@ PipeReg          2  PC: 00000060: E:0 I:{ffffffa3}    inst_LW     rd_i_a   13 rs
 PipeReg          3  PC: 0000005c: E:0 I:{00000007}    inst_ADDI   rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d         29 rs2_d          0  result          1 imm_i           1
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
+DATA LOADED:  D1018:  00000000
 ----------------------------------------------------------------------------------END
 
 
@@ -480,7 +487,7 @@ PipeReg          2  PC: 00000064: E:0 I:{fffffdb3}    inst_ADDI   rd_i_a   15 rs
 PipeReg          3  PC: 00000060: E:0 I:{ffffffa3}    inst_LW     rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -496,7 +503,7 @@ PipeReg          2  PC: 00000068: E:0 I:{00000003}    inst_SLLI   rd_i_a   13 rs
 PipeReg          3  PC: 00000064: E:0 I:{fffffdb3}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967148 imm_i        -148
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -512,7 +519,7 @@ PipeReg          2  PC: 0000006c: E:0 I:{fffffdb3}    inst_ADD    rd_i_a   15 rs
 PipeReg          3  PC: 00000068: E:0 I:{00000003}    inst_SLLI   rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           2
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -528,7 +535,7 @@ PipeReg          2  PC: 00000070: E:0 I:{fffffdb3}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 0000006c: E:0 I:{fffffdb3}    inst_ADD    rd_i_a   15 rs1_a    0 rs2_a   15  rs1_d          0 rs2_d          0  result 4294967148 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,
+DATA_MEM:     D39:  000000f8,
 ----------------------------------------------------------------------------------END
 
 
@@ -544,7 +551,9 @@ PipeReg          2  PC: 00000074: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs
 PipeReg          3  PC: 00000070: E:0 I:{fffffdb3}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d 4294967148 rs2_d          1  result 4294967148 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,
+DATA LOADED:  D1018:  00000000
+DATA STORED:  D987:  00000001
 ----------------------------------------------------------------------------------END
 
 
@@ -560,7 +569,7 @@ PipeReg          2  PC: 00000078: E:0 I:{fffffdb7}    inst_ADDI   rd_i_a   15 rs
 PipeReg          3  PC: 00000074: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,
 ----------------------------------------------------------------------------------END
 
 
@@ -576,7 +585,7 @@ PipeReg          2  PC: 0000007c: E:0 I:{ffffffa3}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 00000078: E:0 I:{fffffdb7}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d 4294967148 rs2_d          0  result 4294967149 imm_i           1
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,
 ----------------------------------------------------------------------------------END
 
 
@@ -592,7 +601,9 @@ PipeReg          2  PC: 00000080: E:0 I:{ffffffa3}    inst_LW     rd_i_a   14 rs
 PipeReg          3  PC: 0000007c: E:0 I:{ffffffa3}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   15  rs1_d          0 rs2_d 4294967148  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
+DATA LOADED:  D1018:  ffffff6c
+DATA STORED:  D1018:  ffffff6c
 ----------------------------------------------------------------------------------END
 
 
@@ -608,7 +619,7 @@ PipeReg          2  PC: 00000084: E:0 I:{00000077}    inst_ADDI   rd_i_a   15 rs
 PipeReg          3  PC: 00000080: E:0 I:{ffffffa3}    inst_LW     rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -624,7 +635,7 @@ PipeReg          2  PC: 00000088: E:0 I:{00000007}    inst_BGE    rd_i_a    0 rs
 PipeReg          3  PC: 00000084: E:0 I:{00000077}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result         29 imm_i          29
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  ffffff6d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -640,7 +651,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000088: E:0 I:{00000007}    inst_BGE    rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d 4294967149 rs2_d          1  result          1 imm_i         -48
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -656,7 +667,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -672,7 +683,7 @@ PipeReg          2  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -688,7 +699,8 @@ PipeReg          2  PC: 00000058: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs
 PipeReg          3  PC: 00000000: E:1 I:{00000000}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
+DATA LOADED:  D1018:  ffffff6c
 ----------------------------------------------------------------------------------END
 
 
@@ -704,7 +716,7 @@ PipeReg          2  PC: 0000005c: E:0 I:{00000007}    inst_ADDI   rd_i_a   14 rs
 PipeReg          3  PC: 00000058: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  0000001d,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -720,7 +732,8 @@ PipeReg          2  PC: 00000060: E:0 I:{ffffffa3}    inst_LW     rd_i_a   13 rs
 PipeReg          3  PC: 0000005c: E:0 I:{00000007}    inst_ADDI   rd_i_a   14 rs1_a    0 rs2_a    0  rs1_d         29 rs2_d          0  result          1 imm_i           1
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  ffffff6c,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
+DATA LOADED:  D1018:  ffffff6c
 ----------------------------------------------------------------------------------END
 
 
@@ -736,7 +749,7 @@ PipeReg          2  PC: 00000064: E:0 I:{fffffdb3}    inst_ADDI   rd_i_a   15 rs
 PipeReg          3  PC: 00000060: E:0 I:{ffffffa3}    inst_LW     rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -752,7 +765,7 @@ PipeReg          2  PC: 00000068: E:0 I:{00000003}    inst_SLLI   rd_i_a   13 rs
 PipeReg          3  PC: 00000064: E:0 I:{fffffdb3}    inst_ADDI   rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967148 imm_i        -148
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R13:  ffffff6c,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -768,7 +781,7 @@ PipeReg          2  PC: 0000006c: E:0 I:{fffffb63}    inst_ADD    rd_i_a   15 rs
 PipeReg          3  PC: 00000068: E:0 I:{00000003}    inst_SLLI   rd_i_a   13 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result          0 imm_i           2
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R13:  ffffff6c,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -784,7 +797,7 @@ PipeReg          2  PC: 00000070: E:0 I:{fffffdb3}    inst_SW     rd_i_a    0 rs
 PipeReg          3  PC: 0000006c: E:0 I:{fffffb63}    inst_ADD    rd_i_a   15 rs1_a    0 rs2_a   15  rs1_d 4294967148 rs2_d 4294967148  result 4294967000 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  ffffff6c,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 
 
@@ -800,7 +813,9 @@ PipeReg          2  PC: 00000074: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs
 PipeReg          3  PC: 00000070: E:0 I:{fffffdb3}    inst_SW     rd_i_a    0 rs1_a    0 rs2_a   14  rs1_d 4294967148 rs2_d          1  result 4294967148 imm_i           0
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  fffffed8,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
+DATA LOADED:  D1018:  ffffff6c
+DATA STORED:  D987:  00000001
 ----------------------------------------------------------------------------------END
 
 
@@ -816,6 +831,6 @@ PipeReg          2  PC: 00000078: E:0 I:{fffffb67}    inst_ADDI   rd_i_a   15 rs
 PipeReg          3  PC: 00000074: E:0 I:{ffffffa3}    inst_LW     rd_i_a   15 rs1_a    0 rs2_a    0  rs1_d          0 rs2_d          0  result 4294967272 imm_i         -24
 
 REGFILE:      R1:  000000f8,   R2:  ffffff60,   R14:  00000001,   R15:  fffffed8,
-DATA_MEM:      R39:  000000f8,   R987:  00000001,   R1018:  ffffff6c,
+DATA_MEM:     D39:  000000f8,   D987:  00000001,   D1018:  ffffff6c,
 ----------------------------------------------------------------------------------END
 riscv32iTB.v:85: $finish called at 505000 (1ps)
