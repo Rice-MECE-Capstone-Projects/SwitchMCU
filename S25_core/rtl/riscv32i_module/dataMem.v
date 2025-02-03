@@ -25,6 +25,10 @@ output wire load_into_reg
     // reg [31:0] storeData;           // Data to be loaded
     reg [31:0] storeaddress;           // Data to be loaded
 
+    reg [31:0] last_stored_data,last_stored_address;
+    reg [31:0] last_loaded_data,last_loaded_address;
+    reg stored_happened,loaded_happened;
+
     assign word_address = address[11:2];  
     assign byte_address = address[ 1:0];
     assign raw_word = DMEM[word_address];
@@ -37,6 +41,8 @@ always @(*) begin
             load_wire  <= 1'b1;
             store_wire <= 1'b0;
             loadData = {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
+
+
         end
         {inst_LH    }:begin // load Half
             load_wire  <= 1'b1;
@@ -78,8 +84,13 @@ always @(*) begin
         end
 endcase
 end
-    integer i;
 
+
+
+
+integer i;
+
+// Store data in memory operations
     always @(posedge clk) begin
         if (reset) begin
             for (i = 0; i < mem_size; i = i + 1) begin
@@ -87,19 +98,26 @@ end
                 // DMEM[i] <= i+ 32'hFFFF0000;
                 // DMEM[i] <= 32'b0;
             end end else if (store_wire) begin
-
         case(Single_Instruction) 
         {inst_SB    }:begin
             // loadData = {DMEM[word_address][(byte_address * 8) +: 8]};
-        DMEM[word_address] <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | 
-                                  ((storeData[7:0] & 8'hFF) << (byte_address * 8));
+
+        last_stored_address <= word_address;
+        DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
+        last_stored_data    <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
+        stored_happened      <= 1;
         end
         {inst_SH    }:begin
-        DMEM[word_address] <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | 
-                              ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
+        DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
+        last_stored_data    <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
+        last_stored_address <= word_address;
+        stored_happened      <= 1;
         end
         {inst_SW    }:begin
-        DMEM[word_address] <= storeData;
+        DMEM[word_address]   <= storeData;
+        last_stored_data    <= storeData;
+        last_stored_address <= word_address;
+        stored_happened      <= 1;
         end
         // default: begin 
         //     error <=1;
@@ -107,24 +125,38 @@ end
         endcase
                 
                 // DMEM[word_address] <= storeData;
-            end
+            end else begin
+        last_stored_address <= 0;
+        last_stored_data    <= 0; 
+        stored_happened     <= 0;
+             end
 
         end
 
  
 
 
-
+//DEBUG BELOW
 
 integer M;
 always @(negedge clk) begin
       #120
-      $write("\nDATA_MEM:   ");
+      $write("\nDATA_MEM:  ");
       for (M=0; M < mem_size; M=M+1) begin 
 	  	// DMEM[i] <= 32'b0;
       if (DMEM[M] != 0) begin
-      $write("   R%0d: %9h,", M, DMEM[M]);
+      $write("   D%0d: %9h,", M, DMEM[M]);
       end
+
+      end
+
+
+      if (load_wire == 1 )begin
+      $write("\nDATA LOADED:  D%0d: %9h",word_address,loadData);
+      end
+
+      if (stored_happened == 1 )begin
+      $write("\nDATA STORED:  D%0d: %9h",last_stored_address,last_stored_data);
       end
     $write("\n----------------------------------------------------------------------------------END\n");
 
