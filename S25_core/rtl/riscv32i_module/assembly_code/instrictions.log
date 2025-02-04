@@ -4,84 +4,30 @@ program.elf:     file format elf32-littleriscv
 
 Disassembly of section .text:
 
-00000000 <write_to_peripheral>:
-   0:	fd010113          	addi	sp,sp,-48
-   4:	02112623          	sw	ra,44(sp)
-   8:	02812423          	sw	s0,40(sp)
-   c:	03010413          	addi	s0,sp,48
-  10:	fca42e23          	sw	a0,-36(s0)
-  14:	60000793          	li	a5,1536
-  18:	fef42623          	sw	a5,-20(s0)
-  1c:	fec42783          	lw	a5,-20(s0)
-  20:	fdc42703          	lw	a4,-36(s0)
-  24:	00e7a023          	sw	a4,0(a5)
-  28:	00000013          	nop
-  2c:	02c12083          	lw	ra,44(sp)
-  30:	02812403          	lw	s0,40(sp)
-  34:	03010113          	addi	sp,sp,48
-  38:	00008067          	ret
+00000000 <main>:
+   0:	fe010113          	addi	R2 =   R2 - 32     #sp,sp,-32  # R2 = 4064
+   4:	00112e23          	sw	  R1 --> D[R2 + 28]   #ra,28(sp) # D[4064 + 28] = 56
+   8:	00812c23          	sw	  R8 --> D[R2 + 24]  #s0,24(sp)  # D[4064 + 24] =  0
+   c:	02010413          	addi	R8 = R2 + 32       #s0 = sp,32 # R8 = 4096, r8-20= 0xfec
+  10:	fe042623          	sw	  R0 -->  D[0xfec] // cycle 12
+  loop: 
+  14:	fec42783          	lw	  R15 =   D[0xfec]
+  18:	00178793          	addi	R15 =   R15 + 1
+  1c:	fec42703          	lw	  R14 =   D[0xfec]
+  20:	00f707b3          	add	  R15 =   R14 + R15
+  24:	fef42623          	sw	  R15 --> D[0xfec]
+  28:	fedff06f          	j	14 <main+0x14>
 
-0000003c <main>:
-  3c:	f6010113          	addi	sp,sp,-160
-  40:	08112e23          	sw	ra,156(sp)
-  44:	08812c23          	sw	s0,152(sp)
-  48:	0a010413          	addi	s0,sp,160
-  4c:	fe042623          	sw	zero,-20(s0)
-  50:	fe042423          	sw	zero,-24(s0)
-  54:	02c0006f          	j	80 <main+0x44>
-  58:	fe842783          	lw	a5,-24(s0)
-  5c:	00178713          	addi	a4,a5,1
-  60:	fe842683          	lw	a3,-24(s0)
-  64:	f6c40793          	addi	a5,s0,-148
-  68:	00269693          	slli	a3,a3,0x2
-  6c:	00f687b3          	add	a5,a3,a5
-  70:	00e7a023          	sw	a4,0(a5)
-  74:	fe842783          	lw	a5,-24(s0)
-  78:	00178793          	addi	a5,a5,1
-  7c:	fef42423          	sw	a5,-24(s0)
-  80:	fe842703          	lw	a4,-24(s0)
-  84:	01d00793          	li	a5,29
-  88:	fce7d8e3          	bge	a5,a4,58 <main+0x1c>
-  8c:	fe042223          	sw	zero,-28(s0)
-  90:	0300006f          	j	c0 <main+0x84>
-  94:	fe442703          	lw	a4,-28(s0)
-  98:	f6c40793          	addi	a5,s0,-148
-  9c:	00271713          	slli	a4,a4,0x2
-  a0:	00f707b3          	add	a5,a4,a5
-  a4:	0007a783          	lw	a5,0(a5)
-  a8:	fec42703          	lw	a4,-20(s0)
-  ac:	00f707b3          	add	a5,a4,a5
-  b0:	fef42623          	sw	a5,-20(s0)
-  b4:	fe442783          	lw	a5,-28(s0)
-  b8:	00178793          	addi	a5,a5,1
-  bc:	fef42223          	sw	a5,-28(s0)
-  c0:	fe442703          	lw	a4,-28(s0)
-  c4:	01d00793          	li	a5,29
-  c8:	fce7d6e3          	bge	a5,a4,94 <main+0x58>
-  cc:	fec42503          	lw	a0,-20(s0)
-  d0:	f31ff0ef          	jal	0 <write_to_peripheral>
-  d4:	fec42703          	lw	a4,-20(s0)
-  d8:	1d100793          	li	a5,465
-  dc:	00f71a63          	bne	a4,a5,f0 <main+0xb4>
-  e0:	deadc7b7          	lui	a5,0xdeadc
-  e4:	eef78513          	addi	a0,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  e8:	f19ff0ef          	jal	0 <write_to_peripheral>
-  ec:	0100006f          	j	fc <main+0xc0>
-  f0:	0badf7b7          	lui	a5,0xbadf
-  f4:	00d78513          	addi	a0,a5,13 # badf00d <_stack_start+0xbade00d>
-  f8:	f09ff0ef          	jal	0 <write_to_peripheral>
-  fc:	0000006f          	j	fc <main+0xc0>
-
-00000100 <_start>:
- 100:	00001117          	auipc	sp,0x1
- 104:	f0010113          	addi	sp,sp,-256 # 1000 <_stack_start>
- 108:	f35ff0ef          	jal	3c <main>
- 10c:	ff5ff06f          	j	100 <_start>
+0000002c <_start>:
+  2c:	00001117          	auipc	R2 = PC + (0x1 <<12) // 0x102C
+  30:	fd410113          	addi	R2 = R2 - 44 # 1000 <_stack_start>
+  34:	fcdff0ef          	jal	  PC = PC - 52, r1 = 0x38 (56), R <main>
+  38:	ff5ff06f          	j	2c <_start>
 
 Disassembly of section .comment:
 
 00000000 <.comment>:
-   0:	3a434347          	.insn	4, 0x3a434347
+   0:	3R1434347          	.insn	4, 0x3R1434347
    4:	2820                	.insn	2, 0x2820
    6:	36343067          	.insn	4, 0x36343067
    a:	3639                	.insn	2, 0x3639
@@ -101,7 +47,7 @@ Disassembly of section .riscv.attributes:
    2:	0000                	.insn	2, 0x
    4:	7200                	.insn	2, 0x7200
    6:	7369                	.insn	2, 0x7369
-   8:	01007663          	bgeu	zero,a6,14 <write_to_peripheral+0x14>
+   8:	01007663          	bgeu	zero,a6,14 <main+0x14>
    c:	0011                	.insn	2, 0x0011
    e:	0000                	.insn	2, 0x
   10:	1004                	.insn	2, 0x1004

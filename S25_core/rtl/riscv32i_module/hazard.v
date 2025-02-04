@@ -20,11 +20,11 @@ input wire [31:0]  PC_stage3,
 input  wire [31:0] writeData_pi,
 
 
-input  wire [31:0] alu_result_1_stage2,
+input  wire [31:0] rd_result_stage2,
 input  wire [31:0] operand1_stage1,
 output wire [31:0] operand1_into_exec,
 
-// input  wire [31:0] alu_result_1_stage2,
+// input  wire [31:0] rd_result_stage2,
 input  wire [31:0] operand2_stage1,
 output wire [31:0] operand2_into_exec
 
@@ -50,24 +50,35 @@ output wire [31:0] operand2_into_exec
    assign memFwd1 =  (destination_reg_stage2  == rs1_stage1) &&  write_reg_stage2;
    assign wbFwd1  =  (destination_reg_stage3  == rs1_stage1) &&  write_reg_stage3;
 
-   assign src1Forward_alu = memFwd1 ?  2'b10 : wbFwd1 ? 2'b01 : 2'b00;
    /*  2. Repeat the three assign statement for source-2 operand.*/   
    assign memFwd2 = (rs2_stage1 == destination_reg_stage2)  &&  write_reg_stage2;
    assign wbFwd2  = (rs2_stage1 == destination_reg_stage3 ) &&  write_reg_stage3;
+
+
+   assign src1Forward_alu = memFwd1 ?  2'b10 : wbFwd1 ? 2'b01 : 2'b00;
    assign src2Forward_alu = memFwd2 ?  2'b10 : wbFwd2 ? 2'b01 : 2'b00;
 
-
-
-   // wire [1:0] src1Forward_alu, src2Forward_alu;
-   assign operand1_into_exec = src1Forward_alu[1] ? (alu_result_1_stage2) :(src1Forward_alu[0] ? writeData_pi: operand1_stage1 ) ;
-   assign operand2_into_exec = src2Forward_alu[1] ? (alu_result_1_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
+   assign operand1_into_exec = src1Forward_alu[1] ? (rd_result_stage2) :(src1Forward_alu[0] ? writeData_pi: operand1_stage1 ) ;
+   assign operand2_into_exec = src2Forward_alu[1] ? (rd_result_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
 
 always @(negedge clk) begin
    #25
-   if (memFwd1) begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
-   if (memFwd2) begin $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
-   if (wbFwd1)  begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage3,PC_stage1,operand1_into_exec );end
-   if (wbFwd2)  begin $write("\n HAZARD: wbFwd1,  RS2 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage3,PC_stage1,operand2_into_exec );end
+
+   if (memFwd1|wbFwd1)begin 
+   case(src1Forward_alu)
+   2'b11: begin $write("\n HAZARD: memFwd1 <wbFwd1 also qualified but will not take>, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
+   2'b10: begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
+   2'b01: begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage3,PC_stage1,operand1_into_exec );end
+   endcase
+
+   if (memFwd2|wbFwd2)begin 
+   case(src2Forward_alu)
+   2'b10: begin       $write("\n HAZARD: memFwd2 <wbFwd1 also qualified but will not take>, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
+   2'b10: begin       $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
+   2'b00: begin       $write("\n HAZARD: wbFwd2,  RS2 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage3,PC_stage1,operand2_into_exec );end
+   endcase
+   end
+end
 end
 
 endmodule
