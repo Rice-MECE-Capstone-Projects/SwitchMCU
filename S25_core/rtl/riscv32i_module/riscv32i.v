@@ -350,8 +350,14 @@ else begin
     pipeReg2[`rd                ] <= rd_stage1;//  87:83 //[ 4:0]
     pipeReg2[`opRs1_reg         ] <= rs1_stage1;// 120:116 //[4:0]
     pipeReg2[`opRs2_reg         ] <= rs2_stage1;// 127:121 //[4:0]
-    pipeReg2[`op1_reg           ] <= operand1_stage1;// 159:128 //[31:00]
-    pipeReg2[`op2_reg           ] <= operand2_stage1;// 191:160 //[31:00]
+
+    // pipeReg2[`op1_reg           ] <= operand1_stage1;// 159:128 //[31:00]
+    // pipeReg2[`op2_reg           ] <= operand2_stage1;// 191:160 //[31:00]
+        
+    pipeReg2[`op1_reg           ] <= operand1_into_exec;// 159:128 //[31:00]
+    pipeReg2[`op2_reg           ] <= operand2_into_exec;// 191:160 //[31:00]
+    
+    
     pipeReg2[`immediate         ] <= imm_stage1;// 223:192 //[31:0]
     pipeReg2[`Single_Instruction] <= Single_Instruction_stage1;// 287:224 //[63:00]     
     pipeReg2[`alu_res1          ] <= alu_result_1;// 223:192 //[31:0]
