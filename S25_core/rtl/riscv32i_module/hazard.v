@@ -64,10 +64,10 @@ output wire [31:0] operand2_into_exec
 
 always @(negedge clk) begin
    #25
-   if (memFwd1) begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h", rs1_stage1,PC_stage2,PC_stage1);end
-   if (memFwd2) begin $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h", rs2_stage1,PC_stage2,PC_stage1);end
-   if (wbFwd1)  begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h", rs1_stage1,PC_stage3,PC_stage1);end
-   if (wbFwd2)  begin $write("\n HAZARD: wbFwd1,  RS2 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h", rs2_stage1,PC_stage3,PC_stage1);end
+   if (memFwd1) begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
+   if (memFwd2) begin $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
+   if (wbFwd1)  begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage3,PC_stage1,operand1_into_exec );end
+   if (wbFwd2)  begin $write("\n HAZARD: wbFwd1,  RS2 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage3,PC_stage1,operand2_into_exec );end
 end
 
 endmodule
