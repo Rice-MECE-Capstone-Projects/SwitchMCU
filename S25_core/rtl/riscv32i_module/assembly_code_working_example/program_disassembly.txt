@@ -1,0 +1,22 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+   0:	fe010113          	addi	sp,sp,-32
+   4:	00112e23          	sw	ra,28(sp)
+   8:	00812c23          	sw	s0,24(sp)
+   c:	02010413          	addi	s0,sp,32
+  10:	fe042623          	sw	zero,-20(s0)
+  14:	fec42783          	lw	a5,-20(s0)
+  18:	00178793          	addi	a5,a5,1
+  1c:	fec42703          	lw	a4,-20(s0)
+  20:	00f707b3          	add	a5,a4,a5
+  24:	fef42623          	sw	a5,-20(s0)
+  28:	fedff06f          	j	0x14
+  2c:	00001117          	auipc	sp,0x1
+  30:	fd410113          	addi	sp,sp,-44 # 0x1000
+  34:	fcdff0ef          	jal	0x0
+  38:	ff5ff06f          	j	0x2c
