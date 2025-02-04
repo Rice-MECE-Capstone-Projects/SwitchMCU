@@ -42,7 +42,7 @@ integer k;
 integer n;
 always @(negedge clk) begin
       #100
-      $write("\nREGFILE:   ");
+      $write("\n\nREGFILE:   ");
       for (k=0; k < 32; k=k+1) begin 
 	  	// REG_FILE[i] <= 32'b0;
       if (REG_FILE[k] != 0) begin

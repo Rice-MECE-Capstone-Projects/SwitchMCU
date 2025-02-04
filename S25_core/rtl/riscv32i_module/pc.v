@@ -26,5 +26,16 @@ always @(posedge clk_i) begin
             PC <= nextPC;
 	end
   end
+
+
+
+always @(negedge clk_i) begin
+	#30
+	if (jump_inst_wire)    begin $write("\nPC_module: JUMP!   Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
+	if (branch_inst_wire ) begin $write("\nPC_module: BRANCH! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
+
+end
+
+
    
 endmodule

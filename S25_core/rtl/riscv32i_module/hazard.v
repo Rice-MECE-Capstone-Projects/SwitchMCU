@@ -42,19 +42,10 @@ module hazard (
 
 always @(negedge clk) begin
    #25
-   if (memFwd1) begin 
-      $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d", rs1_stage1);
-   end
-   if (memFwd2) begin 
-      $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d", rs2_stage1);
-   end
-   if (wbFwd1) begin 
-      $write("\n HAZARD: wbFwd1, RS1 Stage3  to ALU %5d", rs1_stage1);
-   end
-   if (wbFwd2) begin 
-      $write("\n HAZARD: wbFwd1, RS2 Stage3  to ALU %5d", rs2_stage1);
-   end
-
+   if (memFwd1) begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d", rs1_stage1);end
+   if (memFwd2) begin $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d", rs2_stage1);end
+   if (wbFwd1)  begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d", rs1_stage1);end
+   if (wbFwd2)  begin $write("\n HAZARD: wbFwd1,  RS2 Stage3  to ALU %5d", rs2_stage1);end
 end
 
 endmodule

@@ -1,6 +1,28 @@
 `ifndef PARAMS_VH
 `define PARAMS_VH
 
+
+`define PC_reg              31:00   //[31:00]
+`define instruct            63:32   //[31:00]
+`define alu_res1            95:64   //[31:00]
+`define load_reg           101
+`define jump_en            102     //[ 4:0]
+`define branch_en          103     //[ 4:0]
+`define reg_write_en       104     //[ 4:0]
+`define LD_ready           105     //[ 4:0]
+`define SD_ready           106     //[ 4:0]
+`define rd                 111:107 //[ 4:0]
+`define operand_amt        115:112 //[ 3:0]
+`define opRs1_reg          120:116 //[4:0]
+`define opRs2_reg          127:121 //[4:0]
+`define op1_reg            159:128 //[31:00]
+`define op2_reg            191:160 //[31:00]
+`define immediate          223:192 //[31:0]
+`define alu_res2           255:224 //[31:0]
+`define rd_data            287:256 //[31:0]
+`define Single_Instruction 351:288 //[63:00]   
+`define data_mem_loaded    383:352  
+
 // Opcode Decoding Type
 parameter [6:0] R_Type         =   7'b0110011; //0110011
 parameter [6:0] I_Type_A       =   7'b0010011; // 0010011
