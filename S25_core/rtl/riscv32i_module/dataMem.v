@@ -186,25 +186,30 @@ integer i;
 
 //DEBUG BELOW
 
-integer M;
+integer M,n;
 always @(negedge clk) begin
       #120
-      $write("\nDATA_MEM:  ");
+      $write("\n\nDATA_MEM:  ");
       for (M=0; M < mem_size; M=M+1) begin 
-	  	// DMEM[i] <= 32'b0;
       if (DMEM[M] != 0) begin
-      $write("   D%0d: %9h,", M, DMEM[M]);
+      $write("   D%4d: %9h,", M, DMEM[M]);
       end
 
       end
 
+      $write("\nDATA_MEM*: ");
+      for (n=0; n < mem_size; n=n+1) begin 
+      if (DMEM[n] != 0) begin
+      $write("   D%4d: %9d,", n, $signed(DMEM[n]));
+      end
+    end
 
       if (load_wire == 1 )begin
-      $write("\nDATA LOADED:  D%0d: %9h",word_address,loadData);
+      $write("\nDATA LOADED:  D%4d: %9h",word_address,loadData);
       end
 
       if (stored_happened == 1 )begin
-      $write("\nDATA STORED:  D%0d: %9h",last_stored_address,last_stored_data);
+      $write("\nDATA STORED:  D%4d: %9h",last_stored_address,last_stored_data);
       end
     $write("\n----------------------------------------------------------------------------------END\n");
 
