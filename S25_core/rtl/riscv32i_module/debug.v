@@ -44,7 +44,7 @@ end
 //     $write("\n----------------------------------------------------------------------------------\n ");
 // end
 
-    $write("\nPipeReg%0d  PC: %h: E:%b I:{%h}    ",regCount,pipeReg[`PC_reg             ],~ (|pipeReg[`Single_Instruction ]),  pipeReg[`instruct           ]   );
+    $write("\nPipeReg%0d  PC: %h: E:%b I:{%h}    ",regCount,pipeReg[`PC_reg             ],~ ((pipeReg[`Single_Instruction ]!=0)),  pipeReg[`instruct           ]   );
 
 case(pipeReg[`Single_Instruction ]) 
 

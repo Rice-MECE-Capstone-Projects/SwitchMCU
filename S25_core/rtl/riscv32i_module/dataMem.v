@@ -202,7 +202,7 @@ always @(negedge clk) begin
       for (M=0; M < mem_size; M=M+1) begin 
       if (DMEM[M] != 0) begin
     //   $write("   D%4d: %9h,", M, DMEM[M]);
-      $write("   D%4d: %9h,", M*4, DMEM[M]);
+      $write("   D%4h: %9h,", M*4, DMEM[M]);
 
       end
 
@@ -211,7 +211,7 @@ always @(negedge clk) begin
       $write("\nDATA_MEM*: ");
       for (n=0; n < mem_size; n=n+1) begin 
       if (DMEM[n] != 0) begin
-      $write("   D%4d: %9d,", n*4, $signed(DMEM[n]));
+      $write("   D%4h: %9d,", n*4, $signed(DMEM[n]));
       end
     end
 
@@ -224,13 +224,15 @@ always @(negedge clk) begin
     //   end
 
       if (load_wire == 1 )begin
-      $write("\nDATA LOADED:  D%8h: %8h, word in Mem %h",address,loadData,word_address);
+    //   $write("\nDATA LOADED:  D%8h: %8d, word in Mem %d",address,loadData,word_address);
+      $write("\nDATA LOADED:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
       end
 
       if (stored_happened == 1 )begin
     //   $write("\nDATA LOADED:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
 
-      $write("\nDATA STORED:  D%8h: %9h, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
+      $write("\nDATA STORED:  D%8h: %9d, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
+    //   $write("\nDATA STORED:  D%8h: %9h, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
       end
     $write("\n----------------------------------------------------------------------------------END\n");
 

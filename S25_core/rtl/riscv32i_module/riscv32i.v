@@ -112,6 +112,7 @@ wire LD_memory_avalible, SD_memory_avalible;
 wire branch_inst_wire_stage2;
 wire jump_inst_wire_stage2;
 wire write_reg_file_wire_stage2;
+wire [31:0] rd_result_stage2;
 
 wire [31:0] pc_stage_3;
 wire [31:0] instruction_stage_3;
@@ -229,7 +230,7 @@ hazard hazard (
 .PC_stage1(pc_stage_1), 
 .PC_stage2(pc_stage_2), 
 .PC_stage3(pc_stage_3),
-.alu_result_1_stage2(alu_result_1_stage2),
+.rd_result_stage2(rd_result_stage2),
 .writeData_pi(writeData_pi),
 .operand1_stage1(operand1_stage1),
 .operand1_into_exec(operand1_into_exec),
@@ -297,8 +298,8 @@ assign write_reg_stage3 = write_reg_file_wire_stage3|load_into_reg_stage3;
 
 assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
 assign delete_reg0_reg1 = branch_inst_wire|jump_inst_wire;
-assign writeData_pi = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
-
+assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
+assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
 
 always @(posedge clk)begin
 if (reset) begin 
