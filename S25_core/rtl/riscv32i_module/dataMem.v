@@ -231,8 +231,8 @@ always @(negedge clk) begin
       if (stored_happened == 1 )begin
     //   $write("\nDATA LOADED:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
 
-      $write("\nDATA STORED:  D%8h: %9d, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
-    //   $write("\nDATA STORED:  D%8h: %9h, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
+    //   $write("\nDATA STORED:  D%8h: %9d, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
+      $write("\nDATA STORED:  D%8h: %9h, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
       end
     $write("\n----------------------------------------------------------------------------------END\n");
 
