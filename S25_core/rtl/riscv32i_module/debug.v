@@ -37,7 +37,8 @@ always @(negedge i_clk) begin
 
 if (pc_en == 1) begin 
     $write("\n\n----------------------------------------------------------------------------------START\n ");
-    $write("\npc_o  %10h, Cycle_count %d",pc_o,Cycle_count);
+    // $write("\npc_o  %10h, Cycle_count %d",pc_o,Cycle_count);
+    $write("\nCycle_count %5d,\n        pc_o  %8h,",Cycle_count,pc_o);
 end
 // if (regCount == 3 )begin
 //     $write("\n----------------------------------------------------------------------------------\n ");
@@ -257,14 +258,39 @@ end
 endcase
 
     $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4h}",
-    pipeReg[`rd],pipeReg[`opRs1_reg],pipeReg[`opRs2_reg],pipeReg[`op1_reg],pipeReg[`op2_reg],pipeReg[`alu_res1]);  $display(" imm_i %8h", $signed(pipeReg[`immediate          ]));
+    pipeReg[`rd],pipeReg[`opRs1_reg],pipeReg[`opRs2_reg],pipeReg[`op1_reg],pipeReg[`op2_reg],pipeReg[`alu_res1]);  $write(" imm_i %8h", $signed(pipeReg[`immediate          ]));
+    $write(" branch_en  %4d, ",  pipeReg[`branch_en          ]);
+    $write(" reg_write  %4d, ",  pipeReg[`reg_write_en       ]);
+    $write(" LD_ready   %4d, ",  pipeReg[`LD_ready           ]);
+    $write(" SD_ready   %4d, ",  pipeReg[`SD_ready           ]);
+    $write(" operand_a  %4d, ",  pipeReg[`operand_amt        ]);
+    $write(" alu_res2   %4d, ",  pipeReg[`alu_res2           ]);
+    $write(" rd_data    %4d, ",  pipeReg[`rd_data            ]);
+    $write(" data_mem_  %4d, ",  pipeReg[`data_mem_loaded    ]);
 
-
-// if (regCount == 3 )begin
-//     $write("\n----------------------------------------------------------------------------------\n ");
-// end
 
 
 end
 
 endmodule   
+
+// pipeReg[`branch_en          ]
+// pipeReg[`reg_write_en       ]
+// pipeReg[`LD_ready           ]
+// pipeReg[`SD_ready           ]
+// pipeReg[`operand_amt        ]
+// pipeReg[`alu_res2           ]
+// pipeReg[`rd_data            ]
+// pipeReg[`data_mem_loaded    ]
+
+
+
+
+
+
+
+
+
+
+
+
