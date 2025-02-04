@@ -39,13 +39,21 @@ always @(posedge clk) begin
 
 
 integer k;
+integer n;
 always @(negedge clk) begin
       #100
       $write("\nREGFILE:   ");
       for (k=0; k < 32; k=k+1) begin 
 	  	// REG_FILE[i] <= 32'b0;
       if (REG_FILE[k] != 0) begin
-      $write("   R%0d: %9h,", k, REG_FILE[k]);
+      $write("   R%4d: %9h,", k, REG_FILE[k]);
+      end
+      end
+      $write("\nREGFILE*:  ");
+      for (n=0; n < 32; n=n+1) begin 
+	  	// REG_FILE[i] <= 32'b0;
+      if (REG_FILE[n] != 0) begin
+      $write("   R%4d: %9d,", n, $signed(REG_FILE[n]));
       end
       end
    //  $write("\n----------------------------------------------------------------------------------\n");

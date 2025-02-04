@@ -1,5 +1,7 @@
 module hazard (
 
+
+ input wire clk, 
  input wire [4:0]  rs1_stage1,                // Source Register  1  of instruction in EX stage
  input wire [4:0]  rs2_stage1,                // Source  Register 2  of instruction in EX stage
 	      
@@ -29,7 +31,7 @@ module hazard (
 
 
    assign memFwd1 =  (destination_reg_stage2  == rs1_stage1) &&  write_reg_stage2;
-   assign wbFwd1 =  (destination_reg_stage3  == rs1_stage1) &&  write_reg_stage3;
+   assign wbFwd1  =  (destination_reg_stage3  == rs1_stage1) &&  write_reg_stage3;
 
    assign src1Forward_po = memFwd1 ?  2'b10 : wbFwd1 ? 2'b01 : 2'b00;
    /*  2. Repeat the three assign statement for source-2 operand.*/   
@@ -38,7 +40,22 @@ module hazard (
    assign src2Forward_po = memFwd2 ?  2'b10 : wbFwd2 ? 2'b01 : 2'b00;
 
 
+always @(negedge clk) begin
+   #25
+   if (memFwd1) begin 
+      $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d", rs1_stage1);
+   end
+   if (memFwd2) begin 
+      $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d", rs2_stage1);
+   end
+   if (wbFwd1) begin 
+      $write("\n HAZARD: wbFwd1, RS1 Stage3  to ALU %5d", rs1_stage1);
+   end
+   if (wbFwd2) begin 
+      $write("\n HAZARD: wbFwd1, RS2 Stage3  to ALU %5d", rs2_stage1);
+   end
 
+end
 
 endmodule
 

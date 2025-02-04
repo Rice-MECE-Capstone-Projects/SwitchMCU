@@ -81,7 +81,7 @@ module riscv32iTB
         repeat (1) @(posedge tb_clk);
         #7000
         tb_reset = 0;  // Release reset after 10 time units
-        repeat (50) @(posedge tb_clk);
+        repeat (100) @(posedge tb_clk);
         // repeat (400) @(posedge tb_clk);
 
         $finish;

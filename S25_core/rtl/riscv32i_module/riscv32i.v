@@ -165,11 +165,11 @@ wire jump_inst_wire,branch_inst_wire;
 
 
 
-debug # (.Param_delay(1),.regCount(0), .pc_en(1)
+debug # (.Param_delay(5),.regCount(0), .pc_en(1)
                                       ) debug_0 (.i_clk(clk),.pipeReg(pipeReg0), .pc_o(pc_i), .Cycle_count(Cycle_count));
-debug # (.Param_delay(2),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
-debug # (.Param_delay(3),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
-debug # (.Param_delay(4),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
+debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
+debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
+debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
 
 
 
@@ -237,6 +237,7 @@ dataMem  #(.mem_size(4096)) dataMem
 );
 
 hazard hazard (
+.clk(clk),
 .rs1_stage1(rs1_stage1),
 .rs2_stage1(rs2_stage1),
 .destination_reg_stage2(rd_stage2),
@@ -345,6 +346,7 @@ else begin
     pipeReg1[`PC_reg]             <= pc_stage_0;
     pipeReg1[`instruct]           <= instruction_stage_0;
     pipeReg1[`rd                ] <= rd_o;//  87:83 //[ 4:0]
+    pipeReg1[`opRs1_reg         ] <= rs1_o;// 127:121 //[4:0]
     pipeReg1[`opRs2_reg         ] <= rs2_o;// 127:121 //[4:0]
     pipeReg1[`op1_reg           ] <= operand1_po;// 159:128 //[31:00]
     pipeReg1[`op2_reg           ] <= operand2_po;// 191:160 //[31:00]
