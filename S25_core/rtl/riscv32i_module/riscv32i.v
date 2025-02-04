@@ -224,10 +224,18 @@ hazard hazard (
 .write_reg_stage2(write_reg_file_wire_stage2),
 .destination_reg_stage3(rd_stage3),
 .write_reg_stage3(write_reg_stage3),
-.src1Forward_po(src1Forward_alu),
-.src2Forward_po(src2Forward_alu) 
+// .src1Forward_po(src1Forward_alu),
+// .src2Forward_po(src2Forward_alu),
+.PC_stage1(pc_stage_1), 
+.PC_stage2(pc_stage_2), 
+.PC_stage3(pc_stage_3),
+.alu_result_1_stage2(alu_result_1_stage2),
+.writeData_pi(writeData_pi),
+.operand1_stage1(operand1_stage1),
+.operand1_into_exec(operand1_into_exec),
+.operand2_into_exec(operand2_into_exec),
+.operand2_stage1(operand2_stage1)
 );
-
 
 
 // assign we_pi = (==);
@@ -280,9 +288,7 @@ assign write_reg_file_wire_stage3 = pipeReg3[`reg_write_en      ];
 assign load_into_reg_stage3       = pipeReg3[`load_reg          ];  
 assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
 
-wire [1:0] src1Forward_alu, src2Forward_alu ;
-assign operand1_into_exec = src1Forward_alu[1] ? (alu_result_1_stage2) :(src1Forward_alu[0] ? writeData_pi: operand1_stage1 ) ;
-assign operand2_into_exec = src2Forward_alu[1] ? (alu_result_1_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
+
 wire delete_reg0_reg1;
 // debuh condition
 wire   delete_reg1_reg2; 
