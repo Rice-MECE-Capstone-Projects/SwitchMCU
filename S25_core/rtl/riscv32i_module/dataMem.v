@@ -16,7 +16,7 @@ output wire load_into_reg
     assign SD_memory_avalible = 1'b1;
     assign load_into_reg = load_wire;
     reg  [31:0] DMEM [0:mem_size-1];
-    wire [11:0] word_address;
+    wire [29:0] word_address;
     wire [ 1:0] byte_address;
     reg         load_wire;
     reg         store_wire;
@@ -29,7 +29,7 @@ output wire load_into_reg
     reg [31:0] last_loaded_data,last_loaded_address;
     reg stored_happened,loaded_happened;
 
-    assign word_address = address[11:2];  
+    assign word_address = address[31:2];  
     assign byte_address = address[ 1:0];
     assign raw_word = DMEM[word_address];
     assign loadData_w = loadData;

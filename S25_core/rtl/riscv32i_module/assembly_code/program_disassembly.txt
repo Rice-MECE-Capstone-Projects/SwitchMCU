@@ -58,13 +58,18 @@ Disassembly of section .data:
   c8:	fce7d6e3          	bge	a5,a4,0x94
   cc:	fec42503          	lw	a0,-20(s0)
   d0:	f31ff0ef          	jal	0x0
-  d4:	00000793          	li	a5,0
-  d8:	00078513          	mv	a0,a5
-  dc:	09c12083          	lw	ra,156(sp)
-  e0:	09812403          	lw	s0,152(sp)
-  e4:	0a010113          	addi	sp,sp,160
-  e8:	00008067          	ret
-  ec:	00001117          	auipc	sp,0x1
-  f0:	f1410113          	addi	sp,sp,-236 # 0x1000
-  f4:	f49ff0ef          	jal	0x3c
-  f8:	ff5ff06f          	j	0xec
+  d4:	fec42703          	lw	a4,-20(s0)
+  d8:	1d100793          	li	a5,465
+  dc:	00f71a63          	bne	a4,a5,0xf0
+  e0:	deadc7b7          	lui	a5,0xdeadc
+  e4:	eef78513          	addi	a0,a5,-273 # 0xdeadbeef
+  e8:	f19ff0ef          	jal	0x0
+  ec:	0100006f          	j	0xfc
+  f0:	0badf7b7          	lui	a5,0xbadf
+  f4:	00d78513          	addi	a0,a5,13 # 0xbadf00d
+  f8:	f09ff0ef          	jal	0x0
+  fc:	0000006f          	j	0xfc
+ 100:	00001117          	auipc	sp,0x1
+ 104:	f0010113          	addi	sp,sp,-256 # 0x1000
+ 108:	f35ff0ef          	jal	0x3c
+ 10c:	ff5ff06f          	j	0x100

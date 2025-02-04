@@ -408,7 +408,7 @@ endcase
 end
 
 wire debug_i;
-assign debug_i = 0;
+assign debug_i = 1;
 always @(negedge i_clk) begin 
 
 #11
