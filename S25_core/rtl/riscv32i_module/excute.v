@@ -305,7 +305,7 @@ end
     write_reg_file <= 1'b1;
 end
 {inst_LUI   }:begin
-    result           <=0;
+    result           <=imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;

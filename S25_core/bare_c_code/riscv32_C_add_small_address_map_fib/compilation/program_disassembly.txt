@@ -1,0 +1,66 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+   0:	fd010113          	addi	sp,sp,-48
+   4:	02112623          	sw	ra,44(sp)
+   8:	02812423          	sw	s0,40(sp)
+   c:	03010413          	addi	s0,sp,48
+  10:	fca42e23          	sw	a0,-36(s0)
+  14:	fcb42c23          	sw	a1,-40(s0)
+  18:	fdc42783          	lw	a5,-36(s0)
+  1c:	fef42623          	sw	a5,-20(s0)
+  20:	fec42783          	lw	a5,-20(s0)
+  24:	fd842703          	lw	a4,-40(s0)
+  28:	00e7a023          	sw	a4,0(a5)
+  2c:	00000013          	nop
+  30:	02c12083          	lw	ra,44(sp)
+  34:	02812403          	lw	s0,40(sp)
+  38:	03010113          	addi	sp,sp,48
+  3c:	00008067          	ret
+  40:	fe010113          	addi	sp,sp,-32
+  44:	00112e23          	sw	ra,28(sp)
+  48:	00812c23          	sw	s0,24(sp)
+  4c:	00912a23          	sw	s1,20(sp)
+  50:	02010413          	addi	s0,sp,32
+  54:	fea42623          	sw	a0,-20(s0)
+  58:	fec42703          	lw	a4,-20(s0)
+  5c:	00100793          	li	a5,1
+  60:	00e7c663          	blt	a5,a4,0x6c
+  64:	fec42783          	lw	a5,-20(s0)
+  68:	0300006f          	j	0x98
+  6c:	fec42783          	lw	a5,-20(s0)
+  70:	fff78793          	addi	a5,a5,-1
+  74:	00078513          	mv	a0,a5
+  78:	fc9ff0ef          	jal	0x40
+  7c:	00050493          	mv	s1,a0
+  80:	fec42783          	lw	a5,-20(s0)
+  84:	ffe78793          	addi	a5,a5,-2
+  88:	00078513          	mv	a0,a5
+  8c:	fb5ff0ef          	jal	0x40
+  90:	00050793          	mv	a5,a0
+  94:	00f487b3          	add	a5,s1,a5
+  98:	00078513          	mv	a0,a5
+  9c:	01c12083          	lw	ra,28(sp)
+  a0:	01812403          	lw	s0,24(sp)
+  a4:	01412483          	lw	s1,20(sp)
+  a8:	02010113          	addi	sp,sp,32
+  ac:	00008067          	ret
+  b0:	fe010113          	addi	sp,sp,-32
+  b4:	00112e23          	sw	ra,28(sp)
+  b8:	00812c23          	sw	s0,24(sp)
+  bc:	02010413          	addi	s0,sp,32
+  c0:	00300513          	li	a0,3
+  c4:	f7dff0ef          	jal	0x40
+  c8:	fea42623          	sw	a0,-20(s0)
+  cc:	fec42583          	lw	a1,-20(s0)
+  d0:	60000513          	li	a0,1536
+  d4:	f2dff0ef          	jal	0x0
+  d8:	0000006f          	j	0xd8
+  dc:	00001117          	auipc	sp,0x1
+  e0:	f2410113          	addi	sp,sp,-220 # 0x1000
+  e4:	fcdff0ef          	jal	0xb0
+  e8:	ff5ff06f          	j	0xdc
