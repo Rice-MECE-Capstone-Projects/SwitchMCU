@@ -5,21 +5,21 @@ void write_to_peripheral(int address, int value) {
     volatile int* periph_addr = (int*)(address);
     *periph_addr = value;}
 
-// int factorial(int n) {
-//     if (n <= 1) return 1;
-//     return n * factorial(n - 1);}
+int factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);}
 
-int fibonacci(int n) {
-    if (n <= 1) {
-        return n;  
-    } else {
-        return fibonacci(n - 1) + fibonacci(n - 2);  // Recursive case
-    }
-}
+// int fibonacci(int n) {
+//     if (n <= 1) {
+//         return n;  
+//     } else {
+//         return fibonacci(n - 1) + fibonacci(n - 2);  // Recursive case
+//     }
+// }
 
 
 int main() {
-    int result = fibonacci(5);
+    int result = factorial(5);
     write_to_peripheral(PERIPHERAL_BASE, result);  
     // if (result == 6765) {
     //     write_to_peripheral(PERIPHERAL_BASE, 0xDEADBEEF);
