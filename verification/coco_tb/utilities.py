@@ -163,10 +163,10 @@ def ins_gen(itype, boundary=0):
             ins_temp = funct7_all[0] << 25 | rs2 << 20 | rs1 << 15 | funct3 << 12 | rd << 7 | opcode
             ins_list.append(ins_temp)
         # generating sub ins
-        ins_temp = funct7_all[1] << 25 | rs2 << 20 | rs1 << 15 | 000 << 12 | rd << 7 | opcode
+        ins_temp = funct7_all[1] << 25 | rs2 << 20 | rs1 << 15 | 0b000 << 12 | rd << 7 | opcode
         ins_list.append(ins_temp)
         # generating sra ins
-        ins_temp = funct7_all[1] << 25 | rs2 << 20 | rs1 << 15 | 101 << 12 | rd << 7 | opcode
+        ins_temp = funct7_all[1] << 25 | rs2 << 20 | rs1 << 15 | 0b101 << 12 | rd << 7 | opcode
         ins_list.append(ins_temp)
         assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
     elif itype == 'I':
@@ -219,21 +219,31 @@ def ins_gen(itype, boundary=0):
         ins_name_list = ["SB", "SH", "SW"]
         assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
     elif itype == 'B':
-        # beq,bne,blt,bge,bltu,bgeu
+        # BEQ, BNE, BLT, BGE, BLTU, BGEU
         opcode = 0b1100011
-        imm = random.randint(0, 2**13-1)
-        imm12 = imm & (2 ** 13)
-        imm11 = imm & (2 ** 12)
-        imm10_5 = imm & (2 ** 11 - 1 - (2 ** 5 - 1)) >> 5
-        imm4_1 = imm & (2 ** 5 - 1 - (2 ** 1 - 1))  >> 1
-        rs2 = random.randint(0, 2**5-1)
-        rs1 = random.randint(0, 2**5-1)
+        imm = random.randint(0, 2**13 - 1)
+        imm12   = (imm >> 12) & 0x1   # bit12
+        imm11   = (imm >> 11) & 0x1   # bit11
+        imm10_5 = (imm >> 5)  & 0x3F  # bits 10~5，共6位
+        imm4_1  = (imm >> 1)  & 0xF   # bits 4~1，共4位
+
+        rs2 = random.randint(0, 2**5 - 1)
+        rs1 = random.randint(0, 2**5 - 1)
         funct3_all = [0b000, 0b001, 0b100, 0b101, 0b110, 0b111]
+
         for funct3 in funct3_all:
-            ins_temp = (imm12|imm10_5) << 25 | rs2 << 20 | rs1 << 15 | funct3 << 12 | (imm4_1|imm11)<<7 | opcode
-            ins_list.append(ins_temp)
+            ins_temp = ((imm12   & 0x1) << 31) | \
+                    ((imm10_5 & 0x3F) << 25) | \
+                    (rs2 << 20) | \
+                    (rs1 << 15) | \
+                    (funct3 << 12) | \
+                    ((imm4_1  & 0xF) << 8)  | \
+                    ((imm11   & 0x1) << 7)  | \
+                    opcode
+            ins_list.append(ins_temp)    
         ins_name_list = ["BEQ", "BNE", "BLT", "BGE", "BLTU", "BGEU"]
         assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
+
     elif itype == 'U':
         # auipc, lui
         opcode = [0b0010111, 0b0110111]
