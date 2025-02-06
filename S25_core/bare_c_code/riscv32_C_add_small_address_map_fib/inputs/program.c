@@ -19,7 +19,8 @@ int factorial(int n) {
 
 
 int main() {
-    int result = factorial(5);
+    // int result = fibonacci(15);
+    int result = factorial(12);
     write_to_peripheral(PERIPHERAL_BASE, result);  
     // if (result == 6765) {
     //     write_to_peripheral(PERIPHERAL_BASE, 0xDEADBEEF);
