@@ -53,7 +53,7 @@ Disassembly of section .text:
   a4:	00112e23          	sw	ra,28(sp)
   a8:	00812c23          	sw	s0,24(sp)
   ac:	02010413          	addi	s0,sp,32
-  b0:	00500513          	li	a0,5
+  b0:	00c00513          	li	a0,12
   b4:	f8dff0ef          	jal	40 <factorial>
   b8:	fea42623          	sw	a0,-20(s0)
   bc:	fec42583          	lw	a1,-20(s0)
