@@ -66,7 +66,7 @@ result_secondary <=0;
     write_reg_file <= 1'b1;
 end
 {inst_SUB   }:begin 
-    result <= operand1_pi + operand2_pi;
+    result <= operand1_pi - operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
@@ -108,7 +108,7 @@ end
     write_reg_file <= 1'b1;
 end
 {inst_SRA   }:begin 
-    result <= (operand1_pi >>> (operand2_pi));
+    result <= (operand1_pi_signed >>> (operand2_pi_signed));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
@@ -171,14 +171,14 @@ end
     write_reg_file <= 1'b1;
 end
 {inst_SRAI    }:begin 
-    result <= operand1_pi >>> imm_i;
+    result <= operand1_pi_signed >>> imm_i_signed;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
 {inst_SLTI  }:begin 
-    result <= (operand1_pi        < operand2_pi       ) ? 1'b1 : 1'b0;
+    result <= (operand1_pi        < imm_i       ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;

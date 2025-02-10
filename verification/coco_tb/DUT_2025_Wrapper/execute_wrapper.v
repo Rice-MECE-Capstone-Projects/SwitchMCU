@@ -1,4 +1,5 @@
-module execute_wrapper (
+module execute_wrapper # (
+    parameter N_param = 32   ) (
     input wire i_clk,
     input wire i_en,
     input wire [4:0] rd_i,
