@@ -145,12 +145,15 @@ wire [31:0] result_secondary;
 wire jump_inst_wire,branch_inst_wire;
 
 
+//MARKER AUTOMATED HERE START
 
 debug # (.Param_delay(5),.regCount(0), .pc_en(1)
                                       ) debug_0 (.i_clk(clk),.pipeReg(pipeReg0), .pc_o(pc_i), .Cycle_count(Cycle_count));
 debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
 debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
 debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
+
+//MARKER AUTOMATED HERE END
 
 
 
@@ -395,17 +398,6 @@ end
 end
 
 
-// Old display statements not used for now
-// $display("PC: %h, Instruction: %h, word in processor %h", pc, instruction,pc >> 2);
-//  always @(negedge clk) begin : checker
-//             // $display("%t:   INST_typ_o:{%h},   fun3_o:{%h}, fun7_o:{%h},  opcode_o:{%h},   Sing_Instru:{%h},   insturction_in:{%h}    ",
-//             // $time,          INST_typ_o,        fun3_o,      fun7_o,     opcode_o,Single_Instruction_o   , instruction_o    
-//             // );
-//             // $write("\n %t: ERR:{%b} fun3:{%h}, fun7:{%h},  opcode:{%h},  insturction:{%h}    ",
-//             // $time,    ~ (|Single_Instruction_o),     fun3_o,      fun7_o,     opcode_o, instruction   
-//             // );
-//             $write("\n %d: E:%b I:{%h}    ",pc_o,~ (|Single_Instruction_o),  instruction   );
-//  end
 
 
 endmodule

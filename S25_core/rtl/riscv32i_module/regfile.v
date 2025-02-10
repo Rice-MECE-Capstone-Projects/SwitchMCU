@@ -37,6 +37,7 @@ always @(posedge clk) begin
 		   REG_FILE[destReg_pi] <= writeData_pi;
       end
 
+//MARKER AUTOMATED HERE START
 
 integer k;
 integer n;
@@ -56,10 +57,9 @@ always @(negedge clk) begin
       $write("   R%4d: %9d,", n, $signed(REG_FILE[n]));
       end
       end
-   //  $write("\n----------------------------------------------------------------------------------\n");
-
 end
 
+//MARKER AUTOMATED HERE END
 
 
 

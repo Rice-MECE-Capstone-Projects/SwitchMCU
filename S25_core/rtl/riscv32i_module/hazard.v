@@ -61,6 +61,10 @@ output wire [31:0] operand2_into_exec
    assign operand1_into_exec = src1Forward_alu[1] ? (rd_result_stage2) :(src1Forward_alu[0] ? writeData_pi: operand1_stage1 ) ;
    assign operand2_into_exec = src2Forward_alu[1] ? (rd_result_stage2) :(src2Forward_alu[0] ? writeData_pi: operand2_stage1 ) ;
 
+
+
+//MARKER AUTOMATED HERE START
+
 always @(negedge clk) begin
    #25
 
@@ -80,6 +84,9 @@ always @(negedge clk) begin
    end
 end
 end
+//MARKER AUTOMATED HERE END
+
+
 
 endmodule
 

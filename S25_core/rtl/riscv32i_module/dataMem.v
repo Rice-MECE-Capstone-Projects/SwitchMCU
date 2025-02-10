@@ -193,8 +193,10 @@ integer i;
         end
 
 
-//DEBUG BELOW
 
+//MARKER AUTOMATED HERE START
+
+// DEBUG BELOW
 integer M,n;
 always @(negedge clk) begin
       #120
@@ -238,6 +240,7 @@ always @(negedge clk) begin
 
 end
 
+//MARKER AUTOMATED HERE END
 
 
 
