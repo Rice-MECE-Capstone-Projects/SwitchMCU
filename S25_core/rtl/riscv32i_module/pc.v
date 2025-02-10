@@ -28,6 +28,7 @@ always @(posedge clk_i) begin
   end
 
 
+//MARKER AUTOMATED HERE START
 
 always @(negedge clk_i) begin
 	#30
@@ -35,6 +36,8 @@ always @(negedge clk_i) begin
 	if (branch_inst_wire ) begin $write("\nPC_module: BRANCH! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
 
 end
+
+//MARKER AUTOMATED HERE END
 
 
    

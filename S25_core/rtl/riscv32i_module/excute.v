@@ -409,6 +409,13 @@ end
 
 wire debug_i;
 assign debug_i = 1;
+
+
+
+
+//MARKER AUTOMATED HERE START
+
+
 always @(negedge i_clk) begin 
 
 #11
@@ -727,11 +734,11 @@ endcase
 
    $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8d rs2_d %8d  result {%4H}",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $write(" imm_i %d", $signed(imm_i));
     // $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4h}",
-
-
 end
 
 end
+//MARKER AUTOMATED HERE END
+
 
 
 endmodule
