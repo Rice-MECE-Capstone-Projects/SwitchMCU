@@ -70,7 +70,7 @@ def write_wrapper(verilog_file, inputs, outputs, connection_seq, connection_ooo,
     inter_sig = ''
     inter_sig_len = ''
     connection_dict = {}
-    with open("./DUT_Wrapper/"+verilog_file, 'w') as wfile:
+    with open("./DUT_2025_Wrapper/"+verilog_file, 'w') as wfile:
         wfile.write(f"module top_module (\n")
         assert len(inputs) == len(outputs)
         # flatten the list
@@ -152,7 +152,7 @@ for file_name in v_list:
 # Step 2: for each wrapper file, find the io ports
 for file_name in v_list:
     file_name = file_name.split('.')[0] + "_wrapper.v" 
-    with open("./DUT_Wrapper/{}".format(file_name), "r") as file:
+    with open("./DUT_2025_Wrapper/{}".format(file_name), "r") as file:
         verilog_code = file.read()
     input_pattern = r"input\s+(?:reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
     output_pattern = r"output\s+(?:reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
@@ -205,7 +205,7 @@ outputs = []
 # Step 7.1 collect all input and output ports
 for file_name in v_list:
     file_name = file_name.split('.')[0] + "_wrapper.v" 
-    input_tmp, output_tmp = read_wrapper("./DUT_Wrapper/{}".format(file_name))
+    input_tmp, output_tmp = read_wrapper("./DUT_2025_Wrapper/{}".format(file_name))
     inputs.append(input_tmp)
     outputs.append(output_tmp)
 # Step 7.2 generate top module name

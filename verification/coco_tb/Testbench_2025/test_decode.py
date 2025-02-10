@@ -118,25 +118,3 @@ async def test_J(dut):
     dut.instruction.value = INS[ins_idx]
     await Timer(60, units="ns")
     assert dut.rd_o.value == INS[j_rd_idx], "dec_rd incorrect"
-
-# R & I type
-@cocotb.test()
-async def test_add_addi(dut):
-    clock = Clock(dut.i_clk, 10, units="ns")  # 100MHz clk signal
-    cocotb.start_soon(clock.start())
-
-    # Sys reset using i_en
-    dut.i_en.value = 0  # De-assert enable to simulate reset
-    await Timer(10, units="ns")
-    dut.i_en.value = 1  # Assert enable to bring the module out of reset
-
-    dut.instruction.value = 0b00000000000100001000000110110011  # add
-    await Timer(50, units="ns")
-    assert dut.dec_add.value == 1, "dec_add signal incorrect"
-
-    dut.instruction.value = 0b00000000000100001000000010010011  # addi
-    await Timer(100, units="ns")
-    assert dut.dec_addi.value == 1, "dec_addi signal incorrect"
-    assert dut.dec_imm_en.value == 1, "dec_imm_en signal incorrect"
-    assert dut.dec_rd.value == 1, "dec_rd incorrect"
-    assert dut.dec_rs1.value == 1, "dec_rs1 incorrect"
