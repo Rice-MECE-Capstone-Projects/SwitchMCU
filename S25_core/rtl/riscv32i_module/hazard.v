@@ -35,26 +35,23 @@ output wire [31:0] operand2_into_exec
    wire 	     memFwd1, wbFwd1;
    wire 	     memFwd2, wbFwd2;
 
-   /*  1. Write three "assign" statements to indicate the source of operand 1 in the EX stage as follows.
-   
-  Set "memFwd1" (respectively "WbFwd1")  to TRUE if the instruction in the MEM stage (respectively WB stage) 
-  will update the source-1 register of the instruction currently in the EX stage.
 
-  Set output "src1Forward_alu"  to 0, 1, or 2 as follows: 0 of there is no forwarding needed for source-1 operand,
-  1 if forwarding is from the WB stage, and 2 if forwarding is from the MEM stage. Recall that forwarding from  MEM 
-  gets priority over forwarding from WB. The signal must be used in module "processor" to route the correct data to
-  the EX stage.       
-    */
-
-
+   //foward from stage2 MEM reg to exec for RS1
    assign memFwd1 =  (destination_reg_stage2  == rs1_stage1) &&  write_reg_stage2;
+   
+
+   //foward from stage3 WB  reg to exec for RS1
    assign wbFwd1  =  (destination_reg_stage3  == rs1_stage1) &&  write_reg_stage3;
 
-   /*  2. Repeat the three assign statement for source-2 operand.*/   
+
+   //foward from stage2 MEM reg to exec for RS1
    assign memFwd2 = (rs2_stage1 == destination_reg_stage2)  &&  write_reg_stage2;
+
+   
+   //foward from stage3 WB  reg to exec for RS1
    assign wbFwd2  = (rs2_stage1 == destination_reg_stage3 ) &&  write_reg_stage3;
 
-
+   
    assign src1Forward_alu = memFwd1 ?  2'b10 : wbFwd1 ? 2'b01 : 2'b00;
    assign src2Forward_alu = memFwd2 ?  2'b10 : wbFwd2 ? 2'b01 : 2'b00;
 

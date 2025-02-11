@@ -21,7 +21,6 @@ module decode
 );
 
     // param_module params ()
-
 wire [6:0] opcode;
 reg  [31:0] imm;
 reg  [6:0] INST_typ;

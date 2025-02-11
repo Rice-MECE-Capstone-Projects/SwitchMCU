@@ -24,7 +24,8 @@ module riscv32i
 
     // param_module params ();
     reg halt_i;
-    reg [511:0] pipeReg0, pipeReg1, pipeReg2, pipeReg3;
+    reg [63:0] pipeReg0;
+    reg [511:0] pipeReg1, pipeReg2, pipeReg3;
 initial begin 
     halt_i          <= 0;
 end
@@ -297,7 +298,7 @@ assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];
 
 always @(posedge clk)begin
 if (reset) begin 
-    pipeReg0 <= 512'b0;
+    pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 	pipeReg3 <= 512'b0;
@@ -310,7 +311,7 @@ end else begin
 
     // <-- stage 0 //
     if (delete_reg1_reg2) begin 
-    pipeReg0 <= 512'b0;
+    pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
     end else 
