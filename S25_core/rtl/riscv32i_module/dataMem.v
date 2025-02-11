@@ -14,6 +14,9 @@ output wire load_into_reg
 
     assign LD_memory_avalible = 1'b1;
     assign SD_memory_avalible = 1'b1;
+
+
+    
     assign load_into_reg = load_wire;
     reg  [31:0] DMEM [0:mem_size-1];
     wire [29:0] word_address;
@@ -41,8 +44,6 @@ always @(*) begin
             load_wire  <= 1'b1;
             store_wire <= 1'b0;
             loadData = {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
-
-
         end
         {inst_LH    }:begin // load Half
             load_wire  <= 1'b1;
@@ -53,7 +54,6 @@ always @(*) begin
             load_wire  <= 1'b1;
             store_wire <= 1'b0;
             loadData   <= DMEM[word_address];
-
         end
         {inst_LBU   }:begin 
             load_wire  <= 1'b1;
@@ -65,7 +65,6 @@ always @(*) begin
             store_wire <= 1'b0;
             loadData = {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
         end
-
         {inst_SB    }:begin
             load_wire  <= 1'b0;
             store_wire <= 1'b1;
@@ -100,61 +99,24 @@ integer i;
             end end else if (store_wire) begin
         case(Single_Instruction) 
         {inst_SB    }:begin
-            // loadData = {DMEM[word_address][(byte_address * 8) +: 8]};
-
-        // last_stored_word_address <= word_address;
         DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
-        // last_stored_data    <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
-        // stored_happened      <= 1;
         end
         {inst_SH    }:begin
         DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
-        // last_stored_data    <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
-        // last_stored_word_address <= word_address;
-        // stored_happened      <= 1;
         end
         {inst_SW    }:begin
         DMEM[word_address]   <= storeData;
-        // last_stored_data    <= storeData;
-        // last_stored_word_address <= word_address;
-        // stored_happened      <= 1;
         end
-        // default: begin 
-        // last_stored_word_address <= 0;
-        // last_stored_data    <= 0; 
-        // stored_happened     <= 0;
-        //         end
-        endcase
-                
-                // DMEM[word_address] <= storeData;
-        end
-        // else begin
-        // last_stored_word_address <= 0;
-        // last_stored_data    <= 0; 
-        // stored_happened     <= 0;
-        //      end
-
+        endcase     
+            end
         end
 
  
-
-
-
-
-
-
-
-
-
-
-
-
      always @(*) begin
         if (store_wire) begin
         case(Single_Instruction) 
         {inst_SB    }:begin
             // loadData = {DMEM[word_address][(byte_address * 8) +: 8]};
-
         last_stored_word_address <= word_address;
         last_stored_address <= address;
         last_stored_data    <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
@@ -164,31 +126,27 @@ integer i;
         last_stored_data    <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
         last_stored_word_address <= word_address;
         last_stored_address <= address;
-
         stored_happened      <= 1;
         end
         {inst_SW    }:begin
         last_stored_data    <= storeData;
         last_stored_word_address <= word_address;
         last_stored_address <= address;
-    
         stored_happened      <= 1;
         end
         default: begin 
         last_stored_word_address <= 0;
         last_stored_address      <= 0;
-    
         last_stored_data    <= 0; 
         stored_happened     <= 0;
                 end
         endcase
         end else begin
         last_stored_address <= 0;
-
         last_stored_word_address <= 0;
         last_stored_data    <= 0; 
         stored_happened     <= 0;
-             end
+        end
 
         end
 
