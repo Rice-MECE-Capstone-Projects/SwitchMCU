@@ -10,11 +10,7 @@ module riscv32i
     input  wire reset,
     input  wire [31:0] Cycle_count
 
-    // input  wire en
 );
-
-    // wire i_clk;
-    // wire i_en;
     wire  [N_param-1:0]  instruction;
     wire  [4:0] rd_o;
     wire  [4:0] rs1_o;
@@ -27,21 +23,10 @@ module riscv32i
     wire  i_en;
 
     // param_module params ();
-
-    reg halt_i, isTakenBranch_i;
-    reg [31:0] targetPC_i;
-
+    reg halt_i;
     reg [511:0] pipeReg0, pipeReg1, pipeReg2, pipeReg3;
-
-    //branch_taken
-
-    wire branch_taken;
-    assign branch_taken = 0;
-
 initial begin 
     halt_i          <= 0;
-    targetPC_i      <= 0;
-    isTakenBranch_i <= 0; 
 end
 
     pc pc  (
@@ -63,15 +48,15 @@ end
     );
 
 // Pre Stage 0
-    wire [31:0] pc_stage_0,instruction_stage_0;
-    wire we_pi;
-    wire [31:0] pc_o,pc_i;
-    wire [31:0] writeData_pi,operand1_po,operand2_po;
+wire [31:0] pc_stage_0,instruction_stage_0;
+wire we_pi;
+wire [31:0] pc_o,pc_i;
+wire [31:0] writeData_pi,operand1_po,operand2_po;
 
 
+//stage 1 varibles
 wire [31:0] pc_stage_1;
 wire [31:0] instruction_stage_1;
-
 wire [ 4:0] rd_stage1;
 wire [ 2:0] fun3_stage1;
 wire [ 6:0] fun7_stage1;
@@ -85,13 +70,9 @@ wire [31:0] imm_stage1;
 wire [63:0] Single_Instruction_stage1;
 wire [31:0] alu_result_1;
 wire [31:0] alu_result_2;
-//exec 
-wire [31:0] operand1_into_exec;
-wire [31:0] operand2_into_exec;
 
 
-
-
+//stage 2
 wire [31:0] pc_stage_2;
 wire [31:0] instruction_stage_2;
 wire [ 4:0] rd_stage2;
@@ -107,13 +88,9 @@ wire [31:0] imm_stage2;
 wire [63:0] Single_Instruction_stage2;
 wire [31:0] alu_result_1_stage2;
 wire [31:0] alu_result_2_stage2;
-wire [31:0] loaded_data;
-wire LD_memory_avalible, SD_memory_avalible;
-wire branch_inst_wire_stage2;
-wire jump_inst_wire_stage2;
-wire write_reg_file_wire_stage2;
-wire [31:0] rd_result_stage2;
 
+
+//Stage 3
 wire [31:0] pc_stage_3;
 wire [31:0] instruction_stage_3;
 wire [ 4:0] rd_stage3;
@@ -129,20 +106,50 @@ wire [31:0] imm_stage3;
 wire [63:0] Single_Instruction_stage3;
 wire [31:0] alu_result_1_stage3;
 wire [31:0] alu_result_2_stage3;
-wire LD_memory_avalible_stage3;
-wire SD_memory_avalible_stage3;
-wire write_reg_file_wire_stage3;
-wire load_into_reg_stage3;
+wire        LD_memory_avalible_stage3;
+wire        SD_memory_avalible_stage3;
+wire        write_reg_file_wire_stage3;
+wire        load_into_reg_stage3;
 wire [31:0] loaded_data_stage3;
 
 
 
-
+//Data Mem wires
+wire [31:0] loaded_data;
+wire LD_memory_avalible, SD_memory_avalible;
 wire load_into_reg;
 
-wire [31:0] result_secondary;
 
-wire jump_inst_wire,branch_inst_wire;
+//Pc
+wire branch_inst_wire_stage2;
+wire jump_inst_wire_stage2;
+
+//Going into exect
+//exec 
+wire [31:0] operand1_into_exec;
+wire [31:0] operand2_into_exec;
+wire [31:0] result_secondary;
+wire        jump_inst_wire,branch_inst_wire;
+
+
+//Hazard
+wire write_reg_file_wire_stage2;
+wire [31:0] rd_result_stage2;
+
+
+
+//Control signals 
+wire   delete_reg0_reg1;
+wire   delete_reg1_reg2; 
+wire   write_reg_stage3;
+assign write_reg_stage3 = write_reg_file_wire_stage3|load_into_reg_stage3;
+
+assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
+assign delete_reg0_reg1 = branch_inst_wire|jump_inst_wire;
+assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
+assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
+
+
 
 
 //MARKER AUTOMATED HERE START
@@ -228,8 +235,6 @@ hazard hazard (
 .write_reg_stage2(write_reg_file_wire_stage2),
 .destination_reg_stage3(rd_stage3),
 .write_reg_stage3(write_reg_stage3),
-// .src1Forward_po(src1Forward_alu),
-// .src2Forward_po(src2Forward_alu),
 .PC_stage1(pc_stage_1), 
 .PC_stage2(pc_stage_2), 
 .PC_stage3(pc_stage_3),
@@ -242,11 +247,8 @@ hazard hazard (
 );
 
 
-// assign we_pi = (==);
 assign pc_stage_0          =        pipeReg0[`PC_reg];
 assign instruction_stage_0 =        pipeReg0[`instruct];
-
-
 assign pc_stage_1 =                 pipeReg1[`PC_reg];
 assign instruction_stage_1 =        pipeReg1[`instruct];
 assign rd_stage1 =                  pipeReg1[`rd];
@@ -293,36 +295,20 @@ assign load_into_reg_stage3       = pipeReg3[`load_reg          ];
 assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
 
 
-wire delete_reg0_reg1;
-// debuh condition
-wire   delete_reg1_reg2; 
-wire write_reg_stage3;
-assign write_reg_stage3 = write_reg_file_wire_stage3|load_into_reg_stage3;
-
-assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
-assign delete_reg0_reg1 = branch_inst_wire|jump_inst_wire;
-assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
-assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
-
 always @(posedge clk)begin
 if (reset) begin 
     pipeReg0 <= 512'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 	pipeReg3 <= 512'b0;
-end else if (branch_taken) begin 
-    pipeReg1 <= 512'b0;
-    pipeReg2 <= 512'b0;
-	pipeReg3 <= 512'b0;
-end
-else begin
+end else begin
 
     // stage 0 --> //
     pipeReg0[`PC_reg]   <= pc_i;
     pipeReg0[`instruct] <= instruction;
+
+
     // <-- stage 0 //
-
-
     if (delete_reg1_reg2) begin 
     pipeReg0 <= 512'b0;
     pipeReg1 <= 512'b0;
@@ -335,60 +321,47 @@ else begin
     // stage 1 --> //
     pipeReg1[`PC_reg]             <= pc_stage_0;
     pipeReg1[`instruct]           <= instruction_stage_0;
-    pipeReg1[`rd                ] <= rd_o;//  87:83 //[ 4:0]
-    pipeReg1[`opRs1_reg         ] <= rs1_o;// 127:121 //[4:0]
-    pipeReg1[`opRs2_reg         ] <= rs2_o;// 127:121 //[4:0]
-    pipeReg1[`op1_reg           ] <= operand1_po;// 159:128 //[31:00]
-    pipeReg1[`op2_reg           ] <= operand2_po;// 191:160 //[31:00]
-    pipeReg1[`immediate         ] <= imm_o;// 223:192 //[31:0]
+    pipeReg1[`rd                ] <= rd_o;
+    pipeReg1[`opRs1_reg         ] <= rs1_o;
+    pipeReg1[`opRs2_reg         ] <= rs2_o;
+    pipeReg1[`op1_reg           ] <= operand1_po;
+    pipeReg1[`op2_reg           ] <= operand2_po;
+    pipeReg1[`immediate         ] <= imm_o;
     pipeReg1[`Single_Instruction] <= Single_Instruction_o;
-    // 287:224 //[63:00]     
-    // pipeReg1[`fun3              ] <= fun3_o;//  90:88 //[ 2:0]    // pipeReg1[`fun7              ] <= fun7_o;//  97:91 //[ 6:0]    // pipeReg1[`INST_typ          ] <= INST_typ_o;// 104:98 //[ 6:0]    // pipeReg1[`opcode            ] <= opcode_o;// 111:105 //[ 6:0]    // pipeReg1[`opRs1_reg         ] <= rs1_o;// 120:116 //[4:0]
-    // pipeReg1[`operand_amt       ] <= ;// 115:112 //[ 3:0]    
-    // <-- stage 1 //
-
 
     // stage 2 --> //
     pipeReg2[`PC_reg]             <= pc_stage_1;
     pipeReg2[`instruct]           <= instruction_stage_1;
-    pipeReg2[`rd                ] <= rd_stage1;//  87:83 //[ 4:0]
-    pipeReg2[`opRs1_reg         ] <= rs1_stage1;// 120:116 //[4:0]
-    pipeReg2[`opRs2_reg         ] <= rs2_stage1;// 127:121 //[4:0]
-
-    // pipeReg2[`op1_reg           ] <= operand1_stage1;// 159:128 //[31:00]
-    // pipeReg2[`op2_reg           ] <= operand2_stage1;// 191:160 //[31:00]
-        
-    pipeReg2[`op1_reg           ] <= operand1_into_exec;// 159:128 //[31:00]
-    pipeReg2[`op2_reg           ] <= operand2_into_exec;// 191:160 //[31:00]
-    
-    
-    pipeReg2[`immediate         ] <= imm_stage1;// 223:192 //[31:0]
-    pipeReg2[`Single_Instruction] <= Single_Instruction_stage1;// 287:224 //[63:00]     
-    pipeReg2[`alu_res1          ] <= alu_result_1;// 223:192 //[31:0]
-    pipeReg2[`alu_res2          ] <= alu_result_2;// 223:192 //[31:0]
-    pipeReg2[`jump_en           ] <= jump_inst_wire;// 223:192 //[31:0]
-    pipeReg2[`branch_en         ] <= branch_inst_wire;// 223:192 //[31:0]
-    pipeReg2[`reg_write_en      ] <= write_reg_file_wire;// 223:192 //[31:0]
+    pipeReg2[`rd                ] <= rd_stage1;
+    pipeReg2[`opRs1_reg         ] <= rs1_stage1;    
+    pipeReg2[`opRs2_reg         ] <= rs2_stage1;
+    pipeReg2[`op1_reg           ] <= operand1_into_exec;
+    pipeReg2[`op2_reg           ] <= operand2_into_exec;
+    pipeReg2[`immediate         ] <= imm_stage1;                
+    pipeReg2[`Single_Instruction] <= Single_Instruction_stage1; 
+    pipeReg2[`alu_res1          ] <= alu_result_1;              
+    pipeReg2[`alu_res2          ] <= alu_result_2;              
+    pipeReg2[`jump_en           ] <= jump_inst_wire;            
+    pipeReg2[`branch_en         ] <= branch_inst_wire;          
+    pipeReg2[`reg_write_en      ] <= write_reg_file_wire;       
     end
 
-    // pipeReg2[`fun3              ] <= fun3_o;//  90:88 //[ 2:0]    // pipeReg2[`fun7              ] <= fun7_o;//  97:91 //[ 6:0]    // pipeReg2[`INST_typ          ] <= INST_typ_o;// 104:98 //[ 6:0]    // pipeReg2[`opcode            ] <= opcode_o;// 111:105 //[ 6:0]
-    // pipeReg1[`operand_amt       ] <= ;// 115:112 //[ 3:0]    
-    // <-- stage 2 //
  
+    // <-- stage 2 // 
     pipeReg3[`PC_reg]             <= pc_stage_2;
     pipeReg3[`instruct]           <= instruction_stage_2;
-    pipeReg3[`rd                ] <= rd_stage2;//  87:83 //[ 4:0]
-    pipeReg3[`opRs1_reg         ] <= rs1_stage2;// 120:116 //[4:0]
-    pipeReg3[`opRs2_reg         ] <= rs2_stage2;// 127:121 //[4:0]
-    pipeReg3[`op1_reg           ] <= operand1_stage2;// 159:128 //[31:00]
-    pipeReg3[`op2_reg           ] <= operand2_stage2;// 191:160 //[31:00]
-    pipeReg3[`immediate         ] <= imm_stage2;// 223:192 //[31:0]
-    pipeReg3[`Single_Instruction] <= Single_Instruction_stage2;// 287:224 //[63:00]     
-    pipeReg3[`alu_res1          ] <= alu_result_1_stage2;// 223:192 //[31:0]
-    pipeReg3[`alu_res2          ] <= alu_result_2_stage2;// 223:192 //[31:0]
-    pipeReg3[`LD_ready          ] <= LD_memory_avalible;
+    pipeReg3[`rd                ] <= rd_stage2; 
+    pipeReg3[`opRs1_reg         ] <= rs1_stage2;
+    pipeReg3[`opRs2_reg         ] <= rs2_stage2;
+    pipeReg3[`op1_reg           ] <= operand1_stage2;           
+    pipeReg3[`op2_reg           ] <= operand2_stage2;           
+    pipeReg3[`immediate         ] <= imm_stage2;                
+    pipeReg3[`Single_Instruction] <= Single_Instruction_stage2; 
+    pipeReg3[`alu_res1          ] <= alu_result_1_stage2;       
+    pipeReg3[`alu_res2          ] <= alu_result_2_stage2;       
+    pipeReg3[`LD_ready          ] <= LD_memory_avalible;        
     pipeReg3[`SD_ready          ] <= SD_memory_avalible;
-    pipeReg3[`reg_write_en      ] <= write_reg_file_wire_stage2;// 223:192 //[31:0]
+    pipeReg3[`reg_write_en      ] <= write_reg_file_wire_stage2;
     pipeReg3[`load_reg          ] <= load_into_reg;
     pipeReg3[`data_mem_loaded   ] <= loaded_data;  
     
