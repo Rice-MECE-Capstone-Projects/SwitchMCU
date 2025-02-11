@@ -19,7 +19,7 @@ assign pc_o = PC;
 always @(posedge clk_i) begin
 //     $display("Time: %3d\thalt: %d\tisTakenBranch: %d\tnextPC: %d\tpc_po: %d",$time, halt_pi, isTakenBranch_pi, PC, pc_po);
   	 if (reset_i)
-	    PC  <= 32'h3F8;
+	    PC  <= 32'h11C;
       //Starting memory address, this logic must be changed later
 	 else 
  	    if (change_PC_condition | ~halt_i)  begin
