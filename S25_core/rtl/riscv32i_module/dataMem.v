@@ -7,8 +7,6 @@ input wire      [31:0] address,
 input wire      [31:0] storeData, 
 output wire     [31:0] loadData_w,
 output wire     stall_mem_not_avalible,
-// output wire LD_memory_avalible,
-// output wire SD_memory_avalible,
 output wire load_into_reg
 
 );
@@ -19,6 +17,9 @@ output wire load_into_reg
     wire [ 1:0] byte_address;
     reg         load_wire;
     reg         store_wire;
+    reg         stall_mem_not_avalible_reg;
+    assign stall_mem_not_avalible = stall_mem_not_avalible_reg;
+
     wire [31:0] raw_word;
     reg [31:0] loadData;               // Data to be loaded
     reg [31:0] storeaddress;           // Data to be loaded
@@ -46,6 +47,7 @@ always @(*) begin
         default: begin 
             load_wire  <=  1'b0;
             store_wire <=  1'b0;
+            
         end
 endcase
 end
