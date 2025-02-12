@@ -261,8 +261,8 @@ endcase
     pipeReg[`rd],pipeReg[`opRs1_reg],pipeReg[`opRs2_reg],pipeReg[`op1_reg],pipeReg[`op2_reg],pipeReg[`alu_res1]);  $write(" imm_i %8h", $signed(pipeReg[`immediate          ]));
     $write(" branch_en  %4d, ",  pipeReg[`branch_en          ]);
     $write(" reg_write  %4d, ",  pipeReg[`reg_write_en       ]);
-    $write(" LD_ready   %4d, ",  pipeReg[`LD_ready           ]);
-    $write(" SD_ready   %4d, ",  pipeReg[`SD_ready           ]);
+    // $write(" LD_ready   %4d, ",  pipeReg[`LD_ready           ]);
+    // $write(" SD_ready   %4d, ",  pipeReg[`SD_ready           ]);
     $write(" operand_a  %4d, ",  pipeReg[`operand_amt        ]);
     $write(" alu_res2   %4d, ",  pipeReg[`alu_res2           ]);
     $write(" rd_data    %4d, ",  pipeReg[`rd_data            ]);

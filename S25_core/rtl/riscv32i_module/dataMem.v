@@ -6,14 +6,15 @@ input wire      [63:0] Single_Instruction,
 input wire      [31:0] address,
 input wire      [31:0] storeData, 
 output wire     [31:0] loadData_w,
-output wire LD_memory_avalible,
-output wire SD_memory_avalible,
+output wire     stall_mem_not_avalible,
+// output wire LD_memory_avalible,
+// output wire SD_memory_avalible,
 output wire load_into_reg
 
 );
 
-    assign LD_memory_avalible = 1'b1;
-    assign SD_memory_avalible = 1'b1;
+    // assign LD_memory_avalible = 1'b1;
+    // assign SD_memory_avalible = 1'b1;
 
 
     

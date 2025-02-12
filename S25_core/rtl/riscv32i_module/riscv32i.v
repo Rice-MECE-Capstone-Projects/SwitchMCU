@@ -107,8 +107,6 @@ wire [31:0] imm_stage3;
 wire [63:0] Single_Instruction_stage3;
 wire [31:0] alu_result_1_stage3;
 wire [31:0] alu_result_2_stage3;
-wire        LD_memory_avalible_stage3;
-wire        SD_memory_avalible_stage3;
 wire        write_reg_file_wire_stage3;
 wire        load_into_reg_stage3;
 wire [31:0] loaded_data_stage3;
@@ -117,9 +115,8 @@ wire [31:0] loaded_data_stage3;
 
 //Data Mem wires
 wire [31:0] loaded_data;
-wire LD_memory_avalible, SD_memory_avalible;
 wire load_into_reg;
-
+wire stall_mem_not_avalible;
 
 //Pc
 wire branch_inst_wire_stage2;
@@ -229,8 +226,7 @@ dataMem  #(.mem_size(4096)) dataMem
 .address(alu_result_1_stage2),
 .storeData(operand2_stage2),
 .loadData_w(loaded_data),
-.LD_memory_avalible(LD_memory_avalible),
-.SD_memory_avalible(SD_memory_avalible),
+.stall_mem_not_avalible(stall_mem_not_avalible),
 .load_into_reg(load_into_reg)
 );
 
@@ -293,8 +289,6 @@ assign imm_stage3 =                 pipeReg3[`immediate];
 assign Single_Instruction_stage3 =  pipeReg3[`Single_Instruction];
 assign alu_result_1_stage3 =        pipeReg3[`alu_res1          ];
 assign alu_result_2_stage3 =        pipeReg3[`alu_res2          ];
-assign SD_memory_avalible_stage3 =  pipeReg3[`SD_ready          ];
-assign LD_memory_avalible_stage3 =  pipeReg3[`LD_ready          ];
 assign write_reg_file_wire_stage3 = pipeReg3[`reg_write_en      ];  
 assign load_into_reg_stage3       = pipeReg3[`load_reg          ];  
 assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
@@ -339,8 +333,6 @@ end else if (delete_reg1_reg2) begin
     pipeReg3[`Single_Instruction] <= Single_Instruction_stage2; 
     pipeReg3[`alu_res1          ] <= alu_result_1_stage2;       
     pipeReg3[`alu_res2          ] <= alu_result_2_stage2;       
-    pipeReg3[`LD_ready          ] <= LD_memory_avalible;        
-    pipeReg3[`SD_ready          ] <= SD_memory_avalible;
     pipeReg3[`reg_write_en      ] <= write_reg_file_wire_stage2;
     pipeReg3[`load_reg          ] <= load_into_reg;
     pipeReg3[`data_mem_loaded   ] <= loaded_data;  
@@ -407,8 +399,6 @@ end else begin
     pipeReg3[`Single_Instruction] <= Single_Instruction_stage2; 
     pipeReg3[`alu_res1          ] <= alu_result_1_stage2;       
     pipeReg3[`alu_res2          ] <= alu_result_2_stage2;       
-    pipeReg3[`LD_ready          ] <= LD_memory_avalible;        
-    pipeReg3[`SD_ready          ] <= SD_memory_avalible;
     pipeReg3[`reg_write_en      ] <= write_reg_file_wire_stage2;
     pipeReg3[`load_reg          ] <= load_into_reg;
     pipeReg3[`data_mem_loaded   ] <= loaded_data;  
