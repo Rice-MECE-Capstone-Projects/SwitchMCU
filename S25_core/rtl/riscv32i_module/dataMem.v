@@ -81,8 +81,7 @@ integer i;
         if (reset) begin
             for (i = 0; i < mem_size; i = i + 1) begin
                 DMEM[i] <= 32'h0;
-                // DMEM[i] <= i+ 32'hFFFF0000;
-                // DMEM[i] <= 32'b0;
+
             end end else if (store_wire) begin
         case(Single_Instruction) 
         {inst_SB    }:begin
