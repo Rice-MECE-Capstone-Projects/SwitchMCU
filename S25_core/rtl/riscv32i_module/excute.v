@@ -411,7 +411,7 @@ assign debug_i = 1;
 always @(negedge i_clk) begin 
 #11
 if (debug_i) begin
-    $write("\nEXEC      PC: %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
+    $write("\nEXEC      PC: %h: I:{%h}    ",pc_i,  instruction   );
 
 case(Single_Instruction_i)
 {inst_UNKNOWN   }:begin 
