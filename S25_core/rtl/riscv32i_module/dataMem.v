@@ -12,11 +12,6 @@ output wire     stall_mem_not_avalible,
 output wire load_into_reg
 
 );
-
-    // assign LD_memory_avalible = 1'b1;
-    // assign SD_memory_avalible = 1'b1;
-
-
     
     assign load_into_reg = load_wire;
     reg  [31:0] DMEM [0:mem_size-1];
@@ -25,8 +20,7 @@ output wire load_into_reg
     reg         load_wire;
     reg         store_wire;
     wire [31:0] raw_word;
-    reg [31:0] loadData;           // Data to be loaded
-    // reg [31:0] storeData;           // Data to be loaded
+    reg [31:0] loadData;               // Data to be loaded
     reg [31:0] storeaddress;           // Data to be loaded
 
     reg [31:0] last_stored_data,last_stored_word_address,last_stored_address;
@@ -41,46 +35,38 @@ output wire load_into_reg
 
 always @(*) begin
     case(Single_Instruction)
-        {inst_LB    }:begin  // one byte
+        inst_LB,inst_LH,inst_LW,inst_LBU,inst_LHU    :begin  // one byte
             load_wire  <= 1'b1;
             store_wire <= 1'b0;
-            loadData = {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
         end
-        {inst_LH    }:begin // load Half
-            load_wire  <= 1'b1;
-            store_wire <= 1'b0;
-            loadData = {{16{DMEM[word_address][(address[1] * 16) + 15]}}, DMEM[word_address][(address[1] * 16) +: 16]};
-        end
-        {inst_LW    }:begin // load word
-            load_wire  <= 1'b1;
-            store_wire <= 1'b0;
-            loadData   <= DMEM[word_address];
-        end
-        {inst_LBU   }:begin 
-            load_wire  <= 1'b1;
-            store_wire <= 1'b0;
-            loadData = {24'b0, DMEM[word_address][(byte_address * 8) +: 8]};
-        end
-        {inst_LHU   }:begin 
-            load_wire  <= 1'b1;
-            store_wire <= 1'b0;
-            loadData = {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
-        end
-        {inst_SB    }:begin
-            load_wire  <= 1'b0;
-            store_wire <= 1'b1;
-        end
-        {inst_SH    }:begin
-            load_wire  <= 1'b0;
-            store_wire <= 1'b1;
-        end
-        {inst_SW    }:begin
+        inst_SB,inst_SH,inst_SW    :begin
             load_wire  <= 1'b0;
             store_wire <= 1'b1;
         end
         default: begin 
             load_wire  <=  1'b0;
             store_wire <=  1'b0;
+        end
+endcase
+end
+
+
+always @(*) begin
+    case(Single_Instruction)
+        {inst_LB    }:begin  // one byte
+            loadData = {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
+        end
+        {inst_LH    }:begin // load Half
+            loadData = {{16{DMEM[word_address][(address[1] * 16) + 15]}}, DMEM[word_address][(address[1] * 16) +: 16]};
+        end
+        {inst_LW    }:begin // load word
+            loadData   <= DMEM[word_address];
+        end
+        {inst_LBU   }:begin 
+            loadData = {24'b0, DMEM[word_address][(byte_address * 8) +: 8]};
+        end
+        {inst_LHU   }:begin 
+            loadData = {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
         end
 endcase
 end
