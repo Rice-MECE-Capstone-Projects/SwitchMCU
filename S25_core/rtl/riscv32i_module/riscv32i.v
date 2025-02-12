@@ -26,6 +26,9 @@ module riscv32i
     reg halt_i;
     reg [63:0] pipeReg0;
     reg [511:0] pipeReg1, pipeReg2, pipeReg3;
+
+    wire [63:0]  pipeReg0_wire;
+    wire [511:0] pipeReg1_wire, pipeReg2_wire, pipeReg3_wire;
 initial begin 
     halt_i          <= 0;
 end
@@ -143,10 +146,8 @@ wire   write_reg_stage3;
 //writing into destination reg
 assign write_reg_stage3 = write_reg_file_wire_stage3|load_into_reg_stage3;
 
-
 //flush from branch
 assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
-
 
 //Value being wrtten to regfile in WBB stage, also may be forwarded to ALU
 assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
@@ -295,12 +296,46 @@ assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];
 
 
 
+// Writing to WB regsiter
+wire stage_WB_ready;  // Writestage ready for new register
+wire stage_MEM_done;  // Memstage done
+wire stage3_WB_valid; // enables new write to PipeReg3
+
+assign stage_WB_ready = 1'b1;
+assign stage3_WB_valid = stage_WB_ready & stage_MEM_done;
+
+
+wire stage_MEM_ready;   // MEM  ready for new register
+wire stage_EXEC_done;   // EXEC done
+wire stage2_EXEC_valid; // enables new write to PipeReg2
+
+assign stage_MEM_ready   = stage3_WB_valid; // 
+assign stage2_EXEC_valid = stage_MEM_ready & stage_EXEC_done;
+
+wire stage_EXEC_ready;   // EXEC  ready for new register
+wire stage_DECO_done;   //  DECO done
+wire stage1_DECO_valid; // enables new write to PipeReg1
+
+assign stage_EXEC_ready   = stage2_EXEC_valid; // 
+assign stage1_DECO_valid = stage_EXEC_ready & stage_DECO_done;
+
+
+
+wire stage_DECO_ready;   // DECO  ready for new register
+wire stage_IF_done;      //  IF    done
+wire stage0_IF_valid;   // enables new write to PipeReg0
+
+assign stage_DECO_ready   = stage1_DECO_valid; // 
+assign stage0_IF_valid = stage_EXEC_ready & stage_DECO_done;
+
+
+
 
 wire stage3_WB_done;
 wire stage2_MEM_done;
 wire stage1_EXE_done;
 wire stage0_DEC_done;
-wire stage_IF_done;
+// wire stage_IF_done;
 
 assign stage3_WB_done  = 1'b1;
 assign stage2_MEM_done = 1'b1;
@@ -308,6 +343,77 @@ assign stage1_EXE_done = 1'b1;
 assign stage0_DEC_done = 1'b1;
 assign stage_IF_done   = 1'b1;
 
+
+assign pipeReg0_wire[`PC_reg]   = pc_i;
+assign pipeReg0_wire[`instruct] = instruction;
+
+
+assign pipeReg1_wire[`PC_reg            ] = pc_stage_0;
+assign pipeReg1_wire[`instruct          ] = instruction_stage_0;
+assign pipeReg1_wire[`alu_res1          ] = 0;
+assign pipeReg1_wire[`load_reg          ] = 0;
+assign pipeReg1_wire[`jump_en           ] = 0;
+assign pipeReg1_wire[`branch_en         ] = 0;
+assign pipeReg1_wire[`reg_write_en      ] = 0;
+assign pipeReg1_wire[`LD_ready          ] = 0;
+assign pipeReg1_wire[`SD_ready          ] = 0;
+assign pipeReg1_wire[`rd                ] = rd_o;
+assign pipeReg1_wire[`operand_amt       ] = 0;
+assign pipeReg1_wire[`opRs1_reg         ] = rs1_o;
+assign pipeReg1_wire[`opRs2_reg         ] = rs2_o;
+assign pipeReg1_wire[`op1_reg           ] = operand1_po;
+assign pipeReg1_wire[`op2_reg           ] = operand2_po;
+assign pipeReg1_wire[`immediate         ] = imm_o;
+assign pipeReg1_wire[`alu_res2          ] = 0;
+assign pipeReg1_wire[`rd_data           ] = 0;
+assign pipeReg1_wire[`Single_Instruction] = Single_Instruction_o;
+assign pipeReg1_wire[`data_mem_loaded   ] = 0;
+
+
+
+assign pipeReg2_wire[`PC_reg            ] = pc_stage_1;
+assign pipeReg2_wire[`instruct          ] = instruction_stage_1;
+assign pipeReg2_wire[`alu_res1          ] = alu_result_1;
+assign pipeReg2_wire[`load_reg          ] = 0;
+assign pipeReg2_wire[`jump_en           ] = jump_inst_wire;
+assign pipeReg2_wire[`branch_en         ] = branch_inst_wire;
+assign pipeReg2_wire[`reg_write_en      ] = write_reg_file_wire;
+assign pipeReg2_wire[`LD_ready          ] = 0;
+assign pipeReg2_wire[`SD_ready          ] = 0;
+assign pipeReg2_wire[`rd                ] = rd_stage1;
+assign pipeReg2_wire[`operand_amt       ] = 0;
+assign pipeReg2_wire[`opRs1_reg         ] = rs1_stage1;
+assign pipeReg2_wire[`opRs2_reg         ] = rs2_stage1;
+assign pipeReg2_wire[`op1_reg           ] = operand1_into_exec;
+assign pipeReg2_wire[`op2_reg           ] = operand2_into_exec;
+assign pipeReg2_wire[`immediate         ] = imm_stage1;
+assign pipeReg2_wire[`alu_res2          ] = alu_result_2;
+assign pipeReg2_wire[`rd_data           ] = 0;
+assign pipeReg2_wire[`Single_Instruction] = Single_Instruction_stage1;
+assign pipeReg2_wire[`data_mem_loaded   ] = 0;
+
+
+
+assign pipeReg3_wire[`PC_reg            ] = pc_stage_2;
+assign pipeReg3_wire[`instruct          ] = instruction_stage_2;
+assign pipeReg3_wire[`alu_res1          ] = alu_result_1_stage2;
+assign pipeReg3_wire[`load_reg          ] = load_into_reg;
+assign pipeReg3_wire[`jump_en           ] = 0;
+assign pipeReg3_wire[`branch_en         ] = 0;
+assign pipeReg3_wire[`reg_write_en      ] = write_reg_file_wire_stage2;
+assign pipeReg3_wire[`LD_ready          ] = 0;
+assign pipeReg3_wire[`SD_ready          ] = 0;
+assign pipeReg3_wire[`rd                ] = rd_stage2;
+assign pipeReg3_wire[`operand_amt       ] = 0;
+assign pipeReg3_wire[`opRs1_reg         ] = rs1_stage2;
+assign pipeReg3_wire[`opRs2_reg         ] = rs2_stage2;
+assign pipeReg3_wire[`op1_reg           ] = operand1_stage2;
+assign pipeReg3_wire[`op2_reg           ] = operand2_stage2;
+assign pipeReg3_wire[`immediate         ] = imm_stage2;
+assign pipeReg3_wire[`alu_res2          ] = alu_result_2_stage2;
+assign pipeReg3_wire[`rd_data           ] = 0;
+assign pipeReg3_wire[`Single_Instruction] = Single_Instruction_stage2;
+assign pipeReg3_wire[`data_mem_loaded   ] = loaded_data;
 
 
 always @(posedge clk)begin
@@ -322,89 +428,34 @@ end else if (delete_reg1_reg2) begin
     pipeReg2 <= 512'b0;
 
     if (stage2_MEM_done) begin      // <-- stage 2 // 
-    pipeReg3[`PC_reg]             <= pc_stage_2;
-    pipeReg3[`instruct]           <= instruction_stage_2;
-    pipeReg3[`rd                ] <= rd_stage2; 
-    pipeReg3[`opRs1_reg         ] <= rs1_stage2;
-    pipeReg3[`opRs2_reg         ] <= rs2_stage2;
-    pipeReg3[`op1_reg           ] <= operand1_stage2;           
-    pipeReg3[`op2_reg           ] <= operand2_stage2;           
-    pipeReg3[`immediate         ] <= imm_stage2;                
-    pipeReg3[`Single_Instruction] <= Single_Instruction_stage2; 
-    pipeReg3[`alu_res1          ] <= alu_result_1_stage2;       
-    pipeReg3[`alu_res2          ] <= alu_result_2_stage2;       
-    pipeReg3[`reg_write_en      ] <= write_reg_file_wire_stage2;
-    pipeReg3[`load_reg          ] <= load_into_reg;
-    pipeReg3[`data_mem_loaded   ] <= loaded_data;  
+        pipeReg3 <= pipeReg3_wire;  
      end else begin
         pipeReg3 <= pipeReg3;
      end
 
-
 end else begin
 
-    // stage 0 --> //
     if (stage_IF_done) begin 
-    pipeReg0[`PC_reg]   <= pc_i;
-    pipeReg0[`instruct] <= instruction;
+        pipeReg0   <= pipeReg0_wire;
     end 
 
-
     if (stage0_DEC_done) begin
-
-    // stage 1 --> //
-    pipeReg1[`PC_reg]             <= pc_stage_0;
-    pipeReg1[`instruct]           <= instruction_stage_0;
-    pipeReg1[`rd                ] <= rd_o;
-    pipeReg1[`opRs1_reg         ] <= rs1_o;
-    pipeReg1[`opRs2_reg         ] <= rs2_o;
-    pipeReg1[`op1_reg           ] <= operand1_po;
-    pipeReg1[`op2_reg           ] <= operand2_po;
-    pipeReg1[`immediate         ] <= imm_o;
-    pipeReg1[`Single_Instruction] <= Single_Instruction_o;
+        pipeReg1 <= pipeReg1_wire;
     end else begin 
         pipeReg1 <= pipeReg1;
     end 
 
     if (stage1_EXE_done) begin
-    // stage 2 --> //
-    pipeReg2[`PC_reg]             <= pc_stage_1;
-    pipeReg2[`instruct]           <= instruction_stage_1;
-    pipeReg2[`rd                ] <= rd_stage1;
-    pipeReg2[`opRs1_reg         ] <= rs1_stage1;    
-    pipeReg2[`opRs2_reg         ] <= rs2_stage1;
-    pipeReg2[`op1_reg           ] <= operand1_into_exec;
-    pipeReg2[`op2_reg           ] <= operand2_into_exec;
-    pipeReg2[`immediate         ] <= imm_stage1;                
-    pipeReg2[`Single_Instruction] <= Single_Instruction_stage1; 
-    pipeReg2[`alu_res1          ] <= alu_result_1;              
-    pipeReg2[`alu_res2          ] <= alu_result_2;              
-    pipeReg2[`jump_en           ] <= jump_inst_wire;            
-    pipeReg2[`branch_en         ] <= branch_inst_wire;          
-    pipeReg2[`reg_write_en      ] <= write_reg_file_wire;       
+        pipeReg2 <= pipeReg2_wire ;     
     end else begin 
         pipeReg2 <= pipeReg2;
     end
 
- 
-    if (stage2_MEM_done) begin      // <-- stage 2 // 
-    pipeReg3[`PC_reg]             <= pc_stage_2;
-    pipeReg3[`instruct]           <= instruction_stage_2;
-    pipeReg3[`rd                ] <= rd_stage2; 
-    pipeReg3[`opRs1_reg         ] <= rs1_stage2;
-    pipeReg3[`opRs2_reg         ] <= rs2_stage2;
-    pipeReg3[`op1_reg           ] <= operand1_stage2;           
-    pipeReg3[`op2_reg           ] <= operand2_stage2;           
-    pipeReg3[`immediate         ] <= imm_stage2;                
-    pipeReg3[`Single_Instruction] <= Single_Instruction_stage2; 
-    pipeReg3[`alu_res1          ] <= alu_result_1_stage2;       
-    pipeReg3[`alu_res2          ] <= alu_result_2_stage2;       
-    pipeReg3[`reg_write_en      ] <= write_reg_file_wire_stage2;
-    pipeReg3[`load_reg          ] <= load_into_reg;
-    pipeReg3[`data_mem_loaded   ] <= loaded_data;  
-     end else begin
+    if (stage2_MEM_done) begin
+        pipeReg3 <= pipeReg3_wire;  
+    end else begin
         pipeReg3 <= pipeReg3;
-     end
+    end
 
 
 end //end else from reset
