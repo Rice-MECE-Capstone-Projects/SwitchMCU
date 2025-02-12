@@ -8,16 +8,16 @@ void write_to_peripheral(int address, int value) {
     *periph_addr = value;  }
 
 int main() {
-    int array[30];  
+    int array[10];  
     int sum = 0;
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 10; i++) {
         array[i] = i + 1;}
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 10; i++) {
                 sum += array[i];
     write_to_peripheral(PERIPHERAL_SUM_immediate, sum);}
     write_to_peripheral(PERIPHERAL_SUM, sum);
 
-    if (sum == 465) {
+    if (sum == 55) {
                 write_to_peripheral(PERIPHERAL_BASE, 0xDEADBEEF);
     } else {    write_to_peripheral(PERIPHERAL_BASE, 0x0BADF00D);}
     while (1) {    }
