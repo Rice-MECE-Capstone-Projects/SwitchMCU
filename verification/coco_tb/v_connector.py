@@ -20,10 +20,10 @@ def format_ports(ports):
 
 # cut the input/output signal name and return the flag
 def str_cutio(input_str):
-    if input_str.endswith("_in"):
-        return input_str.replace("_in", ""), -1
-    elif input_str.endswith("_out"):
-        return input_str.replace("_out", ""), 1
+    if input_str.endswith("_i"):
+        return input_str.replace("_i", ""), -1
+    elif input_str.endswith("_o"):
+        return input_str.replace("_o", ""), 1
     else:
         return input_str, 1
 
@@ -154,15 +154,17 @@ for file_name in v_list:
     file_name = file_name.split('.')[0] + "_wrapper.v" 
     with open("./DUT_2025_Wrapper/{}".format(file_name), "r") as file:
         verilog_code = file.read()
-    input_pattern = r"input\s+(?:reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
-    output_pattern = r"output\s+(?:reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
+    input_pattern = r"input\s+(?:wire\s+|reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
+    output_pattern = r"output\s+(?:wire\s+|reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
+
+
     input_ports = re.findall(input_pattern, verilog_code)
     output_ports = re.findall(output_pattern, verilog_code)
     formatted_input_ports.append(format_ports(input_ports))
     formatted_output_ports.append(format_ports(output_ports))
-    # print("Input ports:", formatted_input_ports[file_index])
+    # print("Input ports:", formatted_input_ports)
     # print(" ")
-    # print("Output ports:", formatted_output_ports[file_index])
+    # print("Output ports:", formatted_output_ports)
     # print(" ")
     
 # Step 3 judge the order, this function is temporarily banned
