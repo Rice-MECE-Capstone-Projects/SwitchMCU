@@ -18,7 +18,10 @@ output wire load_into_reg
     reg         load_wire;
     reg         store_wire;
     reg         stall_mem_not_avalible_reg;
-    assign stall_mem_not_avalible = stall_mem_not_avalible_reg;
+    reg load_data_valid, stall_needed;
+
+
+    assign stall_mem_not_avalible = stall_needed && ~load_data_valid;
 
     wire [31:0] raw_word;
     reg [31:0] loadData;               // Data to be loaded
@@ -32,45 +35,65 @@ output wire load_into_reg
     assign byte_address = address[ 1:0];
     assign raw_word = DMEM[word_address];
     assign loadData_w = loadData;
-
+    
 
 always @(*) begin
     case(Single_Instruction)
         inst_LB,inst_LH,inst_LW,inst_LBU,inst_LHU    :begin  // one byte
-            load_wire  <= 1'b1;
-            store_wire <= 1'b0;
+            load_wire       <= 1'b1;
+            store_wire      <= 1'b0;
+            stall_needed    <= 1'b1;
         end
         inst_SB,inst_SH,inst_SW    :begin
-            load_wire  <= 1'b0;
-            store_wire <= 1'b1;
+            load_wire       <= 1'b0;
+            store_wire      <= 1'b1;
+            stall_needed    <= 1'b0;
+
         end
         default: begin 
-            load_wire  <=  1'b0;
-            store_wire <=  1'b0;
+            load_wire       <=  1'b0;
+            store_wire      <=  1'b0;
+            stall_needed    <=  1'b0;
             
         end
 endcase
 end
 
 
-always @(*) begin
+always @(posedge clk) begin
+    
+    if (load_wire && ~load_data_valid) begin
     case(Single_Instruction)
         {inst_LB    }:begin  // one byte
-            loadData = {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
+            loadData                <= {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
+            load_data_valid         <= 1'b1;
         end
         {inst_LH    }:begin // load Half
-            loadData = {{16{DMEM[word_address][(address[1] * 16) + 15]}}, DMEM[word_address][(address[1] * 16) +: 16]};
+            loadData                <= {{16{DMEM[word_address][(address[1] * 16) + 15]}}, DMEM[word_address][(address[1] * 16) +: 16]};
+            load_data_valid         <= 1'b1;
         end
         {inst_LW    }:begin // load word
-            loadData   <= DMEM[word_address];
+            loadData                <= DMEM[word_address];
+            load_data_valid         <= 1'b1;
         end
         {inst_LBU   }:begin 
-            loadData = {24'b0, DMEM[word_address][(byte_address * 8) +: 8]};
+            loadData                <= {24'b0, DMEM[word_address][(byte_address * 8) +: 8]};
+            load_data_valid         <= 1'b1;
         end
         {inst_LHU   }:begin 
-            loadData = {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
+            loadData                <= {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
+            load_data_valid         <= 1'b1;
         end
-endcase
+        default: begin 
+            loadData                <= 0;
+            load_data_valid         <= 1'b0;
+
+        end 
+    endcase end else begin 
+            loadData                <= 0;
+            load_data_valid         <= 1'b0;
+    end
+
 end
 
 
@@ -171,7 +194,11 @@ always @(negedge clk) begin
     //   $write("\nDATA STORED:  D%4d: %9h",last_stored_word_address,last_stored_data);
     //   end
 
-      if (load_wire == 1 )begin
+      if ((load_wire == 1) && (load_data_valid==0) )begin
+    //   $write("\nDATA LOADED:  D%8h: %8d, word in Mem %d",address,loadData,word_address);
+      $write("\nDATA LOAD REQUESTED, AVLIBLE NEXT CYCLE, SHOULD STALL AND BE LD data ZERO:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
+      end
+     if ((load_wire == 1) && (load_data_valid==1) )begin
     //   $write("\nDATA LOADED:  D%8h: %8d, word in Mem %d",address,loadData,word_address);
       $write("\nDATA LOADED:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
       end

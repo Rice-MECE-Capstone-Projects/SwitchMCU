@@ -36,7 +36,7 @@ end
     pc pc  (
         .clk_i(clk),
         .reset_i(reset),
-        .halt_i(halt_i),
+        .stage_IF_ready(stage_IF_ready),
         .jump_inst_wire(jump_inst_wire_stage2),
         .branch_inst_wire(branch_inst_wire_stage2),
         .targetPC_i(alu_result_2_stage2),
@@ -148,7 +148,7 @@ wire   write_reg_stage3;
 // Writing to WB regsiter
 wire stage_WB_ready;  // Writestage ready for new register
 wire stage_MEM_done;  // Memstage done
-wire stage2_MEM_valid; // enables new write to PipeReg3
+wire stage3_MEM_valid; // enables new write to PipeReg3
 
 wire stage_MEM_ready;   // MEM  ready for new register
 wire stage_EXEC_done;   // EXEC done
@@ -162,6 +162,7 @@ wire stage_DECO_ready;   // DECO  ready for new register
 wire stage_IF_done;      //  IF    done
 wire stage0_IF_valid;   // enables new write to PipeReg0
 
+wire stage_IF_ready;   // IF  ready for PC register
 
 
 //writing into destination reg
@@ -388,12 +389,12 @@ assign pipeReg3_wire[`Single_Instruction] = Single_Instruction_stage2;
 assign pipeReg3_wire[`data_mem_loaded   ] = loaded_data;
 
 
-assign stage_MEM_done = 1'b1;
+assign stage_MEM_done = ~stall_mem_not_avalible;
 assign stage_WB_ready = 1'b1;
-assign stage2_MEM_valid = stage_WB_ready & stage_MEM_done;
+assign stage3_MEM_valid = stage_WB_ready & stage_MEM_done;
 
 assign stage_EXEC_done = 1'b1;
-assign stage_MEM_ready   = stage2_MEM_valid; // 
+assign stage_MEM_ready   = stage3_MEM_valid; // 
 assign stage2_EXEC_valid = stage_MEM_ready & stage_EXEC_done;
 
 assign stage_DECO_done = 1'b1;
@@ -404,6 +405,9 @@ assign stage_IF_done = 1'b1;
 assign stage_DECO_ready   = stage1_DECO_valid; // 
 assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
 
+//for PC counter 
+
+assign stage_IF_ready   = stage0_IF_valid; // 
 
 
 always @(posedge clk)begin
@@ -417,7 +421,7 @@ end else if (delete_reg1_reg2) begin
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 
-    if (stage2_MEM_valid) begin      // <-- stage 2 // 
+    if (stage3_MEM_valid) begin      // <-- stage 2 // 
         pipeReg3 <= pipeReg3_wire;  
      end else begin
         pipeReg3 <= pipeReg3;
@@ -442,7 +446,7 @@ end else begin
         pipeReg2 <= pipeReg2;
     end
 
-    if (stage2_MEM_valid) begin
+    if (stage3_MEM_valid) begin
         pipeReg3 <= pipeReg3_wire;  
     end else begin
         pipeReg3 <= pipeReg3;
