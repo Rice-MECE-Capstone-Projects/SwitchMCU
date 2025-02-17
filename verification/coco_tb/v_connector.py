@@ -42,10 +42,8 @@ def read_wrapper(verilog_file):
             in_module = True
         elif in_module:
             if line.startswith("input"):
-                output = line.replace("output", "").strip().rstrip(";")
+                output = line.replace("input", "").strip().rstrip(";")
                 inputs.append(output)
-                
-
             elif line.startswith("output"):
                 output = line.replace("output", "").strip().rstrip(";")
                 outputs.append(output)
@@ -71,19 +69,38 @@ def write_wrapper(verilog_file, inputs, outputs, connection_seq, connection_ooo,
     inter_sig_len = ''
     connection_dict = {}
     with open("./DUT_2025_Wrapper/"+verilog_file, 'w') as wfile:
-        wfile.write(f"module top_module (\n")
+        wfile.write("module {} (\n".format(verilog_file.split('.')[0]))
         assert len(inputs) == len(outputs)
         # flatten the list
         inputs_flat = [item for sublist in inputs for item in sublist]
         outputs_flat = [item for sublist in outputs for item in sublist]
+        # remove word "wire" from input and output signals
+        # TODO: what if the signal is reg?
+        for i in range(len(inputs_flat)):
+            inputs_flat[i] = inputs_flat[i].replace("wire ", "")
+        for i in range(len(outputs_flat)):
+            outputs_flat[i] = outputs_flat[i].replace("wire ", "")
+        # TODO: this is a temp solution
+        # replace N_param-1 with 31
+        for i in range(len(inputs_flat)):
+            inputs_flat[i] = inputs_flat[i].replace("N_param-1", "31")
+        for i in range(len(outputs_flat)):
+            outputs_flat[i] = outputs_flat[i].replace("N_param-1", "31")
         # if input signal is also in output signal, remove it from input signal
         for vars in inputs_flat:
             if vars in outputs_flat:
                 inputs_flat.remove(vars)
         # remove duplicates based on ooo connections
         for dup_signal in connection_ooo:
-            if dup_signal in inputs_flat:
-                inputs_flat.remove(dup_signal)
+            remove_flag = 0
+            compensate_var = ''
+            for var in inputs_flat:
+                if dup_signal == var.split(' ')[-1]:
+                    inputs_flat.remove(var)
+                    remove_flag = remove_flag + 1
+                    compensate_var = var
+            if remove_flag > 1:
+                inputs_flat.append(compensate_var)
         for inp in inputs_flat:
             wfile.write(f"    input {inp},\n")
         
@@ -137,8 +154,8 @@ def write_wrapper(verilog_file, inputs, outputs, connection_seq, connection_ooo,
             idx = idx + 1
             tmp = 1
         wfile.write(f"    initial begin\n")
-        wfile.write("        $dumpfile(\"./vcds/top_module.vcd\");\n")
-        wfile.write("        $dumpvars(0, top_module);\n")
+        wfile.write("        $dumpfile(\"./vcds/{}.vcd\");\n".format(verilog_file.split('.')[0]))
+        wfile.write("        $dumpvars(0, {});\n".format(verilog_file.split('.')[0]))
         wfile.write(f"    end\n")
         wfile.write("endmodule\n")
 # get parameters from parameter list
@@ -154,6 +171,9 @@ for file_name in v_list:
     file_name = file_name.split('.')[0] + "_wrapper.v" 
     with open("./DUT_2025_Wrapper/{}".format(file_name), "r") as file:
         verilog_code = file.read()
+    # TODO: this replacement is just a temp solution 
+    # replace N_param-1 with 31
+    verilog_code = re.sub(r'N_param-1', '31', verilog_code)
     input_pattern = r"input\s+(?:wire\s+|reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
     output_pattern = r"output\s+(?:wire\s+|reg\s+)?(\[[\d:]+\]\s+)?(\w+)"
 
@@ -162,9 +182,10 @@ for file_name in v_list:
     output_ports = re.findall(output_pattern, verilog_code)
     formatted_input_ports.append(format_ports(input_ports))
     formatted_output_ports.append(format_ports(output_ports))
-    # print("Input ports:", formatted_input_ports)
+
+    # print("Input ports:", input_ports)
     # print(" ")
-    # print("Output ports:", formatted_output_ports)
+    # print("Output ports:", output_ports)
     # print(" ")
     
 # Step 3 judge the order, this function is temporarily banned
@@ -188,10 +209,32 @@ for input_signal_1 in formatted_input_ports[0]:
         if(input_signal_1 == input_signal_2):
             connections_ooo.append(input_signal_1.removesuffix('_'+input_signal_1.split('_')[-1]))
 
-# Step 6 generate connection report
-star_len=32
-print("* * * * * * * * * * * * * * * * *")
+inputs = []
+outputs = []
+# Step 6 generate finnal top module
+# Step 6.1 collect all input and output ports
+for file_name in v_list:
+    file_name = file_name.split('.')[0] + "_wrapper.v" 
+    input_tmp, output_tmp = read_wrapper("./DUT_2025_Wrapper/{}".format(file_name))
+    inputs.append(input_tmp)
+    outputs.append(output_tmp)
+# Step 6.2 generate top module name
+top_module_name = ''
+for file_name in v_list:
+    top_module_name += (file_name.split('.')[0]).split('_')[0] + '_'
+top_module_name = top_module_name[:-1] + '.v'
+# Step 6.3 write top module
+write_wrapper(top_module_name, inputs, outputs, connections_seq, connections_ooo, v_list)
+
+# Step 7 generate connection report
+star_len=64
+tmp = star_len/2
+while tmp > 0:
+    tmp = tmp - 1
+    print("* ", end="")
+print("*")
 print("*    Connection Report".ljust(star_len) + "*")
+print("*    Top Module: {}".format(top_module_name).ljust(star_len) + "*")
 print(("*    Total Connections: {}".format(len(connections_seq)+len(connections_ooo))).ljust(star_len) + "*", end="\n"+"*".ljust(star_len) + "*""\n")
 print("*    Seq Connections:".ljust(star_len) + "*",)
 for conn in connections_seq:
@@ -200,20 +243,8 @@ print("*".ljust(star_len) + "*")
 print("*    OOO Connections:".ljust(star_len) + "*",)
 for conn in connections_ooo:
     print(("*    "+conn).ljust(star_len) + "*")
-print("* * * * * * * * * * * * * * * * *")
-inputs = []
-outputs = []
-# Step 7 generate finnal top module
-# Step 7.1 collect all input and output ports
-for file_name in v_list:
-    file_name = file_name.split('.')[0] + "_wrapper.v" 
-    input_tmp, output_tmp = read_wrapper("./DUT_2025_Wrapper/{}".format(file_name))
-    inputs.append(input_tmp)
-    outputs.append(output_tmp)
-# Step 7.2 generate top module name
-top_module_name = ''
-for file_name in v_list:
-    top_module_name += (file_name.split('.')[0]).split('_')[0] + '_'
-top_module_name += 'top.v'
-# Step 7.3 write top module
-write_wrapper(top_module_name, inputs, outputs, connections_seq, connections_ooo, v_list)
+tmp = star_len/2
+while tmp > 0:
+    tmp = tmp - 1
+    print("* ", end="")
+print("*")
