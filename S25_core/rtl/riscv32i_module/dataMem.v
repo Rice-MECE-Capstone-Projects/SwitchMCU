@@ -1,3 +1,11 @@
+// `define SET_MEM_REQ(i_stallreq, i_state, i_mem_re, i_mem_we, i_mem_addr_o, i_mem_data_o) \
+// 	stallreq   = i_stallreq; \
+// 	state      = i_state; \
+// 	mem_re     = i_mem_re; \
+// 	mem_we     = i_mem_we; \
+// 	mem_addr_o = i_mem_addr_o; \
+// 	mem_data_o = i_mem_data_o;
+
 module dataMem #(  parameter mem_size = 4096 ) (
 input wire clk,
 input wire reset, 
@@ -5,6 +13,7 @@ input wire reset,
 input wire      [63:0] Single_Instruction,
 input wire      [31:0] address,
 input wire      [31:0] storeData, 
+input wire      [31:0] pc_i,
 output wire     [31:0] loadData_w,
 output wire     stall_mem_not_avalible,
 output wire load_into_reg
@@ -15,10 +24,13 @@ output wire load_into_reg
     reg  [31:0] DMEM [0:mem_size-1];
     wire [29:0] word_address;
     wire [ 1:0] byte_address;
-    reg         load_wire;
-    reg         store_wire;
+    // reg         load_wire;
+    // reg         store_wire;
     reg         stall_mem_not_avalible_reg;
-    reg load_data_valid, stall_needed;
+    reg load_data_valid;
+
+    wire stall_needed,store_wire,load_wire;
+    // reg load_data_valid, stall_needed;
 
 
     assign stall_mem_not_avalible = stall_needed && ~load_data_valid;
@@ -37,64 +49,130 @@ output wire load_into_reg
     assign loadData_w = loadData;
     
 
-always @(*) begin
-    case(Single_Instruction)
-        inst_LB,inst_LH,inst_LW,inst_LBU,inst_LHU    :begin  // one byte
-            load_wire       <= 1'b1;
-            store_wire      <= 1'b0;
-            stall_needed    <= 1'b1;
-        end
-        inst_SB,inst_SH,inst_SW    :begin
-            load_wire       <= 1'b0;
-            store_wire      <= 1'b1;
-            stall_needed    <= 1'b0;
-
-        end
-        default: begin 
-            load_wire       <=  1'b0;
-            store_wire      <=  1'b0;
-            stall_needed    <=  1'b0;
-            
-        end
-endcase
-end
 
 
-always @(posedge clk) begin
+assign load_wire  = ((Single_Instruction == inst_LB)  ||
+                    (Single_Instruction == inst_LH)  ||
+                    (Single_Instruction == inst_LW)  ||
+                    (Single_Instruction == inst_LBU) ||
+                    (Single_Instruction == inst_LHU));
+
+assign stall_needed   = ((Single_Instruction == inst_LB)  ||
+                    (Single_Instruction == inst_LH)  ||
+                    (Single_Instruction == inst_LW)  ||
+                    (Single_Instruction == inst_LBU) ||
+                    (Single_Instruction == inst_LHU));
+                    
+assign store_wire     = ((Single_Instruction == inst_SB) ||
+                    (Single_Instruction == inst_SH) ||
+                    (Single_Instruction == inst_SW));
+
+
+// localparam [1:0] S_IDLE     = 2'b00,
+//                  S_WAIT_BUS = 2'b01;
+
+//     reg [1:0] state, next_state;
+
+
+
+//     always @(posedge clk) begin
+//         if(reset) begin
+//             state      <= S_IDLE;
+//         end
+//         else begin
+//             state      <= next_state;
+//         end
+//     end
+
+    // always @(*) begin
+    //     case(state)
+    //         S_IDLE: begin
+    //             if((~load_request_met)&&(store_wire|load_wire)) begin
+    //                 next_state = S_WAIT_BUS;
+    //             end
+
+
+
+    //         end
+    //         S_WAIT_BUS: begin
+    //             if(bus_ready == 1'b1) begin
+    //                 next_state = S_IDLE;
+    //             end
+    //         end
+    //         default: begin
+    //             next_state = S_IDLE;
+    //         end
+    //     endcase
+    // end
+
+
+    reg [31:0] cycles_request; 
+    reg [31:0] retrive_cycles;
     
-    if (load_wire && ~load_data_valid) begin
-    case(Single_Instruction)
-        {inst_LB    }:begin  // one byte
-            loadData                <= {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
-            load_data_valid         <= 1'b1;
-        end
-        {inst_LH    }:begin // load Half
-            loadData                <= {{16{DMEM[word_address][(address[1] * 16) + 15]}}, DMEM[word_address][(address[1] * 16) +: 16]};
-            load_data_valid         <= 1'b1;
-        end
-        {inst_LW    }:begin // load word
-            loadData                <= DMEM[word_address];
-            load_data_valid         <= 1'b1;
-        end
-        {inst_LBU   }:begin 
-            loadData                <= {24'b0, DMEM[word_address][(byte_address * 8) +: 8]};
-            load_data_valid         <= 1'b1;
-        end
-        {inst_LHU   }:begin 
-            loadData                <= {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
-            load_data_valid         <= 1'b1;
-        end
-        default: begin 
-            loadData                <= 0;
-            load_data_valid         <= 1'b0;
+    initial begin 
+        retrive_cycles <= 4;
+    end 
 
-        end 
-    endcase end else begin 
+    reg load_request_met;
+    always @(posedge clk) begin
+        if (reset) begin
+            cycles_request  <= 8'b0;
+            load_request_met  <= 1'b0;
             loadData                <= 0;
             load_data_valid         <= 1'b0;
+        end else if (load_wire) begin
+            if (cycles_request >= retrive_cycles) begin
+                // load_request_met <= 1'b1;
+                // ~load happens here    
+            // if (load_request_met && ~load_data_valid) begin
+                if ( ~load_data_valid) begin
+                case(Single_Instruction)
+                    {inst_LB    }:begin  // one byte
+                        loadData                <= {{24{DMEM[word_address][(byte_address * 8) + 7]}}, DMEM[word_address][(byte_address * 8) +: 8]};
+                        load_data_valid         <= 1'b1;
+                    end
+                    {inst_LH    }:begin // load Half
+                        loadData                <= {{16{DMEM[word_address][(address[1] * 16) + 15]}}, DMEM[word_address][(address[1] * 16) +: 16]};
+                        load_data_valid         <= 1'b1;
+                    end
+                    {inst_LW    }:begin // load word
+                        loadData                <= DMEM[word_address];
+                        load_data_valid         <= 1'b1;
+                    end
+                    {inst_LBU   }:begin 
+                        loadData                <= {24'b0, DMEM[word_address][(byte_address * 8) +: 8]};
+                        load_data_valid         <= 1'b1;
+                    end
+                    {inst_LHU   }:begin 
+                        loadData                <= {16'b0, DMEM[word_address][(address[1] * 16) +: 16]};
+                        load_data_valid         <= 1'b1;
+                    end
+                    default: begin 
+                        loadData                <= 0;
+                        load_data_valid         <= 1'b0;
+                    end 
+                endcase end else begin 
+                        loadData                <= 0;
+                        load_data_valid         <= 1'b0;
+                end
+
+            end else begin
+                loadData                <= 0;
+                load_data_valid         <= 1'b0;
+                cycles_request <= cycles_request + 1'b1;
+                load_request_met <= 1'b0;
+            end
+        end else begin
+            loadData                <= 0;
+            load_data_valid         <= 1'b0;
+            cycles_request       <= 8'b0;
+            load_request_met     <= 1'b0;
+        end
     end
 
-end
+
+
+
 
 
 
