@@ -299,3 +299,65 @@ end
 
 
 endmodule
+
+
+//   bram_portb #(.MEM_DEPTH(16)) bram_portb (
+//     .clkb  (clkb),
+//     .enb   (enb),
+//     .rstb  (rstb),
+//     .web   (web),
+//     .addrb (addrb),
+//     .dinb  (dinb),
+//     .doutb (doutb)
+//   );
+
+module bram_portb (
+    input         clkb,
+    input         enb,
+    input         rstb,
+    input  [3:0]  web,
+    input  [31:0] addrb,
+    input  [31:0] dinb,
+    output reg [31:0] doutb
+);
+
+  parameter integer MEM_DEPTH = 1024;
+
+  // Memory array
+  reg [31:0] mem [0:MEM_DEPTH-1];
+
+  integer i;
+
+
+always @(posedge clk) begin 
+if (reset) begin
+      for (i = 0; i < MEM_DEPTH; i = i + 1) begin
+        mem[i] <= 32'b0;
+      end 
+      end
+    
+end
+
+
+  always @(posedge clkb) begin
+    if (rstb) begin
+      // Synchronous reset of entire memory
+
+      doutb <= 32'b0;
+    end else if (enb) begin
+      // Write path (byte enables)
+      if (web != 4'b0000) begin
+        if (web[0]) begin mem[addrb][ 7: 0]  <=  dinb[ 7: 0];   end 
+        if (web[1]) begin mem[addrb][15: 8]  <=  dinb[15: 8];   end 
+        if (web[2]) begin mem[addrb][23:16]  <=  dinb[23:16];   end 
+        if (web[3]) begin mem[addrb][31:24]  <=  dinb[31:24];   end 
+        // Read path (1-cycle latency)
+        doutb <= mem[addrb];
+      end else begin
+        // No write, read memory (1-cycle latency)
+        doutb <= mem[addrb];
+      end
+    end
+  end
+
+endmodule
