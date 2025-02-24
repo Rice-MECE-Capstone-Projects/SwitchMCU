@@ -1,9 +1,16 @@
 module branch_prediction
 (
+	input wire predict_trigger,
 	input wire clk,
 	input wire [1:0] prediction_type,
 	input wire actual_branch,
-	output reg prediction
+	input wire [31:0] imm,
+	inout reg [31:0] pc,
+	output reg [31:0] pc_o,
+	input wire reset,
+	// inout wire [31:0] instruction_i,
+	output reg prediction,
+	output reg [31:0] instruction_o
 );
 
 parameter STATIC = 2'b00;
@@ -14,23 +21,61 @@ parameter TAKEN = 1'b0;
 parameter NOT_TAKEN = 1'b1;
 
 reg old_branch;
+// reg [31:0] instruction_mid;
+// reg [31:0] pc_mid;
+reg [31:0] pc_temp;
+reg [31:0] pc_x;
+reg prev_prediction;
+reg predict_trigger_prev;
 
+
+
+// Predict whether or not we will branch
 always @(posedge clk) begin
-	case(prediction_type)
-		STATIC: prediction <= NOT_TAKEN;
-		ONE_BIT: begin
-			if (prediction != actual_branch)
-				prediction <= !prediction;
-		end
-		TWO_BIT: begin
-			if (old_branch == actual_branch && actual_branch != prediction) 
-				prediction <= !prediction;
-		end
-		default: prediction <= prediction;
-	endcase
-	old_branch <= actual_branch;
+	pc_temp <= pc;
+	if(reset) begin
+		prediction <= NOT_TAKEN;
+		predict_trigger_prev = 0;
+	end
+	else if (predict_trigger & !predict_trigger_prev) begin
+		case(prediction_type)
+			STATIC: prediction <= TAKEN;
+			ONE_BIT: begin
+				if (prev_prediction != actual_branch)
+					prediction <= !prev_prediction;
+			end
+			TWO_BIT: begin
+				if (old_branch == actual_branch && actual_branch != prev_prediction) 
+					prediction <= !prev_prediction;
+			end
+			default: prediction <= prev_prediction;
+		endcase
+		old_branch <= actual_branch;
+		predict_trigger_prev <= predict_trigger;
+	end
+	else begin
+		prediction <= NOT_TAKEN;
+		predict_trigger_prev = 0;
+	end
+	
+end
+
+ins_mem ins_mem(
+	.clk(clk),
+	.reset(reset),
+	.pc_i(pc),
+	.pc_o(pc_x),
+	.instruction_o(instruction_o)
+);
+
+
+always @(negedge clk) begin
+	#110
+	// if (predict_trigger)	begin $write("\nBranch prediction triggered!");end
+	if (prediction == TAKEN)    begin $write("\nBranch predicted! branching to %8h based on imm: %8h and pc: %8h with instruction %8h", pc_o, imm, pc_temp, instruction_o);end
 end
 
 
+assign pc_o = (prediction== TAKEN) ? pc_temp + imm : pc_temp;
 
 endmodule

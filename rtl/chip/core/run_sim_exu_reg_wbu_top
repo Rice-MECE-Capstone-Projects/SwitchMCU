@@ -1,0 +1,8 @@
+V_FILES=$(find . -type f -name "*.v" | tr '\n' ' ')
+V_FILES=$(echo $V_FILES | sed 's|./dec_swc/dec_swc_tb.v||g' | tr -s ' ')
+
+verilator --binary -j 16 $V_FILES --trace --top exu_reg_wbu_top_tb
+
+./obj_dir/Vexu_reg_wbu_top_tb
+
+gtkwave exu_reg_wbu_top_tb.vcd

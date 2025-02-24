@@ -402,6 +402,13 @@ assign INST_typ_o = INST_typ;
 // assign opcode_o = opcode;
 
 
+// always @(negedge i_clk) begin
+// 	#110
+// 	// if (predict_trigger)	begin $write("\nBranch prediction triggered!");end
+// 	$write("\nimm: %8h ", imm_o);
+// end
+
+
 endmodule
 
 

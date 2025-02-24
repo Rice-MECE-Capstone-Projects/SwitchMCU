@@ -1,5 +1,5 @@
 
-
+`include "params.vh"
 
 
 module riscv32i 
@@ -27,7 +27,7 @@ module riscv32i
     reg [63:0] pipeReg0;
     reg [511:0] pipeReg1, pipeReg2, pipeReg3;
 
-    wire [63:0]  pipeReg0_wire;
+    wire [63:0]  pipeReg0_wire, pipeReg0_branched;
     wire [511:0] pipeReg1_wire, pipeReg2_wire, pipeReg3_wire;
 initial begin 
     halt_i          <= 0;
@@ -132,6 +132,8 @@ wire [31:0] operand2_into_exec;
 wire [31:0] result_secondary;
 wire        jump_inst_wire,branch_inst_wire;
 
+wire branch_predicted;
+
 
 //Hazard
 wire write_reg_file_wire_stage2;
@@ -207,6 +209,25 @@ debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3)
    .opcode_o(opcode_o),
    .Single_Instruction_o(Single_Instruction_o)
    );
+
+parameter prediction_type = 2'b00;
+wire predict_trigger = INST_typ_o == INST_typ_B | INST_typ_o == INST_typ_J;
+reg [31:0] pc_out_branch;
+reg [31:0] branch_instruction;
+
+branch_prediction branch_prediction(
+    .predict_trigger (predict_trigger),
+    .clk (clk),
+    .prediction_type (prediction_type),
+    .actual_branch (branch_inst_wire | jump_inst_wire),
+    .imm (imm_o),
+    .pc (pc_i),
+    .pc_o (pc_out_branch),
+    .reset (reset),
+    .prediction (branch_predicted),
+    // .instruction_i (instruction_stage_0),
+    .instruction_o (branch_instruction)
+);
 
 
  reg_file reg_file(
@@ -321,6 +342,8 @@ assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];
 assign pipeReg0_wire[`PC_reg]   = pc_i;
 assign pipeReg0_wire[`instruct] = instruction;
 
+assign pipeReg0_branched[`PC_reg] = pc_out_branch;
+assign pipeReg0_branched[`instruct] = branch_instruction;
 
 assign pipeReg1_wire[`PC_reg            ] = pc_stage_0;
 assign pipeReg1_wire[`instruct          ] = instruction_stage_0;
@@ -418,23 +441,30 @@ if (reset) begin
     pipeReg2 <= 512'b0;
 	pipeReg3 <= 512'b0;
 end else if (delete_reg1_reg2) begin 
-    pipeReg0 <= 64'b0;
-    pipeReg1 <= 512'b0;
-    pipeReg2 <= 512'b0;
+    if(branch_predicted) begin
+        pipeReg1 <= 512'b0;
+        pipeReg2 <= 512'b0;
+    end
+    else begin
+        pipeReg0 <= 64'b0;
+        pipeReg1 <= 512'b0;
+        pipeReg2 <= 512'b0;
+    end
 
     if (stage3_MEM_valid) begin      // <-- stage 2 // 
         pipeReg3 <= pipeReg3_wire;  
      end else begin
         pipeReg3 <= pipeReg3;
      end
-
 end else begin 
-
-    if (stage0_IF_valid) begin 
+    if (stage0_IF_valid & branch_predicted) begin
+        pipeReg0 <= pipeReg0_branched;
+    end else if (stage0_IF_valid) begin 
         pipeReg0   <= pipeReg0_wire;
     end else begin 
         pipeReg0   <= pipeReg0;
     end 
+
     if (stage1_DECO_valid) begin
         pipeReg1 <= pipeReg1_wire;
     end else begin 
