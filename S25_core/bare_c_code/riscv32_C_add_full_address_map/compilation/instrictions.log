@@ -6,121 +6,123 @@ Disassembly of section .text:
 
 00000000 <write_to_io>:
    0:	fd010113          	addi	sp,sp,-48
-   4:	02112623          	sw	ra,44(sp)
-   8:	02812423          	sw	s0,40(sp)
-   c:	03010413          	addi	s0,sp,48
-  10:	fca42e23          	sw	a0,-36(s0)
-  14:	000407b7          	lui	a5,0x40
-  18:	fef42623          	sw	a5,-20(s0)
-  1c:	fdc42703          	lw	a4,-36(s0)
-  20:	fec42783          	lw	a5,-20(s0)
-  24:	00e7a023          	sw	a4,0(a5) # 40000 <_sdata>
-  28:	00000013          	nop
-  2c:	02c12083          	lw	ra,44(sp)
-  30:	02812403          	lw	s0,40(sp)
-  34:	03010113          	addi	sp,sp,48
-  38:	00008067          	ret
+   4:	02812623          	sw	s0,44(sp)
+   8:	03010413          	addi	s0,sp,48
+   c:	fca42e23          	sw	a0,-36(s0)
+  10:	000407b7          	lui	a5,0x40
+  14:	fef42623          	sw	a5,-20(s0)
+  18:	fdc42703          	lw	a4,-36(s0)
+  1c:	fec42783          	lw	a5,-20(s0)
+  20:	00e7a023          	sw	a4,0(a5) # 40000 <_sdata>
+  24:	00000013          	nop
+  28:	02c12403          	lw	s0,44(sp)
+  2c:	03010113          	addi	sp,sp,48
+  30:	00008067          	ret
 
-0000003c <main>:
-  3c:	fd010113          	addi	sp,sp,-48
-  40:	02112623          	sw	ra,44(sp)
-  44:	02812423          	sw	s0,40(sp)
-  48:	03010413          	addi	s0,sp,48
-  4c:	00500793          	li	a5,5
-  50:	fef42223          	sw	a5,-28(s0)
-  54:	00a00793          	li	a5,10
-  58:	fef42023          	sw	a5,-32(s0)
-  5c:	fc042e23          	sw	zero,-36(s0)
-  60:	fe442703          	lw	a4,-28(s0)
-  64:	fe042783          	lw	a5,-32(s0)
-  68:	00f707b3          	add	a5,a4,a5
-  6c:	fcf42e23          	sw	a5,-36(s0)
-  70:	fdc42703          	lw	a4,-36(s0)
-  74:	00f00793          	li	a5,15
-  78:	00f70a63          	beq	a4,a5,8c <main+0x50>
-  7c:	00000513          	li	a0,0
-  80:	f81ff0ef          	jal	0 <write_to_io>
-  84:	00100793          	li	a5,1
-  88:	0840006f          	j	10c <main+0xd0>
-  8c:	fdc42703          	lw	a4,-36(s0)
-  90:	00f00793          	li	a5,15
-  94:	00f71c63          	bne	a4,a5,ac <main+0x70>
-  98:	00100513          	li	a0,1
-  9c:	f65ff0ef          	jal	0 <write_to_io>
-  a0:	fe042623          	sw	zero,-20(s0)
-  a4:	fe042423          	sw	zero,-24(s0)
-  a8:	0300006f          	j	d8 <main+0x9c>
-  ac:	00000513          	li	a0,0
-  b0:	f51ff0ef          	jal	0 <write_to_io>
-  b4:	00100793          	li	a5,1
-  b8:	0540006f          	j	10c <main+0xd0>
-  bc:	fec42703          	lw	a4,-20(s0)
-  c0:	fe842783          	lw	a5,-24(s0)
-  c4:	00f707b3          	add	a5,a4,a5
-  c8:	fef42623          	sw	a5,-20(s0)
-  cc:	fe842783          	lw	a5,-24(s0)
-  d0:	00178793          	addi	a5,a5,1
-  d4:	fef42423          	sw	a5,-24(s0)
-  d8:	fe842703          	lw	a4,-24(s0)
-  dc:	00400793          	li	a5,4
-  e0:	fce7dee3          	bge	a5,a4,bc <main+0x80>
-  e4:	fec42703          	lw	a4,-20(s0)
-  e8:	00a00793          	li	a5,10
-  ec:	00f70a63          	beq	a4,a5,100 <main+0xc4>
-  f0:	00000513          	li	a0,0
-  f4:	f0dff0ef          	jal	0 <write_to_io>
-  f8:	00100793          	li	a5,1
-  fc:	0100006f          	j	10c <main+0xd0>
- 100:	00100513          	li	a0,1
- 104:	efdff0ef          	jal	0 <write_to_io>
- 108:	00000793          	li	a5,0
- 10c:	00078513          	mv	a0,a5
- 110:	02c12083          	lw	ra,44(sp)
- 114:	02812403          	lw	s0,40(sp)
- 118:	03010113          	addi	sp,sp,48
- 11c:	00008067          	ret
+00000034 <main>:
+  34:	fd010113          	addi	sp,sp,-48
+  38:	02112623          	sw	ra,44(sp)
+  3c:	02812423          	sw	s0,40(sp)
+  40:	03010413          	addi	s0,sp,48
+  44:	00500793          	li	a5,5
+  48:	fef42223          	sw	a5,-28(s0)
+  4c:	00a00793          	li	a5,10
+  50:	fef42023          	sw	a5,-32(s0)
+  54:	fc042e23          	sw	zero,-36(s0)
+  58:	fe442703          	lw	a4,-28(s0)
+  5c:	fe042783          	lw	a5,-32(s0)
+  60:	00f707b3          	add	a5,a4,a5
+  64:	fcf42e23          	sw	a5,-36(s0)
+  68:	fdc42703          	lw	a4,-36(s0)
+  6c:	00f00793          	li	a5,15
+  70:	00f70a63          	beq	a4,a5,84 <main+0x50>
+  74:	00000513          	li	a0,0
+  78:	f89ff0ef          	jal	ra,0 <write_to_io>
+  7c:	00100793          	li	a5,1
+  80:	0840006f          	j	104 <main+0xd0>
+  84:	fdc42703          	lw	a4,-36(s0)
+  88:	00f00793          	li	a5,15
+  8c:	00f71c63          	bne	a4,a5,a4 <main+0x70>
+  90:	00100513          	li	a0,1
+  94:	f6dff0ef          	jal	ra,0 <write_to_io>
+  98:	fe042623          	sw	zero,-20(s0)
+  9c:	fe042423          	sw	zero,-24(s0)
+  a0:	0300006f          	j	d0 <main+0x9c>
+  a4:	00000513          	li	a0,0
+  a8:	f59ff0ef          	jal	ra,0 <write_to_io>
+  ac:	00100793          	li	a5,1
+  b0:	0540006f          	j	104 <main+0xd0>
+  b4:	fec42703          	lw	a4,-20(s0)
+  b8:	fe842783          	lw	a5,-24(s0)
+  bc:	00f707b3          	add	a5,a4,a5
+  c0:	fef42623          	sw	a5,-20(s0)
+  c4:	fe842783          	lw	a5,-24(s0)
+  c8:	00178793          	addi	a5,a5,1
+  cc:	fef42423          	sw	a5,-24(s0)
+  d0:	fe842703          	lw	a4,-24(s0)
+  d4:	00400793          	li	a5,4
+  d8:	fce7dee3          	bge	a5,a4,b4 <main+0x80>
+  dc:	fec42703          	lw	a4,-20(s0)
+  e0:	00a00793          	li	a5,10
+  e4:	00f70a63          	beq	a4,a5,f8 <main+0xc4>
+  e8:	00000513          	li	a0,0
+  ec:	f15ff0ef          	jal	ra,0 <write_to_io>
+  f0:	00100793          	li	a5,1
+  f4:	0100006f          	j	104 <main+0xd0>
+  f8:	00100513          	li	a0,1
+  fc:	f05ff0ef          	jal	ra,0 <write_to_io>
+ 100:	00000793          	li	a5,0
+ 104:	00078513          	mv	a0,a5
+ 108:	02c12083          	lw	ra,44(sp)
+ 10c:	02812403          	lw	s0,40(sp)
+ 110:	03010113          	addi	sp,sp,48
+ 114:	00008067          	ret
 
-00000120 <_start>:
- 120:	00040117          	auipc	sp,0x40
- 124:	ee010113          	addi	sp,sp,-288 # 40000 <_sdata>
- 128:	f15ff0ef          	jal	3c <main>
- 12c:	ff5ff06f          	j	120 <_start>
+00000118 <_start>:
+ 118:	00040117          	auipc	sp,0x40
+ 11c:	ee810113          	addi	sp,sp,-280 # 40000 <_sdata>
+ 120:	f15ff0ef          	jal	ra,34 <main>
+ 124:	ff5ff06f          	j	118 <_start>
 
 Disassembly of section .data:
 
 00040000 <_sdata>:
-   40000:	0000                	.insn	2, 0x
-   40002:	0008                	.insn	2, 0x0008
+   40000:	0000                	.2byte	0x0
+   40002:	0008                	.2byte	0x8
+
+Disassembly of section .stack:
+
+00040004 <_end-0x1000>:
+	...
 
 Disassembly of section .comment:
 
 00000000 <.comment>:
-   0:	3a434347          	.insn	4, 0x3a434347
-   4:	2820                	.insn	2, 0x2820
-   6:	36343067          	.insn	4, 0x36343067
-   a:	3639                	.insn	2, 0x3639
-   c:	6664                	.insn	2, 0x6664
-   e:	3930                	.insn	2, 0x3930
-  10:	3336                	.insn	2, 0x3336
-  12:	2029                	.insn	2, 0x2029
-  14:	3431                	.insn	2, 0x3431
-  16:	322e                	.insn	2, 0x322e
-  18:	302e                	.insn	2, 0x302e
+   0:	3a434347          	.4byte	0x3a434347
+   4:	2820                	.2byte	0x2820
+   6:	61653167          	.4byte	0x61653167
+   a:	3739                	.2byte	0x3739
+   c:	6538                	.2byte	0x6538
+   e:	36363033          	.4byte	0x36363033
+  12:	2029                	.2byte	0x2029
+  14:	3231                	.2byte	0x3231
+  16:	312e                	.2byte	0x312e
+  18:	302e                	.2byte	0x302e
 	...
 
 Disassembly of section .riscv.attributes:
 
 00000000 <.riscv.attributes>:
-   0:	1b41                	.insn	2, 0x1b41
-   2:	0000                	.insn	2, 0x
-   4:	7200                	.insn	2, 0x7200
-   6:	7369                	.insn	2, 0x7369
+   0:	1b41                	.2byte	0x1b41
+   2:	0000                	.2byte	0x0
+   4:	7200                	.2byte	0x7200
+   6:	7369                	.2byte	0x7369
    8:	01007663          	bgeu	zero,a6,14 <write_to_io+0x14>
-   c:	0011                	.insn	2, 0x0011
-   e:	0000                	.insn	2, 0x
-  10:	1004                	.insn	2, 0x1004
-  12:	7205                	.insn	2, 0x7205
-  14:	3376                	.insn	2, 0x3376
-  16:	6932                	.insn	2, 0x6932
-  18:	7032                	.insn	2, 0x7032
-  1a:	0031                	.insn	2, 0x0031
+   c:	0011                	.2byte	0x11
+   e:	0000                	.2byte	0x0
+  10:	1004                	.2byte	0x1004
+  12:	7205                	.2byte	0x7205
+  14:	3376                	.2byte	0x3376
+  16:	6932                	.2byte	0x6932
+  18:	7032                	.2byte	0x7032
+  1a:	0030                	.2byte	0x30
