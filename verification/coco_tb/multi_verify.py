@@ -26,9 +26,19 @@ def collect_test_results(log):
 
     return [test_names, test_statuses]
 
+def get_file_name():
+    fname = ""
+    for arg in sys.argv:
+        if arg.endswith(".v"):
+            fname = fname + arg.split(".")[0] + "_"
+    return fname[:-1] + ".v"
+
+def get_run_number():
+    return sys.argv[-1]
+
 # get file_name and run_number from the user
-file_name = sys.argv[1]
-run_numebr = int(sys.argv[2])
+file_name = get_file_name()
+run_numebr = get_run_number()
 
 # run the testbench and collect the results from teminal output run_number times
 for i in range(run_numebr):
