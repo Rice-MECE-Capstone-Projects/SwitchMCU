@@ -1,6 +1,5 @@
 
-![5171740204244_ pic_hd](https://github.com/user-attachments/assets/1e792bb7-0332-437a-81ed-7ccd6fe82ebe)
-
+![5381740418110_ pic_hd](https://github.com/user-attachments/assets/e39c6580-7d70-4156-a7b2-bf1e0f39d967)
 
 
 
