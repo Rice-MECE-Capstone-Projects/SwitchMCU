@@ -6,7 +6,7 @@
 
 The RISC-V ecosystem is growing rapidly, but a gap remains in transitioning RTL designs to manufacturable chips. This project aims to bridge that gap by implementing a complete ASIC physical design flow, starting from a basic ELEC 527 framework and defining our own process to achieve GDSII while optimizing PPA. Current work from the previous semesters require revisions and additions before it is able to be transferred to a manufacturable chip. Our solution includes adapting previous flows to our RISC-V core using industry standard tools such as Design Compiler and Innovus to create our own automated flow, beginning with synthesizing the RTL all the way to generating a GDSII layout. By next semester, our design should meet performance, power, and area constraints, and also be ready for actual tapeout with minor modifications.
 
-Design flow
+Design flow:
 
 Synthesis(Convert .lib to .db) : Library Compiler
 Input: .lib 	output: .db
