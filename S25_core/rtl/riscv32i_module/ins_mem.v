@@ -6,7 +6,6 @@ module ins_mem #(parameter mem_size = 10000000)(
     output wire [31:0] instruction_o
 );
     wire  [31:0] instruction;
-    assign pc   = pc_i;
     assign instruction_o = reset ?  32'h00000013 : instruction ;
 
     bram #(.MEM_DEPTH(mem_size) ) bram (
