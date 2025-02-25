@@ -1,3 +1,0 @@
-iverilog *.v -o E526_output
-
-vvp E526_output 

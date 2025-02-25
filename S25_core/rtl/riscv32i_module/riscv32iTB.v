@@ -52,7 +52,7 @@ riscv32i
         #7000
         tb_reset = 0;
         // HERE CHANGE THIS VALUE TO DERTMINE CLOCK CYCLES
-        repeat (2000) @(posedge tb_clk);
+        repeat (1150) @(posedge tb_clk);
         $finish;
     end
 
