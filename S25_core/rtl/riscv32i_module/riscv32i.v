@@ -47,7 +47,7 @@ end
         .clk(clk),
         .reset(reset),
         .pc_i(pc_i),
-        .pc_o(pc_o),
+        .enb(stage0_IF_valid),
         .instruction_o(instruction)
     );
 
@@ -275,7 +275,8 @@ hazard hazard (
 
 
 assign pc_stage_0          =        pipeReg0[`PC_reg];
-assign instruction_stage_0 =        pipeReg0[`instruct];
+// assign instruction_stage_0 =        pipeReg0[`instruct];
+assign instruction_stage_0          =  delete_reg1_reg2_reg ? 32'h00000000 : instruction;
 // assign instruction_stage_0 =        instruction; //pipeReg0[`instruct];
 assign pc_stage_1 =                 pipeReg1[`PC_reg];
 assign instruction_stage_1 =        pipeReg1[`instruct];
@@ -411,8 +412,9 @@ assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
 
 assign stage_IF_ready   = stage0_IF_valid; // 
 
-
+reg delete_reg1_reg2_reg;
 always @(posedge clk)begin
+    delete_reg1_reg2_reg <= delete_reg1_reg2;
 if (reset) begin 
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;

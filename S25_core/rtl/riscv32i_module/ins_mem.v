@@ -2,7 +2,7 @@ module ins_mem #(parameter mem_size = 10000000)(
     input  wire        clk,
     input  wire        reset,
     input  wire [31:0] pc_i,
-    output wire [31:0] pc_o,
+    input  wire        enb,
     output wire [31:0] instruction_o
 );
     // param_module params ();
@@ -16,6 +16,11 @@ module ins_mem #(parameter mem_size = 10000000)(
     // assign pc_o = 0;//pc_reg;
     // assign instruction_o = instruction;
     initial begin        // $readmemh("sanity.hex", memory);  // Load the program into memory
+
+    integer i;
+    for (i = 0; i < mem_size; i = i + 1) begin
+      memory[i] = 32'h00000013;
+    end   
         $readmemh("program.hex", memory);  
     end
     assign address_index = pc_i >> 2;
@@ -27,11 +32,13 @@ module ins_mem #(parameter mem_size = 10000000)(
     end
 
     bram #(.MEM_DEPTH(mem_size) ) bram (
-        .clkb(~clk),
+        .clkb(clk),
+        // .clkb(clk),
         .addrb(pc_i),
         .dinb(32'b0),
         .doutb(instruction),
-        .enb( 1'b1),
+        // .enb( 1'b1),
+        .enb( enb),
         .rstb(1'b0),
         .web( 4'b0),
         .rstb_busy(rstb_busy) );
@@ -67,7 +74,14 @@ module bram #(  parameter MEM_DEPTH = 1096 ) (
 
   integer i;
 
-  initial begin        
+
+  initial begin
+    // First initialize memory to zero
+    integer i;
+    for (i = 0; i < MEM_DEPTH; i = i + 1) begin
+      DMEM[i] = 32'h00000013;
+    end
+
     // $readmemh("sanity.hex", memory);  // Load the program into memory
       $readmemh("program.hex", DMEM);  
   end
@@ -76,7 +90,7 @@ module bram #(  parameter MEM_DEPTH = 1096 ) (
   always @(posedge clkb) begin 
   if (rstb) begin
         for (i = 0; i < MEM_DEPTH; i = i + 1) begin
-          DMEM[i] <= 32'b0;
+          DMEM[i] <= 32'h00000013;
         end 
         end
       
