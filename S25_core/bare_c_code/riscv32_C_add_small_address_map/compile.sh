@@ -21,7 +21,9 @@ echo "Running compilation commands..."
 # riscv32-unknown-elf-gcc     -march=rv32i -mabi=ilp32 -nostdlib - -o program.o -c program.c
 # riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -ffreestanding -O2 -v -o program.o -c program.c
 # riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -ffreestanding -O2 -o program.o -c program.c
-riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -ffreestanding -o program.o -c program.c
+# riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -ffreestanding -o program.o -c program.c
+riscv32-unknown-elf-gcc -march=rv32i_zicsr -mabi=ilp32 -nostdlib -ffreestanding -o program.o -c program.c
+
 riscv32-unknown-elf-as      -march=rv32i -o startup.o startup.S
 # riscv32-unknown-elf-ld      -T link.ld -o program.elf program.o startup.o #-e _start
 riscv32-unknown-elf-ld      -T link.ld -e _start -o program.elf program.o startup.o #-e _start
