@@ -43,7 +43,7 @@ end
         .pc_o(pc_i)
     );
 
-    ins_mem ins_mem(
+    ins_mem #(.mem_size(4096)) ins_mem(
         .clk(clk),
         .reset(reset),
         .pc_i(pc_i),
@@ -142,7 +142,7 @@ wire [31:0] rd_result_stage2;
 //Control signals 
 wire   delete_reg1_reg2; 
 wire   write_reg_stage3;
-
+wire   write_reg_file_wire;
 
 
 // Writing to WB regsiter

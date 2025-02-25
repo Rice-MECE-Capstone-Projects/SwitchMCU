@@ -110,7 +110,7 @@ assign store_wire     = ((Single_Instruction == inst_SB) ||
     reg [31:0] retrive_cycles;
     
     initial begin 
-        retrive_cycles <= 4;
+        retrive_cycles <= 1;
     end 
 
     reg load_request_met;
