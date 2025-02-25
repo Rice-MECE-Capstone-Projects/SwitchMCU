@@ -1,59 +1,42 @@
-
 #define PERIPHERAL_BASE           0x00000600  
 #define PERIPHERAL_SUM            0x00000604
 #define PERIPHERAL_SUM_immediate  0x00000608
 #define PERIPHERAL_SUM_i           0x0000060C
 
-// Define basic integer types to avoid stdint.h
-typedef unsigned int uint32_t;
-
-// Function to read the mcycle CSR (cycle counter)
-static inline uint32_t read_mcycle() {
-    uint32_t value;
-    asm volatile ("csrr %0, mcycle" : "=r" (value));
-    return value;
-}
-
-// Function to write to the mtvec CSR (trap vector base address)
-static inline void write_mtvec(uint32_t value) {
-    asm volatile ("csrw mtvec, %0" :: "r" (value));
-}
 
 void write_to_peripheral(int address, int value) {
     volatile int* periph_addr = (int*)(address);
     *periph_addr = value;  }
 
 int main() {
+    int array[10];  
+    int sum = 0;
+    for (int i = 0; i < 10; i++) {
+        array[i] = i + 1;}
+    for (int i = 0; i < 10; i++) {
+                sum += array[i];
+    write_to_peripheral(PERIPHERAL_SUM_immediate, sum);}
+    write_to_peripheral(PERIPHERAL_SUM, sum);
 
-
-    void write_to_peripheral(int address, int value) {
-    volatile int* periph_addr = (int*)(address);
-    *periph_addr = value;  }
-    // Set a new trap vector base address (example: 0x100000)
-    write_mtvec(0x100000);
-
-    // Read the current cycle count from the mcycle CSR
-    uint32_t start_cycles = read_mcycle();
-
-    // Simple loop for delay or test purpose
-    for (volatile int i = 0; i < 100; i++);
-
-    // Read cycle count after delay
-    uint32_t end_cycles = read_mcycle();
+    if (sum == 55) {
+                write_to_peripheral(PERIPHERAL_SUM_i,0xDEADF00F);
+    } else {    write_to_peripheral(PERIPHERAL_BASE, 0x0BADF00D);}
     
-    // The difference is the elapsed cycles
-    uint32_t elapsed_cycles = end_cycles - start_cycles;
+    int sum_while;
+    sum_while = 0;
+    while (1) {   
 
+        sum_while += 1;
+        if (sum_while == 10) {
+            break;
+        }
+     }
+     write_to_peripheral(PERIPHERAL_BASE, 0xDEADBEEF);
+     while (1) {
 
-    write_to_peripheral(PERIPHERAL_BASE, 0xDEADBEEF);
-
-    
-
-    // End of program (in a real setup, store `elapsed_cycles` to memory-mapped I/O for inspection)
-    return 0;
+     }
+    return 0; 
 }
-
-
 
 
 
