@@ -34,6 +34,12 @@ module bram #(  parameter MEM_DEPTH = 1096 ) (
 
   integer i;
 
+  initial begin        
+    // $readmemh("sanity.hex", memory);  // Load the program into memory
+      $readmemh("program.hex", DMEM);  
+  end
+
+
   always @(posedge clkb) begin 
   if (rstb) begin
         for (i = 0; i < MEM_DEPTH; i = i + 1) begin
