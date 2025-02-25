@@ -276,6 +276,7 @@ hazard hazard (
 
 assign pc_stage_0          =        pipeReg0[`PC_reg];
 assign instruction_stage_0 =        pipeReg0[`instruct];
+// assign instruction_stage_0 =        instruction; //pipeReg0[`instruct];
 assign pc_stage_1 =                 pipeReg1[`PC_reg];
 assign instruction_stage_1 =        pipeReg1[`instruct];
 assign rd_stage1 =                  pipeReg1[`rd];
