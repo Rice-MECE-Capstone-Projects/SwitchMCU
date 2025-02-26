@@ -8,9 +8,9 @@ module ins_mem #(parameter mem_size = 10000000)(
     wire  [31:0] instruction;
     assign instruction_o = reset ?  32'h00000013 : instruction ;
 
-    bram #(.MEM_DEPTH(mem_size) ) bram (
+    bram_ins #(.MEM_DEPTH(mem_size) ) bram_ins (
         .clkb(clk),
-        // .clkb(clk),
+        // .clkb(~clk),
         .addrb(pc_i),
         .dinb(32'b0),
         .doutb(instruction),
@@ -25,7 +25,7 @@ endmodule
 
 
 
-module bram #(  parameter MEM_DEPTH = 1096 ) (
+module bram_ins #(  parameter MEM_DEPTH = 1096 ) (
     input  wire        clkb,
     input  wire        enb,
     input  wire        rstb,
