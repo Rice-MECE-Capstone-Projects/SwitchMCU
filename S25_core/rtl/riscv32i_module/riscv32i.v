@@ -246,7 +246,7 @@ dataMem  #(.mem_size(4096)) dataMem
 .clk(clk),
 .reset(reset),
 .Single_Instruction(Single_Instruction_stage2),
-.address(alu_result_1_stage2),
+.address_i(alu_result_1_stage2),
 .storeData(operand2_stage2),
 .pc_i(pc_stage_2),
 .loadData_w(loaded_data),
