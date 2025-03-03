@@ -8,6 +8,7 @@ module execute
     input wire  [4:0] rd_i,
     input wire  [4:0] rs1_i,
     input wire  [4:0] rs2_i,
+    input wire  [11:0] csr_i,
 
     input wire  [31:0] instruction,
     input wire  [31:0] operand1_pi,
@@ -21,6 +22,7 @@ module execute
     output wire  branch_inst_wire, 
     output wire  jump_inst_wire,
     output wire  write_reg_file_wire,
+    output wire  write_csr_wire,
 
     input wire [63:0] Single_Instruction_i
     // outputs to ALU
@@ -39,7 +41,7 @@ branch_inst      <=0;
 jump_inst        <=0;
 write_reg_file   <=0;
 end 
-reg  branch_inst, jump_inst,write_reg_file;
+reg  branch_inst, jump_inst,write_reg_file, write_csr;
 
 
 wire signed [31:0] operand1_pi_signed = operand1_pi;
@@ -51,6 +53,7 @@ wire signed [31:0] imm_i_signed       = imm_i;
 assign jump_inst_wire                 = jump_inst;
 assign branch_inst_wire               =  branch_inst & result[0];
 assign write_reg_file_wire            = (~(rd_i==0)) & write_reg_file; 
+assign write_csr_wire                 = write_csr;
 
 
 
@@ -350,44 +353,49 @@ end
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
+
+// For CSR instructions, "result" is what will be getting written to CSR
+// and operand 2 is the value that will be read from CSR for use in the register file
 {inst_CSRRW }:begin
-    result           <=0;
-    result_secondary <=0;
+    result           <= operand1_pi;
+    result_secondary <= operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
+    write_csr <= 1'b1;
 end
 {inst_CSRRS }:begin
-    result           <=0;
-    result_secondary <=0;
+    result           <= operand2_pi | operand1_pi;
+    result_secondary <= operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
+    write_csr <= 1'b1;
 end
 {inst_CSRRC }:begin
-    result           <=0;
-    result_secondary <=0;
+    result           <= operand2_pi & ~operand1_pi;
+    result_secondary <= operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
 {inst_CSRRWI}:begin
-    result           <=0;
-    result_secondary <=0;
+    result           <= {27'b0,rs1_i};
+    result_secondary <= operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
 {inst_CSRRSI}:begin
-    result           <=0;
-    result_secondary <=0;
+    result           <= operand2_pi | {27'b0, rs1_i};
+    result_secondary <= operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
 {inst_CSRRCI}:begin
-    result           <=0;
-    result_secondary <=0;
+    result           <= operand2_pi & ~{27'b0, rs1_i};
+    result_secondary <= operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
@@ -411,7 +419,7 @@ assign debug_i = 1;
 always @(negedge i_clk) begin 
 #11
 if (debug_i) begin
-    $write("\nEXEC      PC: %h: I:{%h}    ",pc_i,  instruction   );
+    $write("\nEXEC      PC: %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
 
 case(Single_Instruction_i)
 {inst_UNKNOWN   }:begin 

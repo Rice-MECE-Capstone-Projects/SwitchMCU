@@ -53,3 +53,8 @@ ins_mem.v --> instruction memory, here the starting address of the code is place
 
 
 
+iverilog -g2005-sv -s riscv32iTB -y XilinxUnisimLibrary/verilog/src -o riscv32i-sim riscv32iTB.v riscv32i.v ins_mem.v decod
+e.v regfile.v excute.v pc.v dataMem.v hazard.v debug.v
+
+
+./riscv32i-sim &> sim.log

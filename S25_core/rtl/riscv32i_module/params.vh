@@ -5,6 +5,7 @@
 `define PC_reg              31:00   //[31:00]
 `define instruct            63:32   //[31:00]
 `define alu_res1            95:64   //[31:00]
+`define csr_write_en        96
 `define load_reg           101
 `define jump_en            102     //[ 4:0]
 `define branch_en          103     //[ 4:0]
@@ -22,6 +23,7 @@
 `define rd_data            287:256 //[31:0]
 `define Single_Instruction 351:288 //[63:00]   
 `define data_mem_loaded    383:352  
+`define csr_reg            395:384 //[11:0]
 
 // Opcode Decoding Type
 parameter [6:0] R_Type         =   7'b0110011; //0110011

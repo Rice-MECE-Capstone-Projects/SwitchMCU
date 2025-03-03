@@ -10,6 +10,7 @@ module decode
     output wire  [4:0] rd_o,
     output wire  [4:0] rs1_o,
     output wire  [4:0] rs2_o,
+    output wire  [11:0] csr_o,
     output wire  [2:0] fun3_o,
     output wire  [6:0] fun7_o,
     output wire  [31:0] imm_o,
@@ -27,6 +28,7 @@ reg  [6:0] INST_typ;
 reg  [2:0] fun3;
 reg  [6:0] fun7;
 reg  [4:0] rd,rs1,rs2;
+reg [11:0] csr;
 reg [63:0] Single_Instruction; 
 reg  [3:0] operand_amt;
 //FPGA 
@@ -39,6 +41,7 @@ initial begin
     rs1         <=0;
     rs2         <=0;
     operand_amt <=0;
+    csr         <=0;
 end
 
 assign operand_amt_o        = operand_amt;
@@ -74,8 +77,7 @@ always @(*) begin
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
-            rs2    <= instruction[24:20];
-            fun7   <= instruction[31:25];
+            csr    <= instruction[31:20];
             imm    <= {{20{instruction[31]}},instruction[31:20]};
 
         end 
@@ -397,6 +399,7 @@ assign fun3_o = fun3;
 assign fun7_o = fun7;
 assign rs1_o  = rs1;
 assign rs2_o  = rs2;
+assign csr_o  = csr;
 assign imm_o  = imm;
 assign INST_typ_o = INST_typ;
 // assign opcode_o = opcode;

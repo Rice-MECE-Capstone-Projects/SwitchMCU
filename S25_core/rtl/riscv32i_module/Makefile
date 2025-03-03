@@ -6,7 +6,7 @@ DUT ?= riscv32i.v
 SYNTH_TIMEOUT ?= 600
 XILINX_CELLS_URL ?= https://github.com/Xilinx/XilinxUnisimLibrary.git
 XILINX_CELLS_DIR ?= XilinxUnisimLibrary/verilog/src
-IVERILOG ?= /usr/bin/iverilog
+IVERILOG ?= iverilog
 YOSYS ?= /usr/local/bin/yosys
 
 all: sim synth gatesim
