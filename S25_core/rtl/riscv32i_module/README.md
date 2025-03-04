@@ -19,10 +19,18 @@ to run Simulation
 "gtkwave sim.vcd"
 
 ## Running Python 
+This script automates running multiple test cases and be able to swap test cases
+Assembly_code directory has currenst test case, these python scripts swap it out to run either a single or consecutive tests
 
-python3 run_multiple_test_cases.py 
 
-python3 run_single_test_case.py <int> 
+In order for python to work, the ./run (make clean and make sim) should work, if they do not, this python will not work correctltly
+If you use windows, use wsl, make sure python libaries are installed
+
+
+"python3 run_multiple_test_cases.py"  --> this runs all avavlible test cases in the folder test_cases
+
+"python3 run_single_test_case.py <int>"  runs a single test case, it swaps the test case from given number test case into assembly_code and swap out program.hex
+IF YOU DONT INCLUDE NUMBER: the test case will swap out what ever is in the text file within assembly .txt
 
 ex: "python3 run_single_test_case.py 7" runs test case 7
 
