@@ -4,9 +4,9 @@
 module riscv32iTB
 #(
     parameter  N_param = 32, 
-    parameter cycles_timeout = 500,
-    parameter initial_pc    = 32'h1CC
-
+    parameter success_code = 32'hDEADBEEF,
+    parameter cycles_timeout = 1100,
+    parameter initial_pc    = 32'h000001CC
 )
 ();
     glbl glbl ();
@@ -76,11 +76,11 @@ always @(posedge tb_clk) begin
             Cycle_count <= Cycle_count + 1;
   end
 always @(posedge tb_clk ) begin
-    if (final_value == 32'hDEADBEEF)begin 
+    if (final_value == success_code)begin 
         cycle_to_end = cycle_to_end + 1;
     end
     if (cycle_to_end >= 30) begin
-        $display("\n\n\n\nTest Passed\n\n\n\n\nTEST FINISHED by success write\n\n\n\n\n");
+        $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
         $finish;
     end
 
