@@ -45,7 +45,7 @@ Disassembly of section .text:
   84:	05010413          	addi	s0,sp,80
   88:	f8000793          	li	a5,-128
   8c:	fef407a3          	sb	a5,-17(s0)
-  90:	fef44783          	lbu	a5,-17(s0)
+  90:	fef40783          	lb	a5,-17(s0)
   94:	fef42423          	sw	a5,-24(s0)
   98:	fe842703          	lw	a4,-24(s0)
   9c:	f8000793          	li	a5,-128

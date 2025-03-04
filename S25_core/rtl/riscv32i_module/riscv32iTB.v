@@ -3,7 +3,10 @@
 
 module riscv32iTB
 #(
-    parameter   N_param = 32 
+    parameter  N_param = 32, 
+    parameter cycles_timeout = 500,
+    parameter initial_pc    = 32'h1CC
+
 )
 ();
     glbl glbl ();
@@ -11,6 +14,9 @@ module riscv32iTB
     reg                      tb_clk;
     reg                      tb_reset;
     reg [31:0] Cycle_count;
+    reg [31:0] initial_pc_i;
+    wire [31:0] final_value;
+    reg [31:0] cycle_to_end;
 
 riscv32i
 `ifndef GATESIM
@@ -20,7 +26,9 @@ riscv32i
     dut (
         .clk(   tb_clk),
         .reset(tb_reset),
-        .Cycle_count(Cycle_count)
+        .Cycle_count(Cycle_count),
+        .initial_pc_i(initial_pc_i),
+        .final_value(final_value)
 );
 
 
@@ -46,13 +54,18 @@ riscv32i
         // $finish;
     end
     // Simulation control
+
     initial begin
-        tb_reset = 1;  // Start with reset asserted
+        cycle_to_end <= 0;
+        tb_clk = 0;
+        initial_pc_i = initial_pc;
+        tb_reset = 1;  
         repeat (1) @(posedge tb_clk);
         #7000
         tb_reset = 0;
+        repeat (1) @(posedge tb_clk);
         // HERE CHANGE THIS VALUE TO DERTMINE CLOCK CYCLES
-        repeat (900) @(posedge tb_clk);
+        repeat (cycles_timeout) @(posedge tb_clk);
         $finish;
     end
 
@@ -62,7 +75,18 @@ always @(posedge tb_clk) begin
 	 else 
             Cycle_count <= Cycle_count + 1;
   end
+always @(posedge tb_clk ) begin
+    if (final_value == 32'hDEADBEEF)begin 
+        cycle_to_end = cycle_to_end + 1;
+    end
+    if (cycle_to_end >= 30) begin
+        $display("\n\n\n\nTest Passed\n\n\n\n\nTEST FINISHED by success write\n\n\n\n\n");
+        $finish;
+    end
 
+
+    
+end
 
 
     endmodule
