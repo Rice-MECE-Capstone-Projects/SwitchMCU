@@ -1,8 +1,3 @@
-// load_store_operations.c
-// Tests: 
-//  - Load/Store: inst_LB, inst_LH, inst_LW, inst_LBU, inst_LHU, inst_SB, inst_SH, inst_SW
-//  Tests 20–27.
-
 #define PERIPHERAL_SUCCESS 0x00000600
 #define PERIPHERAL_BYTE    0x00000604
 
@@ -12,7 +7,7 @@ void write_mmio(unsigned int addr, unsigned int value) {
     *ptr = value;
 }
 
-// Called when a test fails; test_index indicates the failing instruction.
+// Called when a test fails; test_index indicates which check failed.
 void fail(int test_index) {
     write_mmio(PERIPHERAL_BYTE, test_index);
     write_mmio(PERIPHERAL_SUCCESS, 0xBADF00D);
@@ -20,70 +15,79 @@ void fail(int test_index) {
 }
 
 int main(void) {
-    // --- Load Instructions ---
-    // Test 20: inst_LB: Load Byte (signed).
-    // Simulate a memory byte with value 0x80, which sign-extends to -128.
+    int result = 0;
+
+    // Test 1: inst_ADD - 7 + 5 = 12
+    result = 7 + 5;
+    if (result != 12) { fail(1); }
+
+    // Test 2: inst_SUB - (result 12) - 3 = 9
+    result = result - 3;
+    if (result != 9) { fail(2); }
+
+    // Test 3: inst_XOR - 9 XOR 0xF (9 ^ 15) = 6
+    result = result ^ 0xF;
+    if (result != 6) { fail(3); }
+
+    // Test 4: inst_OR - 6 OR 0x10 = 0x16 (22 decimal)
+    result = result | 0x10;
+    if (result != 0x16) { fail(4); }
+
+    // Test 5: inst_AND - 0x16 AND 0x1F = 0x16 (22)
+    result = result & 0x1F;
+    if (result != 0x16) { fail(5); }
+
+    // Test 6: inst_SLL - Logical left shift: 22 << 1 = 44
+    result = result << 1;
+    if (result != 44) { fail(6); }
+
+    // Test 7: inst_SRL - Logical right shift: 44 >> 1 = 22 (unsigned shift)
+    result = ((unsigned int)result) >> 1;
+    if (result != 22) { fail(7); }
+
+    // Test 8: inst_SRA - Arithmetic right shift: (-16) >> 2 = -4
+    result = (-16) >> 2;
+    if (result != -4) { fail(8); }
+
+    // Test 9: inst_SLLI - Immediate left shift: 1 << 5 = 32
+    result = 1 << 5;
+    if (result != 32) { fail(9); }
+
+    // Test 10: inst_SRLI - Immediate logical right shift: 0x80000000u >> 5 = 0x04000000
+    result = 0x80000000u >> 5;
+    if (result != 0x04000000u) { fail(10); }
+
+    // Test 11: inst_SRAI - Immediate arithmetic right shift.
+    // Simulate LHU loading a 16-bit halfword value 0xCFC7 (which is -12345) then:
+    // SLLI by 16 yields 0xCFC70000, SRAI by 16 should yield 0xFFFFCFC7 (-12345)
     {
-        unsigned char mem = 0x80;
-        int lb_val = ((char)mem);  // Sign-extend via cast to char.
-        if (lb_val != -128) { fail(20); }
+        unsigned int u = 0x0000CFC7;
+        result = ((int)(u << 16)) >> 16;
+        if (result != -12345) { fail(11); }
     }
 
-    // Test 21: inst_LH: Load Halfword (signed).
-    // 0x8000 as a halfword is -32768.
-    {
-        unsigned short half = 0x8000;
-        int lh_val = ((short)half); // Sign-extend.
-        if (lh_val != -32768) { fail(21); }
-    }
+    // Test 12: inst_ADDI - 20 + 30 = 50
+    result = 20 + 30;
+    if (result != 50) { fail(12); }
 
-    // Test 22: inst_LW: Load Word.
-    // Simply check a 32-bit value.
-    {
-        unsigned int lw_val = 0xDEADBEEF;
-        if (lw_val != 0xDEADBEEF) { fail(22); }
-    }
+    // Test 13: inst_XORI - 0x12345678 ^ 0x11111111 = 0x03254769
+    result = 0x12345678 ^ 0x11111111;
+    if (result != 0x03254769) { fail(13); }
 
-    // Test 23: inst_LBU: Load Byte Unsigned.
-    // 0x80 should zero-extend to 0x80.
-    {
-        unsigned char mem = 0x80;
-        unsigned int lbu_val = (unsigned int)mem;
-        if (lbu_val != 0x80) { fail(23); }
-    }
+    // Test 14: inst_ORI - 0x0F0F0F0F | 0x10101010 = 0x1F1F1F1F
+    result = 0x0F0F0F0F | 0x10101010;
+    if (result != 0x1F1F1F1F) { fail(14); }
 
-    // Test 24: inst_LHU: Load Halfword Unsigned.
-    // 0x8000 should zero-extend to 0x8000.
-    {
-        unsigned short half = 0x8000;
-        unsigned int lhu_val = (unsigned int)half;
-        if (lhu_val != 0x8000) { fail(24); }
-    }
+    // Test 15: inst_ANDI - 0xFF00FF00 & 0x00FF00FF = 0x00000000
+    result = 0xFF00FF00 & 0x00FF00FF;
+    if (result != 0x00000000) { fail(15); }
 
-    // --- Store Instructions ---
-    // Test 25: inst_SB: Store Byte.
-    // Simulate storing a byte; value should equal the stored byte.
-    {
-        unsigned char store_byte = 0x55;
-        unsigned char sb_val = store_byte;  // Simulation of store.
-        if (sb_val != 0x55) { fail(25); }
-    }
+    // Test 16: inst_LUI - Load Upper Immediate:
+    // For example, shifting 0x123 left by 12 bits. Expected: 0x123000.
+    result = 0x123 << 12;
+    if (result != (0x123 << 12)) { fail(16); }
 
-    // Test 26: inst_SH: Store Halfword.
-    {
-        unsigned short store_half = 0xAA55;
-        unsigned short sh_val = store_half;
-        if (sh_val != 0xAA55) { fail(26); }
-    }
-
-    // Test 27: inst_SW: Store Word.
-    {
-        unsigned int store_word = 0xDEADBEEF;
-        unsigned int sw_val = store_word;
-        if (sw_val != 0xDEADBEEF) { fail(27); }
-    }
-
-    // All load/store tests passed.
+    // All tests passed; signal success.
     write_mmio(PERIPHERAL_SUCCESS, 0xDEADBEEF);
     while (1);
     return 0;

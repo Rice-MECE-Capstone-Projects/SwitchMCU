@@ -9,3 +9,9 @@ XilinxUnisimLibrary/
 **/synth.log
 **/sanity.hex
 # **/synth.log
+**/**/**/*-sim
+**/**/**/gatesim.vcd
+**/**/**/gatesim.log
+**/**/**/*-gatesim
+**/**/**/synth.log
+**/**/**/sanity.hex
