@@ -19,8 +19,11 @@ to run Simulation
 "gtkwave sim.vcd"
 
 ## Running Python 
+
 python3 run_multiple_test_cases.py 
+
 python3 run_single_test_case.py <int> 
+
 ex: "python3 run_single_test_case.py 7" runs test case 7
 
 #### Files explained
