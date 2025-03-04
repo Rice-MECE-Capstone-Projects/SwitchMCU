@@ -113,7 +113,7 @@ end
     write_reg_file <= 1'b1;
 end
 {inst_SRA   }:begin 
-    result <= (operand1_pi >>> (operand2_pi));
+    result <= (operand1_pi_signed >>> (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
@@ -162,21 +162,22 @@ end
     write_reg_file <= 1'b1;
 end
 {inst_SLLI  }:begin 
-    result <= operand1_pi << imm_i;
+    result <= operand1_pi << imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
 {inst_SRLI  }:begin 
-    result <= operand1_pi >> imm_i;
+    result <= operand1_pi >> imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
 {inst_SRAI    }:begin 
-    result <= operand1_pi >>> imm_i;
+    result <=  operand1_pi_signed >>> imm_i[4:0];
+    // $signed(operand1_pi) >>> imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
@@ -565,7 +566,7 @@ default: begin
     $write("not_encoded instruction   ");
 end
 endcase
-   $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8d rs2_d %8d  result {%4H}",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $write(" imm_i %d", $signed(imm_i));
+   $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4H}",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $write(" imm_i %h", $signed(imm_i));
 end
 
 end

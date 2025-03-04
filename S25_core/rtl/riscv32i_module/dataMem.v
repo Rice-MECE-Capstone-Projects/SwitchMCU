@@ -49,6 +49,8 @@ output wire load_into_reg
     wire rstb_busy;   
     initial begin 
         retrive_cycles <= 0;
+        store_data <= 32'b0;
+
     end 
 
     assign load_into_reg = load_wire;
@@ -152,7 +154,8 @@ always @(posedge clk) begin
   end
 end
 
-reg [32:0] store_data;
+reg [31:0] store_data;
+
 integer i;
 reg [3:0] web;
 always @(*) begin
@@ -180,14 +183,15 @@ always @(*) begin
         end
         endcase     
             end else begin
-                web <= 4'b0;
+                web       <= 4'b0;
+                store_data <= 32'b0;
             end end
 
       
 bram_mem #(.MEM_DEPTH(mem_size) ) bram_mem (
   .clkb(clk),
   .addrb(address),
-  .dinb(storeData),
+  .dinb(store_data),
   .doutb(raw_bram_data_word),
   .enb( enb),
   .rstb(1'b0),
