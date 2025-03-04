@@ -19,6 +19,7 @@ input wire      [31:0] address_i,
 input wire      [31:0] storeData, 
 input wire      [31:0] pc_i,
 output wire     [31:0] loadData_w,
+output wire     [31:0] final_value, // debug port not in actual FPGA
 output wire     stall_mem_not_avalible,
 output wire load_into_reg
 
@@ -189,6 +190,7 @@ always @(*) begin
 
       
 bram_mem #(.MEM_DEPTH(mem_size) ) bram_mem (
+  .final_value(final_value),// debug port not in actual FPGA
   .clkb(clk),
   .addrb(address),
   .dinb(store_data),
@@ -209,8 +211,10 @@ module bram_mem #(  parameter MEM_DEPTH = 1096 ) (
     input  wire [31:0] addrb,
     input  wire [31:0] dinb,
     output wire        rstb_busy,
-    output wire [31:0] doutb
-);
+    output wire [31:0] doutb,
+    output wire [31:0] final_value
+    );
+
 
   assign doutb = doutb_reg;
   assign rstb_busy = 0;
@@ -277,7 +281,12 @@ reg [31:0] data_in_reg;
     end
   end
   
+wire [31:0] address_check;
+wire [31:2] address_check_spliced;
 
+assign address_check         = 32'h00000600;
+assign address_check_spliced = address_check[31:2];
+assign final_value           = DMEM[address_check_spliced];
 
 
 integer M,n;

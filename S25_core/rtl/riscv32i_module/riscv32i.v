@@ -8,7 +8,9 @@ module riscv32i
    ) (
     input  wire clk,
     input  wire reset,
-    input  wire [31:0] Cycle_count
+    input  wire [31:0] Cycle_count,
+    input  wire [31:0] initial_pc_i,
+    output wire [31:0] final_value
 
 );
     wire  [N_param-1:0]  instruction;
@@ -40,7 +42,8 @@ end
         .jump_inst_wire(jump_inst_wire_stage2),
         .branch_inst_wire(branch_inst_wire_stage2),
         .targetPC_i(alu_result_2_stage2),
-        .pc_o(pc_i)
+        .pc_o(pc_i),
+        .initial_pc_i(initial_pc_i)
     );
 
     ins_mem #(.mem_size(4096)) ins_mem(
@@ -243,6 +246,7 @@ execute  #(.N_param(32)) execute
 
 dataMem  #(.mem_size(4096)) dataMem 
   (
+.final_value(final_value),
 .clk(clk),
 .reset(reset),
 .Single_Instruction(Single_Instruction_stage2),

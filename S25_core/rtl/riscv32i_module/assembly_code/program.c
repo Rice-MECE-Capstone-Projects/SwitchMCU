@@ -22,12 +22,19 @@ void fail(int test_index) {
 int main(void) {
     // --- Load Instructions ---
     // Test 20: inst_LB: Load Byte (signed).
-    // Simulate a memory byte with value 0x80, which sign-extends to -128.
-    {
-        unsigned char mem = 0x80;
-        int lb_val = ((char)mem);  // Sign-extend via cast to char.
-        if (lb_val != -128) { fail(20); }
-    }
+    // // Simulate a memory byte with value 0x80, which sign-extends to -128.
+    // {
+    //     unsigned char mem = 0x80;
+    //     int lb_val = ((char)mem);  // Sign-extend via cast to char.
+    //     if (lb_val != -128) { fail(20); }
+    // }
+//
+{
+    signed char mem = 0x80;    // Explicitly signed
+    int lb_val = mem;          // This should sign-extend 0x80 to -128 (0xFFFFFF80)
+    if (lb_val != -128) { fail(20); }
+}
+
 
     // Test 21: inst_LH: Load Halfword (signed).
     // 0x8000 as a halfword is -32768.
