@@ -7,10 +7,7 @@
 // 	mem_addr_o = i_mem_addr_o; \
 // 	mem_data_o = i_mem_data_o;
 
-module dataMem #(  
-                  parameter mem_size = 4096, 
-                  parameter mem_offset  = 32'h00000600
-                   ) (
+module dataMem (
 input wire clk,
 input wire reset, 
   
@@ -18,11 +15,23 @@ input wire      [63:0] Single_Instruction,
 input wire      [31:0] address_i,
 input wire      [31:0] storeData, 
 input wire      [31:0] pc_i,
+input wire      [31:0] memory_offset,
 output wire     [31:0] loadData_w,
 output wire     [31:0] final_value, // debug port not in actual FPGA
 output wire     stall_mem_not_avalible,
-output wire load_into_reg
+output wire      load_into_reg,
 
+
+
+/// BRAM PORTS
+    output wire        data_mem_clkb,
+    output wire        data_mem_enb,
+    output wire        data_mem_rstb,
+    output wire [3:0 ] data_mem_web,
+    output wire [31:0] data_mem_addrb,
+    output wire [31:0] data_mem_dinb,
+    input  wire        data_mem_rstb_busy,
+    input  wire [31:0] data_mem_doutb
 );
     
     wire [29:0] word_address;
@@ -34,7 +43,7 @@ output wire load_into_reg
     reg [31:0] loadData;               // Data to be loaded
     reg  [3:0] loadData_byte;               // Data to be loaded
     reg [31:0] storeaddress;           // Data to be loaded
-    wire [31:0] raw_bram_data_word;          
+    wire [31:0] raw_bram_data_word,raw_bram_data_word_end;          
 
     reg [31:0] last_stored_data,last_stored_word_address,last_stored_address;
     reg [31:0] last_loaded_data,last_loaded_address;
@@ -43,11 +52,30 @@ output wire load_into_reg
     wire [15:0] raw_data_byte_LHU;
 
     wire [31:0] address;
-    // assign address = address_i - mem_offset;
+    assign address = address_i - memory_offset;
 
     reg [31:0] cycles_request; 
     reg [31:0] retrive_cycles;
-    wire rstb_busy;   
+    wire rstb_busy;
+
+
+
+
+    assign data_mem_clkb      =  clk;
+    assign data_mem_addrb     = address;
+    assign data_mem_dinb      = store_data;
+    assign data_mem_enb       = enb;
+    assign data_mem_rstb      = 1'b0;
+    assign data_mem_web       = web;
+    assign raw_bram_data_word = data_mem_doutb ;
+    assign rstb_busy          = data_mem_rstb_busy;
+
+
+
+
+
+
+
     initial begin 
         retrive_cycles <= 0;
         store_data <= 32'b0;
@@ -56,7 +84,7 @@ output wire load_into_reg
 
     assign load_into_reg = load_wire;
     assign stall_mem_not_avalible = stall_needed && ~load_data_valid;
-    assign address = address_i;
+    // assign address = address_i;
     assign word_address = address[31:2];  
     assign byte_address = address[ 1:0];
     // assign raw_word = DMEM[word_address];
@@ -92,17 +120,6 @@ assign raw_data_byte_LBU = ((byte_address == 2'b00) ? raw_bram_data_word[7:0]   
                             (byte_address == 2'b10) ? raw_bram_data_word[23:16] :
                             (byte_address == 2'b11) ? raw_bram_data_word[31:24] : 8'b0 );
         
-// reg [7:0] raw_data_byte_LBU;
-// always @(*) begin
-//     case (byte_address)
-//         2'b00: raw_data_byte_LBU = raw_bram_data_word[7:0];
-//         2'b01: raw_data_byte_LBU = raw_bram_data_word[15:8];
-//         2'b10: raw_data_byte_LBU = raw_bram_data_word[23:16];
-//         2'b11: raw_data_byte_LBU = raw_bram_data_word[31:24];
-//         default: raw_data_byte_LBU = 8'b0; // Default case for safety
-//     endcase
-// end
-
 assign raw_data_byte_LHU = ((byte_address == 2'b00) ? raw_bram_data_word[15:0]   : 
                             (byte_address == 2'b01) ? raw_bram_data_word[23:8]   : 
                             (byte_address == 2'b10) ? raw_bram_data_word[31:16]  : 
@@ -188,13 +205,14 @@ always @(*) begin
                 store_data <= 32'b0;
             end end
 
-      
-bram_mem #(.MEM_DEPTH(mem_size) ) bram_mem (
+
+// used for final endpoint      
+end_write end_write (
   .final_value(final_value),// debug port not in actual FPGA
   .clkb(clk),
   .addrb(address),
   .dinb(store_data),
-  .doutb(raw_bram_data_word),
+  .doutb(raw_bram_data_word_end),
   .enb( enb),
   .rstb(1'b0),
   .web(web),
@@ -203,7 +221,9 @@ bram_mem #(.MEM_DEPTH(mem_size) ) bram_mem (
 endmodule
 
 
-module bram_mem #(  parameter MEM_DEPTH = 1096 ) (
+
+
+module end_write (
     input  wire        clkb,
     input  wire        enb,
     input  wire        rstb,
@@ -213,137 +233,43 @@ module bram_mem #(  parameter MEM_DEPTH = 1096 ) (
     output wire        rstb_busy,
     output wire [31:0] doutb,
     output wire [31:0] final_value
-    );
 
-
+);
   assign doutb = doutb_reg;
   assign rstb_busy = 0;
-  reg [31:0] DMEM [0:MEM_DEPTH-1];
+  reg [31:0] DMEM;
   reg [31:0] doutb_reg;
   reg [29:0] addrb_word;
   wire [29:0] word_address;
   wire [ 1:0] byte_address;
-
   assign word_address = addrb[31:2];  
   assign byte_address = addrb[ 1:0];
-
-  integer i;
-
-
   initial begin
-    // First initialize memory to zero
-    integer i;
-    for (i = 0; i < MEM_DEPTH; i = i + 1) begin
-      DMEM[i] = 32'h00000000;
-    end
+      DMEM <= 32'h00000000;
   end
-
-
-  always @(posedge clkb) begin 
-  if (rstb) begin
-        for (i = 0; i < MEM_DEPTH; i = i + 1) begin
-          DMEM[i] <= 32'h00000000;
-        end 
-        end
-      
-  end
-
-reg [ 3:0] web_reg;  
-reg        enb_reg;  
-reg [31:0] addrb_reg; 
-reg [31:0] data_in_reg;
-
+  assign final_value           = DMEM;
   always @(posedge clkb) begin
-    web_reg <= web;
-    enb_reg <= enb;
-    addrb_reg <= addrb;
-    data_in_reg <= dinb;  
-
     if (rstb) begin
       doutb_reg <= 32'b0;
-    end else if (enb) begin
+      DMEM <= 32'h00000000;
+    end else if ((enb==1'b1) &&( word_address == 29'b0)) begin
       if (web != 4'b0000) begin
-        if (web[0]) begin DMEM[word_address][ 7: 0]  <=  dinb[ 7: 0];   end 
-        if (web[1]) begin DMEM[word_address][15: 8]  <=  dinb[15: 8];   end 
-        if (web[2]) begin DMEM[word_address][23:16]  <=  dinb[23:16];   end 
-        if (web[3]) begin DMEM[word_address][31:24]  <=  dinb[31:24];   end
-      // end
-
+        if (web[0]) begin DMEM[ 7: 0]  <=  dinb[ 7: 0];   end 
+        if (web[1]) begin DMEM[15: 8]  <=  dinb[15: 8];   end 
+        if (web[2]) begin DMEM[23:16]  <=  dinb[23:16];   end 
+        if (web[3]) begin DMEM[31:24]  <=  dinb[31:24];   end 
        doutb_reg <= {
-          (web[3] ? dinb[31:24] : DMEM[word_address][31:24]),
-          (web[2] ? dinb[23:16] : DMEM[word_address][23:16]),
-          (web[1] ? dinb[15: 8] : DMEM[word_address][15: 8]),
-          (web[0] ? dinb[ 7: 0] : DMEM[word_address][ 7: 0])
+          (web[3] ? dinb[31:24] : DMEM[31:24]),
+          (web[2] ? dinb[23:16] : DMEM[23:16]),
+          (web[1] ? dinb[15: 8] : DMEM[15: 8]),
+          (web[0] ? dinb[ 7: 0] : DMEM[ 7: 0])
         };
       end else begin
-        doutb_reg <= DMEM[word_address];
+        doutb_reg <= DMEM;
       end
     end
   end
-  
-wire [31:0] address_check;
-wire [31:2] address_check_spliced;
-
-assign address_check         = 32'h00000600;
-assign address_check_spliced = address_check[31:2];
-assign final_value           = DMEM[address_check_spliced];
-
-
-integer M,n;
-always @(negedge clkb) begin
-      #120
-      $write("\n\nDATA_MEM:  ");
-      for (M=0; M < MEM_DEPTH; M=M+1) begin 
-      if (DMEM[M] != 0) begin
-    //   $write("   D%4d: %9h,", M, DMEM[M]);
-      $write("   D%4h: %10h,", M*4, DMEM[M]);
-
-      end
-
-      end
-
-      $write("\nDATA_MEM*: ");
-      for (n=0; n < MEM_DEPTH; n=n+1) begin 
-      if (DMEM[n] != 0) begin
-      $write("   D%4h: %9d,", n*4, $signed(DMEM[n]));
-      end
-    end
-    if (enb_reg) begin
-
-    //   if (load_wire == 1 )begin
-    //   $write("\nDATA LOADED:  D%4d: %9h",word_address,loadData);
-    //   end
-
-    //   if (stored_happened == 1 )begin
-    //   $write("\nDATA STORED:  D%4d: %9h",last_stored_word_address,last_stored_data);
-    //   end
-
-    //   if ((load_wire == 1) && (load_data_valid==0) )begin
-    //   // if ((load_wire == 1) && (load_data_valid==0) )begin
-    // //   $write("\nDATA LOADED:  D%8h: %8d, word in Mem %d",address,loadData,word_address);
-    //   $write("\nDATA LOAD REQUESTED, AVLIBLE NEXT CYCLE, SHOULD STALL AND BE LD data ZERO:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
-    //   end
-     if ((web_reg == 0))begin
-    //   $write("\nDATA LOADED:  D%8h: %8d, word in Mem %d",address,loadData,word_address);
-      $write("\nDATA LOADED:  D%8h: %8h",addrb_reg,doutb_reg);
-     end else begin
-
-      // if (stored_happened == 1 )begin
-    //   $write("\nDATA LOADED:  D%8h: %8h, word in Mem %d",address,loadData,word_address);
-
-    //   $write("\nDATA STORED:  D%8h: %9d, word in Mem %d",last_stored_address,last_stored_data,last_stored_word_address);
-      // $write("\nDATA STORED:  D%8h: %8h, word in Mem %d",addrb_reg,doutb_reg,last_stored_word_address);
-      $write("\nDATA STORED:  D%8h: %8h",addrb_reg,doutb_reg);
-      end
-    $write("\n----------------------------------------------------------------------------------END\n");
-
-    end
-    end 
-
 
 endmodule
-
-
-
 
 
