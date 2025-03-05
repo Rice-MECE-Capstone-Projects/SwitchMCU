@@ -36,17 +36,21 @@ def twos_comp(val, bits):
         val = val - (1 << bits)        # compute negative value
     return val
 
-def result_gen(itype, ins_name, imm, rs2, rs1):
+def result_gen(itype, ins_name, imm, rs2, rs1, pc):
     # TODO: figure out when to use dec_sign_extend, like for imm
+    if itype == 'LOAD':
+        # addi, slti, sltiu, xori, ori, andi
+        if ins_name == "ADDI":
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
     if itype == 'R':
         # add,sll,slt,sltu,xor,srl,or,and,sub,sra
         if ins_name == "ADD":
-            return [1, rs1 + rs2]
+            return [1, (rs1 + rs2) & 0xFFFFFFFF]
         if ins_name == "SLL":
-            return [1, rs1 << rs2]
+            return [1, (rs1 << rs2) & 0xFFFFFFFF]
         if ins_name == "SLT":
-            rs1 = dec_sign_extend(rs1, 5)
-            rs2 = dec_sign_extend(rs2, 5)
+            # rs1 = dec_sign_extend(rs1, 32)
+            # rs2 = dec_sign_extend(rs2, 32)
             return [1, 1] if rs1 < rs2 else [1, 0]
         if ins_name == "SLTU":
             return [1, 1] if rs1 < rs2 else [1, 0]
@@ -61,14 +65,14 @@ def result_gen(itype, ins_name, imm, rs2, rs1):
         if ins_name == "SUB":
             return [1, rs1 + ~rs2 + 1]
         if ins_name == "SRA":
-            rs1 = dec_sign_extend(rs1, 5)
+            rs1 = dec_sign_extend(rs1, 32)
             return [1, rs1 >> rs2]
     if itype == 'I':
         # addi, slti, sltiu, xori, ori, andi
         if ins_name == "ADDI":
-            return [1, rs1 + imm]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "SLTI":
-            rs1 = dec_sign_extend(rs1, 5)
+            rs1 = dec_sign_extend(rs1, 32)
             # imm = dec_sign_extend(imm, 12)
             return [1, 1] if rs1 < imm else [1, 0]
         if ins_name == "SLTIU":
@@ -81,62 +85,62 @@ def result_gen(itype, ins_name, imm, rs2, rs1):
         if ins_name == "ANDI":
             return [1, rs1 & imm]
         if ins_name == "SLLI":
-            return [1, rs1 << imm]
+            return [1, (rs1 << imm) & 0xFFFFFFFF]
         if ins_name == "SRLI":
-            return [1, rs1 >> imm]
+            return [1, rs1 >> imm ]
         if ins_name == "SRAI":
-            rs1 = dec_sign_extend(rs1, 5)
+            rs1 = dec_sign_extend(rs1, 32)
             return [1, rs1 >> imm]
         if ins_name == "LB":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "LH":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "LW":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "LBU":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "LHU":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "JALR":
-            return [0, 0]
+            return [(rs1 + imm) & 0xFFFFFFFF, (pc + 4) & 0xFFFFFFFF]
     if itype == 'S':
         # sb,sh,sw
         if ins_name == "SB":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "SH":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "SW":
-            return [0, 0]
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
     if itype == 'B':
         # beq,bne,blt,bge,bltu,bgeu
         if ins_name == "BEQ":
-            return [0, 0]
+            return [1, rs1 == rs2]
         if ins_name == "BNE":
-            return [0, 0]
+            return [1, rs1 != rs2]
         if ins_name == "BLT":
-            return [0, 0]
+            return [1, rs1 < rs2]
         if ins_name == "BGE":
-            return [0, 0]
+            return [1, rs1 >= rs2]
         if ins_name == "BLTU":
-            return [0, 0]
+            return [1, rs1 < rs2]
         if ins_name == "BGEU":
-            return [0, 0]
+            return [1, rs1 >= rs2]
     if itype == 'U':
         # auipc, lui
         if ins_name == "AUIPC":
-            return [1, imm << 12]
+            return [1, (imm + pc) & 0xFFFFFFFF]
         if ins_name == "LUI":
-            return [1, imm << 12]
+            return [1, (imm << 12) & 0xFFFFFFFF]
     if itype == 'J':
         # jal
         if ins_name == "JAL":
-            return [1, 0]
+            return [(pc + imm) & 0xFFFFFFFF, (pc + 4) & 0xFFFFFFFF]
     if itype == 'M':
         return [0, 0]
     if itype == 'P':
         return [0, 0]
 
-def ins_gen(itype, boundary=0):
+def ins_gen(itype, rd_in=0, boundary=0):
     ins_name_list = []
     ins_list = []
     ins_pick = ''
@@ -144,11 +148,39 @@ def ins_gen(itype, boundary=0):
     rs1 = ''
     rd = ''
     imm = ''
+    pc = random.randint(0,2**32-1)
     return_list = []
     # # # # # # # # # #
     # generation part #
     # # # # # # # # # #
-    if itype == 'R':
+    if itype == 'LOAD':
+        opcode = [0b0010011, 0b0000011, 0b1100111]
+        imm = random.randint(0, 2**11-1)
+        rs1 = random.randint(0, 2**5-1)
+        # addi
+        funct3_list1 = [0b000]
+        funct3_all = [funct3_list1]
+        rd = rd_in
+
+        for i in range(0, len(funct3_all)):
+            for funct3 in funct3_all[i]:
+                if i==0 or i ==1:
+                    ins_temp = imm << 20 | rs1 << 15 | funct3 << 12 | rd << 7 | opcode[0]
+                elif i==2:
+                    ins_temp = imm << 20 | rs1 << 15 | funct3 << 12 | rd << 7 | opcode[1]
+                elif i==3:
+                    ins_temp = imm << 20 | rs1 << 15 | funct3 << 12 | rd << 7 | opcode[2]
+                else:
+                    assert("Error")
+                ins_list.append(ins_temp)
+        # for slli, srli, srai
+        # ins_list[6] = (ins_list[8] & (2 ** 25 - 1))
+        # ins_list[7] = (ins_list[8] & (2 ** 25 - 1))
+        # ins_list[8] = ((ins_list[8] & (2 ** 25 - 1)) | 0b0100000 << 25)
+        ins_name_list = ["ADDI"]
+        assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
+        assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
+    elif itype == 'R':
         # add,sll,slt,sltu,xor,srl,or,and,sub,sra
         opcode = 0b0110011
         funct7_all = [0b0000000, 0b0100000]
@@ -171,7 +203,7 @@ def ins_gen(itype, boundary=0):
         assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
     elif itype == 'I':
         opcode = [0b0010011, 0b0000011, 0b1100111]
-        imm = random.randint(0, 2**12-1)
+        imm = random.randint(0, 2**11-1)
         rs1 = random.randint(0, 2**5-1)
         # addi, slti, sltiu, xori, ori, andi
         funct3_list1 = [0b000,0b010,0b011,0b100,0b110,0b111]
@@ -304,7 +336,7 @@ def ins_gen(itype, boundary=0):
     # lucky_number = 9
     ins_name = ins_name_list[lucky_number]
     ins_pick =  ins_list[lucky_number]
-    ins_result = result_gen(itype, ins_name, imm, rs2, rs1)
+    ins_result = result_gen(itype, ins_name, imm, rs2, rs1, pc)
     # add ins_name to the beginning of ins_result
     ins_result.insert(0, ins_name)
 
@@ -313,6 +345,10 @@ def ins_gen(itype, boundary=0):
     # # # # # # # #
     return_list.append(ins_pick) # idx 0
     return_list.append(ins_result) # idx 1
+    if itype == 'LOAD':
+        return_list.append(imm)
+        return_list.append(rs1)
+        return_list.append(rd)
     if itype == 'R':
         return_list.append(imm)
         return_list.append(rs2)

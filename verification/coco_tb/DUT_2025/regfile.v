@@ -1,5 +1,5 @@
 
-module reg_file(
+module regfile(
 input wire clk,
 input wire reset, 
 input wire [4:0] reg1_pi, 
