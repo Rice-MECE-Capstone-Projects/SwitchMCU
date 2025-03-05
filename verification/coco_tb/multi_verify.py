@@ -30,14 +30,15 @@ def get_file_name():
     fname = ""
     for arg in sys.argv:
         if arg.endswith(".v"):
-            fname = fname + arg.split(".")[0] + "_"
-    return fname[:-1] + ".v"
+            fname = fname + arg + " "
+    return fname[:-1]
 
 def get_run_number():
-    return sys.argv[-1]
+    return int(sys.argv[-1])
 
 # get file_name and run_number from the user
 file_name = get_file_name()
+print(file_name)
 run_numebr = get_run_number()
 
 # run the testbench and collect the results from teminal output run_number times

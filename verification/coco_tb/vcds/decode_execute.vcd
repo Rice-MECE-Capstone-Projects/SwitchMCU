@@ -1,0 +1,175 @@
+$date
+	Mon Mar  3 20:08:24 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module decode_execute $end
+$var wire 64 ! Single_Instruction_i [63:0] $end
+$var wire 64 " Single_Instruction_o [63:0] $end
+$var wire 1 # i_clk $end
+$var wire 1 $ i_en $end
+$var wire 32 % imm_i [31:0] $end
+$var wire 32 & imm_o [31:0] $end
+$var wire 32 ' instruction [31:0] $end
+$var wire 32 ( operand1_pi [31:0] $end
+$var wire 32 ) operand2_pi [31:0] $end
+$var wire 32 * pc_i [31:0] $end
+$var wire 5 + rd_i [4:0] $end
+$var wire 5 , rd_o [4:0] $end
+$var wire 5 - rs1_i [4:0] $end
+$var wire 5 . rs1_o [4:0] $end
+$var wire 5 / rs2_i [4:0] $end
+$var wire 5 0 rs2_o [4:0] $end
+$var wire 1 1 write_reg_file_wire $end
+$var wire 4 2 operand_amt_o [3:0] $end
+$var wire 7 3 opcode_o [6:0] $end
+$var wire 1 4 jump_inst_wire $end
+$var wire 5 5 inter_rs2 [4:0] $end
+$var wire 5 6 inter_rs1 [4:0] $end
+$var wire 5 7 inter_rd [4:0] $end
+$var wire 32 8 inter_imm [31:0] $end
+$var wire 64 9 inter_Single_Instruction [63:0] $end
+$var wire 7 : fun7_o [6:0] $end
+$var wire 3 ; fun3_o [2:0] $end
+$var wire 1 < branch_inst_wire $end
+$var wire 32 = alu_result_2 [31:0] $end
+$var wire 32 > alu_result_1 [31:0] $end
+$var wire 7 ? INST_typ_o [6:0] $end
+$scope module decode_inst $end
+$var wire 7 @ INST_typ_o [6:0] $end
+$var wire 64 A Single_Instruction_o [63:0] $end
+$var wire 3 B fun3_o [2:0] $end
+$var wire 7 C fun7_o [6:0] $end
+$var wire 1 # i_clk $end
+$var wire 1 $ i_en $end
+$var wire 32 D imm_o [31:0] $end
+$var wire 32 E instruction [31:0] $end
+$var wire 4 F operand_amt_o [3:0] $end
+$var wire 5 G rd_o [4:0] $end
+$var wire 5 H rs1_o [4:0] $end
+$var wire 5 I rs2_o [4:0] $end
+$var wire 7 J opcode_o [6:0] $end
+$var wire 7 K opcode [6:0] $end
+$var parameter 32 L N_param $end
+$var reg 7 M INST_typ [6:0] $end
+$var reg 64 N Single_Instruction [63:0] $end
+$var reg 3 O fun3 [2:0] $end
+$var reg 7 P fun7 [6:0] $end
+$var reg 32 Q imm [31:0] $end
+$var reg 4 R operand_amt [3:0] $end
+$var reg 5 S rd [4:0] $end
+$var reg 5 T rs1 [4:0] $end
+$var reg 5 U rs2 [4:0] $end
+$upscope $end
+$scope module execute_inst $end
+$var wire 64 V Single_Instruction_i [63:0] $end
+$var wire 1 < branch_inst_wire $end
+$var wire 1 # i_clk $end
+$var wire 1 $ i_en $end
+$var wire 32 W imm_i [31:0] $end
+$var wire 32 X imm_i_signed [31:0] $end
+$var wire 32 Y instruction [31:0] $end
+$var wire 1 4 jump_inst_wire $end
+$var wire 32 Z operand1_pi [31:0] $end
+$var wire 32 [ operand1_pi_signed [31:0] $end
+$var wire 32 \ operand2_pi [31:0] $end
+$var wire 32 ] operand2_pi_signed [31:0] $end
+$var wire 32 ^ pc_i [31:0] $end
+$var wire 5 _ rd_i [4:0] $end
+$var wire 5 ` rs1_i [4:0] $end
+$var wire 5 a rs2_i [4:0] $end
+$var wire 1 1 write_reg_file_wire $end
+$var wire 32 b alu_result_2 [31:0] $end
+$var wire 32 c alu_result_1 [31:0] $end
+$var parameter 32 d N_param $end
+$var reg 1 e branch_inst $end
+$var reg 1 f jump_inst $end
+$var reg 33 g result [32:0] $end
+$var reg 33 h result_secondary [32:0] $end
+$var reg 1 i write_reg_file $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b100000 d
+b100000 L
+$end
+#0
+$dumpvars
+1i
+b0 h
+b0 g
+0f
+0e
+b0 c
+b0 b
+b0 a
+b0 `
+b0 _
+bz ^
+bz ]
+bz \
+bz [
+bz Z
+bz Y
+b0 X
+b0 W
+b0 V
+b0 U
+b0 T
+b0 S
+b0 R
+b0 Q
+b0 P
+b0 O
+b0 N
+b0 M
+bz K
+bz J
+b0 I
+b0 H
+b0 G
+b0 F
+bz E
+b0 D
+b0 C
+b0 B
+b0 A
+b0 @
+b0 ?
+b0 >
+b0 =
+0<
+b0 ;
+b0 :
+b0 9
+b0 8
+b0 7
+b0 6
+b0 5
+04
+bz 3
+b0 2
+11
+bz 0
+bz /
+bz .
+bz -
+bz ,
+bz +
+bz *
+bz )
+bz (
+bz '
+bz &
+bz %
+z$
+z#
+bz "
+bz !
+$end

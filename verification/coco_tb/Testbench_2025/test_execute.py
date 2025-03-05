@@ -466,13 +466,13 @@ async def test_add(dut):
 
     # Assign values to the DUT
     dut.instruction = imm_ins
-    dut.pc_i.value = 0
+    dut.pc_i.value = random.randint(0,2**32-1)
     dut.operand1_pi.value = reg_rdata_1
     dut.operand2_pi.value = reg_rdata_2
     dut.imm_i.value = imm_data
-    dut.rd_i.value = 2
-    dut.rs1_i.value = 0
-    dut.rs2_i.value = 1
+    dut.rd_i.value = random.randint(0,7)
+    dut.rs1_i.value = random.randint(0,7)
+    dut.rs2_i.value = random.randint(0,7)
     dut.Single_Instruction_i.value = add
 
     # Start the 100MHz clk signal
@@ -484,7 +484,6 @@ async def test_add(dut):
     await Timer(10, units="ns")
     dut.i_en.value = 1  # Assert enable to bring the module out of reset
 
-    # await wait_for_signal_change(dut.alu_result_1, dut.i_clk)
     # Get the results from the model
     result = reg_rdata_1 + reg_rdata_2
     # Get the actual results from the simulation
