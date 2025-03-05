@@ -39,97 +39,48 @@ Disassembly of section .text:
   74:	0000006f          	j	74 <fail+0x34>
 
 00000078 <main>:
-  78:	fb010113          	addi	sp,sp,-80
-  7c:	04112623          	sw	ra,76(sp)
-  80:	04812423          	sw	s0,72(sp)
-  84:	05010413          	addi	s0,sp,80
-  88:	f8000793          	li	a5,-128
-  8c:	fef407a3          	sb	a5,-17(s0)
-  90:	fef40783          	lb	a5,-17(s0)
+  78:	fd010113          	addi	sp,sp,-48
+  7c:	02112623          	sw	ra,44(sp)
+  80:	02812423          	sw	s0,40(sp)
+  84:	03010413          	addi	s0,sp,48
+  88:	fff00793          	li	a5,-1
+  8c:	fef42623          	sw	a5,-20(s0)
+  90:	00100793          	li	a5,1
   94:	fef42423          	sw	a5,-24(s0)
-  98:	fe842703          	lw	a4,-24(s0)
-  9c:	f8000793          	li	a5,-128
-  a0:	00f70663          	beq	a4,a5,ac <main+0x34>
-  a4:	01400513          	li	a0,20
-  a8:	f99ff0ef          	jal	40 <fail>
-  ac:	ffff87b7          	lui	a5,0xffff8
-  b0:	fef41323          	sh	a5,-26(s0)
-  b4:	fe641783          	lh	a5,-26(s0)
-  b8:	fef42023          	sw	a5,-32(s0)
-  bc:	fe042703          	lw	a4,-32(s0)
-  c0:	ffff87b7          	lui	a5,0xffff8
-  c4:	00f70663          	beq	a4,a5,d0 <main+0x58>
-  c8:	01500513          	li	a0,21
-  cc:	f75ff0ef          	jal	40 <fail>
-  d0:	deadc7b7          	lui	a5,0xdeadc
-  d4:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  d8:	fcf42e23          	sw	a5,-36(s0)
-  dc:	fdc42703          	lw	a4,-36(s0)
-  e0:	deadc7b7          	lui	a5,0xdeadc
-  e4:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  e8:	00f70663          	beq	a4,a5,f4 <main+0x7c>
-  ec:	01600513          	li	a0,22
+  98:	fec42703          	lw	a4,-20(s0)
+  9c:	fe842783          	lw	a5,-24(s0)
+  a0:	00f727b3          	slt	a5,a4,a5
+  a4:	0ff7f793          	zext.b	a5,a5
+  a8:	fef42223          	sw	a5,-28(s0)
+  ac:	fe442703          	lw	a4,-28(s0)
+  b0:	00100793          	li	a5,1
+  b4:	00f70663          	beq	a4,a5,c0 <main+0x48>
+  b8:	00100513          	li	a0,1
+  bc:	f85ff0ef          	jal	40 <fail>
+  c0:	fff00793          	li	a5,-1
+  c4:	fef42023          	sw	a5,-32(s0)
+  c8:	00100793          	li	a5,1
+  cc:	fcf42e23          	sw	a5,-36(s0)
+  d0:	fe042703          	lw	a4,-32(s0)
+  d4:	fdc42783          	lw	a5,-36(s0)
+  d8:	00f737b3          	sltu	a5,a4,a5
+  dc:	0ff7f793          	zext.b	a5,a5
+  e0:	fcf42c23          	sw	a5,-40(s0)
+  e4:	fd842783          	lw	a5,-40(s0)
+  e8:	00078663          	beqz	a5,f4 <main+0x7c>
+  ec:	00200513          	li	a0,2
   f0:	f51ff0ef          	jal	40 <fail>
-  f4:	f8000793          	li	a5,-128
-  f8:	fcf40da3          	sb	a5,-37(s0)
-  fc:	fdb44783          	lbu	a5,-37(s0)
- 100:	fcf42a23          	sw	a5,-44(s0)
- 104:	fd442703          	lw	a4,-44(s0)
- 108:	08000793          	li	a5,128
- 10c:	00f70663          	beq	a4,a5,118 <main+0xa0>
- 110:	01700513          	li	a0,23
- 114:	f2dff0ef          	jal	40 <fail>
- 118:	ffff87b7          	lui	a5,0xffff8
- 11c:	fcf41923          	sh	a5,-46(s0)
- 120:	fd245783          	lhu	a5,-46(s0)
- 124:	fcf42623          	sw	a5,-52(s0)
- 128:	fcc42703          	lw	a4,-52(s0)
- 12c:	000087b7          	lui	a5,0x8
- 130:	00f70663          	beq	a4,a5,13c <main+0xc4>
- 134:	01800513          	li	a0,24
- 138:	f09ff0ef          	jal	40 <fail>
- 13c:	05500793          	li	a5,85
- 140:	fcf405a3          	sb	a5,-53(s0)
- 144:	fcb44783          	lbu	a5,-53(s0)
- 148:	fcf40523          	sb	a5,-54(s0)
- 14c:	fca44703          	lbu	a4,-54(s0)
- 150:	05500793          	li	a5,85
- 154:	00f70663          	beq	a4,a5,160 <main+0xe8>
- 158:	01900513          	li	a0,25
- 15c:	ee5ff0ef          	jal	40 <fail>
- 160:	ffffb7b7          	lui	a5,0xffffb
- 164:	a5578793          	addi	a5,a5,-1451 # ffffaa55 <_stack_start+0xffff9a55>
- 168:	fcf41423          	sh	a5,-56(s0)
- 16c:	fc845783          	lhu	a5,-56(s0)
- 170:	fcf41323          	sh	a5,-58(s0)
- 174:	fc645703          	lhu	a4,-58(s0)
- 178:	0000b7b7          	lui	a5,0xb
- 17c:	a5578793          	addi	a5,a5,-1451 # aa55 <_stack_start+0x9a55>
- 180:	00f70663          	beq	a4,a5,18c <main+0x114>
- 184:	01a00513          	li	a0,26
- 188:	eb9ff0ef          	jal	40 <fail>
- 18c:	deadc7b7          	lui	a5,0xdeadc
- 190:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
- 194:	fcf42023          	sw	a5,-64(s0)
- 198:	fc042783          	lw	a5,-64(s0)
- 19c:	faf42e23          	sw	a5,-68(s0)
- 1a0:	fbc42703          	lw	a4,-68(s0)
- 1a4:	deadc7b7          	lui	a5,0xdeadc
- 1a8:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
- 1ac:	00f70663          	beq	a4,a5,1b8 <main+0x140>
- 1b0:	01b00513          	li	a0,27
- 1b4:	e8dff0ef          	jal	40 <fail>
- 1b8:	deadc7b7          	lui	a5,0xdeadc
- 1bc:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
- 1c0:	60000513          	li	a0,1536
- 1c4:	e3dff0ef          	jal	0 <write_mmio>
- 1c8:	0000006f          	j	1c8 <main+0x150>
+  f4:	deadc7b7          	lui	a5,0xdeadc
+  f8:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
+  fc:	60000513          	li	a0,1536
+ 100:	f01ff0ef          	jal	0 <write_mmio>
+ 104:	0000006f          	j	104 <main+0x8c>
 
-000001cc <_start>:
- 1cc:	00001117          	auipc	sp,0x1
- 1d0:	e3410113          	addi	sp,sp,-460 # 1000 <_stack_start>
- 1d4:	ea5ff0ef          	jal	78 <main>
- 1d8:	ff5ff06f          	j	1cc <_start>
+00000108 <_start>:
+ 108:	00001117          	auipc	sp,0x1
+ 10c:	ef810113          	addi	sp,sp,-264 # 1000 <_stack_start>
+ 110:	f69ff0ef          	jal	78 <main>
+ 114:	ff5ff06f          	j	108 <_start>
 
 Disassembly of section .comment:
 
@@ -164,6 +115,6 @@ Disassembly of section .riscv.attributes:
   18:	7032                	.insn	2, 0x7032
   1a:	5f31                	.insn	2, 0x5f31
   1c:	697a                	.insn	2, 0x697a
-  1e:	32727363          	bgeu	tp,t2,344 <_etext+0x168>
+  1e:	32727363          	bgeu	tp,t2,344 <_etext+0x22c>
   22:	3070                	.insn	2, 0x3070
 	...

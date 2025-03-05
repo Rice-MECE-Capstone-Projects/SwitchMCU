@@ -41,7 +41,7 @@ def check_simulation_result(test_case):
             return f"Test case {test_case}: FAILED (Pass string not found)"
 
 def main():
-    num_test_cases = 8
+    num_test_cases = 9
     # Determine test cases: if provided via command-line, use them; otherwise, use default list.
     if len(sys.argv) > 1:
         test_cases = sys.argv[1:]

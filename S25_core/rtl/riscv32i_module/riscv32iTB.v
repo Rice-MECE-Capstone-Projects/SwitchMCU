@@ -7,7 +7,7 @@ module riscv32iTB
     parameter memory_offset_param = 32'h00000600,
     parameter success_code = 32'hDEADBEEF,
     parameter cycles_timeout = 1100,
-    parameter initial_pc    = 32'h000001CC
+    parameter initial_pc    = 32'h00000108
 )
 ();
     glbl glbl ();
