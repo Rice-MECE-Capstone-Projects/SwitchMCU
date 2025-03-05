@@ -9,8 +9,31 @@ module riscv32i
     input  wire clk,
     input  wire reset,
     input  wire [31:0] Cycle_count,
+    input  wire [31:0] memory_offset,
     input  wire [31:0] initial_pc_i,
-    output wire [31:0] final_value
+    output wire [31:0] final_value,
+
+    // BRAM ports for Data Mem
+    output wire        data_mem_clkb,
+    output wire        data_mem_enb,
+    output wire        data_mem_rstb,
+    output wire [3:0 ] data_mem_web,
+    output wire [31:0] data_mem_addrb,
+    output wire [31:0] data_mem_dinb,
+    input  wire        data_mem_rstb_busy,
+    input  wire [31:0] data_mem_doutb,
+
+//bram  Ins_mem
+    output wire        ins_mem_clkb,
+    output wire        ins_mem_enb,
+    output wire        ins_mem_rstb,
+    output wire [3:0 ] ins_mem_web,
+    output wire [31:0] ins_mem_addrb,
+    output wire [31:0] ins_mem_dinb,
+    input  wire        ins_mem_rstb_busy,
+    input  wire [31:0] ins_mem_doutb
+
+
 
 );
     wire  [N_param-1:0]  instruction;
@@ -46,12 +69,22 @@ end
         .initial_pc_i(initial_pc_i)
     );
 
-    ins_mem #(.mem_size(4096)) ins_mem(
+    ins_mem  ins_mem(
         .clk(clk),
         .reset(reset),
         .pc_i(pc_i),
         .enb(stage0_IF_valid),
-        .instruction_o(instruction)
+        .instruction_o(instruction),
+
+        //bram ins mem
+        .ins_mem_clkb(       ins_mem_clkb),
+        .ins_mem_enb(        ins_mem_enb),
+        .ins_mem_rstb(       ins_mem_rstb),
+        .ins_mem_web(        ins_mem_web),
+        .ins_mem_addrb(      ins_mem_addrb),
+        .ins_mem_dinb(       ins_mem_dinb),
+        .ins_mem_rstb_busy(  ins_mem_rstb_busy),
+        .ins_mem_doutb(      ins_mem_doutb)
     );
 
 // Pre Stage 0
@@ -244,7 +277,7 @@ execute  #(.N_param(32)) execute
    );
 
 
-dataMem  #(.mem_size(4096)) dataMem 
+dataMem dataMem 
   (
 .final_value(final_value),
 .clk(clk),
@@ -254,8 +287,22 @@ dataMem  #(.mem_size(4096)) dataMem
 .storeData(operand2_stage2),
 .pc_i(pc_stage_2),
 .loadData_w(loaded_data),
+.memory_offset(memory_offset),
 .stall_mem_not_avalible(stall_mem_not_avalible),
-.load_into_reg(load_into_reg)
+.load_into_reg(load_into_reg),
+
+//bram
+.data_mem_clkb(      data_mem_clkb     ),
+.data_mem_addrb(     data_mem_addrb    ),
+.data_mem_dinb(      data_mem_dinb     ),
+.data_mem_enb(       data_mem_enb      ),
+.data_mem_rstb(      data_mem_rstb     ),
+.data_mem_web(       data_mem_web      ),
+.data_mem_doutb(     data_mem_doutb    ),
+.data_mem_rstb_busy( data_mem_rstb_busy )
+
+
+
 );
 
 hazard hazard (
