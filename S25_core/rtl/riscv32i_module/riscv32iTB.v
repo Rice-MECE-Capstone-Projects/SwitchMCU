@@ -19,6 +19,8 @@ module riscv32iTB
     wire [31:0] final_value;
     reg [31:0] cycle_to_end;
     reg [31:0] memory_offset;
+    wire [31:0] GPIO0_R0_CH1;
+    reg enable_design;
 
 
 // BRAM PORTS data mem
@@ -52,6 +54,7 @@ riscv32i
     dut (
         .clk(   tb_clk),
         .reset(tb_reset),
+        .GPIO0_R0_CH1(GPIO0_R0_CH1),
         .Cycle_count(Cycle_count),
         .memory_offset(memory_offset),
         .initial_pc_i(initial_pc_i),
@@ -80,6 +83,7 @@ riscv32i
 
 );
 
+        assign GPIO0_R0_CH1[0] = enable_design ;
 
     always begin
         tb_clk = 1'b0;
@@ -105,6 +109,7 @@ riscv32i
     // Simulation control
 
     initial begin
+        enable_design <= 32'b0;
         cycle_to_end <= 0;
         tb_clk = 0;
         memory_offset <= memory_offset_param;
@@ -113,7 +118,10 @@ riscv32i
         repeat (1) @(posedge tb_clk);
         #7000
         tb_reset = 0;
+        repeat (10) @(posedge tb_clk);
+        enable_design <= 32'b1;
         repeat (1) @(posedge tb_clk);
+
         // HERE CHANGE THIS VALUE TO DERTMINE CLOCK CYCLES
         repeat (cycles_timeout) @(posedge tb_clk);
         $finish;

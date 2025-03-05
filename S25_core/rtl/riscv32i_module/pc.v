@@ -3,7 +3,8 @@ input wire clk_i,
 input wire reset_i,
 input wire stage_IF_ready,
 input wire jump_inst_wire, 
-input wire branch_inst_wire, 
+input wire branch_inst_wire,
+input wire enable_design, 
 input wire [31:0] targetPC_i,
 input wire [31:0] initial_pc_i,
 output wire[31:0] pc_o
@@ -22,13 +23,13 @@ always @(posedge clk_i) begin
   	 if (reset_i)
 	    PC  <= initial_pc_i; //32'h1CC;
       //Starting memory address, this logic must be changed later
-	 else 
+	 else  if (enable_design) begin
+
  	    if (stage_IF_ready)  begin
             PC <= nextPC;
 		end 
   end
-
-
+end
 //MARKER AUTOMATED HERE START
 
 always @(negedge clk_i) begin
