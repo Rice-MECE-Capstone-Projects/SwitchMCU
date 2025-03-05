@@ -119,14 +119,14 @@ end
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLT   }:begin 
+{inst_SLTU  }:begin 
     result <= (operand1_pi        < operand2_pi       ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTU  }:begin 
+{inst_SLT   }:begin 
     result <= (operand1_pi_signed < operand2_pi_signed) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
