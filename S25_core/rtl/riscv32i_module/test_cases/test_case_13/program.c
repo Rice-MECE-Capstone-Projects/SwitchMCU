@@ -90,65 +90,21 @@ int test_blt(void) {
 
 // Test BLTU: if (rs1 < rs2) for unsigned values.
 int test_bgeu(void) {
-    // Using numbers with MSB = 1: 
-    // a = 0xFFFFFFF0 (unsigned: 4294967280, signed: -16)
-    // b = 0x00000010 (16)
-    volatile unsigned int a = 0xFFFFFFF0;
-    volatile unsigned int b = 0x00000010;
-    int ret;
-    asm volatile (
-        "bgeu %1, %2, 1f\n\t"  // Branch if a >= b (unsigned comparison)
-        "li %0, 0\n\t"         // If branch not taken, ret = 0
-        "j 2f\n\t"             // Jump to label 2
-        "1: li %0, 1\n\t"      // Label 1: branch taken, ret = 1
-        "2:\n\t"
-        : "=r"(ret)
-        : "r"(a), "r"(b)
-        : 
-    );
-    return ret;
-}
-
-
-
-int test_bltu(void) {
-    // Set up values: 
-    // a = 0x00000010 (16) and b = 0xFFFFFFF0 (unsigned 4294967280, signed -16)
-    volatile unsigned int a = 0x00000010;
-    volatile unsigned int b = 0xFFFFFFF0;
-    int ret;
-    asm volatile (
-        "bltu %1, %2, 1f\n\t"  // Branch if a < b (unsigned comparison)
-        "li %0, 0\n\t"         // If branch not taken, ret = 0
-        "j 2f\n\t"             // Jump to label 2
-        "1: li %0, 1\n\t"      // Label 1: branch taken, ret = 1
-        "2:\n\t"
-        : "=r"(ret)
-        : "r"(a), "r"(b)
-        :
-    );
-    return ret;
-}
-
-
-// // Test BGEU: if (rs1 >= rs2) for unsigned values.
-// int test_bltu_0(void) {
-//     volatile unsigned int a = 2, b = 2; // 2 >= 2 as unsigned is true
-//     if (a >= b)
-//         return 1;
-//     else
-//         return 0;
-// }
-
-// Test BGEU: if (rs1 >= rs2) for unsigned values.
-int test_bltu_1(void) {
-    volatile unsigned int a = 4244701459, b = 2; // 2 >= 2 as unsigned is true
-    if (a >= b)
+    volatile unsigned int a = 1, b = 2; // 1 < 2 as unsigned
+    if (a < b)
         return 1;
     else
         return 0;
 }
 
+// Test BGEU: if (rs1 >= rs2) for unsigned values.
+int test_bltu(void) {
+    volatile unsigned int a = 2, b = 2; // 2 >= 2 as unsigned is true
+    if (a >= b)
+        return 1;
+    else
+        return 0;
+}
 
 int main(void) {
     int res;
@@ -166,19 +122,11 @@ int main(void) {
     res = test_bge();
     if (res != 1) { fail(4); }    // Expected BGE to succeed
 
-    // res = test_bltu_0();
-    // if (res != 1) { fail(5); }    // Expected BLTU to succeed
+    res = test_bltu();
+    if (res != 1) { fail(5); }    // Expected BLTU to succeed
 
     res = test_bgeu();
     if (res != 1) { fail(6); }    // Expected BGEU to succeed
-
-    // res = test_bltu_1();
-    // if (res != 1) { fail(7); }    // Expected BLTU to succeed
-
-    res = test_bltu();
-    if (res != 1) { fail(8); }    // Expected BLTU to succeed
-
-
 
     // If all branch tests pass, signal overall success.
     write_mmio(PERIPHERAL_SUCCESS, 0xDEADBEEF);

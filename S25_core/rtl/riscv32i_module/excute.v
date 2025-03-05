@@ -268,14 +268,14 @@ end
     write_reg_file <= 1'b0;
 end
 {inst_BLT   }:begin
-    result <= {31'b0,(operand1_pi <  operand2_pi)};
+    result <= {31'b0,(operand1_pi_signed <  operand2_pi_signed)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
 {inst_BGE   }:begin
-    result <= {31'b0,(operand1_pi >= operand2_pi)};
+    result <= {31'b0,(operand1_pi_signed >= operand2_pi_signed)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
