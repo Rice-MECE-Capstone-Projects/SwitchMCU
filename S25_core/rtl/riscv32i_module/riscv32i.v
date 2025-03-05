@@ -8,10 +8,12 @@ module riscv32i
    ) (
     input  wire clk,
     input  wire reset,
+    input  wire [31:0] GPIO0_R0_CH1,
     input  wire [31:0] Cycle_count,
     input  wire [31:0] memory_offset,
     input  wire [31:0] initial_pc_i,
     output wire [31:0] final_value,
+
 
     // BRAM ports for Data Mem
     output wire        data_mem_clkb,
@@ -23,7 +25,7 @@ module riscv32i
     input  wire        data_mem_rstb_busy,
     input  wire [31:0] data_mem_doutb,
 
-//bram  Ins_mem
+    //bram  Ins_mem
     output wire        ins_mem_clkb,
     output wire        ins_mem_enb,
     output wire        ins_mem_rstb,
@@ -36,6 +38,9 @@ module riscv32i
 
 
 );
+
+    wire enable_design = GPIO0_R0_CH1[0];
+
     wire  [N_param-1:0]  instruction;
     wire  [4:0] rd_o;
     wire  [4:0] rs1_o;
@@ -65,6 +70,7 @@ end
         .jump_inst_wire(jump_inst_wire_stage2),
         .branch_inst_wire(branch_inst_wire_stage2),
         .targetPC_i(alu_result_2_stage2),
+        .enable_design(enable_design),
         .pc_o(pc_i),
         .initial_pc_i(initial_pc_i)
     );
@@ -465,13 +471,15 @@ assign stage_IF_ready   = stage0_IF_valid; //
 
 reg delete_reg1_reg2_reg;
 always @(posedge clk)begin
-    delete_reg1_reg2_reg <= delete_reg1_reg2;
 if (reset) begin 
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 	pipeReg3 <= 512'b0;
-end else if (delete_reg1_reg2) begin 
+end else if (enable_design) begin
+
+delete_reg1_reg2_reg <= delete_reg1_reg2;
+if  (delete_reg1_reg2) begin 
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
@@ -509,22 +517,9 @@ end else begin
 
 
 end //end else from reset
+
+
+end //end enable_design
+
 end // end clock
-
-
-
- 
 endmodule
-
-
-
-
-
-
-
-
-
-
-
-
-
