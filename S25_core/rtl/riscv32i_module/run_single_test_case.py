@@ -113,7 +113,7 @@ def check_sim_log(sim_log_path, test_case_number):
     with open(sim_log_path, 'r') as file:
         content = file.read()
         if "----TB FINISH:Test Passed----" in content:
-            print(f"{{TEST PASSED: success code for test case {test_case_number} found}}")
+            print(f"\n\n-----TEST PASSED: success code for test case {test_case_number} found -----\n\n")
         else:
             print(f"Test case {test_case_number} did not pass as expected.")
 
@@ -160,8 +160,7 @@ def main():
     run_command("./run", rtl_directory)
 
     # Parse sim.log for the success message.
-    # sim_log_path = os.path.join(rtl_directory, "sim.log")
-    # check_sim_log(sim_log_path, test_case_number)
+    sim_log_path = os.path.join(rtl_directory, "sim.log")
 
     # Copy output files to the outputs directory in the test case.
     output_files = ["sim.log", "sim.vcd"]  # Add other output files as needed.
@@ -173,6 +172,8 @@ def main():
             copy_file(src_output_file, os.path.join(dst_output_dir, output_file))
         else:
             print(f"Warning: {src_output_file} does not exist.")
+    
+    check_sim_log(sim_log_path, test_case_number)
 
 if __name__ == "__main__":
     main()
