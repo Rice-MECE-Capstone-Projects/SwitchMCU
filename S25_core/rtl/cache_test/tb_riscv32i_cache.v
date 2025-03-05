@@ -47,44 +47,57 @@ integer error_count = 0;
 task reset_test;
 begin
     reset = 1;
-    @(negedge clk);
+    @(posedge clk);
     reset = 0;
+    @(posedge clk);
     $display("Reset Test Completed");
 end
 endtask
 
 task test_read_hit;
 input [31:0] address;
-input [31:0] memory_data;
+input [31:0] expected_data;
 begin
     test_num++;
     $display("Test %0d: Read Hit Test @ %h", test_num, address);
     
-    // Prime the cache with a read miss first
+    // Prime the cache first with a block fetch
     cpu_addr = address;
     cpu_read = 1;
-    @(negedge clk);
+    @(posedge clk);
     
-    // Handle read miss
-    wait(mem_read === 1);
-    mem_rdata = memory_data;
-    mem_ready = 1;
-    @(negedge clk);
-    mem_ready = 0;
+    // Handle 8-word block fetch
+    for (integer i = 0; i < 8; i++) begin
+        wait(mem_read === 1);
+        mem_rdata = expected_data + i;
+        mem_ready = 1;
+        @(posedge clk);
+        mem_ready = 0;
+        // Wait for next request or state change
+        @(posedge clk);
+    end
+    
     cpu_read = 0;
+    @(posedge clk);
+    
+    // Allow cache to return to IDLE
+    @(posedge clk);
     
     // Now perform read hit
     cpu_addr = address;
     cpu_read = 1;
-    @(negedge clk);
+    @(posedge clk);
     
     // Verify results
-    if (cpu_stall !== 0 || cpu_rdata !== memory_data) begin
-        $error("Read Hit Failed: Stall=%b, Data=%h", cpu_stall, cpu_rdata);
+    if (cpu_stall !== 0 || cpu_rdata !== expected_data) begin
+        $error("Read Hit Failed: Stall=%b, Data=%h (Expected %h)", 
+              cpu_stall, cpu_rdata, expected_data);
         error_count++;
     end
     cpu_read = 0;
-    $display("Test %0d: Read Hit Passed", test_num);
+    @(posedge clk);
+    $display("Test %0d: Read Hit %s", test_num, 
+           (error_count ? "FAILED" : "PASSED"));
 end
 endtask
 
@@ -94,27 +107,99 @@ input [31:0] memory_data;
 begin
     test_num++;
     $display("Test %0d: Read Miss Test @ %h", test_num, address);
-    
+
     cpu_addr = address;
     cpu_read = 1;
-    @(negedge clk);
+    @(posedge clk);
     
     // Verify stall and memory request
     if (cpu_stall !== 1 || mem_read !== 1) begin
-        $error("Read Miss Failed: Stall=%b, MemRead=%b", cpu_stall, mem_read);
+        $error("Read Miss Failed: Stall=%b, MemRead=%b", 
+              cpu_stall, mem_read);
+        error_count++;
+    end
+
+    // Simulate 8-word memory response
+    for (integer i = 0; i < 8; i++) begin
+        mem_rdata = memory_data + i;
+        mem_ready = 1;
+        @(posedge clk);
+        mem_ready = 0;
+        @(posedge clk);
+    end
+    
+    cpu_read = 0;
+    @(posedge clk);
+    
+    // Verify cache contents
+    for (integer i = 0; i < 8; i++) begin
+        cpu_addr = address + (i*4);
+        cpu_read = 1;
+        @(posedge clk);
+        if (cpu_rdata !== (memory_data + i)) begin
+            $error("Cache data mismatch @%h: Got %h, Expected %h",
+                  cpu_addr, cpu_rdata, memory_data+i);
+            error_count++;
+        end
+        cpu_read = 0;
+        @(posedge clk);
+    end
+    
+    $display("Test %0d: Read Miss %s", test_num, 
+           (error_count ? "FAILED" : "PASSED"));
+end
+endtask
+
+task test_write_hit;
+input [31:0] address;
+input [31:0] write_data;
+begin
+    test_num++;
+    $display("Test %0d: Write Hit Test @ %h", test_num, address);
+    
+    // Prime the cache first with a read
+    cpu_addr = address;
+    cpu_read = 1;
+    @(posedge clk);
+    
+    // Handle block fetch
+    for (integer i = 0; i < 8; i++) begin
+        wait(mem_read === 1);
+        mem_rdata = 32'h0; // Prime with zeros
+        mem_ready = 1;
+        @(posedge clk);
+        mem_ready = 0;
+        @(posedge clk);
+    end
+    
+    cpu_read = 0;
+    @(posedge clk);
+    
+    // Allow cache to settle
+    @(posedge clk);
+    
+    // Perform write
+    cpu_addr = address;
+    cpu_write = 1;
+    cpu_wdata = write_data;
+    @(posedge clk);
+    
+    // Verify memory write is initiated
+    if (mem_write !== 1 || mem_wdata !== write_data) begin
+        $error("Write Failed: MemWrite=%b, Data=%h (Expected %h)",
+              mem_write, mem_wdata, write_data);
         error_count++;
     end
     
-    // Simulate memory response
-    mem_rdata = memory_data;
+    // Complete the memory write
     mem_ready = 1;
-    @(negedge clk);
+    @(posedge clk);
     mem_ready = 0;
-    cpu_read = 0;
+    cpu_write = 0;
+    @(posedge clk);
     
-    // Allow one cycle for FSM transition
-    @(negedge clk);
-    $display("Test %0d: Read Miss Passed", test_num);
+    $display("Test %0d: Write Hit %s", test_num, 
+           (error_count ? "FAILED" : "PASSED"));
 end
 endtask
 
@@ -127,9 +212,12 @@ initial begin
     #10 reset_test();
     test_read_hit(32'h0000_1000, 32'h1234_5678);
     test_read_miss(32'h0000_2000, 32'hCAFE_BABE);
-    
-    if (error_count == 0) $display("All tests passed!");
-    else $display("Tests failed: %0d errors", error_count);
+    test_write_hit(32'h0000_3000, 32'hDEAD_BEEF);
+
+    if (error_count == 0) 
+        $display("All tests passed!");
+    else 
+        $display("Tests failed: %0d errors", error_count);
     $finish;
 end
 
