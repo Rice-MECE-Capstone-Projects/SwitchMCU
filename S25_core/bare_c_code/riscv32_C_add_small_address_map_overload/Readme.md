@@ -50,7 +50,6 @@ There are two steps need to perform to validate the address map function correct
 - Step 2: Compare the terminal output with file `link.ld` inside `input` folder
     - Make sure all command has landed in the proper memory address space we deterimed
     - Inspect is there any memory leak or possible memory leak happen
-- For more detail explaination, please refer to [Address-Validation.md](Address-Validation.md) for more detail.
 
 ## License
 Apache License

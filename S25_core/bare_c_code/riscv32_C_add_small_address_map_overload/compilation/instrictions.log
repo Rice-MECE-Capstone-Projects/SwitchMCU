@@ -1,0 +1,121 @@
+
+program.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <write_to_peripheral>:
+   0:	fd010113          	addi	sp,sp,-48
+   4:	02812623          	sw	s0,44(sp)
+   8:	03010413          	addi	s0,sp,48
+   c:	fca42e23          	sw	a0,-36(s0)
+  10:	fcb42c23          	sw	a1,-40(s0)
+  14:	fdc42783          	lw	a5,-36(s0)
+  18:	fef42623          	sw	a5,-20(s0)
+  1c:	fec42783          	lw	a5,-20(s0)
+  20:	fd842703          	lw	a4,-40(s0)
+  24:	00e7a023          	sw	a4,0(a5)
+  28:	00000013          	nop
+  2c:	02c12403          	lw	s0,44(sp)
+  30:	03010113          	addi	sp,sp,48
+  34:	00008067          	ret
+
+00000038 <main>:
+  38:	f6010113          	addi	sp,sp,-160
+  3c:	08112e23          	sw	ra,156(sp)
+  40:	08812c23          	sw	s0,152(sp)
+  44:	0a010413          	addi	s0,sp,160
+  48:	fe042623          	sw	zero,-20(s0)
+  4c:	fe042423          	sw	zero,-24(s0)
+  50:	02c0006f          	j	7c <main+0x44>
+  54:	fe842783          	lw	a5,-24(s0)
+  58:	00178713          	addi	a4,a5,1
+  5c:	fe842783          	lw	a5,-24(s0)
+  60:	00279793          	slli	a5,a5,0x2
+  64:	ff078793          	addi	a5,a5,-16
+  68:	008787b3          	add	a5,a5,s0
+  6c:	f6e7ae23          	sw	a4,-132(a5)
+  70:	fe842783          	lw	a5,-24(s0)
+  74:	00178793          	addi	a5,a5,1
+  78:	fef42423          	sw	a5,-24(s0)
+  7c:	fe842703          	lw	a4,-24(s0)
+  80:	01d00793          	li	a5,29
+  84:	fce7d8e3          	bge	a5,a4,54 <main+0x1c>
+  88:	fe042223          	sw	zero,-28(s0)
+  8c:	03c0006f          	j	c8 <main+0x90>
+  90:	fe442783          	lw	a5,-28(s0)
+  94:	00279793          	slli	a5,a5,0x2
+  98:	ff078793          	addi	a5,a5,-16
+  9c:	008787b3          	add	a5,a5,s0
+  a0:	f7c7a783          	lw	a5,-132(a5)
+  a4:	fec42703          	lw	a4,-20(s0)
+  a8:	00f707b3          	add	a5,a4,a5
+  ac:	fef42623          	sw	a5,-20(s0)
+  b0:	fec42583          	lw	a1,-20(s0)
+  b4:	60800513          	li	a0,1544
+  b8:	f49ff0ef          	jal	ra,0 <write_to_peripheral>
+  bc:	fe442783          	lw	a5,-28(s0)
+  c0:	00178793          	addi	a5,a5,1
+  c4:	fef42223          	sw	a5,-28(s0)
+  c8:	fe442703          	lw	a4,-28(s0)
+  cc:	01d00793          	li	a5,29
+  d0:	fce7d0e3          	bge	a5,a4,90 <main+0x58>
+  d4:	fec42583          	lw	a1,-20(s0)
+  d8:	60400513          	li	a0,1540
+  dc:	f25ff0ef          	jal	ra,0 <write_to_peripheral>
+  e0:	fec42703          	lw	a4,-20(s0)
+  e4:	1d100793          	li	a5,465
+  e8:	00f71c63          	bne	a4,a5,100 <main+0xc8>
+  ec:	deadc7b7          	lui	a5,0xdeadc
+  f0:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
+  f4:	60000513          	li	a0,1536
+  f8:	f09ff0ef          	jal	ra,0 <write_to_peripheral>
+  fc:	0140006f          	j	110 <main+0xd8>
+ 100:	0badf7b7          	lui	a5,0xbadf
+ 104:	00d78593          	addi	a1,a5,13 # badf00d <_stack_start+0xbade00d>
+ 108:	60000513          	li	a0,1536
+ 10c:	ef5ff0ef          	jal	ra,0 <write_to_peripheral>
+ 110:	0000006f          	j	110 <main+0xd8>
+
+00000114 <_start>:
+ 114:	00001117          	auipc	sp,0x1
+ 118:	eec10113          	addi	sp,sp,-276 # 1000 <_stack_start>
+ 11c:	f1dff0ef          	jal	ra,38 <main>
+ 120:	ff5ff06f          	j	114 <_start>
+
+Disassembly of section .stack:
+
+00000800 <_end-0x400>:
+	...
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.4byte	0x3a434347
+   4:	2820                	.2byte	0x2820
+   6:	61653167          	.4byte	0x61653167
+   a:	3739                	.2byte	0x3739
+   c:	6538                	.2byte	0x6538
+   e:	36363033          	.4byte	0x36363033
+  12:	2029                	.2byte	0x2029
+  14:	3231                	.2byte	0x3231
+  16:	312e                	.2byte	0x312e
+  18:	302e                	.2byte	0x302e
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1b41                	.2byte	0x1b41
+   2:	0000                	.2byte	0x0
+   4:	7200                	.2byte	0x7200
+   6:	7369                	.2byte	0x7369
+   8:	01007663          	bgeu	zero,a6,14 <write_to_peripheral+0x14>
+   c:	0011                	.2byte	0x11
+   e:	0000                	.2byte	0x0
+  10:	1004                	.2byte	0x1004
+  12:	7205                	.2byte	0x7205
+  14:	3376                	.2byte	0x3376
+  16:	6932                	.2byte	0x6932
+  18:	7032                	.2byte	0x7032
+  1a:	0030                	.2byte	0x30
