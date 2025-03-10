@@ -136,7 +136,7 @@
 // End contents of params.vh
 
 // Begin contents of riscv32i.v
-`default_nettype none
+// `default_nettype none
 // `include "params.vh"
 
 module riscv32i
@@ -144,8 +144,6 @@ module riscv32i
     parameter   N_param = 32
    )     (
     input  wire         clk,
-
-
     input  wire [31:0]  GPIO0_R0_CH1, // control signals
     input  wire [31:0]  GPIO0_R0_CH2, // memory_offset
     input  wire [31:0]  GPIO0_R1_CH1, // initial_pc_i
@@ -234,9 +232,9 @@ always @(posedge clk) begin
         stop_design <= 1'b1;
         
     //MARKER AUTOMATED HERE START
-        
-    $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
-    
+//         
+//     $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
+//     
     //MARKER AUTOMATED HERE END
 
     end   
@@ -507,13 +505,13 @@ assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
 
 
 //MARKER AUTOMATED HERE START
-
-debug # (.Param_delay(5),.regCount(0), .pc_en(1)
-                                      ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0}), .pc_o(pc_i), .Cycle_count(Cycle_count));
-debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
-debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
-debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
-
+// 
+// debug # (.Param_delay(5),.regCount(0), .pc_en(1)
+//                                       ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0}), .pc_o(pc_i), .Cycle_count(Cycle_count));
+// debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
+// debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
+// debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
+// 
 //MARKER AUTOMATED HERE END
 
 
@@ -1334,26 +1332,26 @@ always @(posedge clk) begin
 
 
 //MARKER AUTOMATED HERE START
-integer k;
-integer n;
-always @(negedge clk) begin
-      #100
-      $write("\n\nREGFILE:   ");
-      for (k=0; k < 32; k=k+1) begin 
-	  	REG_FILE[i] <= 32'b0;
-      if (REG_FILE[k] != 0) begin
-      $write("   R%4d: %9h,", k, REG_FILE[k]);
-      end
-      end
-      $write("\nREGFILE*:  ");
-      for (n=0; n < 32; n=n+1) begin 
-	  	REG_FILE[i] <= 32'b0;
-      if (REG_FILE[n] != 0) begin
-      $write("   R%4d: %9d,", n, $signed(REG_FILE[n]));
-      end
-      end
-end
-
+// integer k;
+// integer n;
+// always @(negedge clk) begin
+//       #100
+//       $write("\n\nREGFILE:   ");
+//       for (k=0; k < 32; k=k+1) begin 
+// 	  	// REG_FILE[i] <= 32'b0;
+//       if (REG_FILE[k] != 0) begin
+//       $write("   R%4d: %9h,", k, REG_FILE[k]);
+//       end
+//       end
+//       $write("\nREGFILE*:  ");
+//       for (n=0; n < 32; n=n+1) begin 
+// 	  	// REG_FILE[i] <= 32'b0;
+//       if (REG_FILE[n] != 0) begin
+//       $write("   R%4d: %9d,", n, $signed(REG_FILE[n]));
+//       end
+//       end
+// end
+// 
 //MARKER AUTOMATED HERE END
 
 
@@ -1770,477 +1768,177 @@ end
 
 
 //MARKER AUTOMATED HERE START
-
-
-wire debug_i;
-assign debug_i = 1;
-always @(negedge i_clk) begin 
-#11
-if (debug_i) begin
-    $write("\nEXEC      PC: %h: I:{%h}    ",pc_i,  instruction   );
-
-case(Single_Instruction_i)
-{`inst_UNKNOWN   }:begin 
-    $write("inst_UNKOWN ");
-end
-{`inst_ADD   }:begin 
-    $write("inst_ADD    ");
-
-end
-{`inst_SUB   }:begin 
-    $write("inst_SUB    ");
-
-end
-{`inst_XOR   }:begin 
-    $write("inst_XOR    ");
-
-end
-{`inst_OR    }:begin 
-    $write("inst_OR     ");
-end
-{`inst_AND    }:begin 
-    $write("inst_AND     ");
-end
-{`inst_SLL   }:begin 
-    $write("inst_SLL    ");
-end
-{`inst_SRL   }:begin 
-    $write("inst_SRL    ");
-end
-{`inst_SRA   }:begin 
-    $write("inst_SRA    ");
-end
-{`inst_SLT   }:begin 
-    $write("inst_SLT    ");
-end
-{`inst_SLTU  }:begin 
-    $write("inst_SLTU   ");
-end
-{`inst_ADDI  }:begin 
-    $write("inst_ADDI   ");
-end
-{`inst_XORI  }:begin 
-    $write("inst_XORI   ");
-end
-{`inst_ORI  }:begin 
-    $write("inst_ORI   ");
-end
-{`inst_ANDI  }:begin 
-    $write("inst_ANDI   ");
-end
-{`inst_SLLI  }:begin 
-    $write("inst_SLLI   ");
-end
-{`inst_SRLI  }:begin 
-    $write("inst_SRLI   ");
-end
-{`inst_SRAI    }:begin 
-    $write("inst_SRAI     ");
-end
-{`inst_SLTI  }:begin 
-    $write("inst_SLTI   ");
-end
-{`inst_SLTIU }:begin 
-    $write("inst_SLTIU   ");
-end
-{`inst_LB    }:begin 
-    $write("inst_LB     ");
-end
-{`inst_LH    }:begin 
-    $write("inst_LH     ");
-end
-{`inst_LW    }:begin 
-    $write("inst_LW     ");
-end
-{`inst_LBU   }:begin 
-    $write("inst_LBU    ");
-end
-{`inst_LHU   }:begin 
-    $write("inst_LHU    ");
-end
-{`inst_SB    }:begin 
-    $write("inst_SB     ");
-     end
-{`inst_SH    }:begin 
-    $write("inst_SH     ");
-     end
-{`inst_SW    }:begin 
-    $write("inst_SW     ");
-     end
-{`inst_BEQ   }:begin 
-    $write("inst_BEQ    ");
-     end
-{`inst_BNE   }:begin 
-    $write("inst_BNE    ");
-     end
-{`inst_BLT   }:begin 
-    $write("inst_BLT    ");
-     end
-{`inst_BGE   }:begin 
-    $write("inst_BGE    ");
-     end
-{`inst_BLTU  }:begin 
-    $write("inst_BLTU   ");
-     end
-{`inst_BGEU  }:begin 
-    $write("inst_BGEU   ");
-     end
-{`inst_JAL   }:begin 
-    $write("inst_JAL    ");
-     end
-{`inst_JALR  }:begin 
-    $write("inst_JALR   ");
-     end
-{`inst_LUI   }:begin 
-    $write("inst_LUI    ");
-     end
-{`inst_AUIPC }:begin 
-    $write("inst_AUIPC  ");
-     end
-{`inst_ECALL }:begin 
-    $write("inst_ECALL   ");
-     end
-{`inst_EBREAK}:begin 
-    $write("inst_EBREAK   ");
-     end
-{`inst_FENCE }:begin 
-    $write("inst_FENCE   ");
-     end
-{`inst_FENCEI}:begin 
-    $write("inst_FENCEI   ");
-     end
-{`inst_CSRRW }:begin 
-    $write("inst_CSRRW   ");
-     end
-{`inst_CSRRS }:begin 
-    $write("inst_CSRRS   ");
-     end
-{`inst_CSRRC }:begin 
-    $write("inst_CSRRC   ");
-     end
-{`inst_CSRRWI}:begin 
-    $write("inst_CSRRWI   ");
-     end
-{`inst_CSRRSI}:begin 
-    $write("inst_CSRRSI   ");
-     end
-{`inst_CSRRCI}:begin 
-    $write("inst_CSRRCI   ");
-     end
-default: begin 
-    $write("not_encoded instruction   ");
-end
-endcase
-   $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4H}",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $write(" imm_i %h", $signed(imm_i));
-end
-
-end
+// 
+// 
+// wire debug_i;
+// assign debug_i = 1;
+// always @(negedge i_clk) begin 
+// #11
+// if (debug_i) begin
+//     $write("\nEXEC      PC: %h: I:{%h}    ",pc_i,  instruction   );
+// 
+// case(Single_Instruction_i)
+// {`inst_UNKNOWN   }:begin 
+//     $write("inst_UNKOWN ");
+// end
+// {`inst_ADD   }:begin 
+//     $write("inst_ADD    ");
+// 
+// end
+// {`inst_SUB   }:begin 
+//     $write("inst_SUB    ");
+// 
+// end
+// {`inst_XOR   }:begin 
+//     $write("inst_XOR    ");
+// 
+// end
+// {`inst_OR    }:begin 
+//     $write("inst_OR     ");
+// end
+// {`inst_AND    }:begin 
+//     $write("inst_AND     ");
+// end
+// {`inst_SLL   }:begin 
+//     $write("inst_SLL    ");
+// end
+// {`inst_SRL   }:begin 
+//     $write("inst_SRL    ");
+// end
+// {`inst_SRA   }:begin 
+//     $write("inst_SRA    ");
+// end
+// {`inst_SLT   }:begin 
+//     $write("inst_SLT    ");
+// end
+// {`inst_SLTU  }:begin 
+//     $write("inst_SLTU   ");
+// end
+// {`inst_ADDI  }:begin 
+//     $write("inst_ADDI   ");
+// end
+// {`inst_XORI  }:begin 
+//     $write("inst_XORI   ");
+// end
+// {`inst_ORI  }:begin 
+//     $write("inst_ORI   ");
+// end
+// {`inst_ANDI  }:begin 
+//     $write("inst_ANDI   ");
+// end
+// {`inst_SLLI  }:begin 
+//     $write("inst_SLLI   ");
+// end
+// {`inst_SRLI  }:begin 
+//     $write("inst_SRLI   ");
+// end
+// {`inst_SRAI    }:begin 
+//     $write("inst_SRAI     ");
+// end
+// {`inst_SLTI  }:begin 
+//     $write("inst_SLTI   ");
+// end
+// {`inst_SLTIU }:begin 
+//     $write("inst_SLTIU   ");
+// end
+// {`inst_LB    }:begin 
+//     $write("inst_LB     ");
+// end
+// {`inst_LH    }:begin 
+//     $write("inst_LH     ");
+// end
+// {`inst_LW    }:begin 
+//     $write("inst_LW     ");
+// end
+// {`inst_LBU   }:begin 
+//     $write("inst_LBU    ");
+// end
+// {`inst_LHU   }:begin 
+//     $write("inst_LHU    ");
+// end
+// {`inst_SB    }:begin 
+//     $write("inst_SB     ");
+//      end
+// {`inst_SH    }:begin 
+//     $write("inst_SH     ");
+//      end
+// {`inst_SW    }:begin 
+//     $write("inst_SW     ");
+//      end
+// {`inst_BEQ   }:begin 
+//     $write("inst_BEQ    ");
+//      end
+// {`inst_BNE   }:begin 
+//     $write("inst_BNE    ");
+//      end
+// {`inst_BLT   }:begin 
+//     $write("inst_BLT    ");
+//      end
+// {`inst_BGE   }:begin 
+//     $write("inst_BGE    ");
+//      end
+// {`inst_BLTU  }:begin 
+//     $write("inst_BLTU   ");
+//      end
+// {`inst_BGEU  }:begin 
+//     $write("inst_BGEU   ");
+//      end
+// {`inst_JAL   }:begin 
+//     $write("inst_JAL    ");
+//      end
+// {`inst_JALR  }:begin 
+//     $write("inst_JALR   ");
+//      end
+// {`inst_LUI   }:begin 
+//     $write("inst_LUI    ");
+//      end
+// {`inst_AUIPC }:begin 
+//     $write("inst_AUIPC  ");
+//      end
+// {`inst_ECALL }:begin 
+//     $write("inst_ECALL   ");
+//      end
+// {`inst_EBREAK}:begin 
+//     $write("inst_EBREAK   ");
+//      end
+// {`inst_FENCE }:begin 
+//     $write("inst_FENCE   ");
+//      end
+// {`inst_FENCEI}:begin 
+//     $write("inst_FENCEI   ");
+//      end
+// {`inst_CSRRW }:begin 
+//     $write("inst_CSRRW   ");
+//      end
+// {`inst_CSRRS }:begin 
+//     $write("inst_CSRRS   ");
+//      end
+// {`inst_CSRRC }:begin 
+//     $write("inst_CSRRC   ");
+//      end
+// {`inst_CSRRWI}:begin 
+//     $write("inst_CSRRWI   ");
+//      end
+// {`inst_CSRRSI}:begin 
+//     $write("inst_CSRRSI   ");
+//      end
+// {`inst_CSRRCI}:begin 
+//     $write("inst_CSRRCI   ");
+//      end
+// default: begin 
+//     $write("not_encoded instruction   ");
+// end
+// endcase
+//    $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4H}",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $write(" imm_i %h", $signed(imm_i));
+// end
+// 
+// end
 //MARKER AUTOMATED HERE END
 
 
 
 endmodule
 // End contents of excute.v
-
-// Begin contents of debug.v
-module debug # (
-    parameter Param_delay = 1,
-    parameter regCount    = 1,
-    parameter pc_en       = 0
-    ) (
-input wire           i_clk,
-input wire [ 31:0]    pc_o,
-input wire [ 31:0]    Cycle_count,
-input wire [511:0] pipeReg
-);
-
-
-// pipeReg[`PC_reg             ]
-// pipeReg[`instruct           ]
-// pipeReg[`alu_res1           ]
-// pipeReg[`load_reg           ]
-// pipeReg[`jump_en            ]
-// pipeReg[`branch_en          ]
-// pipeReg[`reg_write_en       ]
-// pipeReg[`LD_ready           ]
-// pipeReg[`SD_ready           ]
-// pipeReg[`rd                 ]
-// pipeReg[`operand_amt        ]
-// pipeReg[`opRs1_reg          ]
-// pipeReg[`opRs2_reg          ]
-// pipeReg[`op1_reg            ]
-// pipeReg[`op2_reg            ]
-// pipeReg[`immediate          ]
-// pipeReg[`alu_res2           ]
-// pipeReg[`rd_data            ]
-// pipeReg[`Single_Instruction ]
-// pipeReg[`data_mem_loaded    ]
- 
-
-always @(negedge i_clk) begin 
-# Param_delay
-
-if (pc_en == 1) begin 
-    $write("\n\n----------------------------------------------------------------------------------START\n ");
-    // $write("\npc_o  %10h, Cycle_count %d",pc_o,Cycle_count);
-    $write("\nCycle_count %5d,\n        pc_o  %8h,",Cycle_count,pc_o);
-end
-// if (regCount == 3 )begin
-//     $write("\n----------------------------------------------------------------------------------\n ");
-// end
-
-    $write("\nPipeReg%0d  PC: %h: I:{%h}    ",regCount,pipeReg[`PC_reg             ],  pipeReg[`instruct           ]   );
-
-case(pipeReg[`Single_Instruction ]) 
-
-{`inst_UNKNOWN   }:begin 
-    $write("inst_UNKOWN ");
-    // $write("inst_AUIPC  ");
-end
-{`inst_ADD   }:begin 
-    $write("inst_ADD    ");
-
-end
-{`inst_SUB   }:begin 
-    $write("inst_SUB    ");
-
-end
-{`inst_XOR   }:begin 
-    $write("inst_XOR    ");
-
-end
-{`inst_OR    }:begin 
-    $write("inst_OR     ");
-
-end
-
-{`inst_AND    }:begin 
-    $write("inst_AND     ");
-
-end
-{`inst_SLL   }:begin 
-    $write("inst_SLL    ");
-
-end
-{`inst_SRL   }:begin 
-    $write("inst_SRL    ");
-
-end
-{`inst_SRA   }:begin 
-    $write("inst_SRA    ");
-
-end
-
-{`inst_SLT   }:begin 
-    $write("inst_SLT    ");
-
-end
-{`inst_SLTU  }:begin 
-    $write("inst_SLTU   ");
-
-end
-{`inst_ADDI  }:begin 
-    $write("inst_ADDI   ");
-
-end
-{`inst_XORI  }:begin 
-    $write("inst_XORI   ");
-
-end
-
-{`inst_ORI  }:begin 
-    $write("inst_ORI   ");
-
-end
-{`inst_ANDI  }:begin 
-    $write("inst_ANDI   ");
-
-end
-{`inst_SLLI  }:begin 
-    $write("inst_SLLI   ");
-
-end
-{`inst_SRLI  }:begin 
-    $write("inst_SRLI   ");
-
-end
-
-{`inst_SRAI    }:begin 
-    $write("inst_SRAI     ");
-
-end
-{`inst_SLTI  }:begin 
-    $write("inst_SLTI   ");
-
-end
-{`inst_SLTIU }:begin 
-    $write("inst_SLTIU  ");
-
-end
-{`inst_LB    }:begin 
-    $write("inst_LB     ");
-
-end
-
-{`inst_LH    }:begin 
-    $write("inst_LH     ");
-
-end
-{`inst_LW    }:begin 
-    $write("inst_LW     ");
-
-end
-{`inst_LBU   }:begin 
-    $write("inst_LBU    ");
-
-end
-{`inst_LHU   }:begin 
-    $write("inst_LHU    ");
-
-end
-
-{`inst_SB    }:begin 
-    $write("inst_SB     ");
-
-     end
-{`inst_SH    }:begin 
-    $write("inst_SH     ");
-
-     end
-{`inst_SW    }:begin 
-    $write("inst_SW     ");
-
-     end
-{`inst_BEQ   }:begin 
-    $write("inst_BEQ    ");
-
-     end
-
-{`inst_BNE   }:begin 
-    $write("inst_BNE    ");
-
-     end
-{`inst_BLT   }:begin 
-    $write("inst_BLT    ");
-
-     end
-{`inst_BGE   }:begin 
-    $write("inst_BGE    ");
-
-     end
-{`inst_BLTU  }:begin 
-    $write("inst_BLTU   ");
-
-     end
-
-{`inst_BGEU  }:begin 
-    $write("inst_BGEU   ");
-
-     end
-{`inst_JAL   }:begin 
-    $write("inst_JAL    ");
-
-     end
-{`inst_JALR  }:begin 
-    $write("inst_JALR   ");
-
-     end
-{`inst_LUI   }:begin 
-    $write("inst_LUI    ");
-
-     end
-
-{`inst_AUIPC }:begin 
-    $write("inst_AUIPC  ");
-
-     end
-{`inst_ECALL }:begin 
-    $write("inst_ECALL  ");
-
-     end
-{`inst_EBREAK}:begin 
-    $write("inst_EBREAK ");
-
-     end
-{`inst_FENCE }:begin 
-    $write("inst_FENCE  ");
-
-     end
-
-{`inst_FENCEI}:begin 
-    $write("inst_FENCEI ");
-
-     end
-{`inst_CSRRW }:begin 
-    $write("inst_CSRRW ");
-
-     end
-{`inst_CSRRS }:begin 
-    $write("inst_CSRRS ");
-
-     end
-{`inst_CSRRC }:begin 
-    $write("inst_CSRRC ");
-
-     end
-
-{`inst_CSRRWI}:begin 
-    $write("inst_CSRRWI ");
-
-     end
-{`inst_CSRRSI}:begin 
-    $write("inst_CSRRSI ");
-
-     end
-{`inst_CSRRCI}:begin 
-    $write("inst_CSRRCI ");
-
-     end
-default: begin 
-    $write("not_encoded  ");
-
-end
-endcase
-
-    $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4h}",
-    pipeReg[`rd],pipeReg[`opRs1_reg],pipeReg[`opRs2_reg],pipeReg[`op1_reg],pipeReg[`op2_reg],pipeReg[`alu_res1]);  $write(" imm_i %8h", $signed(pipeReg[`immediate          ]));
-    $write(" branch_en  %4d, ",  pipeReg[`branch_en          ]);
-    $write(" reg_write  %4d, ",  pipeReg[`reg_write_en       ]);
-    // $write(" LD_ready   %4d, ",  pipeReg[`LD_ready           ]);
-    // $write(" SD_ready   %4d, ",  pipeReg[`SD_ready           ]);
-    $write(" operand_a  %4d, ",  pipeReg[`operand_amt        ]);
-    $write(" alu_res2   %4d, ",  pipeReg[`alu_res2           ]);
-    $write(" rd_data    %4d, ",  pipeReg[`rd_data            ]);
-    $write(" data_mem_  %4d, ",  pipeReg[`data_mem_loaded    ]);
-
-
-
-end
-
-endmodule   
-
-// pipeReg[`branch_en          ]
-// pipeReg[`reg_write_en       ]
-// pipeReg[`LD_ready           ]
-// pipeReg[`SD_ready           ]
-// pipeReg[`operand_amt        ]
-// pipeReg[`alu_res2           ]
-// pipeReg[`rd_data            ]
-// pipeReg[`data_mem_loaded    ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-// End contents of debug.v
 
 // Begin contents of pc.v
 module pc(
@@ -2276,14 +1974,14 @@ always @(posedge clk_i) begin
   end
 end
 //MARKER AUTOMATED HERE START
-
-always @(negedge clk_i) begin
-	#30
-	if (jump_inst_wire)    begin $write("\nPC_module: JUMP!   Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
-	if (branch_inst_wire ) begin $write("\nPC_module: BRANCH! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
-
-end
-
+// 
+// always @(negedge clk_i) begin
+// 	#30
+// 	if (jump_inst_wire)    begin $write("\nPC_module: JUMP!   Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
+// 	if (branch_inst_wire ) begin $write("\nPC_module: BRANCH! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
+// 
+// end
+// 
 //MARKER AUTOMATED HERE END
 
 
@@ -2636,26 +2334,26 @@ output wire [31:0] operand2_into_exec
 
 
 //MARKER AUTOMATED HERE START
-
-always @(negedge clk) begin
-   #25
-
-   if (memFwd1|wbFwd1)begin 
-   case(src1Forward_alu)
-   2'b11: begin $write("\n HAZARD: memFwd1 <wbFwd1 also qualified but will not take>, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
-   2'b10: begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
-   2'b01: begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage3,PC_stage1,operand1_into_exec );end
-   endcase
-
-   if (memFwd2|wbFwd2)begin 
-   case(src2Forward_alu)
-   2'b10: begin       $write("\n HAZARD: memFwd2 <wbFwd1 also qualified but will not take>, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
-   2'b10: begin       $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
-   2'b00: begin       $write("\n HAZARD: wbFwd2,  RS2 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage3,PC_stage1,operand2_into_exec );end
-   endcase
-   end
-end
-end
+// 
+// always @(negedge clk) begin
+//    #25
+// 
+//    if (memFwd1|wbFwd1)begin 
+//    case(src1Forward_alu)
+//    2'b11: begin $write("\n HAZARD: memFwd1 <wbFwd1 also qualified but will not take>, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
+//    2'b10: begin $write("\n HAZARD: memFwd1, RS1 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage2,PC_stage1,operand1_into_exec );end
+//    2'b01: begin $write("\n HAZARD: wbFwd1,  RS1 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs1_stage1,PC_stage3,PC_stage1,operand1_into_exec );end
+//    endcase
+// 
+//    if (memFwd2|wbFwd2)begin 
+//    case(src2Forward_alu)
+//    2'b10: begin       $write("\n HAZARD: memFwd2 <wbFwd1 also qualified but will not take>, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
+//    2'b10: begin       $write("\n HAZARD: memFwd2, RS2 Stage2  to ALU %5d, PC from stage 2: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage2,PC_stage1,operand2_into_exec );end
+//    2'b00: begin       $write("\n HAZARD: wbFwd2,  RS2 Stage3  to ALU %5d, PC from stage 3: %8h forwarded to PC %8h, Forwarded value %8h", rs2_stage1,PC_stage3,PC_stage1,operand2_into_exec );end
+//    endcase
+//    end
+// end
+// end
 //MARKER AUTOMATED HERE END
 
 

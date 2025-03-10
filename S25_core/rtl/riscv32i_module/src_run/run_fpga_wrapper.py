@@ -114,12 +114,12 @@ if __name__ == "__main__":
         "decode.v",
         "regfile.v",
         "excute.v",
-        "debug.v",
+        # "debug.v",
         "pc.v",
         "dataMem.v",
         "hazard.v"
     ]
     
     # To enable automated commenting, set auto_comment to 'comment' or 'uncomment'
-    # combine_verilog_files(verilog_files, auto_comment='comment')
-    combine_verilog_files(verilog_files, auto_comment='uncomment')
+    combine_verilog_files(verilog_files, auto_comment='comment')
+    # combine_verilog_files(verilog_files, auto_comment='uncomment')
