@@ -1,5 +1,5 @@
 `timescale 1ps / 1ps
-`include "params.vh"
+// `include "params.vh"
 
 module riscv32iTB
 #(
@@ -48,6 +48,16 @@ reg [31:0]   GPIO0_R0_CH2;
 reg [31:0]   GPIO0_R1_CH1;
 reg [31:0]   GPIO0_R1_CH2;
 wire          STOP_sim    ;
+
+
+  // design_1 design_1_i
+  //      (.GPIO0_R0_CH1(GPIO0_R0_CH1),
+  //       .GPIO0_R0_CH2(GPIO0_R0_CH2),
+  //       .GPIO0_R1_CH1(GPIO0_R1_CH1),
+  //       .GPIO0_R1_CH2(GPIO0_R1_CH2),
+  //       .STOP_sim(STOP_sim),
+  //       .clk(clk));
+
 
 
 
@@ -180,17 +190,6 @@ end
 
 
 
-      
-// bram_mem #(.MEM_DEPTH(mem_size) ) bram_mem (
-//   // .final_value(final_value),// debug port not in actual FPGA
-//   .clkb(clk),
-//   .addrb(address),
-//   .dinb(store_data),
-//   .doutb(raw_bram_data_word),
-//   .enb(  enb),
-//   .rstb( 1'b0),
-//   .web(web),
-//   .rstb_busy(rstb_busy) );
 
 
     endmodule

@@ -1,14 +1,158 @@
+`default_nettype none
+module riscv32i
+   # (
+    parameter   N_param = 32
+   )     (
+    input  wire         clk,
+
+
+    input  wire [31:0]  GPIO0_R0_CH1, // control signals
+    input  wire [31:0]  GPIO0_R0_CH2, // memory_offset
+    input  wire [31:0]  GPIO0_R1_CH1, // initial_pc_i
+    input  wire [31:0]  GPIO0_R1_CH2, // success_code
+
+    output wire         STOP_sim,
+
+    // BRAM ports for Data Mem
+    output wire         data_mem_clkb,
+    output wire         data_mem_enb,
+    output wire         data_mem_rstb,
+    output wire [3:0]   data_mem_web,
+    output wire [31:0]  data_mem_addrb,
+    output wire [31:0]  data_mem_dinb,
+    input  wire         data_mem_rstb_busy,
+    input  wire [31:0]  data_mem_doutb,
+
+    // BRAM ports for Ins Mem
+    output wire         ins_mem_clkb,
+    output wire         ins_mem_enb,
+    output wire         ins_mem_rstb,
+    output wire [3:0]   ins_mem_web,
+    output wire [31:0]  ins_mem_addrb,
+    output wire [31:0]  ins_mem_dinb,
+    input  wire         ins_mem_rstb_busy,
+    input  wire [31:0]  ins_mem_doutb
+);
+
+
+
+reg enable_design_reg;
+reg stop_design;
+wire enable_design;
+wire start_design , reset;
+reg [31:0] cycle_to_end;
+wire [31:0] control_signals_in;
+reg [31:0]  Cycle_count  ;
+wire [31:0]  memory_offset;
+wire [31:0]  initial_pc_i ;
+wire [31:0]  success_code  ;
+wire [31:0]  final_value  ;
+
+pulse_generator uut (
+    .clk(clk),
+    .in(GPIO0_R0_CH1),
+    .out(control_signals_in)
+);
+
+assign STOP_sim = stop_design;
+// assign  Cycle_count       = GPIO0_R0_CH2;
+assign  memory_offset     = GPIO0_R0_CH2;
+assign  initial_pc_i      = GPIO0_R1_CH1;
+assign  success_code      = GPIO0_R1_CH2;
+
+assign start_design    = control_signals_in[0];
+assign reset           = control_signals_in[1];
+
+assign enable_design = enable_design_reg & ~stop_design;
 
 
 
 
-module riscv32i 
+always @(posedge clk) begin
+  	if (reset) begin
+
+        cycle_to_end        <= 32'h0;
+	    Cycle_count         <= 32'h0;
+	    enable_design_reg   <=  1'b0;
+        stop_design         <=  1'b0;
+
+    end else begin  
+    if (start_design) begin 
+        // cycle_to_end        <= 32'h0;
+	    Cycle_count         <= 32'h0;
+	    enable_design_reg   <=  1'b1;
+        // stop_design         <=  1'b0;
+    end else if (enable_design_reg) begin
+        Cycle_count         <= Cycle_count + 1;
+	    enable_design_reg   <= enable_design_reg;
+    end      
+    if (final_value == success_code)begin 
+        cycle_to_end <= cycle_to_end + 1;
+        stop_design  <= 1'b0;
+    end
+    if (cycle_to_end >= 30) begin
+        stop_design <= 1'b1;
+        
+    //MARKER AUTOMATED HERE START
+        
+    $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
+    
+    //MARKER AUTOMATED HERE END
+
+    end   
+ 
+end
+end 
+
+
+
+
+
+    // Instantiation of riscv32i_main
+    riscv32i_main #(
+        .N_param(32)
+    ) u_riscv32i_main (
+        .clk(clk),
+        .reset(reset),
+        .enable_design(enable_design_reg),
+
+        .Cycle_count(Cycle_count),
+        .memory_offset(memory_offset),
+        .initial_pc_i(initial_pc_i),
+        .final_value(final_value),
+        
+        .data_mem_clkb(data_mem_clkb),
+        .data_mem_enb(data_mem_enb),
+        .data_mem_rstb(data_mem_rstb),
+        .data_mem_web(data_mem_web),
+        .data_mem_addrb(data_mem_addrb),
+        .data_mem_dinb(data_mem_dinb),
+        .data_mem_rstb_busy(data_mem_rstb_busy),
+        .data_mem_doutb(data_mem_doutb),
+        
+        .ins_mem_clkb(ins_mem_clkb),
+        .ins_mem_enb(ins_mem_enb),
+        .ins_mem_rstb(ins_mem_rstb),
+        .ins_mem_web(ins_mem_web),
+        .ins_mem_addrb(ins_mem_addrb),
+        .ins_mem_dinb(ins_mem_dinb),
+        .ins_mem_rstb_busy(ins_mem_rstb_busy),
+        .ins_mem_doutb(ins_mem_doutb)
+    );
+
+endmodule
+
+
+
+
+module riscv32i_main 
    # (
     parameter   N_param = 32
    ) (
     input  wire clk,
     input  wire reset,
-    input  wire [31:0] GPIO0_R0_CH1,
+    input wire enable_design,
+
     input  wire [31:0] Cycle_count,
     input  wire [31:0] memory_offset,
     input  wire [31:0] initial_pc_i,
@@ -39,7 +183,6 @@ module riscv32i
 
 );
 
-    wire enable_design = GPIO0_R0_CH1[0];
 
     wire  [N_param-1:0]  instruction;
     wire  [4:0] rd_o;
@@ -522,4 +665,25 @@ end //end else from reset
 end //end enable_design
 
 end // end clock
+endmodule
+
+
+
+module pulse_generator(
+    input  wire       clk,
+    input wire  [31:0] in,
+    output wire [31:0] out
+);
+
+reg [31:0] out_r;
+reg [31:0] prev_in;
+assign out = out_r;
+integer i;
+  always @(posedge clk) begin
+    for (i = 0; i < 32; i = i + 1) begin
+        out_r[i]   <= in[i] & ~prev_in[i];
+        prev_in[i] <= in[i];
+
+    end
+  end
 endmodule
