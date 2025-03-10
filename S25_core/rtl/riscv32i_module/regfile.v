@@ -30,21 +30,26 @@ integer j;
 initial begin 
  for (j=0; j < 32; j=j+1)begin 
 	  	  REG_FILE[j] <= 32'b0;	 
+ end
+ for (j=0; j <4096; j=j+1)begin
               CSR_FILE[j] <= 32'b0;
  end
 end
 integer i;
 always @(posedge clk) begin
-      if (reset)
+      if (reset) begin
        	  for (i=0; i < 32; i=i+1) begin 
-	  	     REG_FILE[i] <= 32'b0;	
+	  	     REG_FILE[i] <= 32'b0;
+            end	
+              for (i=0; i < 4096; i=i+1) begin
                  CSR_FILE[i] <= 32'b0;
            end
-	else
+      end else begin
 	   if (we_pi && (destReg_pi!=0))  
 		   REG_FILE[destReg_pi] <= writeData_pi;
          if (write_csr)
                CSR_FILE[csrReg_pi] <= csrData_pi;
+      end
       end
 
 
@@ -66,6 +71,20 @@ always @(negedge clk) begin
 	  	// REG_FILE[i] <= 32'b0;
       if (REG_FILE[n] != 0) begin
       $write("   R%4d: %9d,", n, $signed(REG_FILE[n]));
+      end
+      end
+      $write("\n\nCSRs:   ");
+      for (k=0; k < 4096; k=k+1) begin 
+	  	// REG_FILE[i] <= 32'b0;
+      if (CSR_FILE[k] != 0) begin
+      $write("   R%4d: %9h,", k, CSR_FILE[k]);
+      end
+      end
+      $write("\nCSRs*:  ");
+      for (n=0; n < 4096; n=n+1) begin 
+	  	// REG_FILE[i] <= 32'b0;
+      if (CSR_FILE[n] != 0) begin
+      $write("   R%4d: %9d,", n, $signed(CSR_FILE[n]));
       end
       end
 end

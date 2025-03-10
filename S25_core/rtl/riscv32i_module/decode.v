@@ -77,6 +77,7 @@ always @(*) begin
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
+            rs2    <= 0;
             csr    <= instruction[31:20];
             imm    <= {{20{instruction[31]}},instruction[31:20]};
 

@@ -56,7 +56,7 @@ end
 wire [31:0] pc_stage_0,instruction_stage_0;
 wire we_pi;
 wire [31:0] pc_o,pc_i;
-wire [31:0] writeData_pi,operand1_po,operand2_po;
+wire [31:0] writeData_pi,operand1_po,operand2_po, csrData_pi;
 
 
 //stage 1 varibles
@@ -178,6 +178,7 @@ assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
 
 //Value being wrtten to regfile in WBB stage, also may be forwarded to ALU
 assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
+assign csrData_pi       = alu_result_2_stage3;
 
 //Value being wrtten to regfile in MEM stage, also may be forwarded to ALU
 assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
