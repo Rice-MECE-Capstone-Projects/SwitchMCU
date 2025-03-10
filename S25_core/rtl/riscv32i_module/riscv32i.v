@@ -1,11 +1,11 @@
 `default_nettype none
+`include "params.vh"
+
 module riscv32i
    # (
     parameter   N_param = 32
    )     (
     input  wire         clk,
-
-
     input  wire [31:0]  GPIO0_R0_CH1, // control signals
     input  wire [31:0]  GPIO0_R0_CH2, // memory_offset
     input  wire [31:0]  GPIO0_R1_CH1, // initial_pc_i
@@ -322,6 +322,7 @@ wire        jump_inst_wire,branch_inst_wire;
 wire write_reg_file_wire_stage2;
 wire [31:0] rd_result_stage2;
 
+reg delete_reg1_reg2_reg;
 
 
 //Control signals 
@@ -612,7 +613,6 @@ assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
 
 assign stage_IF_ready   = stage0_IF_valid; // 
 
-reg delete_reg1_reg2_reg;
 always @(posedge clk)begin
 if (reset) begin 
     pipeReg0 <= 64'b0;

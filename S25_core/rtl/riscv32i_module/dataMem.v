@@ -33,7 +33,7 @@ output wire      load_into_reg,
     input  wire        data_mem_rstb_busy,
     input  wire [31:0] data_mem_doutb
 );
-    
+
     wire [29:0] word_address;
     wire [ 1:0] byte_address;
     reg         stall_mem_not_avalible_reg;
@@ -52,14 +52,17 @@ output wire      load_into_reg,
     wire [15:0] raw_data_byte_LHU;
 
     wire [31:0] address;
-    assign address = address_i - memory_offset;
 
     reg [31:0] cycles_request; 
     reg [31:0] retrive_cycles;
     wire rstb_busy;
 
+    wire enb;
+    reg [3:0] web;
+    wire [ 7:0] raw_data_byte_LBU;
+    reg [31:0] store_data;
 
-
+    assign address = address_i - memory_offset;
 
     assign data_mem_clkb      =  clk;
     assign data_mem_addrb     = address;
@@ -93,27 +96,25 @@ output wire      load_into_reg,
 
 
 
-assign load_wire  =     ((Single_Instruction == inst_LB)  ||
-                         (Single_Instruction == inst_LH)  ||
-                         (Single_Instruction == inst_LW)  ||
-                         (Single_Instruction == inst_LBU) ||
-                         (Single_Instruction == inst_LHU));
+assign load_wire  =     ((Single_Instruction == `inst_LB)  ||
+                         (Single_Instruction == `inst_LH)  ||
+                         (Single_Instruction == `inst_LW)  ||
+                         (Single_Instruction == `inst_LBU) ||
+                         (Single_Instruction == `inst_LHU));
 
-assign stall_needed   = ((Single_Instruction == inst_LB)  ||
-                        (Single_Instruction == inst_LH)  ||
-                        (Single_Instruction == inst_LW)  ||
-                        (Single_Instruction == inst_LBU) ||
-                        (Single_Instruction == inst_LHU));
+assign stall_needed   = ((Single_Instruction == `inst_LB)  ||
+                        (Single_Instruction == `inst_LH)  ||
+                        (Single_Instruction == `inst_LW)  ||
+                        (Single_Instruction == `inst_LBU) ||
+                        (Single_Instruction == `inst_LHU));
                     
-assign store_wire    = ((Single_Instruction == inst_SB) ||
-                        (Single_Instruction == inst_SH) ||
-                        (Single_Instruction == inst_SW));
-wire enb;
+assign store_wire    = ((Single_Instruction == `inst_SB) ||
+                        (Single_Instruction == `inst_SH) ||
+                        (Single_Instruction == `inst_SW));
 assign enb = store_wire | load_wire;
 
 assign loadData_w =   loadData;
 
-wire [ 7:0] raw_data_byte_LBU;
 
 assign raw_data_byte_LBU = ((byte_address == 2'b00) ? raw_bram_data_word[7:0]   :
                             (byte_address == 2'b01) ? raw_bram_data_word[15:8]  :
@@ -128,19 +129,19 @@ assign raw_data_byte_LHU = ((byte_address == 2'b00) ? raw_bram_data_word[15:0]  
 always @(*) begin
   if (load_data_valid) begin  
     case(Single_Instruction)
-        inst_LW :begin 
+        `inst_LW :begin 
           loadData <= raw_bram_data_word;
         end
-        inst_LB :begin  
+        `inst_LB :begin  
           loadData <= { {24{raw_data_byte_LBU[7]}}, raw_data_byte_LBU };
         end
-        inst_LH :begin  
+        `inst_LH :begin  
           loadData <= { {16{raw_data_byte_LHU[15]}}, raw_data_byte_LHU };
         end     
-        inst_LBU :begin  
+        `inst_LBU :begin  
           loadData <= {24'b0,raw_data_byte_LBU};
         end
-        inst_LHU :begin  
+        `inst_LHU :begin  
           loadData <= {16'b0,raw_data_byte_LHU};
         end
         default: begin 
@@ -172,14 +173,12 @@ always @(posedge clk) begin
   end
 end
 
-reg [31:0] store_data;
 
 integer i;
-reg [3:0] web;
 always @(*) begin
         if (store_wire) begin
         case(Single_Instruction) 
-        {inst_SB    }:begin
+        {`inst_SB    }:begin
           case(byte_address)
             2'b00:   begin web   <= 4'b0001; store_data <= {24'b0,storeData[7:0]};       end
             2'b01:   begin web   <= 4'b0010; store_data <= {16'b0,storeData[7:0], 8'b0}; end
@@ -188,14 +187,14 @@ always @(*) begin
             default: begin web   <= 4'b0;    store_data <= 32'b0;                        end
           endcase// DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
         end
-        {inst_SH }:begin
+        {`inst_SH }:begin
           case(byte_address)
             2'b00,2'b01: begin web   <= 4'b0011; store_data <= {16'b0, storeData[15:0]      }; end 
             2'b10,2'b11: begin web   <= 4'b1100; store_data <= {       storeData[15:0],16'b0}; end
             default:     begin web   <= 4'b0;    store_data <= 32'b0;                          end
           endcase// DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
         end
-        {inst_SW }:begin
+        {`inst_SW }:begin
           web        <= 4'b1111; // DMEM[word_address]   <= storeData;
           store_data <= storeData;
         end
@@ -235,13 +234,15 @@ module end_write (
     output wire [31:0] final_value
 
 );
-  assign doutb = doutb_reg;
-  assign rstb_busy = 0;
+
   reg [31:0] DMEM;
   reg [31:0] doutb_reg;
   reg [29:0] addrb_word;
   wire [29:0] word_address;
   wire [ 1:0] byte_address;
+
+  assign doutb = doutb_reg;
+  assign rstb_busy = 0;
   assign word_address = addrb[31:2];  
   assign byte_address = addrb[ 1:0];
   initial begin
