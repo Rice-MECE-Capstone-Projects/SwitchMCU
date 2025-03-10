@@ -1,6 +1,25 @@
+# import os
+# import subprocess
+# import sys
 import os
 import subprocess
 import sys
+import shutil
+import argparse
+
+def clear_output_files(test_case):
+    """
+    Delete the outputs directory for a given test case if it exists.
+    """
+    cwd = os.getcwd()
+    output_dir = os.path.join(cwd, "test_cases", f"test_case_{test_case}", "outputs")
+    if os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+        print(f"Cleared output directory: {output_dir}")
+    else:
+        print(f"No output directory found for test case {test_case} (nothing to clear).")
+
+
 
 def run_test_case(test_case):
     """
@@ -12,8 +31,11 @@ def run_test_case(test_case):
     if not os.path.exists(test_case_dir):
         print(f"Test case directory {test_case_dir} does not exist. Skipping test case {test_case}.")
         return
+    
+    clear_output_files(test_case)
 
-    command = f"python run_single_test_case.py {test_case}"
+
+    command = f"python src_run/run_single_test_case.py {test_case}"
     print(f"Running: {command}")
     result = subprocess.run(command, shell=True)
     if result.returncode != 0:
