@@ -61,12 +61,7 @@ wire          STOP_sim    ;
 
 
 
-riscv32i
-`ifndef GATESIM
-#(    .N_param(N_param)
-      ) 
-`endif
-    dut (
+riscv32i #(    .N_param(N_param) ) dut (
         .clk(   tb_clk),
         // .reset(tb_reset),
         // .GPIO0_R0_CH1(GPIO0_R0_CH1),

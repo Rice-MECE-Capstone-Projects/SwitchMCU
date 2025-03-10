@@ -1,5 +1,4 @@
 `timescale 1ps / 1ps
-`include "params.vh"
 
 module riscv32iTB
 #(
@@ -9,9 +8,14 @@ module riscv32iTB
     parameter cycles_timeout = 1100,
     parameter initial_pc    = 32'h00000384
 )
-();
-    glbl glbl ();
-    localparam IDLE_LEN = 10;
+(
+
+
+
+);
+
+
+    // glbl glbl ();
     reg                      tb_clk;
     reg                      tb_reset;
     reg [31:0] Cycle_count;
@@ -52,10 +56,10 @@ wire          STOP_sim    ;
 
 
 riscv32i
-`ifndef GATESIM
+// `ifndef GATESIM
 #(    .N_param(N_param)
       ) 
-`endif
+// `endif
     dut (
         .clk(   tb_clk),
         // .reset(tb_reset),
@@ -103,16 +107,26 @@ riscv32i
         #5000;
     end
 
-    initial begin : init
-        string vcdfile;
-        int vcdlevel;
-        if ($value$plusargs("VCDFILE=%s",vcdfile))
-            $dumpfile(vcdfile);
-        if ($value$plusargs("VCDLEVEL=%d",vcdlevel))
-            $dumpvars(vcdlevel);
-            end
+    // initial begin : init
+    //     string vcdfile;
+    //     int vcdlevel;
+    //     if ($value$plusargs("VCDFILE=%s",vcdfile))
+    //         $dumpfile(vcdfile);
+    //     if ($value$plusargs("VCDLEVEL=%d",vcdlevel))
+    //         $dumpvars(vcdlevel);
+    //         end
 
-    initial begin : stim
+initial begin 
+    // reg [8*128-1:0] vcdfile;  // A reg-based string: 128 characters
+    // integer vcdlevel;
+    // if ($value$plusargs("VCDFILE=%s", vcdfile))
+        $dumpfile("sim.vcd");
+    // if ($value$plusargs("VCDLEVEL=%d", vcdlevel))
+        $dumpvars(4);
+end
+
+
+    initial begin
         $display("%t: starting stream stimulus", $time);
         $display("%t: TEST PASSED", $time);
         // $finish;
@@ -180,19 +194,6 @@ end
 
 
 
-      
-// bram_mem #(.MEM_DEPTH(mem_size) ) bram_mem (
-//   // .final_value(final_value),// debug port not in actual FPGA
-//   .clkb(clk),
-//   .addrb(address),
-//   .dinb(store_data),
-//   .doutb(raw_bram_data_word),
-//   .enb(  enb),
-//   .rstb( 1'b0),
-//   .web(web),
-//   .rstb_busy(rstb_busy) );
-
-
     endmodule
 
 
@@ -226,7 +227,7 @@ module bram_mem #(  parameter MEM_DEPTH = 1096 ) (
 
   initial begin
     // First initialize memory to zero
-    integer i;
+    // integer i;
     for (i = 0; i < MEM_DEPTH; i = i + 1) begin
       DMEM[i] = 32'h00000000;
     end
@@ -337,7 +338,7 @@ module bram_ins #(  parameter MEM_DEPTH = 1096 ) (
 
   initial begin
     // First initialize memory to zero
-    integer i;
+    // integer i;
     for (i = 0; i < MEM_DEPTH; i = i + 1) begin
       DMEM[i] = 32'h00000013;
     end

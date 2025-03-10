@@ -1,13 +1,151 @@
+// Begin contents of params.vh
+`ifndef PARAMS_VH
+`define PARAMS_VH
+
+
+`define PC_reg              31:00   //[31:00]
+`define instruct            63:32   //[31:00]
+`define alu_res1            95:64   //[31:00]
+`define load_reg           101
+`define jump_en            102     //[ 4:0]
+`define branch_en          103     //[ 4:0]
+`define reg_write_en       104     //[ 4:0]
+`define LD_ready           105     //[ 4:0]
+`define SD_ready           106     //[ 4:0]
+`define rd                 111:107 //[ 4:0]
+`define operand_amt        115:112 //[ 3:0]
+`define opRs1_reg          120:116 //[4:0]
+`define opRs2_reg          127:121 //[4:0]
+`define op1_reg            159:128 //[31:00]
+`define op2_reg            191:160 //[31:00]
+`define immediate          223:192 //[31:0]
+`define alu_res2           255:224 //[31:0]
+`define rd_data            287:256 //[31:0]
+`define Single_Instruction 351:288 //[63:00]   
+`define data_mem_loaded    383:352  
+
+// Opcode Decoding Type
+`define R_Type            7'b0110011 //0110011
+`define I_Type_A          7'b0010011 // 0010011
+`define I_Type_L          7'b0000011
+`define S_Type            7'b0100011
+`define B_Type            7'b1100011
+`define J_Type_lk         7'b1101111
+`define I_Type_JALR       7'b1100111
+`define U_Type_lui        7'b0110111
+`define U_Type_auipc      7'b0010111
+`define I_Type_ECALL      7'b1110011
+`define F_TYPE_FENCE      7'b0001111
+`define NOOP             32'h00000013
+
+
+`define ONE_OP      4'b0001
+`define TWO_OP      4'b0010
+
+
+// Encoding Type
+`define INST_typ_R             7'b0000001
+`define INST_typ_I             7'b0000010
+`define INST_typ_I_ECALL       7'b1000010
+`define INST_typ_S             7'b0000100
+`define INST_typ_B             7'b0001000
+`define INST_typ_U             7'b0010000
+`define INST_typ_J             7'b0100000
+`define INST_typ_F             7'b1000000
+`define UNRECGONIZED           7'b0000000
+
+// Instructions
+`define inst_UNKNOWN    64'h0000_0000_0000_0000
+`define inst_ADD    64'h0000_0000_0000_0001
+`define inst_SUB    64'h0000_0000_0000_0002
+`define inst_XOR    64'h0000_0000_0000_0004
+`define inst_OR     64'h0000_0000_0000_0008
+
+`define inst_AND    64'h0000_0000_0000_0010
+`define inst_SLL    64'h0000_0000_0000_0020
+`define inst_SRL    64'h0000_0000_0000_0040
+`define inst_SRA    64'h0000_0000_0000_0080
+
+`define inst_SLT    64'h0000_0000_0000_0100
+`define inst_SLTU   64'h0000_0000_0000_0200
+`define inst_ADDI   64'h0000_0000_0000_0400
+`define inst_XORI   64'h0000_0000_0000_0800
+
+`define inst_ORI    64'h0000_0000_0000_1000
+`define inst_ANDI   64'h0000_0000_0000_2000
+`define inst_SLLI   64'h0000_0000_0000_4000
+`define inst_SRLI   64'h0000_0000_0000_8000
+
+`define inst_SRAI   64'h0000_0000_0001_0000
+`define inst_SLTI   64'h0000_0000_0002_0000
+`define inst_SLTIU  64'h0000_0000_0004_0000
+`define inst_LB     64'h0000_0000_0008_0000
+
+`define inst_LH     64'h0000_0000_0010_0000
+`define inst_LW     64'h0000_0000_0020_0000
+`define inst_LBU    64'h0000_0000_0040_0000
+`define inst_LHU    64'h0000_0000_0080_0000
+
+`define inst_SB     64'h0000_0000_0100_0000
+`define inst_SH     64'h0000_0000_0200_0000
+`define inst_SW     64'h0000_0000_0400_0000
+`define inst_BEQ    64'h0000_0000_0800_0000
+
+`define inst_BNE    64'h0000_0000_1000_0000
+`define inst_BLT    64'h0000_0000_2000_0000
+`define inst_BGE    64'h0000_0000_4000_0000
+`define inst_BLTU   64'h0000_0000_8000_0000
+
+`define inst_BGEU   64'h0000_0001_0000_0000
+`define inst_JAL    64'h0000_0002_0000_0000
+`define inst_JALR   64'h0000_0004_0000_0000
+`define inst_LUI    64'h0000_0008_0000_0000
+
+`define inst_AUIPC  64'h0000_0010_0000_0000
+`define inst_ECALL  64'h0000_0020_0000_0000
+`define inst_EBREAK 64'h0000_0040_0000_0000
+`define inst_FENCE  64'h0000_0080_0000_0000
+
+`define inst_FENCEI 64'h0000_0100_0000_0000
+`define inst_CSRRW  64'h0000_0200_0000_0000
+`define inst_CSRRS  64'h0000_0400_0000_0000
+`define inst_CSRRC  64'h0000_0800_0000_0000
+`define inst_CSRRWI 64'h0000_1000_0000_0000
+`define inst_CSRRSI 64'h0000_2000_0000_0000
+`define inst_CSRRCI 64'h0000_4000_0000_0000
+
+`endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// End contents of params.vh
 
 // Begin contents of riscv32i.v
 `default_nettype none
+// `include "params.vh"
+
 module riscv32i
    # (
     parameter   N_param = 32
    )     (
     input  wire         clk,
 
-    `include "params.vh"
+
     input  wire [31:0]  GPIO0_R0_CH1, // control signals
     input  wire [31:0]  GPIO0_R0_CH2, // memory_offset
     input  wire [31:0]  GPIO0_R1_CH1, // initial_pc_i
@@ -324,6 +462,7 @@ wire        jump_inst_wire,branch_inst_wire;
 wire write_reg_file_wire_stage2;
 wire [31:0] rd_result_stage2;
 
+reg delete_reg1_reg2_reg;
 
 
 //Control signals 
@@ -614,7 +753,6 @@ assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
 
 assign stage_IF_ready   = stage0_IF_valid; // 
 
-reg delete_reg1_reg2_reg;
 always @(posedge clk)begin
 if (reset) begin 
     pipeReg0 <= 64'b0;
@@ -734,7 +872,6 @@ endmodule
 // End contents of ins_mem.v
 
 // Begin contents of decode.v
-// `include "params.vh"
 
 module decode 
    # (
@@ -785,8 +922,8 @@ assign Single_Instruction_o = Single_Instruction;
 
 always @(*) begin
     case (opcode)
-        R_Type: begin
-            INST_typ <= INST_typ_R;
+        `R_Type: begin
+            INST_typ <= `INST_typ_R;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -795,8 +932,8 @@ always @(*) begin
             imm    <= 32'b0;
         end
 
-        I_Type_A,I_Type_L, I_Type_JALR: begin  
-            INST_typ <= INST_typ_I;
+        `I_Type_A,`I_Type_L, `I_Type_JALR: begin  
+            INST_typ <= `INST_typ_I;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -805,8 +942,8 @@ always @(*) begin
             imm    <= {{20{instruction[31]}},instruction[31:20]};
         end
 
-        I_Type_ECALL: begin
-            INST_typ <= INST_typ_I_ECALL;
+        `I_Type_ECALL: begin
+            INST_typ <= `INST_typ_I_ECALL;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -816,8 +953,8 @@ always @(*) begin
 
         end 
 
-        S_Type: begin  
-            INST_typ <= INST_typ_S;
+        `S_Type: begin  
+            INST_typ <= `INST_typ_S;
             rd     <= 0;
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -826,8 +963,8 @@ always @(*) begin
             imm    <= {{20{instruction[31]}},instruction[31:25],instruction[11:7]};
         end
 
-        B_Type: begin  
-            INST_typ <= INST_typ_B;
+        `B_Type: begin  
+            INST_typ <= `INST_typ_B;
             rd     <= 0;
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -836,8 +973,8 @@ always @(*) begin
             imm    <= { {20{instruction[31]}}, instruction[7], instruction[30:25], instruction[11:8], 1'b0 }; // {{19{i_inst[31]}},i_inst[31],i_inst[7],i_inst[30:25],i_inst[11:8],1'b0} 
         end
 
-        U_Type_auipc, U_Type_lui: begin  
-            INST_typ <= INST_typ_U;
+        `U_Type_auipc, `U_Type_lui: begin  
+            INST_typ <= `INST_typ_U;
             rd       <= instruction[11:7];
             fun3     <= 0;
             rs1      <= 0;
@@ -846,8 +983,8 @@ always @(*) begin
             imm      <= { instruction[31:12], 12'b0};     
         end
 
-       J_Type_lk: begin  
-            INST_typ <= INST_typ_J;
+       `J_Type_lk: begin  
+            INST_typ <= `INST_typ_J;
             rd     <= instruction[11:7];
             fun3   <= 0; 
             rs1    <= 0; 
@@ -856,8 +993,8 @@ always @(*) begin
             imm    <= { {12{instruction[31]}}, instruction[19:12], instruction[20], instruction[30:25], instruction[24:21], 1'b0 };
         end
 
-        F_TYPE_FENCE: begin  
-            INST_typ <= INST_typ_F;
+        `F_TYPE_FENCE: begin  
+            INST_typ <= `INST_typ_F;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -867,7 +1004,7 @@ always @(*) begin
         end
 
         default: begin
-            INST_typ <= UNRECGONIZED;
+            INST_typ <= `UNRECGONIZED;
             rd     <= 0;
             fun3   <= 0;
             rs1    <= 0; 
@@ -878,138 +1015,138 @@ always @(*) begin
     endcase
 
     case (INST_typ)
-        INST_typ_R: begin
+        `INST_typ_R: begin
             case ({fun7,fun3})
             {7'b0000000,3'b000}: begin  // ADD
-            Single_Instruction <= inst_ADD;
+            Single_Instruction <= `inst_ADD;
             end 
             {7'b0100000,3'b000}: begin  // SUB
-            Single_Instruction <= inst_SUB;
+            Single_Instruction <= `inst_SUB;
             end 
             {7'b0000000,3'b001}: begin  // SLL
-            Single_Instruction <= inst_SLL;
+            Single_Instruction <= `inst_SLL;
             end 
             {7'b0000000,3'b010}: begin  // SLT
-            Single_Instruction <= inst_SLT;
+            Single_Instruction <= `inst_SLT;
             end 
             {7'b0000000,3'b011}: begin  //SLTU 
-            Single_Instruction <= inst_SLTU;
+            Single_Instruction <= `inst_SLTU;
             end 
             {7'b0000000,3'b100}: begin  // XOR
-            Single_Instruction <= inst_XOR;
+            Single_Instruction <= `inst_XOR;
             end 
             {7'b0000000,3'b101}: begin  //SRL 
-            Single_Instruction <= inst_SRL;
+            Single_Instruction <= `inst_SRL;
             end 
             {7'b0100000,3'b101}: begin  // SRA
-            Single_Instruction <= inst_SRA;
+            Single_Instruction <= `inst_SRA;
             end 
             {7'b0000000,3'b110}: begin  // OR 
-            Single_Instruction <= inst_OR;
+            Single_Instruction <= `inst_OR;
             end 
             {7'b0000000,3'b111}: begin  //AND 
-            Single_Instruction <= inst_AND;
+            Single_Instruction <= `inst_AND;
             end 
             default: begin  //UNKNOWN 
-            Single_Instruction <= inst_UNKNOWN;
+            Single_Instruction <= `inst_UNKNOWN;
             end 
             endcase
         end
-        INST_typ_U:  begin 
+        `INST_typ_U:  begin 
             case(opcode)
-            U_Type_auipc:begin 
-            Single_Instruction <= inst_AUIPC;   
+            `U_Type_auipc:begin 
+            Single_Instruction <= `inst_AUIPC;   
             end
-            U_Type_lui:begin 
-            Single_Instruction <= inst_LUI;
+            `U_Type_lui:begin 
+            Single_Instruction <= `inst_LUI;
             end
             default: begin 
-            Single_Instruction <= inst_UNKNOWN;
+            Single_Instruction <= `inst_UNKNOWN;
             end
             endcase
         
 
 
         end
-        INST_typ_I: begin
+        `INST_typ_I: begin
             case(opcode)
-            I_Type_A: begin 
+            `I_Type_A: begin 
                 case ({fun3})
                 {3'b000}: begin  // ADDI
-                Single_Instruction <= inst_ADDI;
+                Single_Instruction <= `inst_ADDI;
                 end 
                 {3'b010}: begin  // SLTI
-                Single_Instruction <= inst_SLTI;
+                Single_Instruction <= `inst_SLTI;
                 end 
                 {3'b011}: begin  //SLTIU 
-                Single_Instruction <= inst_SLTIU;
+                Single_Instruction <= `inst_SLTIU;
                 end 
                 {3'b100}: begin  // XORI
-                Single_Instruction <= inst_XORI;
+                Single_Instruction <= `inst_XORI;
                 end 
                 {3'b110}: begin  // ORI 
-                Single_Instruction <= inst_ORI;
+                Single_Instruction <= `inst_ORI;
                 end 
                 {3'b111}: begin  //ANDI 
-                Single_Instruction <= inst_ANDI;
+                Single_Instruction <= `inst_ANDI;
                 end 
                 {3'b001}: begin  //SLLI 
                     case(fun7)
                         {7'b0000000}:begin 
-                Single_Instruction <= inst_SLLI;
+                Single_Instruction <= `inst_SLLI;
                         end 
                         default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                         end
                     endcase
                 end 
                 {3'b101}: begin  
                     case(fun7)
                         {7'b0000000}:begin  //SRLI
-                Single_Instruction <= inst_SRLI;
+                Single_Instruction <= `inst_SRLI;
                         end 
                         {7'b0100000}:begin //SRAI
-                Single_Instruction <= inst_SRAI;
+                Single_Instruction <= `inst_SRAI;
                         end 
                         default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                         end
                     endcase
                 end 
                 default: begin  // 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end 
             endcase
             end
-            I_Type_L: begin 
+            `I_Type_L: begin 
                 case ({fun3})
                 {3'b000}: begin  // LB
-                Single_Instruction <= inst_LB;
+                Single_Instruction <= `inst_LB;
                 end 
                 {3'b001}: begin  // LH
-                Single_Instruction <= inst_LH;
+                Single_Instruction <= `inst_LH;
                 end 
                 {3'b010}: begin  // LW
-                Single_Instruction <= inst_LW;
+                Single_Instruction <= `inst_LW;
                 end 
                 {3'b100}: begin  // LBU
-                Single_Instruction <= inst_LBU;
+                Single_Instruction <= `inst_LBU;
                 end 
                 {3'b101}: begin  // LHU
-                Single_Instruction <= inst_LHU;
+                Single_Instruction <= `inst_LHU;
                 end 
                 default:begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
                 endcase
             end
-            I_Type_JALR: begin 
+            `I_Type_JALR: begin 
                 case ({fun3})
                 {3'b000}: begin  // JALR
-                Single_Instruction <= inst_JALR;
+                Single_Instruction <= `inst_JALR;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
                 endcase
             end
@@ -1017,109 +1154,109 @@ always @(*) begin
             endcase
         end
 
-        INST_typ_I_ECALL: begin 
+        `INST_typ_I_ECALL: begin 
                 case ({fun3})
                 {3'b000}: begin  //
                 if (instruction[20]==1'b1) begin 
-                Single_Instruction <= inst_EBREAK ;
+                Single_Instruction <= `inst_EBREAK ;
 
                 end else begin
-                Single_Instruction <= inst_ECALL;
+                Single_Instruction <= `inst_ECALL;
 
                  end
                 end 
                 {3'b001}: begin  //
-                Single_Instruction <= inst_CSRRW;
+                Single_Instruction <= `inst_CSRRW;
                 end 
                 {3'b010}: begin  //CSRRS
-                Single_Instruction <= inst_CSRRS;
+                Single_Instruction <= `inst_CSRRS;
                 end 
                 {3'b011}: begin  //CSRRC
-                Single_Instruction <= inst_CSRRC;
+                Single_Instruction <= `inst_CSRRC;
                 end 
                 {3'b101}: begin  //CSRRWI
-                Single_Instruction <= inst_CSRRWI;
+                Single_Instruction <= `inst_CSRRWI;
                 end 
                 {3'b110}: begin  //CSRRSI
-                Single_Instruction <= inst_CSRRSI;
+                Single_Instruction <= `inst_CSRRSI;
                 end 
                 {3'b111}: begin  //CSRRCI
-                Single_Instruction <= inst_CSRRCI;
+                Single_Instruction <= `inst_CSRRCI;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
         endcase
 
         end
         
-        INST_typ_S: begin  
+        `INST_typ_S: begin  
             case ({fun3})
                 {3'b000}: begin  // SB
-                Single_Instruction <= inst_SB;
+                Single_Instruction <= `inst_SB;
                 end 
                 {3'b001}: begin  // SH
-                Single_Instruction <= inst_SH;
+                Single_Instruction <= `inst_SH;
                 end 
                 {3'b010}: begin  // SW
-                Single_Instruction <= inst_SW;
+                Single_Instruction <= `inst_SW;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
             endcase
         end
 
-        INST_typ_B: begin  
+        `INST_typ_B: begin  
             case ({fun3})
                 {3'b000}: begin  // SEQ
-                Single_Instruction <= inst_BEQ;
+                Single_Instruction <= `inst_BEQ;
                 end 
                 {3'b001}: begin  // BNE
-                Single_Instruction <= inst_BNE;
+                Single_Instruction <= `inst_BNE;
                 end 
                 {3'b100}: begin  // BLT
-                Single_Instruction <= inst_BLT;
+                Single_Instruction <= `inst_BLT;
                 end 
                 {3'b101}: begin  // BGE
-                Single_Instruction <= inst_BGE;
+                Single_Instruction <= `inst_BGE;
                 end 
                 {3'b110}: begin  // BLTU
-                Single_Instruction <= inst_BLTU;
+                Single_Instruction <= `inst_BLTU;
                 end 
                 {3'b111}: begin  // BGEU
-                Single_Instruction <= inst_BGEU;
+                Single_Instruction <= `inst_BGEU;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
             endcase  
         end
 
-        INST_typ_J: begin  
-                Single_Instruction <= inst_JAL;
+        `INST_typ_J: begin  
+                Single_Instruction <= `inst_JAL;
         end
 
-        INST_typ_F: begin         
+        `INST_typ_F: begin         
                 case ({fun3})
                 {3'b000}: begin  // FENCE
-                Single_Instruction <= inst_FENCE;
+                Single_Instruction <= `inst_FENCE;
                 end 
                 {3'b001}: begin  // FENCE
-                Single_Instruction <= inst_FENCEI;
+                Single_Instruction <= `inst_FENCEI;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
             endcase
         end
 
 
-        UNRECGONIZED: begin  
-                Single_Instruction <= inst_UNKNOWN;
+        `UNRECGONIZED: begin  
+                Single_Instruction <= `inst_UNKNOWN;
         end
         default: begin
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
         end
     
     endcase
@@ -1259,6 +1396,7 @@ reg  [32:0] result;
 reg  [32:0] result_secondary;
 assign alu_result_1           = result[31:0];
 assign alu_result_2 = result_secondary[31:0];
+reg  branch_inst, jump_inst,write_reg_file;
 
 initial begin 
 result           <=0;
@@ -1267,7 +1405,6 @@ branch_inst      <=0;
 jump_inst        <=0;
 write_reg_file   <=0;
 end 
-reg  branch_inst, jump_inst,write_reg_file;
 
 
 wire signed [31:0] operand1_pi_signed = operand1_pi;
@@ -1284,126 +1421,126 @@ assign write_reg_file_wire            = (~(rd_i==0)) & write_reg_file;
 
 always @(*) begin 
 case(Single_Instruction_i)
-{inst_UNKNOWN   }:begin 
+{`inst_UNKNOWN   }:begin 
 result <=0;
 result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_ADD   }:begin 
+{`inst_ADD   }:begin 
 result <= operand1_pi + operand2_pi;
 result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SUB   }:begin 
+{`inst_SUB   }:begin 
     result <= operand1_pi - operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_XOR   }:begin 
+{`inst_XOR   }:begin 
     result <= operand1_pi ^ operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_OR    }:begin 
+{`inst_OR    }:begin 
     result <= operand1_pi | operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_AND    }:begin 
+{`inst_AND    }:begin 
     result <= operand1_pi & operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLL   }:begin 
+{`inst_SLL   }:begin 
     result <= (operand1_pi << (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRL   }:begin 
+{`inst_SRL   }:begin 
     result <= (operand1_pi >> (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRA   }:begin 
+{`inst_SRA   }:begin 
     result <= (operand1_pi_signed >>> (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTU  }:begin 
+{`inst_SLTU  }:begin 
     result <= (operand1_pi        < operand2_pi       ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLT   }:begin 
+{`inst_SLT   }:begin 
     result <= (operand1_pi_signed < operand2_pi_signed) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_ADDI  }:begin 
+{`inst_ADDI  }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_XORI  }:begin 
+{`inst_XORI  }:begin 
     result <= operand1_pi ^ imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_ORI  }:begin 
+{`inst_ORI  }:begin 
     result <= operand1_pi | imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_ANDI  }:begin 
+{`inst_ANDI  }:begin 
     result <= operand1_pi & imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLLI  }:begin 
+{`inst_SLLI  }:begin 
     result <= operand1_pi << imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRLI  }:begin 
+{`inst_SRLI  }:begin 
     result <= operand1_pi >> imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRAI    }:begin 
+{`inst_SRAI    }:begin 
     result <=  operand1_pi_signed >>> imm_i[4:0];
     // $signed(operand1_pi) >>> imm_i[4:0];
     result_secondary <=0;
@@ -1411,210 +1548,210 @@ end
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTI  }:begin 
+{`inst_SLTI  }:begin 
     result <= (operand1_pi        < imm_i       ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTIU }:begin 
+{`inst_SLTIU }:begin 
     result <= (operand1_pi_signed < imm_i_signed      ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LB    }:begin 
+{`inst_LB    }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LH    }:begin 
+{`inst_LH    }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LW    }:begin 
+{`inst_LW    }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LBU   }:begin 
+{`inst_LBU   }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LHU   }:begin 
+{`inst_LHU   }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SB    }:begin
+{`inst_SB    }:begin
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_SH    }:begin
+{`inst_SH    }:begin
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_SW    }:begin
+{`inst_SW    }:begin
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BEQ   }:begin
+{`inst_BEQ   }:begin
     result <= {31'b0,(operand1_pi == operand2_pi)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BNE   }:begin
+{`inst_BNE   }:begin
     result <= {31'b0,(operand1_pi != operand2_pi)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BLT   }:begin
+{`inst_BLT   }:begin
     result <= {31'b0,(operand1_pi_signed <  operand2_pi_signed)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BGE   }:begin
+{`inst_BGE   }:begin
     result <= {31'b0,(operand1_pi_signed >= operand2_pi_signed)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BLTU  }:begin
+{`inst_BLTU  }:begin
     result <= {31'b0,(operand1_pi <  operand2_pi)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BGEU  }:begin
+{`inst_BGEU  }:begin
     result <= {31'b0,(operand1_pi >= operand2_pi)};
     result_secondary <= pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_JAL   }:begin
+{`inst_JAL   }:begin
     result <= pc_i + 4;
     result_secondary <= pc_i + imm_i;
     branch_inst <=0;
     jump_inst <=1'b1;
     write_reg_file <= 1'b1;
 end
-{inst_JALR  }:begin
+{`inst_JALR  }:begin
     result <= pc_i + 4;
     result_secondary <= operand1_pi + imm_i;
     branch_inst <=0;
     jump_inst <=1'b1;
     write_reg_file <= 1'b1;
 end
-{inst_LUI   }:begin
+{`inst_LUI   }:begin
     result           <=imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_AUIPC }:begin
+{`inst_AUIPC }:begin
     result           <=pc_i + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
      end
-{inst_ECALL }:begin
+{`inst_ECALL }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_EBREAK}:begin
+{`inst_EBREAK}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_FENCE }:begin
+{`inst_FENCE }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_FENCEI}:begin
+{`inst_FENCEI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRW }:begin
+{`inst_CSRRW }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRS }:begin
+{`inst_CSRRS }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRC }:begin
+{`inst_CSRRC }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRWI}:begin
+{`inst_CSRRWI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRSI}:begin
+{`inst_CSRRSI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRCI}:begin
+{`inst_CSRRCI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
@@ -1643,151 +1780,151 @@ if (debug_i) begin
     $write("\nEXEC      PC: %h: I:{%h}    ",pc_i,  instruction   );
 
 case(Single_Instruction_i)
-{inst_UNKNOWN   }:begin 
+{`inst_UNKNOWN   }:begin 
     $write("inst_UNKOWN ");
 end
-{inst_ADD   }:begin 
+{`inst_ADD   }:begin 
     $write("inst_ADD    ");
 
 end
-{inst_SUB   }:begin 
+{`inst_SUB   }:begin 
     $write("inst_SUB    ");
 
 end
-{inst_XOR   }:begin 
+{`inst_XOR   }:begin 
     $write("inst_XOR    ");
 
 end
-{inst_OR    }:begin 
+{`inst_OR    }:begin 
     $write("inst_OR     ");
 end
-{inst_AND    }:begin 
+{`inst_AND    }:begin 
     $write("inst_AND     ");
 end
-{inst_SLL   }:begin 
+{`inst_SLL   }:begin 
     $write("inst_SLL    ");
 end
-{inst_SRL   }:begin 
+{`inst_SRL   }:begin 
     $write("inst_SRL    ");
 end
-{inst_SRA   }:begin 
+{`inst_SRA   }:begin 
     $write("inst_SRA    ");
 end
-{inst_SLT   }:begin 
+{`inst_SLT   }:begin 
     $write("inst_SLT    ");
 end
-{inst_SLTU  }:begin 
+{`inst_SLTU  }:begin 
     $write("inst_SLTU   ");
 end
-{inst_ADDI  }:begin 
+{`inst_ADDI  }:begin 
     $write("inst_ADDI   ");
 end
-{inst_XORI  }:begin 
+{`inst_XORI  }:begin 
     $write("inst_XORI   ");
 end
-{inst_ORI  }:begin 
+{`inst_ORI  }:begin 
     $write("inst_ORI   ");
 end
-{inst_ANDI  }:begin 
+{`inst_ANDI  }:begin 
     $write("inst_ANDI   ");
 end
-{inst_SLLI  }:begin 
+{`inst_SLLI  }:begin 
     $write("inst_SLLI   ");
 end
-{inst_SRLI  }:begin 
+{`inst_SRLI  }:begin 
     $write("inst_SRLI   ");
 end
-{inst_SRAI    }:begin 
+{`inst_SRAI    }:begin 
     $write("inst_SRAI     ");
 end
-{inst_SLTI  }:begin 
+{`inst_SLTI  }:begin 
     $write("inst_SLTI   ");
 end
-{inst_SLTIU }:begin 
+{`inst_SLTIU }:begin 
     $write("inst_SLTIU   ");
 end
-{inst_LB    }:begin 
+{`inst_LB    }:begin 
     $write("inst_LB     ");
 end
-{inst_LH    }:begin 
+{`inst_LH    }:begin 
     $write("inst_LH     ");
 end
-{inst_LW    }:begin 
+{`inst_LW    }:begin 
     $write("inst_LW     ");
 end
-{inst_LBU   }:begin 
+{`inst_LBU   }:begin 
     $write("inst_LBU    ");
 end
-{inst_LHU   }:begin 
+{`inst_LHU   }:begin 
     $write("inst_LHU    ");
 end
-{inst_SB    }:begin 
+{`inst_SB    }:begin 
     $write("inst_SB     ");
      end
-{inst_SH    }:begin 
+{`inst_SH    }:begin 
     $write("inst_SH     ");
      end
-{inst_SW    }:begin 
+{`inst_SW    }:begin 
     $write("inst_SW     ");
      end
-{inst_BEQ   }:begin 
+{`inst_BEQ   }:begin 
     $write("inst_BEQ    ");
      end
-{inst_BNE   }:begin 
+{`inst_BNE   }:begin 
     $write("inst_BNE    ");
      end
-{inst_BLT   }:begin 
+{`inst_BLT   }:begin 
     $write("inst_BLT    ");
      end
-{inst_BGE   }:begin 
+{`inst_BGE   }:begin 
     $write("inst_BGE    ");
      end
-{inst_BLTU  }:begin 
+{`inst_BLTU  }:begin 
     $write("inst_BLTU   ");
      end
-{inst_BGEU  }:begin 
+{`inst_BGEU  }:begin 
     $write("inst_BGEU   ");
      end
-{inst_JAL   }:begin 
+{`inst_JAL   }:begin 
     $write("inst_JAL    ");
      end
-{inst_JALR  }:begin 
+{`inst_JALR  }:begin 
     $write("inst_JALR   ");
      end
-{inst_LUI   }:begin 
+{`inst_LUI   }:begin 
     $write("inst_LUI    ");
      end
-{inst_AUIPC }:begin 
+{`inst_AUIPC }:begin 
     $write("inst_AUIPC  ");
      end
-{inst_ECALL }:begin 
+{`inst_ECALL }:begin 
     $write("inst_ECALL   ");
      end
-{inst_EBREAK}:begin 
+{`inst_EBREAK}:begin 
     $write("inst_EBREAK   ");
      end
-{inst_FENCE }:begin 
+{`inst_FENCE }:begin 
     $write("inst_FENCE   ");
      end
-{inst_FENCEI}:begin 
+{`inst_FENCEI}:begin 
     $write("inst_FENCEI   ");
      end
-{inst_CSRRW }:begin 
+{`inst_CSRRW }:begin 
     $write("inst_CSRRW   ");
      end
-{inst_CSRRS }:begin 
+{`inst_CSRRS }:begin 
     $write("inst_CSRRS   ");
      end
-{inst_CSRRC }:begin 
+{`inst_CSRRC }:begin 
     $write("inst_CSRRC   ");
      end
-{inst_CSRRWI}:begin 
+{`inst_CSRRWI}:begin 
     $write("inst_CSRRWI   ");
      end
-{inst_CSRRSI}:begin 
+{`inst_CSRRSI}:begin 
     $write("inst_CSRRSI   ");
      end
-{inst_CSRRCI}:begin 
+{`inst_CSRRCI}:begin 
     $write("inst_CSRRCI   ");
      end
 default: begin 
@@ -1856,206 +1993,206 @@ end
 
 case(pipeReg[`Single_Instruction ]) 
 
-{inst_UNKNOWN   }:begin 
+{`inst_UNKNOWN   }:begin 
     $write("inst_UNKOWN ");
     // $write("inst_AUIPC  ");
 end
-{inst_ADD   }:begin 
+{`inst_ADD   }:begin 
     $write("inst_ADD    ");
 
 end
-{inst_SUB   }:begin 
+{`inst_SUB   }:begin 
     $write("inst_SUB    ");
 
 end
-{inst_XOR   }:begin 
+{`inst_XOR   }:begin 
     $write("inst_XOR    ");
 
 end
-{inst_OR    }:begin 
+{`inst_OR    }:begin 
     $write("inst_OR     ");
 
 end
 
-{inst_AND    }:begin 
+{`inst_AND    }:begin 
     $write("inst_AND     ");
 
 end
-{inst_SLL   }:begin 
+{`inst_SLL   }:begin 
     $write("inst_SLL    ");
 
 end
-{inst_SRL   }:begin 
+{`inst_SRL   }:begin 
     $write("inst_SRL    ");
 
 end
-{inst_SRA   }:begin 
+{`inst_SRA   }:begin 
     $write("inst_SRA    ");
 
 end
 
-{inst_SLT   }:begin 
+{`inst_SLT   }:begin 
     $write("inst_SLT    ");
 
 end
-{inst_SLTU  }:begin 
+{`inst_SLTU  }:begin 
     $write("inst_SLTU   ");
 
 end
-{inst_ADDI  }:begin 
+{`inst_ADDI  }:begin 
     $write("inst_ADDI   ");
 
 end
-{inst_XORI  }:begin 
+{`inst_XORI  }:begin 
     $write("inst_XORI   ");
 
 end
 
-{inst_ORI  }:begin 
+{`inst_ORI  }:begin 
     $write("inst_ORI   ");
 
 end
-{inst_ANDI  }:begin 
+{`inst_ANDI  }:begin 
     $write("inst_ANDI   ");
 
 end
-{inst_SLLI  }:begin 
+{`inst_SLLI  }:begin 
     $write("inst_SLLI   ");
 
 end
-{inst_SRLI  }:begin 
+{`inst_SRLI  }:begin 
     $write("inst_SRLI   ");
 
 end
 
-{inst_SRAI    }:begin 
+{`inst_SRAI    }:begin 
     $write("inst_SRAI     ");
 
 end
-{inst_SLTI  }:begin 
+{`inst_SLTI  }:begin 
     $write("inst_SLTI   ");
 
 end
-{inst_SLTIU }:begin 
+{`inst_SLTIU }:begin 
     $write("inst_SLTIU  ");
 
 end
-{inst_LB    }:begin 
+{`inst_LB    }:begin 
     $write("inst_LB     ");
 
 end
 
-{inst_LH    }:begin 
+{`inst_LH    }:begin 
     $write("inst_LH     ");
 
 end
-{inst_LW    }:begin 
+{`inst_LW    }:begin 
     $write("inst_LW     ");
 
 end
-{inst_LBU   }:begin 
+{`inst_LBU   }:begin 
     $write("inst_LBU    ");
 
 end
-{inst_LHU   }:begin 
+{`inst_LHU   }:begin 
     $write("inst_LHU    ");
 
 end
 
-{inst_SB    }:begin 
+{`inst_SB    }:begin 
     $write("inst_SB     ");
 
      end
-{inst_SH    }:begin 
+{`inst_SH    }:begin 
     $write("inst_SH     ");
 
      end
-{inst_SW    }:begin 
+{`inst_SW    }:begin 
     $write("inst_SW     ");
 
      end
-{inst_BEQ   }:begin 
+{`inst_BEQ   }:begin 
     $write("inst_BEQ    ");
 
      end
 
-{inst_BNE   }:begin 
+{`inst_BNE   }:begin 
     $write("inst_BNE    ");
 
      end
-{inst_BLT   }:begin 
+{`inst_BLT   }:begin 
     $write("inst_BLT    ");
 
      end
-{inst_BGE   }:begin 
+{`inst_BGE   }:begin 
     $write("inst_BGE    ");
 
      end
-{inst_BLTU  }:begin 
+{`inst_BLTU  }:begin 
     $write("inst_BLTU   ");
 
      end
 
-{inst_BGEU  }:begin 
+{`inst_BGEU  }:begin 
     $write("inst_BGEU   ");
 
      end
-{inst_JAL   }:begin 
+{`inst_JAL   }:begin 
     $write("inst_JAL    ");
 
      end
-{inst_JALR  }:begin 
+{`inst_JALR  }:begin 
     $write("inst_JALR   ");
 
      end
-{inst_LUI   }:begin 
+{`inst_LUI   }:begin 
     $write("inst_LUI    ");
 
      end
 
-{inst_AUIPC }:begin 
+{`inst_AUIPC }:begin 
     $write("inst_AUIPC  ");
 
      end
-{inst_ECALL }:begin 
+{`inst_ECALL }:begin 
     $write("inst_ECALL  ");
 
      end
-{inst_EBREAK}:begin 
+{`inst_EBREAK}:begin 
     $write("inst_EBREAK ");
 
      end
-{inst_FENCE }:begin 
+{`inst_FENCE }:begin 
     $write("inst_FENCE  ");
 
      end
 
-{inst_FENCEI}:begin 
+{`inst_FENCEI}:begin 
     $write("inst_FENCEI ");
 
      end
-{inst_CSRRW }:begin 
+{`inst_CSRRW }:begin 
     $write("inst_CSRRW ");
 
      end
-{inst_CSRRS }:begin 
+{`inst_CSRRS }:begin 
     $write("inst_CSRRS ");
 
      end
-{inst_CSRRC }:begin 
+{`inst_CSRRC }:begin 
     $write("inst_CSRRC ");
 
      end
 
-{inst_CSRRWI}:begin 
+{`inst_CSRRWI}:begin 
     $write("inst_CSRRWI ");
 
      end
-{inst_CSRRSI}:begin 
+{`inst_CSRRSI}:begin 
     $write("inst_CSRRSI ");
 
      end
-{inst_CSRRCI}:begin 
+{`inst_CSRRCI}:begin 
     $write("inst_CSRRCI ");
 
      end
@@ -2191,7 +2328,7 @@ output wire      load_into_reg,
     input  wire        data_mem_rstb_busy,
     input  wire [31:0] data_mem_doutb
 );
-    
+
     wire [29:0] word_address;
     wire [ 1:0] byte_address;
     reg         stall_mem_not_avalible_reg;
@@ -2210,14 +2347,17 @@ output wire      load_into_reg,
     wire [15:0] raw_data_byte_LHU;
 
     wire [31:0] address;
-    assign address = address_i - memory_offset;
 
     reg [31:0] cycles_request; 
     reg [31:0] retrive_cycles;
     wire rstb_busy;
 
+    wire enb;
+    reg [3:0] web;
+    wire [ 7:0] raw_data_byte_LBU;
+    reg [31:0] store_data;
 
-
+    assign address = address_i - memory_offset;
 
     assign data_mem_clkb      =  clk;
     assign data_mem_addrb     = address;
@@ -2251,27 +2391,25 @@ output wire      load_into_reg,
 
 
 
-assign load_wire  =     ((Single_Instruction == inst_LB)  ||
-                         (Single_Instruction == inst_LH)  ||
-                         (Single_Instruction == inst_LW)  ||
-                         (Single_Instruction == inst_LBU) ||
-                         (Single_Instruction == inst_LHU));
+assign load_wire  =     ((Single_Instruction == `inst_LB)  ||
+                         (Single_Instruction == `inst_LH)  ||
+                         (Single_Instruction == `inst_LW)  ||
+                         (Single_Instruction == `inst_LBU) ||
+                         (Single_Instruction == `inst_LHU));
 
-assign stall_needed   = ((Single_Instruction == inst_LB)  ||
-                        (Single_Instruction == inst_LH)  ||
-                        (Single_Instruction == inst_LW)  ||
-                        (Single_Instruction == inst_LBU) ||
-                        (Single_Instruction == inst_LHU));
+assign stall_needed   = ((Single_Instruction == `inst_LB)  ||
+                        (Single_Instruction == `inst_LH)  ||
+                        (Single_Instruction == `inst_LW)  ||
+                        (Single_Instruction == `inst_LBU) ||
+                        (Single_Instruction == `inst_LHU));
                     
-assign store_wire    = ((Single_Instruction == inst_SB) ||
-                        (Single_Instruction == inst_SH) ||
-                        (Single_Instruction == inst_SW));
-wire enb;
+assign store_wire    = ((Single_Instruction == `inst_SB) ||
+                        (Single_Instruction == `inst_SH) ||
+                        (Single_Instruction == `inst_SW));
 assign enb = store_wire | load_wire;
 
 assign loadData_w =   loadData;
 
-wire [ 7:0] raw_data_byte_LBU;
 
 assign raw_data_byte_LBU = ((byte_address == 2'b00) ? raw_bram_data_word[7:0]   :
                             (byte_address == 2'b01) ? raw_bram_data_word[15:8]  :
@@ -2286,19 +2424,19 @@ assign raw_data_byte_LHU = ((byte_address == 2'b00) ? raw_bram_data_word[15:0]  
 always @(*) begin
   if (load_data_valid) begin  
     case(Single_Instruction)
-        inst_LW :begin 
+        `inst_LW :begin 
           loadData <= raw_bram_data_word;
         end
-        inst_LB :begin  
+        `inst_LB :begin  
           loadData <= { {24{raw_data_byte_LBU[7]}}, raw_data_byte_LBU };
         end
-        inst_LH :begin  
+        `inst_LH :begin  
           loadData <= { {16{raw_data_byte_LHU[15]}}, raw_data_byte_LHU };
         end     
-        inst_LBU :begin  
+        `inst_LBU :begin  
           loadData <= {24'b0,raw_data_byte_LBU};
         end
-        inst_LHU :begin  
+        `inst_LHU :begin  
           loadData <= {16'b0,raw_data_byte_LHU};
         end
         default: begin 
@@ -2330,14 +2468,12 @@ always @(posedge clk) begin
   end
 end
 
-reg [31:0] store_data;
 
 integer i;
-reg [3:0] web;
 always @(*) begin
         if (store_wire) begin
         case(Single_Instruction) 
-        {inst_SB    }:begin
+        {`inst_SB    }:begin
           case(byte_address)
             2'b00:   begin web   <= 4'b0001; store_data <= {24'b0,storeData[7:0]};       end
             2'b01:   begin web   <= 4'b0010; store_data <= {16'b0,storeData[7:0], 8'b0}; end
@@ -2346,14 +2482,14 @@ always @(*) begin
             default: begin web   <= 4'b0;    store_data <= 32'b0;                        end
           endcase// DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFF << (byte_address * 8))) | ((storeData[7:0] & 8'hFF) << (byte_address * 8));
         end
-        {inst_SH }:begin
+        {`inst_SH }:begin
           case(byte_address)
             2'b00,2'b01: begin web   <= 4'b0011; store_data <= {16'b0, storeData[15:0]      }; end 
             2'b10,2'b11: begin web   <= 4'b1100; store_data <= {       storeData[15:0],16'b0}; end
             default:     begin web   <= 4'b0;    store_data <= 32'b0;                          end
           endcase// DMEM[word_address]   <= (DMEM[word_address] & ~(32'hFFFF << (address[1] * 16))) | ((storeData[15:0] & 16'hFFFF) << (address[1] * 16));
         end
-        {inst_SW }:begin
+        {`inst_SW }:begin
           web        <= 4'b1111; // DMEM[word_address]   <= storeData;
           store_data <= storeData;
         end
@@ -2393,13 +2529,15 @@ module end_write (
     output wire [31:0] final_value
 
 );
-  assign doutb = doutb_reg;
-  assign rstb_busy = 0;
+
   reg [31:0] DMEM;
   reg [31:0] doutb_reg;
   reg [29:0] addrb_word;
   wire [29:0] word_address;
   wire [ 1:0] byte_address;
+
+  assign doutb = doutb_reg;
+  assign rstb_busy = 0;
   assign word_address = addrb[31:2];  
   assign byte_address = addrb[ 1:0];
   initial begin
