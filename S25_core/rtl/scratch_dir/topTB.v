@@ -1,73 +1,289 @@
-module tb_pulse_generator;
 
-  reg clk;
-  reg [31:0] in;
-  wire [31:0] out;
 
-  // Instantiate the pulse generator module.
-  pulse_generator uut (
-    .clk(clk),
-    .in(in),
-    .out(out)
-  );
+  
+`timescale 1ps/1ps
 
-  // Clock generation: This uses a small delay to toggle the clock,
-  // but note that all test bench actions use @(posedge clk) for synchronization.
-  initial begin
-    clk = 0;
-    forever #5 clk = ~clk; // Toggle clk every 5 time units.
-  end
+module tb_instruction_memory;
+    parameter MEM_DEPTH = 4096;
+    // DUT interface signals
+    reg         clk;
+    reg         reset;
+    reg  [31:0] pc_i;
+    reg         pc_i_valid;
+    wire        STALL_if_not_ready_w;
+    wire [31:0] instruction_o_w;
 
-    // initial begin : init
+    // Memory interface signals
+    wire        data_req_o;
+    wire [31:0] data_addr_o;
+    wire        data_we_o;
+    wire [3:0]  data_be_o;
+    wire [31:0] data_wdata_o;
+    reg  [31:0] data_rdata_i;
+    reg         data_rvalid_i;
+    reg         data_gnt_i;
 
-  initial begin
-    $dumpfile("pulse_generator.vcd"); // Specify the dump file name.
-    $dumpvars(2, tb_pulse_generator);   // Dump all variables in tb_pulse_generator scope.
-  end
-        // string vcdfile;
-        // int vcdlevel;
-        // if ($value$plusargs("VCDFILE=%s",vcdfile))
-            // $dumpfile("sim.vcd");
-        // if ($value$plusargs("VCDLEVEL=%d",vcdlevel))
-            // $dumpvars(vcdlevel);
-            // end
 
-  // Test sequence using @(posedge clk)
-  initial begin
-    // Initialize input to all zeros.
-    in = 32'h00000000;
+
+    wire         ins_data_req_o;
+    wire  [31:0] ins_data_addr_o;
+    wire         ins_data_we_o;
+    wire  [3:0]  ins_data_be_o;
+    wire  [31:0] ins_data_wdata_o;
     
-    // Wait for two clock cycles.
-    @(posedge clk);
-    @(posedge clk);
+    wire [31:0] ins_data_rdata_i;
+    wire        ins_data_rvalid_i;
+    wire        ins_data_gnt_i;
 
-    // Test case 1: Set the lower 4 bits high.
-    #1
-    in = 32'h000000011;
-    repeat (10) @(posedge clk); // Pulse should appear for bits that changed from 0 to 1.
 
-    // Test case 2: Hold the same input for one clock cycle.
-    // (No new pulses should be generated since the bits remain high.)
-    // Test case 3: Change input so that one bit goes low (e.g., bit[2] from 1 to 0)
-    #1
+    // Instantiate the DUT
+    instruction_memory dut (
+        .clk                 (clk),
+        .reset               (reset),
+        .pc_i                (pc_i),
+        .pc_i_valid          (pc_i_valid),
+        .STALL_if_not_ready_w(STALL_if_not_ready_w),
+        .instruction_o_w     (instruction_o_w),
+        .stall_i             (mem_stall), // No stall in testbench
+
+
+        // Memory interface signals
+        .data_req_o_w         (ins_data_req_o),
+        .data_addr_o_w        (ins_data_addr_o),
+        .data_we_o_w          (ins_data_we_o),
+        .data_be_o_w          (ins_data_be_o),
+        .data_wdata_o_w       (ins_data_wdata_o),
+        .data_rdata_i       (ins_data_rdata_i),
+        .data_rvalid_i      (ins_data_rvalid_i),
+        .data_gnt_i         (ins_data_gnt_i)
+    );
+
+    //#(.MEM_DEPTH(MEM_DEPTH))
+    inst_mem_bram_wrapper  bram_stuff (
+        .clk               (clk),
+        .reset             (reset),
+        .ins_data_req_o    (ins_data_req_o),
+        .ins_data_addr_o   (ins_data_addr_o),
+        .ins_data_we_o     (ins_data_we_o),
+        .ins_data_be_o     (ins_data_be_o),
+        .ins_data_wdata_o  (ins_data_wdata_o),
+        .ins_data_rdata_i  (ins_data_rdata_i),
+        .ins_data_rvalid_i (ins_data_rvalid_i),
+        .ins_data_gnt_i    (ins_data_gnt_i)
+    );
     
-    in = 32'h00000010;  // Only bits 0 and 2 are 1 now (assuming bit 2 is low relative to previous value)
+    
+      initial begin
+        $dumpfile("tb_instruction_memory.vcd"); // Specify the dump file name.
+        $dumpvars(3, tb_instruction_memory);   // Dump all variables in tb_pulse_generator scope.
+      end
 
-    @(posedge clk);
-    #1
 
-    // Test case 4: Set the input back to 0xF, so the bit that went low produces a new pulse.
-    in = 32'h00000011;
-    @(posedge clk);
-    @(posedge clk);
-    @(posedge clk);
-    @(posedge clk);
-    @(posedge clk);
-    @(posedge clk);
-    @(posedge clk);
+    always begin
+        clk = 1'b0;
+        #5;
+        clk = 1'b1;
+        #5;
+    end
+    reg mem_stall;
+    // Test stimulus
+    initial begin
+        clk = 1'b0;
 
-    // End simulation.
-    $finish;
+        // Initialize all signals
+        mem_stall = 1'b0;
+        reset         = 1'b1;
+        pc_i          = 32'b0;
+        pc_i_valid    = 1'b0;
+        $display("started");
+        @(posedge clk);
+        reset = 1'b0;
+        $display("started 1");
+
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        // #1
+        pc_i       = 32'h0000_0004;
+        pc_i_valid = 1'b1;
+        @(posedge clk);
+        pc_i_valid = 1'b0;
+
+        $display("started 2");
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+        pc_i_valid = 1'b0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b0;  pc_i = 32'h0000_0004; @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b0;  pc_i = 32'h0000_0008; @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b1;  pc_i = 32'h0000_000C; @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b1;  pc_i = 32'h0000_000C; @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b0;  pc_i = 32'h0000_0010; @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b0;  pc_i = 32'h0000_0014; @(posedge clk);
+        pc_i_valid = 1'b1;  mem_stall = 1'b0;  pc_i = 32'h0000_0018; @(posedge clk);
+
+        pc_i_valid = 1'b0;
+
+        @(posedge clk);
+        @(posedge clk);
+        pc_i_valid = 1'b0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+        // // Now provide the grant (delayed grant)
+        // // data_gnt_i = 1'b1;
+        // @(posedge clk);
+        // data_gnt_i = 1'b0;
+        // Deassert pc_i_valid after the grant
+        // pc_i_valid = 1'b0;
+
+        // Wait a couple cycles then provide valid read data
+        // @(posedge clk);       
+        // @(posedge clk);
+        // @(posedge clk);
+
+        // // Wait a few cycles before ending simulation
+        // @(posedge clk);
+        $finish;
+    end
+
+endmodule
+
+
+
+
+
+
+
+
+
+module bram_ins #(  parameter MEM_DEPTH = 1096 ) (
+    input  wire        clkb,
+    input  wire        enb,
+    input  wire        rstb,
+    input  wire [3:0 ] web,
+    input  wire [31:0] addrb,
+    input  wire [31:0] dinb,
+    output wire        rstb_busy,
+    output wire [31:0] doutb
+);
+
+  assign doutb = doutb_reg;
+  assign rstb_busy = 0;
+  reg [31:0] DMEM [0:MEM_DEPTH-1];
+  reg [31:0] doutb_reg;
+  reg [29:0] addrb_word;
+  wire [29:0] word_address;
+  wire [ 1:0] byte_address;
+
+  assign word_address = addrb[31:2];  
+  assign byte_address = addrb[ 1:0];
+
+  integer i;
+
+
+  initial begin
+    // First initialize memory to zero
+    // integer i;
+    for (i = 0; i < MEM_DEPTH; i = i + 1) begin
+      DMEM[i] = 32'h00000013;
+    end
+
+    // $readmemh("sanity.hex", memory);  // Load the program into memory
+      $readmemh("program.hex", DMEM);  
   end
+
+
+  always @(posedge clkb) begin 
+  if (rstb) begin
+        for (i = 0; i < MEM_DEPTH; i = i + 1) begin
+          DMEM[i] <= 32'h00000013;
+        end 
+        end
+      
+  end
+
+
+  always @(posedge clkb) begin
+    if (rstb) begin
+      doutb_reg <= 32'b0;
+    end else if (enb) begin
+      if (web != 4'b0000) begin
+        if (web[0]) begin DMEM[word_address][ 7: 0]  <=  dinb[ 7: 0];   end 
+        if (web[1]) begin DMEM[word_address][15: 8]  <=  dinb[15: 8];   end 
+        if (web[2]) begin DMEM[word_address][23:16]  <=  dinb[23:16];   end 
+        if (web[3]) begin DMEM[word_address][31:24]  <=  dinb[31:24];   end 
+       doutb_reg <= {
+          (web[3] ? dinb[31:24] : DMEM[word_address][31:24]),
+          (web[2] ? dinb[23:16] : DMEM[word_address][23:16]),
+          (web[1] ? dinb[15: 8] : DMEM[word_address][15: 8]),
+          (web[0] ? dinb[ 7: 0] : DMEM[word_address][ 7: 0])
+        };
+      end else begin
+        doutb_reg <= DMEM[word_address];
+      end
+    end
+  end
+
+endmodule
+
+
+
+
+
+
+module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
+    input  wire         clk,
+    input  wire         reset,
+    
+    // Memory interface
+    input  wire         ins_data_req_o,     
+    input  wire [31:0]  ins_data_addr_o,    
+    input  wire         ins_data_we_o,      
+    input  wire [3:0]   ins_data_be_o,      
+    input  wire [31:0]  ins_data_wdata_o,
+
+
+    output wire [31:0]  ins_data_rdata_i,   
+    output wire         ins_data_rvalid_i,  
+    output wire         ins_data_gnt_i      
+);
+
+    reg rvalid_reg;
+    wire rstb_busy;
+    assign ins_data_gnt_i     = ins_data_req_o;
+    assign ins_data_rvalid_i  = rvalid_reg;
+    // assign  bram_web = 4'b0;
+
+
+    bram_ins #(
+        .MEM_DEPTH(MEM_DEPTH)
+    ) u_bram (
+        .clkb     (clk),
+        .enb      (ins_data_req_o),
+        .rstb     (reset),
+        .web      (4'b0000),
+        .addrb    (ins_data_addr_o),
+        .dinb     (32'b0),
+        .rstb_busy(rstb_busy),
+        .doutb    (ins_data_rdata_i)
+    );
+
+    always @(posedge clk) begin
+        if (reset) begin
+          rvalid_reg <= 1'b0;
+        end
+        else begin
+          rvalid_reg <= ins_data_req_o;
+        end
+    end
 
 endmodule

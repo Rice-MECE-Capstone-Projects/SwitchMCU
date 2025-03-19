@@ -1,156 +1,130 @@
 $date
-	Sun Mar  9 16:46:15 2025
+	Wed Mar 12 15:39:57 2025
 $end
 $version
 	Icarus Verilog
 $end
 $timescale
-	1s
+	1ps
 $end
-$scope module tb_pulse_generator $end
-$var wire 32 ! out [31:0] $end
-$var reg 1 " clk $end
-$var reg 32 # in [31:0] $end
-$scope module uut $end
-$var wire 1 " clk $end
-$var wire 32 $ in [31:0] $end
-$var reg 32 % out [31:0] $end
-$var reg 32 & prev_in [31:0] $end
-$var integer 32 ' i [31:0] $end
+$scope module tb_instruction_memory $end
+$var wire 32 ! instruction_o_w [31:0] $end
+$var wire 1 " ins_data_we_o $end
+$var wire 32 # ins_data_wdata_o [31:0] $end
+$var wire 1 $ ins_data_rvalid_i $end
+$var wire 1 % ins_data_req_o $end
+$var wire 32 & ins_data_rdata_i [31:0] $end
+$var wire 1 ' ins_data_gnt_i $end
+$var wire 4 ( ins_data_be_o [3:0] $end
+$var wire 32 ) ins_data_addr_o [31:0] $end
+$var wire 1 * STALL_if_not_ready_w $end
+$var parameter 32 + MEM_DEPTH $end
+$var reg 1 , clk $end
+$var reg 32 - pc_i [31:0] $end
+$var reg 1 . pc_i_valid $end
+$var reg 1 / reset $end
+$scope module bram_stuff $end
+$var wire 1 , clk $end
+$var wire 1 ' ins_data_gnt_i $end
+$var wire 1 $ ins_data_rvalid_i $end
+$var wire 1 / reset $end
+$var wire 1 0 rstb_busy $end
+$var wire 1 " ins_data_we_o $end
+$var wire 32 1 ins_data_wdata_o [31:0] $end
+$var wire 1 % ins_data_req_o $end
+$var wire 32 2 ins_data_rdata_i [31:0] $end
+$var wire 4 3 ins_data_be_o [3:0] $end
+$var wire 32 4 ins_data_addr_o [31:0] $end
+$var parameter 32 5 MEM_DEPTH $end
+$var reg 1 6 rvalid_reg $end
+$upscope $end
+$scope module dut $end
+$var wire 1 * STALL_if_not_ready_w $end
+$var wire 1 , clk $end
+$var wire 32 7 data_addr_o_w [31:0] $end
+$var wire 4 8 data_be_o_w [3:0] $end
+$var wire 1 ' data_gnt_i $end
+$var wire 32 9 data_rdata_i [31:0] $end
+$var wire 1 % data_req_o_w $end
+$var wire 1 $ data_rvalid_i $end
+$var wire 32 : data_wdata_o_w [31:0] $end
+$var wire 1 " data_we_o_w $end
+$var wire 32 ; instruction_o_w [31:0] $end
+$var wire 32 < pc_i [31:0] $end
+$var wire 1 . pc_i_valid $end
+$var wire 1 / reset $end
+$var parameter 2 = S_IDLE $end
+$var parameter 2 > S_WAIT_GNT $end
+$var parameter 2 ? S_WAIT_RVALID $end
+$var reg 1 @ STALL_if_not_ready $end
+$var reg 32 A current_PC_wating_rvalid [31:0] $end
+$var reg 2 B current_state [1:0] $end
+$var reg 32 C data_addr_o [31:0] $end
+$var reg 4 D data_be_o [3:0] $end
+$var reg 1 % data_req_o $end
+$var reg 32 E data_wdata_o [31:0] $end
+$var reg 1 F data_we_o $end
+$var reg 32 G instruction_o [31:0] $end
+$var reg 2 H next_state [1:0] $end
+$var reg 32 I pc_decode [31:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 $comment Show the parameter values. $end
 $dumpall
+b10 ?
+b1 >
+b0 =
+b1000000000000 5
+b1000000000000 +
 $end
 #0
 $dumpvars
-bx '
+b0 I
+b0 H
+b0 G
+0F
+b0 E
+b1111 D
+b0 C
+bx B
+bx A
+0@
+b0 <
+b0 ;
+b0 :
+bx 9
+b1111 8
+b0 7
+x6
+b0 4
+b1111 3
+bx 2
+b0 1
+00
+1/
+0.
+b0 -
+0,
+0*
+b0 )
+b1111 (
+0'
 bx &
-bx %
-b0 $
+0%
+x$
 b0 #
 0"
-bx !
+b0 !
 $end
 #5
-b0 &
-b0 !
-b0 %
-b100000 '
-1"
+b0 B
+0$
+06
+0/
+1,
 #10
-0"
+0,
 #15
-b100000 '
-1"
+1,
 #16
-b10001 #
-b10001 $
-#20
-0"
-#25
-b10001 &
-b10001 !
-b10001 %
-b100000 '
-1"
-#30
-0"
-#35
-b0 !
-b0 %
-b100000 '
-1"
-#40
-0"
-#45
-b100000 '
-1"
-#50
-0"
-#55
-b100000 '
-1"
-#60
-0"
-#65
-b100000 '
-1"
-#70
-0"
-#75
-b100000 '
-1"
-#80
-0"
-#85
-b100000 '
-1"
-#90
-0"
-#95
-b100000 '
-1"
-#100
-0"
-#105
-b100000 '
-1"
-#110
-0"
-#115
-b100000 '
-1"
-#116
-b10000 #
-b10000 $
-#120
-0"
-#125
-b10000 &
-b100000 '
-1"
-#126
-b10001 #
-b10001 $
-#130
-0"
-#135
-b10001 &
-b1 !
-b1 %
-b100000 '
-1"
-#140
-0"
-#145
-b0 !
-b0 %
-b100000 '
-1"
-#150
-0"
-#155
-b100000 '
-1"
-#160
-0"
-#165
-b100000 '
-1"
-#170
-0"
-#175
-b100000 '
-1"
-#180
-0"
-#185
-b100000 '
-1"
-#190
-0"
-#195
-b100000 '
-1"
