@@ -3,7 +3,7 @@
 ## Step 1: Install pre-built RISC-V GCC Toolchains for Linux
 ##### 1.1 Copy file from server to local:
 ```sh
-wget https://github.com/stnolting/riscv-gcc-prebuilt/releases/download/rv32i-4.0.0/riscv32-unknown-elf.gcc-12.1.0.tar.gz
+sudo wget https://github.com/stnolting/riscv-gcc-prebuilt/releases/download/rv32i-4.0.0/riscv32-unknown-elf.gcc-12.1.0.tar.gz
 ```
 ##### 1.2 Make Directory:
 ```sh
