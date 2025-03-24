@@ -3,12 +3,12 @@ module branch_prediction
 	input wire predict_trigger,
 	input wire clk,
 	input wire [1:0] prediction_type,
-	input wire actual_branch,
+	input wire actual_branch_trigger,
+	input wire curr_branch,
 	input wire [31:0] imm,
 	inout reg [31:0] pc,
 	output reg [31:0] pc_o,
 	input wire reset,
-	// inout wire [31:0] instruction_i,
 	output reg prediction,
 	output reg [31:0] instruction_o
 );
@@ -17,8 +17,8 @@ parameter STATIC = 2'b00;
 parameter ONE_BIT = 2'b01;
 parameter TWO_BIT = 2'b10;
 
-parameter TAKEN = 1'b0;
-parameter NOT_TAKEN = 1'b1;
+parameter TAKEN = 1'b1;
+parameter NOT_TAKEN = 1'b0;
 
 reg old_branch;
 // reg [31:0] instruction_mid;
@@ -27,15 +27,21 @@ reg [31:0] pc_temp;
 reg [31:0] pc_x;
 reg prev_prediction;
 reg predict_trigger_prev;
+reg actual_branch;
 
 
 
 // Predict whether or not we will branch
 always @(posedge clk) begin
 	pc_temp <= pc;
+	if(actual_branch_trigger) begin
+		actual_branch <= curr_branch;
+	end
 	if(reset) begin
 		prediction <= NOT_TAKEN;
-		predict_trigger_prev = 0;
+		prev_prediction <= NOT_TAKEN;
+		predict_trigger_prev <= 0;
+		actual_branch <= 0;
 	end
 	else if (predict_trigger & !predict_trigger_prev) begin
 		case(prediction_type)
@@ -52,10 +58,11 @@ always @(posedge clk) begin
 		endcase
 		old_branch <= actual_branch;
 		predict_trigger_prev <= predict_trigger;
+		prev_prediction <= prediction;
 	end
 	else begin
+		predict_trigger_prev <= 0;
 		prediction <= NOT_TAKEN;
-		predict_trigger_prev = 0;
 	end
 	
 end
@@ -71,11 +78,10 @@ ins_mem ins_mem(
 
 always @(negedge clk) begin
 	#110
-	// if (predict_trigger)	begin $write("\nBranch prediction triggered!");end
-	if (prediction == TAKEN)    begin $write("\nBranch predicted! branching to %8h based on imm: %8h and pc: %8h with instruction %8h", pc_o, imm, pc_temp, instruction_o);end
+	if (actual_branch_trigger) begin $write("\n Actual Branch value updated to %0d", curr_branch); end
 end
 
 
-assign pc_o = (prediction== TAKEN) ? pc_temp + imm : pc_temp;
+assign pc_o = (prediction== TAKEN) ? pc_temp + imm -4: pc_temp;
 
 endmodule

@@ -11,6 +11,7 @@ void write_to_peripheral(int address, int value) {
 int main() {
     int array[10];  
     int sum = 0;
+    int a = 0;
     for (int i = 0; i < 10; i++) {
         array[i] = i + 1;}
     for (int i = 0; i < 10; i++) {
@@ -21,6 +22,10 @@ int main() {
     if (sum == 55) {
                 write_to_peripheral(PERIPHERAL_SUM_i,0xDEADF00F);
     } else {    write_to_peripheral(PERIPHERAL_BASE, 0x0BADF00D);}
+
+    while(a < 10){
+        a  += 1;
+    }
     
     int sum_while;
     sum_while = 0;

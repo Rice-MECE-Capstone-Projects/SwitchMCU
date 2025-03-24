@@ -22,6 +22,8 @@
 `define rd_data            287:256 //[31:0]
 `define Single_Instruction 351:288 //[63:00]   
 `define data_mem_loaded    383:352  
+`define branch_predicted   384
+`define branch_predicted_0 64
 
 // Opcode Decoding Type
 parameter [6:0] R_Type         =   7'b0110011; //0110011
