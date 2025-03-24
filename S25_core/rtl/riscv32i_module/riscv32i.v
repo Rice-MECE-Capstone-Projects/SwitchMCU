@@ -1,16 +1,189 @@
+`default_nettype none
+`include "params.vh"
+
+module riscv32i
+   # (
+    parameter   N_param = 32
+   )     (
+    input  wire         clk,
+    input  wire [31:0]  GPIO0_R0_CH1, // control signals
+    input  wire [31:0]  GPIO0_R0_CH2, // memory_offset
+    input  wire [31:0]  GPIO0_R1_CH1, // initial_pc_i
+    input  wire [31:0]  GPIO0_R1_CH2, // success_code
+
+    output wire         STOP_sim,
+
+    // BRAM ports for Data Mem
+    output wire         data_mem_clkb,
+    output wire         data_mem_enb,
+    output wire         data_mem_rstb,
+    output wire [3:0]   data_mem_web,
+    output wire [31:0]  data_mem_addrb,
+    output wire [31:0]  data_mem_dinb,
+    input  wire         data_mem_rstb_busy,
+    input  wire [31:0]  data_mem_doutb,
+
+    // BRAM ports for Ins Mem
+    output wire         ins_mem_clkb,
+    output wire         ins_mem_enb,
+    output wire         ins_mem_rstb,
+    output wire [3:0]   ins_mem_web,
+    output wire [31:0]  ins_mem_addrb,
+    output wire [31:0]  ins_mem_dinb,
+    input  wire         ins_mem_rstb_busy,
+    input  wire [31:0]  ins_mem_doutb
+);
+
+
+
+reg enable_design_reg;
+reg stop_design;
+wire enable_design;
+wire start_design , reset;
+reg [31:0] cycle_to_end;
+wire [31:0] control_signals_in;
+reg [31:0]  Cycle_count  ;
+wire [31:0]  memory_offset;
+wire [31:0]  initial_pc_i ;
+wire [31:0]  success_code  ;
+wire [31:0]  final_value  ;
+
+pulse_generator uut (
+    .clk(clk),
+    .in(GPIO0_R0_CH1),
+    .out(control_signals_in)
+);
+
+assign STOP_sim = stop_design;
+// assign  Cycle_count       = GPIO0_R0_CH2;
+assign  memory_offset     = GPIO0_R0_CH2;
+assign  initial_pc_i      = GPIO0_R1_CH1;
+assign  success_code      = GPIO0_R1_CH2;
+
+assign start_design    = control_signals_in[0];
+assign reset           = control_signals_in[1];
+
+assign enable_design = enable_design_reg & ~stop_design;
 
 `include "params.vh"
 
 
-module riscv32i 
+always @(posedge clk) begin
+  	if (reset) begin
+
+        cycle_to_end        <= 32'h0;
+	    Cycle_count         <= 32'h0;
+	    enable_design_reg   <=  1'b0;
+        stop_design         <=  1'b0;
+
+    end else begin  
+    if (start_design) begin 
+        // cycle_to_end        <= 32'h0;
+	    Cycle_count         <= 32'h0;
+	    enable_design_reg   <=  1'b1;
+        // stop_design         <=  1'b0;
+    end else if (enable_design_reg) begin
+        Cycle_count         <= Cycle_count + 1;
+	    enable_design_reg   <= enable_design_reg;
+    end      
+    if (final_value == success_code)begin 
+        cycle_to_end <= cycle_to_end + 1;
+        stop_design  <= 1'b0;
+    end
+    if (cycle_to_end >= 30) begin
+        stop_design <= 1'b1;
+        
+    //MARKER AUTOMATED HERE START
+        
+    $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
+    
+    //MARKER AUTOMATED HERE END
+
+    end   
+ 
+end
+end 
+
+
+
+
+
+    // Instantiation of riscv32i_main
+    riscv32i_main #(
+        .N_param(32)
+    ) u_riscv32i_main (
+        .clk(clk),
+        .reset(reset),
+        .enable_design(enable_design_reg),
+
+        .Cycle_count(Cycle_count),
+        .memory_offset(memory_offset),
+        .initial_pc_i(initial_pc_i),
+        .final_value(final_value),
+        
+        .data_mem_clkb(data_mem_clkb),
+        .data_mem_enb(data_mem_enb),
+        .data_mem_rstb(data_mem_rstb),
+        .data_mem_web(data_mem_web),
+        .data_mem_addrb(data_mem_addrb),
+        .data_mem_dinb(data_mem_dinb),
+        .data_mem_rstb_busy(data_mem_rstb_busy),
+        .data_mem_doutb(data_mem_doutb),
+        
+        .ins_mem_clkb(ins_mem_clkb),
+        .ins_mem_enb(ins_mem_enb),
+        .ins_mem_rstb(ins_mem_rstb),
+        .ins_mem_web(ins_mem_web),
+        .ins_mem_addrb(ins_mem_addrb),
+        .ins_mem_dinb(ins_mem_dinb),
+        .ins_mem_rstb_busy(ins_mem_rstb_busy),
+        .ins_mem_doutb(ins_mem_doutb)
+    );
+
+endmodule
+
+
+
+
+module riscv32i_main 
    # (
     parameter   N_param = 32
    ) (
     input  wire clk,
     input  wire reset,
-    input  wire [31:0] Cycle_count
+    input wire enable_design,
+
+    input  wire [31:0] Cycle_count,
+    input  wire [31:0] memory_offset,
+    input  wire [31:0] initial_pc_i,
+    output wire [31:0] final_value,
+
+
+    // BRAM ports for Data Mem
+    output wire        data_mem_clkb,
+    output wire        data_mem_enb,
+    output wire        data_mem_rstb,
+    output wire [3:0 ] data_mem_web,
+    output wire [31:0] data_mem_addrb,
+    output wire [31:0] data_mem_dinb,
+    input  wire        data_mem_rstb_busy,
+    input  wire [31:0] data_mem_doutb,
+
+    //bram  Ins_mem
+    output wire        ins_mem_clkb,
+    output wire        ins_mem_enb,
+    output wire        ins_mem_rstb,
+    output wire [3:0 ] ins_mem_web,
+    output wire [31:0] ins_mem_addrb,
+    output wire [31:0] ins_mem_dinb,
+    input  wire        ins_mem_rstb_busy,
+    input  wire [31:0] ins_mem_doutb
+
+
 
 );
+
+
     wire  [N_param-1:0]  instruction;
     wire  [4:0] rd_o;
     wire  [4:0] rs1_o;
@@ -40,19 +213,36 @@ end
         .stage_IF_ready(stage_IF_ready),
         .jump_inst_wire(jump_inst_wire_stage2),
         .branch_inst_wire(branch_inst_wire_stage2),
+<<<<<<< HEAD
         .branch_pred_wire(branch_predicted),
         .branch_pred_old2(branch_predicted_stage1),
         //.targetPC_i(alu_result_2_stage2),
         .targetPC_i(target_pc),
         .pc_o(pc_i)
+=======
+        .targetPC_i(alu_result_2_stage2),
+        .enable_design(enable_design),
+        .pc_o(pc_i),
+        .initial_pc_i(initial_pc_i)
+>>>>>>> origin/main
     );
 
-    ins_mem ins_mem(
+    ins_mem  ins_mem(
         .clk(clk),
         .reset(reset),
         .pc_i(pc_i),
-        .pc_o(pc_o),
-        .instruction_o(instruction)
+        .enb(stage0_IF_valid),
+        .instruction_o(instruction),
+
+        //bram ins mem
+        .ins_mem_clkb(       ins_mem_clkb),
+        .ins_mem_enb(        ins_mem_enb),
+        .ins_mem_rstb(       ins_mem_rstb),
+        .ins_mem_web(        ins_mem_web),
+        .ins_mem_addrb(      ins_mem_addrb),
+        .ins_mem_dinb(       ins_mem_dinb),
+        .ins_mem_rstb_busy(  ins_mem_rstb_busy),
+        .ins_mem_doutb(      ins_mem_doutb)
     );
 
 // Pre Stage 0
@@ -147,12 +337,13 @@ wire branch_predicted;
 wire write_reg_file_wire_stage2;
 wire [31:0] rd_result_stage2;
 
+reg delete_reg1_reg2_reg;
 
 
 //Control signals 
 wire   delete_reg1_reg2; 
 wire   write_reg_stage3;
-
+wire   write_reg_file_wire;
 
 
 // Writing to WB regsiter
@@ -271,17 +462,32 @@ execute  #(.N_param(32)) execute
    );
 
 
-dataMem  #(.mem_size(4096)) dataMem 
+dataMem dataMem 
   (
+.final_value(final_value),
 .clk(clk),
 .reset(reset),
 .Single_Instruction(Single_Instruction_stage2),
-.address(alu_result_1_stage2),
+.address_i(alu_result_1_stage2),
 .storeData(operand2_stage2),
 .pc_i(pc_stage_2),
 .loadData_w(loaded_data),
+.memory_offset(memory_offset),
 .stall_mem_not_avalible(stall_mem_not_avalible),
-.load_into_reg(load_into_reg)
+.load_into_reg(load_into_reg),
+
+//bram
+.data_mem_clkb(      data_mem_clkb     ),
+.data_mem_addrb(     data_mem_addrb    ),
+.data_mem_dinb(      data_mem_dinb     ),
+.data_mem_enb(       data_mem_enb      ),
+.data_mem_rstb(      data_mem_rstb     ),
+.data_mem_web(       data_mem_web      ),
+.data_mem_doutb(     data_mem_doutb    ),
+.data_mem_rstb_busy( data_mem_rstb_busy )
+
+
+
 );
 
 hazard hazard (
@@ -306,9 +512,15 @@ hazard hazard (
 
 
 assign pc_stage_0          =        pipeReg0[`PC_reg];
+<<<<<<< HEAD
 assign instruction_stage_0 =        pipeReg0[`instruct];
 assign branch_predicted_stage0    = pipeReg0[`branch_predicted_0];
 
+=======
+// assign instruction_stage_0 =        pipeReg0[`instruct];
+assign instruction_stage_0          =  delete_reg1_reg2_reg ? 32'h00000000 : instruction;
+// assign instruction_stage_0 =        instruction; //pipeReg0[`instruct];
+>>>>>>> origin/main
 assign pc_stage_1 =                 pipeReg1[`PC_reg];
 assign instruction_stage_1 =        pipeReg1[`instruct];
 assign rd_stage1 =                  pipeReg1[`rd];
@@ -449,16 +661,22 @@ assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
 
 assign stage_IF_ready   = stage0_IF_valid; // 
 
-
 always @(posedge clk)begin
 if (reset) begin 
     pipeReg0 <= 65'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 	pipeReg3 <= 512'b0;
+<<<<<<< HEAD
 // end else if (branch_predicted_stage2) begin
 //     pipeReg0 <= 65'b0;
 end else if (delete_reg1_reg2 & !branch_predicted_stage1) begin 
+=======
+end else if (enable_design) begin
+
+delete_reg1_reg2_reg <= delete_reg1_reg2;
+if  (delete_reg1_reg2) begin 
+>>>>>>> origin/main
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
@@ -494,22 +712,30 @@ end else begin
 
 
 end //end else from reset
+
+
+end //end enable_design
+
 end // end clock
-
-
-
- 
 endmodule
 
 
 
+module pulse_generator(
+    input  wire       clk,
+    input wire  [31:0] in,
+    output wire [31:0] out
+);
 
+reg [31:0] out_r;
+reg [31:0] prev_in;
+assign out = out_r;
+integer i;
+  always @(posedge clk) begin
+    for (i = 0; i < 32; i = i + 1) begin
+        out_r[i]   <= in[i] & ~prev_in[i];
+        prev_in[i] <= in[i];
 
-
-
-
-
-
-
-
-
+    end
+  end
+endmodule

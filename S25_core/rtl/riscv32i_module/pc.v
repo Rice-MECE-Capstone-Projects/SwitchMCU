@@ -3,10 +3,16 @@ input wire clk_i,
 input wire reset_i,
 input wire stage_IF_ready,
 input wire jump_inst_wire, 
+<<<<<<< HEAD
 input wire branch_inst_wire, 
 input wire branch_pred_wire,
 input wire branch_pred_old2,
+=======
+input wire branch_inst_wire,
+input wire enable_design, 
+>>>>>>> origin/main
 input wire [31:0] targetPC_i,
+input wire [31:0] initial_pc_i,
 output wire[31:0] pc_o
 );
 
@@ -19,17 +25,24 @@ assign pc_o = PC;
 
 always @(posedge clk_i) begin
 //     $display("Time: %3d\thalt: %d\tisTakenBranch: %d\tnextPC: %d\tpc_po: %d",$time, halt_pi, isTakenBranch_pi, PC, pc_po);
+<<<<<<< HEAD
   	 if (reset_i) begin
 	    PC  <= 32'h150;
       //Starting memory address, this logic must be changed later
 	 end else begin
+=======
+  	 if (reset_i)
+	    PC  <= initial_pc_i; //32'h1CC;
+      //Starting memory address, this logic must be changed later
+	 else  if (enable_design) begin
+
+>>>>>>> origin/main
  	    if (stage_IF_ready)  begin
             PC <= nextPC;
 		end 
 	 end
   end
-
-
+end
 //MARKER AUTOMATED HERE START
 
 always @(negedge clk_i) begin

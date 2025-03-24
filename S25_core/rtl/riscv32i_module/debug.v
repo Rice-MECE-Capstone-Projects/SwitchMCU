@@ -48,206 +48,206 @@ end
 
 case(pipeReg[`Single_Instruction ]) 
 
-{inst_UNKNOWN   }:begin 
+{`inst_UNKNOWN   }:begin 
     $write("inst_UNKOWN ");
     // $write("inst_AUIPC  ");
 end
-{inst_ADD   }:begin 
+{`inst_ADD   }:begin 
     $write("inst_ADD    ");
 
 end
-{inst_SUB   }:begin 
+{`inst_SUB   }:begin 
     $write("inst_SUB    ");
 
 end
-{inst_XOR   }:begin 
+{`inst_XOR   }:begin 
     $write("inst_XOR    ");
 
 end
-{inst_OR    }:begin 
+{`inst_OR    }:begin 
     $write("inst_OR     ");
 
 end
 
-{inst_AND    }:begin 
+{`inst_AND    }:begin 
     $write("inst_AND     ");
 
 end
-{inst_SLL   }:begin 
+{`inst_SLL   }:begin 
     $write("inst_SLL    ");
 
 end
-{inst_SRL   }:begin 
+{`inst_SRL   }:begin 
     $write("inst_SRL    ");
 
 end
-{inst_SRA   }:begin 
+{`inst_SRA   }:begin 
     $write("inst_SRA    ");
 
 end
 
-{inst_SLT   }:begin 
+{`inst_SLT   }:begin 
     $write("inst_SLT    ");
 
 end
-{inst_SLTU  }:begin 
+{`inst_SLTU  }:begin 
     $write("inst_SLTU   ");
 
 end
-{inst_ADDI  }:begin 
+{`inst_ADDI  }:begin 
     $write("inst_ADDI   ");
 
 end
-{inst_XORI  }:begin 
+{`inst_XORI  }:begin 
     $write("inst_XORI   ");
 
 end
 
-{inst_ORI  }:begin 
+{`inst_ORI  }:begin 
     $write("inst_ORI   ");
 
 end
-{inst_ANDI  }:begin 
+{`inst_ANDI  }:begin 
     $write("inst_ANDI   ");
 
 end
-{inst_SLLI  }:begin 
+{`inst_SLLI  }:begin 
     $write("inst_SLLI   ");
 
 end
-{inst_SRLI  }:begin 
+{`inst_SRLI  }:begin 
     $write("inst_SRLI   ");
 
 end
 
-{inst_SRAI    }:begin 
+{`inst_SRAI    }:begin 
     $write("inst_SRAI     ");
 
 end
-{inst_SLTI  }:begin 
+{`inst_SLTI  }:begin 
     $write("inst_SLTI   ");
 
 end
-{inst_SLTIU }:begin 
+{`inst_SLTIU }:begin 
     $write("inst_SLTIU  ");
 
 end
-{inst_LB    }:begin 
+{`inst_LB    }:begin 
     $write("inst_LB     ");
 
 end
 
-{inst_LH    }:begin 
+{`inst_LH    }:begin 
     $write("inst_LH     ");
 
 end
-{inst_LW    }:begin 
+{`inst_LW    }:begin 
     $write("inst_LW     ");
 
 end
-{inst_LBU   }:begin 
+{`inst_LBU   }:begin 
     $write("inst_LBU    ");
 
 end
-{inst_LHU   }:begin 
+{`inst_LHU   }:begin 
     $write("inst_LHU    ");
 
 end
 
-{inst_SB    }:begin 
+{`inst_SB    }:begin 
     $write("inst_SB     ");
 
      end
-{inst_SH    }:begin 
+{`inst_SH    }:begin 
     $write("inst_SH     ");
 
      end
-{inst_SW    }:begin 
+{`inst_SW    }:begin 
     $write("inst_SW     ");
 
      end
-{inst_BEQ   }:begin 
+{`inst_BEQ   }:begin 
     $write("inst_BEQ    ");
 
      end
 
-{inst_BNE   }:begin 
+{`inst_BNE   }:begin 
     $write("inst_BNE    ");
 
      end
-{inst_BLT   }:begin 
+{`inst_BLT   }:begin 
     $write("inst_BLT    ");
 
      end
-{inst_BGE   }:begin 
+{`inst_BGE   }:begin 
     $write("inst_BGE    ");
 
      end
-{inst_BLTU  }:begin 
+{`inst_BLTU  }:begin 
     $write("inst_BLTU   ");
 
      end
 
-{inst_BGEU  }:begin 
+{`inst_BGEU  }:begin 
     $write("inst_BGEU   ");
 
      end
-{inst_JAL   }:begin 
+{`inst_JAL   }:begin 
     $write("inst_JAL    ");
 
      end
-{inst_JALR  }:begin 
+{`inst_JALR  }:begin 
     $write("inst_JALR   ");
 
      end
-{inst_LUI   }:begin 
+{`inst_LUI   }:begin 
     $write("inst_LUI    ");
 
      end
 
-{inst_AUIPC }:begin 
+{`inst_AUIPC }:begin 
     $write("inst_AUIPC  ");
 
      end
-{inst_ECALL }:begin 
+{`inst_ECALL }:begin 
     $write("inst_ECALL  ");
 
      end
-{inst_EBREAK}:begin 
+{`inst_EBREAK}:begin 
     $write("inst_EBREAK ");
 
      end
-{inst_FENCE }:begin 
+{`inst_FENCE }:begin 
     $write("inst_FENCE  ");
 
      end
 
-{inst_FENCEI}:begin 
+{`inst_FENCEI}:begin 
     $write("inst_FENCEI ");
 
      end
-{inst_CSRRW }:begin 
+{`inst_CSRRW }:begin 
     $write("inst_CSRRW ");
 
      end
-{inst_CSRRS }:begin 
+{`inst_CSRRS }:begin 
     $write("inst_CSRRS ");
 
      end
-{inst_CSRRC }:begin 
+{`inst_CSRRC }:begin 
     $write("inst_CSRRC ");
 
      end
 
-{inst_CSRRWI}:begin 
+{`inst_CSRRWI}:begin 
     $write("inst_CSRRWI ");
 
      end
-{inst_CSRRSI}:begin 
+{`inst_CSRRSI}:begin 
     $write("inst_CSRRSI ");
 
      end
-{inst_CSRRCI}:begin 
+{`inst_CSRRCI}:begin 
     $write("inst_CSRRCI ");
 
      end
