@@ -1,13 +1,13 @@
 `timescale 1ns/1ps
-module tb_riscv32i_cache();
+module cache_tb;
 
+// System Signals
 reg clk;
 reg reset;
 
 // CPU Interface
+reg [63:0] Single_Instruction;
 reg [31:0] cpu_addr;
-reg cpu_read;
-reg cpu_write;
 reg [31:0] cpu_wdata;
 wire [31:0] cpu_rdata;
 wire cpu_stall;
@@ -16,209 +16,144 @@ wire cpu_stall;
 wire [31:0] mem_addr;
 wire mem_read;
 wire mem_write;
-wire [31:0] mem_wdata;
-reg [31:0] mem_rdata;
+wire [255:0] mem_wdata_array;
+reg [255:0] mem_rdata_array;
 reg mem_ready;
 
-// Instantiate the cache
-riscv32i_cache uut (
+// Instantiate DUT
+cache dut (
     .clk(clk),
     .reset(reset),
+    .Single_Instruction(Single_Instruction),
     .cpu_addr(cpu_addr),
-    .cpu_read(cpu_read),
-    .cpu_write(cpu_write),
     .cpu_wdata(cpu_wdata),
     .cpu_rdata(cpu_rdata),
     .cpu_stall(cpu_stall),
     .mem_addr(mem_addr),
     .mem_read(mem_read),
     .mem_write(mem_write),
-    .mem_wdata(mem_wdata),
-    .mem_rdata(mem_rdata),
+    .mem_wdata_array(mem_wdata_array),
+    .mem_rdata_array(mem_rdata_array),
     .mem_ready(mem_ready)
 );
 
-// Clock generation
+// Clock Generation
 always #5 clk = ~clk;
 
-integer test_num = 0;
-integer error_count = 0;
-
-task reset_test;
-begin
-    reset = 1;
-    @(posedge clk);
-    reset = 0;
-    @(posedge clk);
-    $display("Reset Test Completed");
-end
-endtask
-
-task test_read_hit;
-input [31:0] address;
-input [31:0] expected_data;
-begin
-    test_num++;
-    $display("Test %0d: Read Hit Test @ %h", test_num, address);
-    
-    // Prime the cache first with a block fetch
-    cpu_addr = address;
-    cpu_read = 1;
-    @(posedge clk);
-    
-    // Handle 8-word block fetch
-    for (integer i = 0; i < 8; i++) begin
-        wait(mem_read === 1);
-        mem_rdata = expected_data + i;
-        mem_ready = 1;
-        @(posedge clk);
-        mem_ready = 0;
-        // Wait for next request or state change
-        @(posedge clk);
-    end
-    
-    cpu_read = 0;
-    @(posedge clk);
-    
-    // Allow cache to return to IDLE
-    @(posedge clk);
-    
-    // Now perform read hit
-    cpu_addr = address;
-    cpu_read = 1;
-    @(posedge clk);
-    
-    // Verify results
-    if (cpu_stall !== 0 || cpu_rdata !== expected_data) begin
-        $error("Read Hit Failed: Stall=%b, Data=%h (Expected %h)", 
-              cpu_stall, cpu_rdata, expected_data);
-        error_count++;
-    end
-    cpu_read = 0;
-    @(posedge clk);
-    $display("Test %0d: Read Hit %s", test_num, 
-           (error_count ? "FAILED" : "PASSED"));
-end
-endtask
-
-task test_read_miss;
-input [31:0] address;
-input [31:0] memory_data;
-begin
-    test_num++;
-    $display("Test %0d: Read Miss Test @ %h", test_num, address);
-
-    cpu_addr = address;
-    cpu_read = 1;
-    @(posedge clk);
-    
-    // Verify stall and memory request
-    if (cpu_stall !== 1 || mem_read !== 1) begin
-        $error("Read Miss Failed: Stall=%b, MemRead=%b", 
-              cpu_stall, mem_read);
-        error_count++;
-    end
-
-    // Simulate 8-word memory response
-    for (integer i = 0; i < 8; i++) begin
-        mem_rdata = memory_data + i;
-        mem_ready = 1;
-        @(posedge clk);
-        mem_ready = 0;
-        @(posedge clk);
-    end
-    
-    cpu_read = 0;
-    @(posedge clk);
-    
-    // Verify cache contents
-    for (integer i = 0; i < 8; i++) begin
-        cpu_addr = address + (i*4);
-        cpu_read = 1;
-        @(posedge clk);
-        if (cpu_rdata !== (memory_data + i)) begin
-            $error("Cache data mismatch @%h: Got %h, Expected %h",
-                  cpu_addr, cpu_rdata, memory_data+i);
-            error_count++;
-        end
-        cpu_read = 0;
-        @(posedge clk);
-    end
-    
-    $display("Test %0d: Read Miss %s", test_num, 
-           (error_count ? "FAILED" : "PASSED"));
-end
-endtask
-
-task test_write_hit;
-input [31:0] address;
-input [31:0] write_data;
-begin
-    test_num++;
-    $display("Test %0d: Write Hit Test @ %h", test_num, address);
-    
-    // Prime the cache first with a read
-    cpu_addr = address;
-    cpu_read = 1;
-    @(posedge clk);
-    
-    // Handle block fetch
-    for (integer i = 0; i < 8; i++) begin
-        wait(mem_read === 1);
-        mem_rdata = 32'h0; // Prime with zeros
-        mem_ready = 1;
-        @(posedge clk);
-        mem_ready = 0;
-        @(posedge clk);
-    end
-    
-    cpu_read = 0;
-    @(posedge clk);
-    
-    // Allow cache to settle
-    @(posedge clk);
-    
-    // Perform write
-    cpu_addr = address;
-    cpu_write = 1;
-    cpu_wdata = write_data;
-    @(posedge clk);
-    
-    // Verify memory write is initiated
-    if (mem_write !== 1 || mem_wdata !== write_data) begin
-        $error("Write Failed: MemWrite=%b, Data=%h (Expected %h)",
-              mem_write, mem_wdata, write_data);
-        error_count++;
-    end
-    
-    // Complete the memory write
-    mem_ready = 1;
-    @(posedge clk);
-    mem_ready = 0;
-    cpu_write = 0;
-    @(posedge clk);
-    
-    $display("Test %0d: Write Hit %s", test_num, 
-           (error_count ? "FAILED" : "PASSED"));
-end
-endtask
-
+// Test Control
+integer testcase = 0;
 initial begin
+    $dumpfile("cache.vcd");
+    $dumpvars(0, cache_tb);
+    
+    // Initialize signals
     clk = 0;
-    reset = 0;
-    {cpu_read, cpu_write, cpu_wdata} = 0;
-    {mem_rdata, mem_ready} = 0;
+    reset = 1;
+    Single_Instruction = 0;
+    cpu_addr = 0;
+    cpu_wdata = 0;
+    mem_rdata_array = 0;
+    mem_ready = 0;
 
-    #10 reset_test();
-    test_read_hit(32'h0000_1000, 32'h1234_5678);
-    test_read_miss(32'h0000_2000, 32'hCAFE_BABE);
-    test_write_hit(32'h0000_3000, 32'hDEAD_BEEF);
-
-    if (error_count == 0) 
-        $display("All tests passed!");
-    else 
-        $display("Tests failed: %0d errors", error_count);
+    // Reset sequence
+    #20 reset = 0;
+    #10 reset = 1;
+    
+    // Test Suite
+    basic_hit_miss_test();
+    write_policy_test();
+    replacement_test();
+    concurrency_test();
+    
+    #100 $display("All tests completed");
     $finish;
 end
 
+//----------------------------------------------------------
+// Test Scenario 1: Basic Hit/Miss Detection
+//----------------------------------------------------------
+task basic_hit_miss_test;
+begin
+    $display("\nTest %0d: Basic Cache Hit/Miss", testcase++);
+    
+    // Initial read (miss)
+    trigger_read(32'h0000_1000, 64'hLW);
+    verify_miss(32'h1000, "Initial read miss");
+    
+    // Subsequent read (hit)
+    trigger_read(32'h0000_1004, 64'hLW);
+    verify_hit(32'h1004, "Subsequent read hit");
+end
+endtask
+
+//----------------------------------------------------------
+// Test Scenario 2: Write Policy Verification
+//----------------------------------------------------------
+task write_policy_test;
+begin
+    $display("\nTest %0d: Write Policy Check", testcase++);
+    
+    // Write hit with write-back
+    trigger_write(32'h0000_2000, 64'hSW, 32'hDEADBEEF);
+    verify_writeback(32'h2000, "Write-back verification");
+    
+    // Write miss with no-write allocate
+    trigger_write(32'h0000_3000, 64'hSW, 32'hCAFEBABE);
+    verify_mem_write(32'h3000, "No-write allocate check");
+end
+endtask
+
+//----------------------------------------------------------
+// Common Test Utilities
+//----------------------------------------------------------
+task trigger_read;
+input [31:0] address;
+input [63:0] inst;
+begin
+    @(negedge clk);
+    cpu_addr = address;
+    Single_Instruction = inst;
+    #1; // Setup time
+end
+endtask
+
+task verify_miss;
+input [31:0] exp_addr;
+input string msg;
+begin
+    if(mem_addr !== {exp_addr[31:5], 5'b0}) begin
+        $error("%s: Expected addr %h, got %h", 
+              msg, {exp_addr[31:5], 5'b0}, mem_addr);
+    end
+    check_stall(1, "Miss stall check");
+end
+endtask
+
+//----------------------------------------------------------
+// Automated Checkers
+//----------------------------------------------------------
+task check_stall;
+input exp_stall;
+input string msg;
+begin
+    if(cpu_stall !== exp_stall) begin
+        $error("%s: Expected %b, got %b", 
+              msg, exp_stall, cpu_stall);
+    end
+    else begin
+        $display("PASS: %s", msg);
+    end
+end
+endtask
+
+task verify_hit;
+input [31:0] exp_addr;
+input string msg;
+begin
+    if(mem_read || mem_write) begin
+        $error("%s: Unexpected memory access", msg);
+    end
+    check_stall(0, "Hit stall check");
+end
+endtask
 endmodule
