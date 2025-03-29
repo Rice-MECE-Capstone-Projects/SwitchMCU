@@ -36,6 +36,17 @@ module tb_instruction_memory;
     wire        ins_data_gnt_i;
 
 
+// BRAM ports ins_mem 
+    wire        ins_mem_clkb;
+    wire        ins_mem_enb;
+    wire        ins_mem_rstb;
+    wire [3:0 ] ins_mem_web;
+    wire [31:0] ins_mem_addrb;
+    wire [31:0] ins_mem_dinb;
+    wire        ins_mem_rstb_busy;
+    wire [31:0] ins_mem_doutb;
+
+
     // Instantiate the DUT
     instruction_memory dut (
         .clk                 (clk),
@@ -45,8 +56,6 @@ module tb_instruction_memory;
         .STALL_if_not_ready_w(STALL_if_not_ready_w),
         .instruction_o_w     (instruction_o_w),
         .stall_i             (mem_stall), // No stall in testbench
-
-
         // Memory interface signals
         .data_req_o_w         (ins_data_req_o),
         .data_addr_o_w        (ins_data_addr_o),
@@ -59,7 +68,7 @@ module tb_instruction_memory;
     );
 
     //#(.MEM_DEPTH(MEM_DEPTH))
-    inst_mem_bram_wrapper  bram_stuff (
+    inst_mem_bram_wrapper  inst_mem_bram_wrapper (
         .clk               (clk),
         .reset             (reset),
         .ins_data_req_o    (ins_data_req_o),
@@ -69,9 +78,31 @@ module tb_instruction_memory;
         .ins_data_wdata_o  (ins_data_wdata_o),
         .ins_data_rdata_i  (ins_data_rdata_i),
         .ins_data_rvalid_i (ins_data_rvalid_i),
-        .ins_data_gnt_i    (ins_data_gnt_i)
+        .ins_data_gnt_i    (ins_data_gnt_i),
+
+        .ins_mem_clkb (ins_mem_clkb),
+        .ins_mem_enb (ins_mem_enb),
+        .ins_mem_rstb (ins_mem_rstb),
+        .ins_mem_web (ins_mem_web),
+        .ins_mem_addrb (ins_mem_addrb),
+        .ins_mem_dinb (ins_mem_dinb),
+        .ins_mem_rstb_busy (ins_mem_rstb_busy),
+        .ins_mem_doutb (ins_mem_doutb)
+
     );
     
+    bram_ins #(.MEM_DEPTH(1096) ) ins_mem_bram (
+        .clkb(       ins_mem_clkb),
+        .enb(        ins_mem_enb),
+        .rstb(       ins_mem_rstb),
+        .web(        ins_mem_web),
+        .addrb(      ins_mem_addrb),
+        .dinb(       ins_mem_dinb),
+        .rstb_busy(  ins_mem_rstb_busy),
+        .doutb(      ins_mem_doutb) 
+        );
+
+
     
       initial begin
         $dumpfile("tb_instruction_memory.vcd"); // Specify the dump file name.
@@ -161,10 +192,6 @@ endmodule
 
 
 
-
-
-
-
 module bram_ins #(  parameter MEM_DEPTH = 1096 ) (
     input  wire        clkb,
     input  wire        enb,
@@ -240,7 +267,7 @@ endmodule
 
 
 
-module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
+module inst_mem_bram_wrapper_old #(  parameter MEM_DEPTH = 1096 ) (
     input  wire         clk,
     input  wire         reset,
     
@@ -276,6 +303,68 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
         .rstb_busy(rstb_busy),
         .doutb    (ins_data_rdata_i)
     );
+
+    always @(posedge clk) begin
+        if (reset) begin
+          rvalid_reg <= 1'b0;
+        end
+        else begin
+          rvalid_reg <= ins_data_req_o;
+        end
+    end
+
+endmodule
+
+
+
+
+
+
+module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
+    input  wire         clk,
+    input  wire         reset,
+    
+
+    // BRAM interface Signals
+
+    output wire        ins_mem_clkb,
+    output wire        ins_mem_enb,
+    output wire        ins_mem_rstb,
+    output wire [3:0 ] ins_mem_web,
+    output wire [31:0] ins_mem_addrb,
+    output wire [31:0] ins_mem_dinb,
+    input  wire        ins_mem_rstb_busy,
+    input  wire [31:0] ins_mem_doutb,
+
+
+    // core Memory interface
+    input  wire         ins_data_req_o,     
+    input  wire [31:0]  ins_data_addr_o,    
+    input  wire         ins_data_we_o,      
+    input  wire [3:0]   ins_data_be_o,      
+    input  wire [31:0]  ins_data_wdata_o,
+    output wire [31:0]  ins_data_rdata_i,   
+    output wire         ins_data_rvalid_i,  
+    output wire         ins_data_gnt_i      
+);
+
+    reg rvalid_reg;
+    wire rstb_busy;
+    assign ins_data_gnt_i     = ins_data_req_o;
+    assign ins_data_rvalid_i  = rvalid_reg;
+    // assign  bram_web = 4'b0;
+
+
+  assign ins_mem_clkb      = clk;
+  assign ins_mem_enb       = ins_data_req_o;
+  assign ins_mem_rstb      = 1'b0;
+  assign ins_mem_web       = 4'b0000;
+  assign ins_mem_addrb     = ins_data_addr_o;
+  assign ins_mem_dinb      = 32'b0;
+  // assign ins_mem_rstb_busy = rstb_busy;
+  assign ins_data_rdata_i = ins_mem_doutb;
+
+
 
     always @(posedge clk) begin
         if (reset) begin
