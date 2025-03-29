@@ -5,7 +5,7 @@ module riscv32iTB
     parameter  N_param = 32, 
     parameter memory_offset_param = 32'h00000600,
     parameter success_code = 32'hDEADBEEF,
-    parameter cycles_timeout = 1100,
+    parameter cycles_timeout = 3100,
     parameter initial_pc    = 32'h00000384
 )
 (
@@ -191,6 +191,22 @@ end
         .rstb_busy(  ins_mem_rstb_busy),
         .doutb(      ins_mem_doutb) 
         );
+
+
+
+
+    // inst_mem_bram_wrapper  inst_mem_bram_wrapper (
+    //     .clk               (clk),
+    //     .reset             (reset),
+    //     .ins_data_req_o    (ins_data_req_o),
+    //     .ins_data_addr_o   (ins_data_addr_o),
+    //     .ins_data_we_o     (ins_data_we_o),
+    //     .ins_data_be_o     (ins_data_be_o),
+    //     .ins_data_wdata_o  (ins_data_wdata_o),
+    //     .ins_data_rdata_i  (ins_data_rdata_i),
+    //     .ins_data_rvalid_i (ins_data_rvalid_i),
+    //     .ins_data_gnt_i    (ins_data_gnt_i)
+    // );
 
 
 

@@ -39,35 +39,35 @@ Disassembly of section .text:
   74:	0000006f          	j	74 <fail+0x34>
 
 00000078 <main>:
-  78:	fe010113          	addi	sp,sp,-32
-  7c:	00112e23          	sw	ra,28(sp)
-  80:	00812c23          	sw	s0,24(sp)
-  84:	02010413          	addi	s0,sp,32
-  88:	c1800793          	li	a5,-1000
-  8c:	fef42223          	sw	a5,-28(s0)
-  90:	fe442783          	lw	a5,-28(s0)
-  94:	4027d793          	srai	a5,a5,0x2
-  98:	fef42623          	sw	a5,-20(s0)
-  9c:	fec42703          	lw	a4,-20(s0)
-  a0:	f0600793          	li	a5,-250
-  a4:	00f70663          	beq	a4,a5,b0 <main+0x38>
-  a8:	00100513          	li	a0,1
-  ac:	f95ff0ef          	jal	40 <fail>
-  b0:	f00007b7          	lui	a5,0xf0000
-  b4:	fef42023          	sw	a5,-32(s0)
-  b8:	fe042783          	lw	a5,-32(s0)
-  bc:	0027d793          	srli	a5,a5,0x2
-  c0:	fef42423          	sw	a5,-24(s0)
-  c4:	fe842703          	lw	a4,-24(s0)
-  c8:	3c0007b7          	lui	a5,0x3c000
-  cc:	00f70663          	beq	a4,a5,d8 <main+0x60>
-  d0:	00200513          	li	a0,2
-  d4:	f6dff0ef          	jal	40 <fail>
-  d8:	deadc7b7          	lui	a5,0xdeadc
-  dc:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  e0:	60000513          	li	a0,1536
-  e4:	f1dff0ef          	jal	0 <write_mmio>
-  e8:	0000006f          	j	e8 <main+0x70>
+  78:	fe010113  addi	sp,sp,-32
+  7c:	00112e23  sw	ra,28(sp)
+  80:	00812c23  sw	s0,24(sp)
+  84:	02010413  addi	s0,sp,32
+  88:	c1800793  li	a5,-1000
+  8c:	fef42223  sw	a5,-28(s0)
+  90:	fe442783  lw	a5,-28(s0)
+  94:	4027d793  srai	a5,a5,0x2
+  98:	fef42623  sw	a5,-20(s0)
+  9c:	fec42703  lw	a4,-20(s0)
+  a0:	f0600793  li	a5,-250
+  a4:	00f70663  beq	a4,a5,b0 <main+0x38>
+  a8:	00100513  li	a0,1
+  ac:	f95ff0ef  jal	40 <fail>
+  b0:	f00007b7  lui	a5,0xf0000
+  b4:	fef42023  sw	a5,-32(s0)
+  b8:	fe042783  lw	a5,-32(s0)
+  bc:	0027d793  srli	a5,a5,0x2
+  c0:	fef42423  sw	a5,-24(s0)
+  c4:	fe842703  lw	a4,-24(s0)
+  c8:	3c0007b7  lui	a5,0x3c000
+  cc:	00f70663  beq	a4,a5,d8 <main+0x60>
+  d0:	00200513  li	a0,2
+  d4:	f6dff0ef  jal	40 <fail>
+  d8:	deadc7b7  lui	a5,0xdeadc
+  dc:	eef78593  addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
+  e0:	60000513  li	a0,1536
+  e4:	f1dff0ef  jal	0 <write_mmio>
+  e8:	0000006f  j	e8 <main+0x70>
 
 000000ec <_start>:
   ec:	00001117          	auipc	sp,0x1
