@@ -1,8 +1,4 @@
-Change these lef files from version 5.5 to version 5.6:  
-tapvpwrvgnd/sky130_fd_sc_hd__tapvpwrvgnd_1.lef  
-sky130_fd_sc_hd__lpflow_lsbuf_lh_isowell_tap_1.lef  
-sky130_fd_sc_hd__lpflow_lsbuf_lh_hl_isowell_tap_1.lef  
-sky130_fd_sc_hd__tapvgnd2_1.lef  
-sky130_fd_sc_hd__tapvgnd_1.lef  
-sky130_fd_sc_hd__tap_1.lef  
+run create_lef_library.py
+```sh
+python3 create_lef_library.py /Your path to/skywater-pdk-libs-sky130_fd_sc_hd/cells merged_library
  
