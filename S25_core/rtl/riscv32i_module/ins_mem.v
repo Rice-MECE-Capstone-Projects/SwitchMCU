@@ -55,7 +55,8 @@ module ins_mem (
     input  wire         reset,
     input  wire [31:0]  pc_i,
     input  wire         pc_i_valid,
-    output wire         STALL_if_not_ready_w,
+    output wire         STALL_if_not_ready_w, 
+    output wire         STALL_ID_not_ready_w, 
     output wire [31:0]   instruction_o_w,
     input wire          stall_i,
 
@@ -81,6 +82,7 @@ reg [3:0]    data_be_o;
 reg [31:0]   data_wdata_o;
 
     reg          STALL_if_not_ready;
+    reg          STALL_ID_not_ready;
     reg [31:0]   instruction_o;
 
     assign data_we_o_w      =   32'b0; // We are not writing data, so this is always 0
@@ -92,7 +94,8 @@ reg [31:0]   data_wdata_o;
     assign data_addr_o_w =  data_addr_o ;
 
     assign STALL_if_not_ready_w = STALL_if_not_ready;
-    assign instruction_o_w = prev_cycle_stall_i ? instruction_o_backup : instruction_o; // Default instruction if reset is high
+    assign STALL_ID_not_ready_w = STALL_ID_not_ready;
+    assign instruction_o_w = (prev_cycle_stall_i && ~prev_cycle_stall_ID) ? instruction_o_backup : instruction_o; // Default instruction if reset is high
 
     localparam [1:0] S_IDLE       = 2'b00,
                      S_WAIT_GNT   = 2'b01,
@@ -108,21 +111,25 @@ reg [31:0]   data_wdata_o;
         // 
         case (current_state)
             S_IDLE: begin
-                // instruction_o   <= 32'h00000013;
+                instruction_o   <= 32'h00000013;
                 if (pc_i_valid) begin
                     data_req_o         <= 1'b1;        
                     data_addr_o        <= pc_i;        
                 if (data_gnt_i) begin
                     STALL_if_not_ready <= 1'b0;
+                    STALL_ID_not_ready <= 1'b0;
                     next_state         <= S_WAIT_RVALID;
                 end else begin 
                     STALL_if_not_ready       <= 1'b1;
+                    STALL_ID_not_ready       <= 1'b0;
+
                     next_state               <= S_WAIT_GNT;
                 end 
                 end else begin 
                     data_req_o          <= 1'b0;        
                     data_addr_o         <= 32'b0;  
                     STALL_if_not_ready  <= 1'b0;
+                    STALL_ID_not_ready  <= 1'b0;
                     next_state          <= S_IDLE;
             end
 
@@ -132,42 +139,53 @@ reg [31:0]   data_wdata_o;
                 // instruction_o   <= 32'h00000013;
                 data_req_o                   <= 1'b1;
                 data_addr_o                  <= pc_i;  
-                STALL_if_not_ready           <= 1'b1;
                 if (data_gnt_i) begin 
                     STALL_if_not_ready       <= 1'b0;
+                    STALL_ID_not_ready       <= 1'b0;
                     next_state               <= S_WAIT_RVALID;
-                end 
+                end else begin 
+                    STALL_if_not_ready       <= 1'b1;
+                    STALL_ID_not_ready       <= 1'b0;
+                    next_state               <= S_WAIT_GNT; 
                 end
+            end 
 
             S_WAIT_RVALID: begin
                 if (data_rvalid_i) begin
                     instruction_o <= data_rdata_i;
                     pc_decode     <= current_PC_wating_rvalid;
 
-                    if (pc_i_valid) begin
+                    if (pc_i_valid) begin // accpet another request after granting
                         data_req_o         <= 1'b1;        
                         data_addr_o        <= pc_i;        
-                        STALL_if_not_ready <= 1'b0;
+                        // STALL_if_not_ready <= 1'b0;
+                        // STALL_ID_not_ready <= 1'b0;
+            
 
                         if (data_gnt_i) begin
                             STALL_if_not_ready <= 1'b0;
+                            STALL_ID_not_ready <= 1'b0;
                             next_state         <= S_WAIT_RVALID;
                         end 
-                        else begin  
+                        else begin  // new request but no gnt recognized
                             STALL_if_not_ready       <= 1'b1;
+                            STALL_ID_not_ready       <= 1'b0;
                             next_state               <= S_WAIT_GNT;
                         end 
-                    end else begin 
+                    end else begin // no new request
                         STALL_if_not_ready       <= 1'b0;
+                        STALL_ID_not_ready       <= 1'b0;
                         next_state               <= S_IDLE;
                     end 
                     
                 end 
-                else begin 
-                    // instruction_o               <= 32'h00000013;
+                else begin // rvalid not satisfied
+                    instruction_o               <= 32'h00000013;
                     data_req_o                  <= 1'b0;
                     data_addr_o                 <= pc_i;        
-                    STALL_if_not_ready          <= 1'b1;
+                    STALL_if_not_ready          <= 1'b0;
+                    STALL_ID_not_ready          <= 1'b1;
+
                     next_state                  <= S_WAIT_RVALID;
                 end
             end
@@ -178,8 +196,10 @@ reg [31:0]   data_wdata_o;
         endcase
     
     end
-    reg prev_cycle_stall_i;
+    reg prev_cycle_stall_i,prev_cycle_stall_ID;
     always @(posedge clk) begin
+            prev_cycle_stall_ID <= STALL_ID_not_ready; // Hold the previous state 
+
         if (reset) begin
             current_state        <= S_IDLE;
             instruction_o        <= 32'h00000013;
@@ -187,11 +207,10 @@ reg [31:0]   data_wdata_o;
             prev_cycle_stall_i   <= 1'b0; 
 
         end
-        else if (~stall_i) begin
+        else if ((~stall_i)& ~STALL_ID_not_ready) begin
             prev_cycle_stall_i <= 1'b0; 
             current_state <= next_state;
             if (next_state == S_WAIT_RVALID) begin
-                // instruction_o_backup <= data_rdata_i;
                 current_PC_wating_rvalid <= pc_i; 
             end   
         end else begin

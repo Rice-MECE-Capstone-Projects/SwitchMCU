@@ -301,7 +301,7 @@ end
     // );
     wire pc_i_valid = 1'b1;
     wire stall_i;
-    wire STALL_if_not_ready_w;
+    wire STALL_if_not_ready_w,STALL_ID_not_ready_w;
     assign stall_i = ~stage0_IF_valid;
     ins_mem ins_mem (
         .clk                 (clk),
@@ -309,6 +309,7 @@ end
         .pc_i                (pc_i),
         .pc_i_valid          (pc_valid),
         .STALL_if_not_ready_w(STALL_if_not_ready_w),
+        .STALL_ID_not_ready_w(STALL_ID_not_ready_w),
         .instruction_o_w     (instruction),
         .stall_i             (stall_i),
 
@@ -457,8 +458,13 @@ assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
 
 //MARKER AUTOMATED HERE START
 
+wire [63:0] pipeReg0_wire_debug;
+assign pipeReg0_wire_debug[31:0] = pipeReg0[31:0];
+assign pipeReg0_wire_debug[`instruct] = instruction_stage_0;
+// assign pipeReg0_wire_debug[511:64] = pipeReg1[511:64];
+
 debug # (.Param_delay(5),.regCount(0), .pc_en(1)
-                                      ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0}), .pc_o(pc_i), .Cycle_count(Cycle_count));
+                                      ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0_wire_debug}), .pc_o(pc_i), .Cycle_count(Cycle_count));
 debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
 debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
 debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
@@ -682,24 +688,23 @@ assign pipeReg3_wire[`Single_Instruction] = Single_Instruction_stage2;
 assign pipeReg3_wire[`data_mem_loaded   ] = loaded_data;
 
 
-assign stage_MEM_done = ~stall_mem_not_avalible;
-assign stage_WB_ready = 1'b1;
+assign stage_MEM_done   = ~stall_mem_not_avalible;
+assign stage_WB_ready   = 1'b1;
 assign stage3_MEM_valid = stage_WB_ready & stage_MEM_done;
 
-assign stage_EXEC_done = 1'b1;
+assign stage_EXEC_done   = 1'b1;
 assign stage_MEM_ready   = stage3_MEM_valid; // 
 assign stage2_EXEC_valid = stage_MEM_ready & stage_EXEC_done;
-
-assign stage_DECO_done = 1'b1;
+ 
+assign stage_DECO_done    = ~STALL_ID_not_ready_w;
 assign stage_EXEC_ready   = stage2_EXEC_valid; // 
-assign stage1_DECO_valid = stage_EXEC_ready & stage_DECO_done;
+assign stage1_DECO_valid  = stage_EXEC_ready & stage_DECO_done;
 
-assign stage_IF_done = ~STALL_if_not_ready_w;
+assign stage_IF_done      = ~STALL_if_not_ready_w;
 assign stage_DECO_ready   = stage1_DECO_valid; // 
-assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
+assign stage0_IF_valid    = stage_DECO_ready & stage_IF_done;
 
 //for PC counter 
-
 assign stage_IF_ready   = stage0_IF_valid; // 
 
 always @(posedge clk)begin
@@ -726,17 +731,37 @@ end else begin
 
     if (stage0_IF_valid) begin 
         pipeReg0   <= pipeReg0_wire;
-    end else begin 
+    end 
+    // else if (stage_DECO_done) begin 
+    //     pipeReg0   <= 512'b0;//pipeReg0;
+    // end 
+    else begin 
         pipeReg0   <= pipeReg0;
-    end 
+    end
+
     if (stage1_DECO_valid) begin
+        // if (pipeReg1[`instruct] != pipeReg1_wire[`instruct] ) begin
+        //     pipeReg1 <= pipeReg1_wire; 
+        // end else begin 
+        //     pipeReg1 <= 512'b0;
+        // end
         pipeReg1 <= pipeReg1_wire;
-    end else begin 
-        pipeReg1 <= pipeReg1;
     end 
+    // else if (stage_DECO_done) begin 
+    //     pipeReg1  <= 512'b0;
+    // end 
+    else begin 
+   // if (pipeReg1[`instruct] != pipeReg1_wire[`instruct] ) begin
+        //     pipeReg1 <= pipeReg1_wire; 
+        // end else begin 
+        //     pipeReg1 <= 512'b0;
+        // end
+        pipeReg1 <= pipeReg1;
+    end
 
     if (stage2_EXEC_valid) begin
-        pipeReg2 <= pipeReg2_wire ;     
+        // if (pipeReg1 !=)
+        pipeReg2 <= pipeReg2_wire;     
     end else begin 
         pipeReg2 <= pipeReg2;
     end
@@ -811,7 +836,7 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
     output wire         ins_data_gnt_i      
 );
 
-    reg rvalid_reg;
+    reg rvalid_reg,rvalid_reg_1;
     wire rstb_busy;
     assign ins_data_gnt_i     = ins_data_req_o;
     assign ins_data_rvalid_i  = rvalid_reg;
@@ -834,8 +859,12 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
           rvalid_reg <= 1'b0;
         end
         else begin
-          rvalid_reg <= ins_data_req_o;
+          rvalid_reg   <= ins_data_req_o;
+          rvalid_reg_1 <= rvalid_reg;
         end
     end
+
+
+
 
 endmodule

@@ -29,8 +29,9 @@ always @(posedge clk_i) begin
 	    PC  		<= initial_pc_i; //32'h1CC;
       //Starting memory address, this logic must be changed later
 	end else  if (enable_design) begin
+            // PC <= nextPC;
 
- 	    if (stage_IF_ready)  begin
+ 	    if (stage_IF_ready|change_PC_condition_for_jump_or_branch)  begin
             PC <= nextPC;
 			pc_valid_r <= 1'b1;
 		end 
