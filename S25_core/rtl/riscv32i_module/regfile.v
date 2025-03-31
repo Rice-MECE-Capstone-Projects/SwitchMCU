@@ -52,7 +52,29 @@ always @(posedge clk) begin
       end
       end
 
+always @(posedge clk) begin
+    if (reset) begin
+      // Reset mstatus, mcause, and mepc to zero during reset
+      CSR_FILE[12'h300] <= 32'b0; 
+      CSR_FILE[12'h342] <= 32'b0; 
+      CSR_FILE[12'h341] <= 32'b0; 
+    end else begin
+      if (write_csr && csrReg_pi == 12'h300) begin
+        // Handle writing to mstatus register (enable/disable interrupts)
+        CSR_FILE[12'h300][3] <= csrData_pi[3];
+      end
 
+      // Set mcause register when an interrupt or exception occurs (for simplicity, timer interrupt example)
+      if (write_csr && csrReg_pi == 12'h342) begin
+        CSR_FILE[12'h342] <= 32'h00000001;
+      end
+
+      // Set mepc register when an exception occurs (for simplicity, assuming a jump instruction)
+      if (write_csr && csrReg_pi == 12'h341) begin
+        CSR_FILE[12'h341] <= 32'h00400000; 
+      end
+    end
+  end
 
 //MARKER AUTOMATED HERE START
 integer k;
