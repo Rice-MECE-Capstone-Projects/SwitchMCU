@@ -1,4 +1,3 @@
-`include "params.vh"
 
 module decode 
    # (
@@ -52,8 +51,8 @@ assign Single_Instruction_o = Single_Instruction;
 
 always @(*) begin
     case (opcode)
-        R_Type: begin
-            INST_typ <= INST_typ_R;
+        `R_Type: begin
+            INST_typ <= `INST_typ_R;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -62,8 +61,8 @@ always @(*) begin
             imm    <= 32'b0;
         end
 
-        I_Type_A,I_Type_L, I_Type_JALR: begin  
-            INST_typ <= INST_typ_I;
+        `I_Type_A,`I_Type_L, `I_Type_JALR: begin  
+            INST_typ <= `INST_typ_I;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -72,8 +71,8 @@ always @(*) begin
             imm    <= {{20{instruction[31]}},instruction[31:20]};
         end
 
-        I_Type_ECALL: begin
-            INST_typ <= INST_typ_I_ECALL;
+        `I_Type_ECALL: begin
+            INST_typ <= `INST_typ_I_ECALL;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -83,8 +82,8 @@ always @(*) begin
 
         end 
 
-        S_Type: begin  
-            INST_typ <= INST_typ_S;
+        `S_Type: begin  
+            INST_typ <= `INST_typ_S;
             rd     <= 0;
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -93,8 +92,8 @@ always @(*) begin
             imm    <= {{20{instruction[31]}},instruction[31:25],instruction[11:7]};
         end
 
-        B_Type: begin  
-            INST_typ <= INST_typ_B;
+        `B_Type: begin  
+            INST_typ <= `INST_typ_B;
             rd     <= 0;
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -103,8 +102,8 @@ always @(*) begin
             imm    <= { {20{instruction[31]}}, instruction[7], instruction[30:25], instruction[11:8], 1'b0 }; // {{19{i_inst[31]}},i_inst[31],i_inst[7],i_inst[30:25],i_inst[11:8],1'b0} 
         end
 
-        U_Type_auipc, U_Type_lui: begin  
-            INST_typ <= INST_typ_U;
+        `U_Type_auipc, `U_Type_lui: begin  
+            INST_typ <= `INST_typ_U;
             rd       <= instruction[11:7];
             fun3     <= 0;
             rs1      <= 0;
@@ -113,8 +112,8 @@ always @(*) begin
             imm      <= { instruction[31:12], 12'b0};     
         end
 
-       J_Type_lk: begin  
-            INST_typ <= INST_typ_J;
+       `J_Type_lk: begin  
+            INST_typ <= `INST_typ_J;
             rd     <= instruction[11:7];
             fun3   <= 0; 
             rs1    <= 0; 
@@ -123,8 +122,8 @@ always @(*) begin
             imm    <= { {12{instruction[31]}}, instruction[19:12], instruction[20], instruction[30:25], instruction[24:21], 1'b0 };
         end
 
-        F_TYPE_FENCE: begin  
-            INST_typ <= INST_typ_F;
+        `F_TYPE_FENCE: begin  
+            INST_typ <= `INST_typ_F;
             rd     <= instruction[11:7];
             fun3   <= instruction[14:12];
             rs1    <= instruction[19:15];
@@ -134,7 +133,7 @@ always @(*) begin
         end
 
         default: begin
-            INST_typ <= UNRECGONIZED;
+            INST_typ <= `UNRECGONIZED;
             rd     <= 0;
             fun3   <= 0;
             rs1    <= 0; 
@@ -145,138 +144,138 @@ always @(*) begin
     endcase
 
     case (INST_typ)
-        INST_typ_R: begin
+        `INST_typ_R: begin
             case ({fun7,fun3})
             {7'b0000000,3'b000}: begin  // ADD
-            Single_Instruction <= inst_ADD;
+            Single_Instruction <= `inst_ADD;
             end 
             {7'b0100000,3'b000}: begin  // SUB
-            Single_Instruction <= inst_SUB;
+            Single_Instruction <= `inst_SUB;
             end 
             {7'b0000000,3'b001}: begin  // SLL
-            Single_Instruction <= inst_SLL;
+            Single_Instruction <= `inst_SLL;
             end 
             {7'b0000000,3'b010}: begin  // SLT
-            Single_Instruction <= inst_SLT;
+            Single_Instruction <= `inst_SLT;
             end 
             {7'b0000000,3'b011}: begin  //SLTU 
-            Single_Instruction <= inst_SLTU;
+            Single_Instruction <= `inst_SLTU;
             end 
             {7'b0000000,3'b100}: begin  // XOR
-            Single_Instruction <= inst_XOR;
+            Single_Instruction <= `inst_XOR;
             end 
             {7'b0000000,3'b101}: begin  //SRL 
-            Single_Instruction <= inst_SRL;
+            Single_Instruction <= `inst_SRL;
             end 
             {7'b0100000,3'b101}: begin  // SRA
-            Single_Instruction <= inst_SRA;
+            Single_Instruction <= `inst_SRA;
             end 
             {7'b0000000,3'b110}: begin  // OR 
-            Single_Instruction <= inst_OR;
+            Single_Instruction <= `inst_OR;
             end 
             {7'b0000000,3'b111}: begin  //AND 
-            Single_Instruction <= inst_AND;
+            Single_Instruction <= `inst_AND;
             end 
             default: begin  //UNKNOWN 
-            Single_Instruction <= inst_UNKNOWN;
+            Single_Instruction <= `inst_UNKNOWN;
             end 
             endcase
         end
-        INST_typ_U:  begin 
+        `INST_typ_U:  begin 
             case(opcode)
-            U_Type_auipc:begin 
-            Single_Instruction <= inst_AUIPC;   
+            `U_Type_auipc:begin 
+            Single_Instruction <= `inst_AUIPC;   
             end
-            U_Type_lui:begin 
-            Single_Instruction <= inst_LUI;
+            `U_Type_lui:begin 
+            Single_Instruction <= `inst_LUI;
             end
             default: begin 
-            Single_Instruction <= inst_UNKNOWN;
+            Single_Instruction <= `inst_UNKNOWN;
             end
             endcase
         
 
 
         end
-        INST_typ_I: begin
+        `INST_typ_I: begin
             case(opcode)
-            I_Type_A: begin 
+            `I_Type_A: begin 
                 case ({fun3})
                 {3'b000}: begin  // ADDI
-                Single_Instruction <= inst_ADDI;
+                Single_Instruction <= `inst_ADDI;
                 end 
                 {3'b010}: begin  // SLTI
-                Single_Instruction <= inst_SLTI;
+                Single_Instruction <= `inst_SLTI;
                 end 
                 {3'b011}: begin  //SLTIU 
-                Single_Instruction <= inst_SLTIU;
+                Single_Instruction <= `inst_SLTIU;
                 end 
                 {3'b100}: begin  // XORI
-                Single_Instruction <= inst_XORI;
+                Single_Instruction <= `inst_XORI;
                 end 
                 {3'b110}: begin  // ORI 
-                Single_Instruction <= inst_ORI;
+                Single_Instruction <= `inst_ORI;
                 end 
                 {3'b111}: begin  //ANDI 
-                Single_Instruction <= inst_ANDI;
+                Single_Instruction <= `inst_ANDI;
                 end 
                 {3'b001}: begin  //SLLI 
                     case(fun7)
                         {7'b0000000}:begin 
-                Single_Instruction <= inst_SLLI;
+                Single_Instruction <= `inst_SLLI;
                         end 
                         default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                         end
                     endcase
                 end 
                 {3'b101}: begin  
                     case(fun7)
                         {7'b0000000}:begin  //SRLI
-                Single_Instruction <= inst_SRLI;
+                Single_Instruction <= `inst_SRLI;
                         end 
                         {7'b0100000}:begin //SRAI
-                Single_Instruction <= inst_SRAI;
+                Single_Instruction <= `inst_SRAI;
                         end 
                         default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                         end
                     endcase
                 end 
                 default: begin  // 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end 
             endcase
             end
-            I_Type_L: begin 
+            `I_Type_L: begin 
                 case ({fun3})
                 {3'b000}: begin  // LB
-                Single_Instruction <= inst_LB;
+                Single_Instruction <= `inst_LB;
                 end 
                 {3'b001}: begin  // LH
-                Single_Instruction <= inst_LH;
+                Single_Instruction <= `inst_LH;
                 end 
                 {3'b010}: begin  // LW
-                Single_Instruction <= inst_LW;
+                Single_Instruction <= `inst_LW;
                 end 
                 {3'b100}: begin  // LBU
-                Single_Instruction <= inst_LBU;
+                Single_Instruction <= `inst_LBU;
                 end 
                 {3'b101}: begin  // LHU
-                Single_Instruction <= inst_LHU;
+                Single_Instruction <= `inst_LHU;
                 end 
                 default:begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
                 endcase
             end
-            I_Type_JALR: begin 
+            `I_Type_JALR: begin 
                 case ({fun3})
                 {3'b000}: begin  // JALR
-                Single_Instruction <= inst_JALR;
+                Single_Instruction <= `inst_JALR;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
                 endcase
             end
@@ -284,109 +283,109 @@ always @(*) begin
             endcase
         end
 
-        INST_typ_I_ECALL: begin 
+        `INST_typ_I_ECALL: begin 
                 case ({fun3})
                 {3'b000}: begin  //
                 if (instruction[20]==1'b1) begin 
-                Single_Instruction <= inst_EBREAK ;
+                Single_Instruction <= `inst_EBREAK ;
 
                 end else begin
-                Single_Instruction <= inst_ECALL;
+                Single_Instruction <= `inst_ECALL;
 
                  end
                 end 
                 {3'b001}: begin  //
-                Single_Instruction <= inst_CSRRW;
+                Single_Instruction <= `inst_CSRRW;
                 end 
                 {3'b010}: begin  //CSRRS
-                Single_Instruction <= inst_CSRRS;
+                Single_Instruction <= `inst_CSRRS;
                 end 
                 {3'b011}: begin  //CSRRC
-                Single_Instruction <= inst_CSRRC;
+                Single_Instruction <= `inst_CSRRC;
                 end 
                 {3'b101}: begin  //CSRRWI
-                Single_Instruction <= inst_CSRRWI;
+                Single_Instruction <= `inst_CSRRWI;
                 end 
                 {3'b110}: begin  //CSRRSI
-                Single_Instruction <= inst_CSRRSI;
+                Single_Instruction <= `inst_CSRRSI;
                 end 
                 {3'b111}: begin  //CSRRCI
-                Single_Instruction <= inst_CSRRCI;
+                Single_Instruction <= `inst_CSRRCI;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
         endcase
 
         end
         
-        INST_typ_S: begin  
+        `INST_typ_S: begin  
             case ({fun3})
                 {3'b000}: begin  // SB
-                Single_Instruction <= inst_SB;
+                Single_Instruction <= `inst_SB;
                 end 
                 {3'b001}: begin  // SH
-                Single_Instruction <= inst_SH;
+                Single_Instruction <= `inst_SH;
                 end 
                 {3'b010}: begin  // SW
-                Single_Instruction <= inst_SW;
+                Single_Instruction <= `inst_SW;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
             endcase
         end
 
-        INST_typ_B: begin  
+        `INST_typ_B: begin  
             case ({fun3})
                 {3'b000}: begin  // SEQ
-                Single_Instruction <= inst_BEQ;
+                Single_Instruction <= `inst_BEQ;
                 end 
                 {3'b001}: begin  // BNE
-                Single_Instruction <= inst_BNE;
+                Single_Instruction <= `inst_BNE;
                 end 
                 {3'b100}: begin  // BLT
-                Single_Instruction <= inst_BLT;
+                Single_Instruction <= `inst_BLT;
                 end 
                 {3'b101}: begin  // BGE
-                Single_Instruction <= inst_BGE;
+                Single_Instruction <= `inst_BGE;
                 end 
                 {3'b110}: begin  // BLTU
-                Single_Instruction <= inst_BLTU;
+                Single_Instruction <= `inst_BLTU;
                 end 
                 {3'b111}: begin  // BGEU
-                Single_Instruction <= inst_BGEU;
+                Single_Instruction <= `inst_BGEU;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
             endcase  
         end
 
-        INST_typ_J: begin  
-                Single_Instruction <= inst_JAL;
+        `INST_typ_J: begin  
+                Single_Instruction <= `inst_JAL;
         end
 
-        INST_typ_F: begin         
+        `INST_typ_F: begin         
                 case ({fun3})
                 {3'b000}: begin  // FENCE
-                Single_Instruction <= inst_FENCE;
+                Single_Instruction <= `inst_FENCE;
                 end 
                 {3'b001}: begin  // FENCE
-                Single_Instruction <= inst_FENCEI;
+                Single_Instruction <= `inst_FENCEI;
                 end 
                 default: begin 
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
                 end
             endcase
         end
 
 
-        UNRECGONIZED: begin  
-                Single_Instruction <= inst_UNKNOWN;
+        `UNRECGONIZED: begin  
+                Single_Instruction <= `inst_UNKNOWN;
         end
         default: begin
-                Single_Instruction <= inst_UNKNOWN;
+                Single_Instruction <= `inst_UNKNOWN;
         end
     
     endcase

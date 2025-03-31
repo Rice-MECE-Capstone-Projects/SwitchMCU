@@ -1,16 +1,249 @@
+`default_nettype none
+`include "params.vh"
+
+module riscv32i
+   # (
+    parameter   N_param = 32
+   )     (
+    input  wire         clk,
+    input  wire [31:0]  GPIO0_R0_CH1, // control signals
+    input  wire [31:0]  GPIO0_R0_CH2, // memory_offset
+    input  wire [31:0]  GPIO0_R1_CH1, // initial_pc_i
+    input  wire [31:0]  GPIO0_R1_CH2, // success_code
+
+    output wire         STOP_sim,
+
+    // BRAM ports for Data Mem
+    output wire         data_mem_clkb,
+    output wire         data_mem_enb,
+    output wire         data_mem_rstb,
+    output wire [3:0]   data_mem_web,
+    output wire [31:0]  data_mem_addrb,
+    output wire [31:0]  data_mem_dinb,
+    input  wire         data_mem_rstb_busy,
+    input  wire [31:0]  data_mem_doutb,
+
+    // // BRAM ports for Ins Mem
+
+
+    
+    output wire         ins_mem_clkb,
+    output wire         ins_mem_enb,
+    output wire         ins_mem_rstb,
+    output wire [3:0]   ins_mem_web,
+    output wire [31:0]  ins_mem_addrb,
+    output wire [31:0]  ins_mem_dinb,
+    input  wire         ins_mem_rstb_busy,
+    input  wire [31:0]  ins_mem_doutb
+);
+
+
+
+reg enable_design_reg;
+reg stop_design;
+wire enable_design;
+wire start_design , reset;
+reg [31:0] cycle_to_end;
+wire [31:0] control_signals_in;
+reg [31:0]  Cycle_count  ;
+wire [31:0]  memory_offset;
+wire [31:0]  initial_pc_i ;
+wire [31:0]  success_code  ;
+wire [31:0]  final_value  ;
+
+
+wire        ins_data_req_o;
+wire [31:0] ins_data_addr_o;
+wire        ins_data_we_o;
+wire [ 3:0] ins_data_be_o;
+wire [31:0] ins_data_wdata_o;
+wire   [31:0]     ins_data_rdata_i;
+wire        ins_data_rvalid_i;
+wire        ins_data_gnt_i;
+
+
+
+pulse_generator uut (
+    .clk(clk),
+    .in(GPIO0_R0_CH1),
+    .out(control_signals_in)
+);
+
+assign STOP_sim = stop_design;
+// assign  Cycle_count       = GPIO0_R0_CH2;
+assign  memory_offset     = GPIO0_R0_CH2;
+assign  initial_pc_i      = GPIO0_R1_CH1;
+assign  success_code      = GPIO0_R1_CH2;
+
+assign start_design    = control_signals_in[0];
+assign reset           = control_signals_in[1];
+
+assign enable_design = enable_design_reg & ~stop_design;
 
 
 
 
-module riscv32i 
+always @(posedge clk) begin
+  	if (reset) begin
+
+        cycle_to_end        <= 32'h0;
+	    Cycle_count         <= 32'h0;
+	    enable_design_reg   <=  1'b0;
+        stop_design         <=  1'b0;
+
+    end else begin  
+    if (start_design) begin 
+        // cycle_to_end        <= 32'h0;
+	    Cycle_count         <= 32'h0;
+	    enable_design_reg   <=  1'b1;
+        // stop_design         <=  1'b0;
+    end else if (enable_design_reg) begin
+        Cycle_count         <= Cycle_count + 1;
+	    enable_design_reg   <= enable_design_reg;
+    end      
+    if (final_value == success_code)begin 
+        cycle_to_end <= cycle_to_end + 1;
+        stop_design  <= 1'b0;
+    end
+    if (cycle_to_end >= 30) begin
+        stop_design <= 1'b1;
+        
+    //MARKER AUTOMATED HERE START
+        
+    $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
+    
+    //MARKER AUTOMATED HERE END
+
+    end   
+ 
+end
+end 
+
+
+
+    // Instantiation of riscv32i_main
+    riscv32i_main #(
+        .N_param(32)
+    ) u_riscv32i_main (
+        .clk(clk),
+        .reset(reset),
+        .enable_design(enable_design_reg),
+
+        .Cycle_count(Cycle_count),
+        .memory_offset(memory_offset),
+        .initial_pc_i(initial_pc_i),
+        .final_value(final_value),
+        
+        .data_mem_clkb(data_mem_clkb),
+        .data_mem_enb(data_mem_enb),
+        .data_mem_rstb(data_mem_rstb),
+        .data_mem_web(data_mem_web),
+        .data_mem_addrb(data_mem_addrb),
+        .data_mem_dinb(data_mem_dinb),
+        .data_mem_rstb_busy(data_mem_rstb_busy),
+        .data_mem_doutb(data_mem_doutb),
+        
+        // .ins_mem_clkb(ins_mem_clkb),
+        // .ins_mem_enb(ins_mem_enb),
+        // .ins_mem_rstb(ins_mem_rstb),
+        // .ins_mem_web(ins_mem_web),
+        // .ins_mem_addrb(ins_mem_addrb),
+        // .ins_mem_dinb(ins_mem_dinb),
+        // .ins_mem_rstb_busy(ins_mem_rstb_busy),
+        // .ins_mem_doutb(ins_mem_doutb)
+
+
+        // Memory interface signals
+        .ins_data_req_o     (ins_data_req_o),
+        .ins_data_addr_o    (ins_data_addr_o),
+        .ins_data_we_o      (ins_data_we_o),
+        .ins_data_be_o      (ins_data_be_o),
+        .ins_data_wdata_o   (ins_data_wdata_o),
+        .ins_data_rdata_i   (ins_data_rdata_i),
+        .ins_data_rvalid_i  (ins_data_rvalid_i),
+        .ins_data_gnt_i     (ins_data_gnt_i)
+    );
+
+
+    inst_mem_bram_wrapper  inst_mem_bram_wrapper (
+        .clk               (clk),
+        .reset             (reset),
+        .ins_data_req_o    (ins_data_req_o),
+        .ins_data_addr_o   (ins_data_addr_o),
+        .ins_data_we_o     (ins_data_we_o),
+        .ins_data_be_o     (ins_data_be_o),
+        .ins_data_wdata_o  (ins_data_wdata_o),
+        .ins_data_rdata_i  (ins_data_rdata_i),
+        .ins_data_rvalid_i (ins_data_rvalid_i),
+        .ins_data_gnt_i    (ins_data_gnt_i),
+
+        .ins_mem_clkb (ins_mem_clkb),
+        .ins_mem_enb (ins_mem_enb),
+        .ins_mem_rstb (ins_mem_rstb),
+        .ins_mem_web (ins_mem_web),
+        .ins_mem_addrb (ins_mem_addrb),
+        .ins_mem_dinb (ins_mem_dinb),
+        .ins_mem_rstb_busy (ins_mem_rstb_busy),
+        .ins_mem_doutb (ins_mem_doutb)
+
+    );
+    
+
+
+endmodule
+
+
+
+
+module riscv32i_main 
    # (
     parameter   N_param = 32
    ) (
     input  wire clk,
     input  wire reset,
-    input  wire [31:0] Cycle_count
+    input wire enable_design,
+
+    input  wire [31:0] Cycle_count,
+    input  wire [31:0] memory_offset,
+    input  wire [31:0] initial_pc_i,
+    output wire [31:0] final_value,
+
+
+    // BRAM ports for Data Mem
+    output wire        data_mem_clkb,
+    output wire        data_mem_enb,
+    output wire        data_mem_rstb,
+    output wire [3:0 ] data_mem_web,
+    output wire [31:0] data_mem_addrb,
+    output wire [31:0] data_mem_dinb,
+    input  wire        data_mem_rstb_busy,
+    input  wire [31:0] data_mem_doutb,
+
+    // //bram  Ins_mem
+    // output wire        ins_mem_clkb,
+    // output wire        ins_mem_enb,
+    // output wire        ins_mem_rstb,
+    // output wire [3:0 ] ins_mem_web,
+    // output wire [31:0] ins_mem_addrb,
+    // output wire [31:0] ins_mem_dinb,
+    // input  wire        ins_mem_rstb_busy,
+    // input  wire [31:0] ins_mem_doutb
+
+
+    output wire        ins_data_req_o,
+    output wire [31:0] ins_data_addr_o,
+    output wire        ins_data_we_o,
+    output wire  [3:0] ins_data_be_o,
+    output wire [31:0] ins_data_wdata_o,
+    input  wire  [31:0]      ins_data_rdata_i,
+    input  wire        ins_data_rvalid_i,
+    input  wire        ins_data_gnt_i
+
+
 
 );
+
+
     wire  [N_param-1:0]  instruction;
     wire  [4:0] rd_o;
     wire  [4:0] rs1_o;
@@ -30,6 +263,9 @@ module riscv32i
 
     wire [63:0]  pipeReg0_wire;
     wire [511:0] pipeReg1_wire, pipeReg2_wire, pipeReg3_wire;
+
+    wire pc_valid;
+
 initial begin 
     halt_i          <= 0;
 end
@@ -41,16 +277,55 @@ end
         .jump_inst_wire(jump_inst_wire_stage2),
         .branch_inst_wire(branch_inst_wire_stage2),
         .targetPC_i(alu_result_2_stage2),
-        .pc_o(pc_i)
+        .enable_design(enable_design),
+        .pc_o(pc_i),
+        .initial_pc_i(initial_pc_i),
+        .pc_valid(pc_valid)
     );
 
-    ins_mem ins_mem(
-        .clk(clk),
-        .reset(reset),
-        .pc_i(pc_i),
-        .pc_o(pc_o),
-        .instruction_o(instruction)
+    // ins_mem  ins_mem(
+    //     .clk(clk),
+    //     .reset(reset),
+    //     .pc_i(pc_i),
+    //     .enb(stage0_IF_valid),
+    //     .instruction_o(instruction),
+
+    //     //bram ins mem
+    //     .ins_mem_clkb(       ins_mem_clkb),
+    //     .ins_mem_enb(        ins_mem_enb),
+    //     .ins_mem_rstb(       ins_mem_rstb),
+    //     .ins_mem_web(        ins_mem_web),
+    //     .ins_mem_addrb(      ins_mem_addrb),
+    //     .ins_mem_dinb(       ins_mem_dinb),
+    //     .ins_mem_rstb_busy(  ins_mem_rstb_busy),
+    //     .ins_mem_doutb(      ins_mem_doutb)
+    // );
+    wire pc_i_valid = 1'b1;
+    wire stall_i;
+    wire STALL_if_not_ready_w,STALL_ID_not_ready_w;
+    assign stall_i = ~stage0_IF_valid;
+    ins_mem ins_mem (
+        .clk                 (clk),
+        .reset               (reset),
+        .pc_i                (pc_i),
+        .pc_i_valid          (pc_valid),
+        .STALL_if_not_ready_w(STALL_if_not_ready_w),
+        .STALL_ID_not_ready_w(STALL_ID_not_ready_w),
+        .instruction_o_w     (instruction),
+        .stall_i             (stall_i),
+
+        // Memory interface signals
+        .data_req_o_w         (ins_data_req_o),
+        .data_addr_o_w        (ins_data_addr_o),
+        .data_we_o_w          (ins_data_we_o),
+        .data_be_o_w          (ins_data_be_o),
+        .data_wdata_o_w       (ins_data_wdata_o),
+        .data_rdata_i         (ins_data_rdata_i),
+        .data_rvalid_i        (ins_data_rvalid_i),
+        .data_gnt_i           (ins_data_gnt_i)
     );
+
+
 
 // Pre Stage 0
 wire [31:0] pc_stage_0,instruction_stage_0;
@@ -142,12 +417,13 @@ wire        jump_inst_wire,branch_inst_wire;
 wire write_reg_file_wire_stage2;
 wire [31:0] rd_result_stage2;
 
+reg delete_reg1_reg2_reg;
 
 
 //Control signals 
 wire   delete_reg1_reg2; 
 wire   write_reg_stage3;
-
+wire   write_reg_file_wire;
 
 
 // Writing to WB regsiter
@@ -188,8 +464,13 @@ assign rd_result_stage2 = load_into_reg ? loaded_data : alu_result_1_stage2;
 
 //MARKER AUTOMATED HERE START
 
+wire [63:0] pipeReg0_wire_debug;
+assign pipeReg0_wire_debug[31:0] = pipeReg0[31:0];
+assign pipeReg0_wire_debug[`instruct] = instruction_stage_0;
+// assign pipeReg0_wire_debug[511:64] = pipeReg1[511:64];
+
 debug # (.Param_delay(5),.regCount(0), .pc_en(1)
-                                      ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0}), .pc_o(pc_i), .Cycle_count(Cycle_count));
+                                      ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0_wire_debug}), .pc_o(pc_i), .Cycle_count(Cycle_count));
 debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
 debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
 debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
@@ -253,17 +534,32 @@ execute  #(.N_param(32)) execute
    );
 
 
-dataMem  #(.mem_size(4096)) dataMem 
+dataMem dataMem 
   (
+.final_value(final_value),
 .clk(clk),
 .reset(reset),
 .Single_Instruction(Single_Instruction_stage2),
-.address(alu_result_1_stage2),
+.address_i(alu_result_1_stage2),
 .storeData(operand2_stage2),
 .pc_i(pc_stage_2),
 .loadData_w(loaded_data),
+.memory_offset(memory_offset),
 .stall_mem_not_avalible(stall_mem_not_avalible),
-.load_into_reg(load_into_reg)
+.load_into_reg(load_into_reg),
+
+//bram
+.data_mem_clkb(      data_mem_clkb     ),
+.data_mem_addrb(     data_mem_addrb    ),
+.data_mem_dinb(      data_mem_dinb     ),
+.data_mem_enb(       data_mem_enb      ),
+.data_mem_rstb(      data_mem_rstb     ),
+.data_mem_web(       data_mem_web      ),
+.data_mem_doutb(     data_mem_doutb    ),
+.data_mem_rstb_busy( data_mem_rstb_busy )
+
+
+
 );
 
 hazard hazard (
@@ -287,7 +583,9 @@ hazard hazard (
 
 
 assign pc_stage_0          =        pipeReg0[`PC_reg];
-assign instruction_stage_0 =        pipeReg0[`instruct];
+// assign instruction_stage_0 =        pipeReg0[`instruct];
+assign instruction_stage_0          =  delete_reg1_reg2_reg ? 32'h00000013 : instruction;
+// assign instruction_stage_0 =        instruction; //pipeReg0[`instruct];
 assign pc_stage_1 =                 pipeReg1[`PC_reg];
 assign instruction_stage_1 =        pipeReg1[`instruct];
 assign rd_stage1 =                  pipeReg1[`rd];
@@ -412,26 +710,24 @@ assign pipeReg3_wire[`Single_Instruction] = Single_Instruction_stage2;
 assign pipeReg3_wire[`data_mem_loaded   ] = loaded_data;
 
 
-assign stage_MEM_done = ~stall_mem_not_avalible;
-assign stage_WB_ready = 1'b1;
+assign stage_MEM_done   = ~stall_mem_not_avalible;
+assign stage_WB_ready   = 1'b1;
 assign stage3_MEM_valid = stage_WB_ready & stage_MEM_done;
 
-assign stage_EXEC_done = 1'b1;
+assign stage_EXEC_done   = 1'b1;
 assign stage_MEM_ready   = stage3_MEM_valid; // 
 assign stage2_EXEC_valid = stage_MEM_ready & stage_EXEC_done;
-
-assign stage_DECO_done = 1'b1;
+ 
+assign stage_DECO_done    = ~STALL_ID_not_ready_w;
 assign stage_EXEC_ready   = stage2_EXEC_valid; // 
-assign stage1_DECO_valid = stage_EXEC_ready & stage_DECO_done;
+assign stage1_DECO_valid  = stage_EXEC_ready & stage_DECO_done;
 
-assign stage_IF_done = 1'b1;
+assign stage_IF_done      = ~STALL_if_not_ready_w;
 assign stage_DECO_ready   = stage1_DECO_valid; // 
-assign stage0_IF_valid = stage_DECO_ready & stage_IF_done;
+assign stage0_IF_valid    = stage_DECO_ready & stage_IF_done;
 
 //for PC counter 
-
 assign stage_IF_ready   = stage0_IF_valid; // 
-
 
 always @(posedge clk)begin
 if (reset) begin 
@@ -439,7 +735,10 @@ if (reset) begin
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 	pipeReg3 <= 512'b0;
-end else if (delete_reg1_reg2) begin 
+end else if (enable_design) begin
+
+delete_reg1_reg2_reg <= delete_reg1_reg2;
+if  (delete_reg1_reg2) begin 
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
@@ -454,17 +753,37 @@ end else begin
 
     if (stage0_IF_valid) begin 
         pipeReg0   <= pipeReg0_wire;
-    end else begin 
+    end 
+    // else if (stage_DECO_done) begin 
+    //     pipeReg0   <= 512'b0;//pipeReg0;
+    // end 
+    else begin 
         pipeReg0   <= pipeReg0;
-    end 
+    end
+
     if (stage1_DECO_valid) begin
+        // if (pipeReg1[`instruct] != pipeReg1_wire[`instruct] ) begin
+        //     pipeReg1 <= pipeReg1_wire; 
+        // end else begin 
+        //     pipeReg1 <= 512'b0;
+        // end
         pipeReg1 <= pipeReg1_wire;
-    end else begin 
-        pipeReg1 <= pipeReg1;
     end 
+    // else if (stage_DECO_done) begin 
+    //     pipeReg1  <= 512'b0;
+    // end 
+    else begin 
+   // if (pipeReg1[`instruct] != pipeReg1_wire[`instruct] ) begin
+        //     pipeReg1 <= pipeReg1_wire; 
+        // end else begin 
+        //     pipeReg1 <= 512'b0;
+        // end
+        pipeReg1 <= pipeReg1;
+    end
 
     if (stage2_EXEC_valid) begin
-        pipeReg2 <= pipeReg2_wire ;     
+        // if (pipeReg1 !=)
+        pipeReg2 <= pipeReg2_wire;     
     end else begin 
         pipeReg2 <= pipeReg2;
     end
@@ -477,11 +796,32 @@ end else begin
 
 
 end //end else from reset
+
+
+end //end enable_design
+
 end // end clock
+endmodule
 
 
 
- 
+module pulse_generator(
+    input  wire       clk,
+    input wire  [31:0] in,
+    output wire [31:0] out
+);
+
+reg [31:0] out_r;
+reg [31:0] prev_in;
+assign out = out_r;
+integer i;
+  always @(posedge clk) begin
+    for (i = 0; i < 32; i = i + 1) begin
+        out_r[i]   <= in[i] & ~prev_in[i];
+        prev_in[i] <= in[i];
+
+    end
+  end
 endmodule
 
 
@@ -490,9 +830,63 @@ endmodule
 
 
 
+module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
+    input  wire         clk,
+    input  wire         reset,
+    
+
+    // BRAM interface Signals
+
+    output wire        ins_mem_clkb,
+    output wire        ins_mem_enb,
+    output wire        ins_mem_rstb,
+    output wire [3:0 ] ins_mem_web,
+    output wire [31:0] ins_mem_addrb,
+    output wire [31:0] ins_mem_dinb,
+    input  wire        ins_mem_rstb_busy,
+    input  wire [31:0] ins_mem_doutb,
+
+
+    // core Memory interface
+    input  wire         ins_data_req_o,     
+    input  wire [31:0]  ins_data_addr_o,    
+    input  wire         ins_data_we_o,      
+    input  wire [3:0]   ins_data_be_o,      
+    input  wire [31:0]  ins_data_wdata_o,
+    output wire [31:0]  ins_data_rdata_i,   
+    output wire         ins_data_rvalid_i,  
+    output wire         ins_data_gnt_i      
+);
+
+    reg rvalid_reg,rvalid_reg_1;
+    wire rstb_busy;
+    assign ins_data_gnt_i     = ins_data_req_o;
+    assign ins_data_rvalid_i  = rvalid_reg;
+    // assign  bram_web = 4'b0;
+
+
+  assign ins_mem_clkb      = clk;
+  assign ins_mem_enb       = ins_data_req_o;
+  assign ins_mem_rstb      = 1'b0;
+  assign ins_mem_web       = 4'b0000;
+  assign ins_mem_addrb     = ins_data_addr_o;
+  assign ins_mem_dinb      = 32'b0;
+  // assign ins_mem_rstb_busy = rstb_busy;
+  assign ins_data_rdata_i = ins_mem_doutb;
+
+
+
+    always @(posedge clk) begin
+        if (reset) begin
+          rvalid_reg <= 1'b0;
+        end
+        else begin
+          rvalid_reg   <= ins_data_req_o;
+          rvalid_reg_1 <= rvalid_reg;
+        end
+    end
 
 
 
 
-
-
+endmodule

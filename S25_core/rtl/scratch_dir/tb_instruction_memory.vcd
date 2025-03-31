@@ -1,0 +1,537 @@
+$date
+	Tue Mar 18 23:22:18 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_instruction_memory $end
+$var wire 4 ! ins_data_be_o [3:0] $end
+$var wire 32 " ins_data_wdata_o [31:0] $end
+$var wire 1 # ins_data_we_o $end
+$var wire 32 $ ins_mem_dinb [31:0] $end
+$var wire 1 % ins_mem_rstb $end
+$var wire 1 & ins_mem_rstb_busy $end
+$var wire 4 ' ins_mem_web [3:0] $end
+$var wire 32 ( instruction_o_w [31:0] $end
+$var wire 1 ) ins_mem_enb $end
+$var wire 32 * ins_mem_doutb [31:0] $end
+$var wire 1 + ins_mem_clkb $end
+$var wire 32 , ins_mem_addrb [31:0] $end
+$var wire 1 - ins_data_rvalid_i $end
+$var wire 1 . ins_data_req_o $end
+$var wire 32 / ins_data_rdata_i [31:0] $end
+$var wire 1 0 ins_data_gnt_i $end
+$var wire 32 1 ins_data_addr_o [31:0] $end
+$var wire 1 2 STALL_if_not_ready_w $end
+$var parameter 32 3 MEM_DEPTH $end
+$var reg 1 4 clk $end
+$var reg 1 5 mem_stall $end
+$var reg 32 6 pc_i [31:0] $end
+$var reg 1 7 pc_i_valid $end
+$var reg 1 8 reset $end
+$scope module bram_stuff $end
+$var wire 1 4 clk $end
+$var wire 4 9 ins_data_be_o [3:0] $end
+$var wire 1 0 ins_data_gnt_i $end
+$var wire 32 : ins_data_rdata_i [31:0] $end
+$var wire 1 - ins_data_rvalid_i $end
+$var wire 32 ; ins_data_wdata_o [31:0] $end
+$var wire 1 # ins_data_we_o $end
+$var wire 32 < ins_mem_addrb [31:0] $end
+$var wire 1 + ins_mem_clkb $end
+$var wire 32 = ins_mem_dinb [31:0] $end
+$var wire 1 ) ins_mem_enb $end
+$var wire 1 % ins_mem_rstb $end
+$var wire 1 & ins_mem_rstb_busy $end
+$var wire 4 > ins_mem_web [3:0] $end
+$var wire 1 8 reset $end
+$var wire 32 ? ins_mem_doutb [31:0] $end
+$var wire 1 . ins_data_req_o $end
+$var wire 32 @ ins_data_addr_o [31:0] $end
+$var parameter 32 A MEM_DEPTH $end
+$var reg 1 B rvalid_reg $end
+$upscope $end
+$scope module dut $end
+$var wire 1 2 STALL_if_not_ready_w $end
+$var wire 1 4 clk $end
+$var wire 32 C data_addr_o_w [31:0] $end
+$var wire 4 D data_be_o_w [3:0] $end
+$var wire 1 0 data_gnt_i $end
+$var wire 32 E data_rdata_i [31:0] $end
+$var wire 1 . data_req_o_w $end
+$var wire 1 - data_rvalid_i $end
+$var wire 32 F data_wdata_o_w [31:0] $end
+$var wire 1 # data_we_o_w $end
+$var wire 32 G instruction_o_w [31:0] $end
+$var wire 32 H pc_i [31:0] $end
+$var wire 1 7 pc_i_valid $end
+$var wire 1 8 reset $end
+$var wire 1 5 stall_i $end
+$var parameter 2 I S_IDLE $end
+$var parameter 2 J S_WAIT_GNT $end
+$var parameter 2 K S_WAIT_RVALID $end
+$var reg 1 L STALL_if_not_ready $end
+$var reg 32 M current_PC_wating_rvalid [31:0] $end
+$var reg 2 N current_state [1:0] $end
+$var reg 32 O data_addr_o [31:0] $end
+$var reg 1 . data_req_o $end
+$var reg 32 P instruction_o [31:0] $end
+$var reg 2 Q next_state [1:0] $end
+$var reg 32 R pc_decode [31:0] $end
+$upscope $end
+$scope module ins_mem_bram $end
+$var wire 32 S addrb [31:0] $end
+$var wire 1 + clkb $end
+$var wire 32 T dinb [31:0] $end
+$var wire 1 ) enb $end
+$var wire 1 % rstb $end
+$var wire 1 & rstb_busy $end
+$var wire 4 U web [3:0] $end
+$var wire 30 V word_address [29:0] $end
+$var wire 32 W doutb [31:0] $end
+$var wire 2 X byte_address [1:0] $end
+$var parameter 32 Y MEM_DEPTH $end
+$var reg 32 Z doutb_reg [31:0] $end
+$var integer 32 [ i [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b10001001000 Y
+b10 K
+b1 J
+b0 I
+b10001001000 A
+b1000000000000 3
+$end
+#0
+$dumpvars
+b10001001000 [
+bx Z
+bx X
+bx W
+bx V
+b0 U
+b0 T
+bx S
+bx R
+b0 Q
+bx P
+bx O
+bx N
+bx M
+xL
+b0 H
+bx G
+b0 F
+bx E
+b1111 D
+bx C
+xB
+bx @
+bx ?
+b0 >
+b0 =
+bx <
+b0 ;
+bx :
+b1111 9
+18
+07
+b0 6
+05
+04
+x2
+bx 1
+x0
+bx /
+x.
+x-
+bx ,
+0+
+bx *
+x)
+bx (
+b0 '
+0&
+0%
+b0 $
+0#
+b0 "
+b1111 !
+$end
+#5
+b0 V
+b0 X
+02
+0L
+b0 ,
+b0 <
+b0 S
+b0 1
+b0 @
+b0 C
+b0 O
+1)
+10
+1.
+b10011 (
+b10011 G
+b10011 P
+b0 N
+08
+1+
+14
+#10
+0+
+04
+#15
+b11111101000000010000000100010011 /
+b11111101000000010000000100010011 :
+b11111101000000010000000100010011 E
+b11111101000000010000000100010011 *
+b11111101000000010000000100010011 ?
+b11111101000000010000000100010011 W
+b11111101000000010000000100010011 Z
+1-
+1B
+1+
+14
+#20
+0+
+04
+#25
+1+
+14
+#30
+0+
+04
+#35
+1+
+14
+#40
+0+
+04
+#45
+1+
+14
+#50
+0+
+04
+#55
+b1 V
+b10 Q
+b100 ,
+b100 <
+b100 S
+b100 1
+b100 @
+b100 C
+b100 O
+17
+b100 6
+b100 H
+1+
+14
+#60
+0+
+04
+#65
+b100 R
+b10000100010010011000100011 (
+b10000100010010011000100011 G
+b10000100010010011000100011 P
+b0 V
+b0 Q
+b0 ,
+b0 <
+b0 S
+b0 1
+b0 @
+b0 C
+b0 O
+b10000100010010011000100011 /
+b10000100010010011000100011 :
+b10000100010010011000100011 E
+b10000100010010011000100011 *
+b10000100010010011000100011 ?
+b10000100010010011000100011 W
+b10000100010010011000100011 Z
+b100 M
+b10 N
+07
+1+
+14
+#70
+0+
+04
+#75
+b10011 (
+b10011 G
+b10011 P
+b11111101000000010000000100010011 /
+b11111101000000010000000100010011 :
+b11111101000000010000000100010011 E
+b11111101000000010000000100010011 *
+b11111101000000010000000100010011 ?
+b11111101000000010000000100010011 W
+b11111101000000010000000100010011 Z
+b0 N
+1+
+14
+#80
+0+
+04
+#85
+1+
+14
+#90
+0+
+04
+#95
+1+
+14
+#100
+0+
+04
+#105
+1+
+14
+#110
+0+
+04
+#115
+1+
+14
+#120
+0+
+04
+#125
+b1 V
+b10 Q
+b100 ,
+b100 <
+b100 S
+b100 1
+b100 @
+b100 C
+b100 O
+17
+1+
+14
+#130
+0+
+04
+#135
+b10000100010010011000100011 (
+b10000100010010011000100011 G
+b10000100010010011000100011 P
+b10 V
+b1000 ,
+b1000 <
+b1000 S
+b1000 1
+b1000 @
+b1000 C
+b1000 O
+b10000100010010011000100011 /
+b10000100010010011000100011 :
+b10000100010010011000100011 E
+b10000100010010011000100011 *
+b10000100010010011000100011 ?
+b10000100010010011000100011 W
+b10000100010010011000100011 Z
+b10 N
+b1000 6
+b1000 H
+1+
+14
+#140
+0+
+04
+#145
+b10100000010010010000100011 (
+b10100000010010010000100011 G
+b10100000010010010000100011 P
+b11 V
+b1100 ,
+b1100 <
+b1100 S
+b1100 1
+b1100 @
+b1100 C
+b1100 O
+b10100000010010010000100011 /
+b10100000010010010000100011 :
+b10100000010010010000100011 E
+b10100000010010010000100011 *
+b10100000010010010000100011 ?
+b10100000010010010000100011 W
+b10100000010010010000100011 Z
+b1100 6
+b1100 H
+15
+1+
+14
+#150
+0+
+04
+#155
+b11000000010000010000010011 (
+b11000000010000010000010011 G
+b11000000010000010000010011 P
+b11000000010000010000010011 /
+b11000000010000010000010011 :
+b11000000010000010000010011 E
+b11000000010000010000010011 *
+b11000000010000010000010011 ?
+b11000000010000010000010011 W
+b11000000010000010000010011 Z
+1+
+14
+#160
+0+
+04
+#165
+b100 V
+b10000 ,
+b10000 <
+b10000 S
+b10000 1
+b10000 @
+b10000 C
+b10000 O
+b10000 6
+b10000 H
+05
+1+
+14
+#170
+0+
+04
+#175
+b11111100101001000010111000100011 (
+b11111100101001000010111000100011 G
+b11111100101001000010111000100011 P
+b101 V
+b10100 ,
+b10100 <
+b10100 S
+b10100 1
+b10100 @
+b10100 C
+b10100 O
+b11111100101001000010111000100011 /
+b11111100101001000010111000100011 :
+b11111100101001000010111000100011 E
+b11111100101001000010111000100011 *
+b11111100101001000010111000100011 ?
+b11111100101001000010111000100011 W
+b11111100101001000010111000100011 Z
+b10100 6
+b10100 H
+1+
+14
+#180
+0+
+04
+#185
+b11111100101101000010110000100011 (
+b11111100101101000010110000100011 G
+b11111100101101000010110000100011 P
+b110 V
+b11000 ,
+b11000 <
+b11000 S
+b11000 1
+b11000 @
+b11000 C
+b11000 O
+b11111100101101000010110000100011 /
+b11111100101101000010110000100011 :
+b11111100101101000010110000100011 E
+b11111100101101000010110000100011 *
+b11111100101101000010110000100011 ?
+b11111100101101000010110000100011 W
+b11111100101101000010110000100011 Z
+b11000 6
+b11000 H
+1+
+14
+#190
+0+
+04
+#195
+b11111101110001000010011110000011 (
+b11111101110001000010011110000011 G
+b11111101110001000010011110000011 P
+b0 Q
+b11111101110001000010011110000011 /
+b11111101110001000010011110000011 :
+b11111101110001000010011110000011 E
+b11111101110001000010011110000011 *
+b11111101110001000010011110000011 ?
+b11111101110001000010011110000011 W
+b11111101110001000010011110000011 Z
+07
+1+
+14
+#200
+0+
+04
+#205
+b0 V
+b0 ,
+b0 <
+b0 S
+b0 1
+b0 @
+b0 C
+b0 O
+b10011 (
+b10011 G
+b10011 P
+b0 N
+1+
+14
+#210
+0+
+04
+#215
+b11111101000000010000000100010011 /
+b11111101000000010000000100010011 :
+b11111101000000010000000100010011 E
+b11111101000000010000000100010011 *
+b11111101000000010000000100010011 ?
+b11111101000000010000000100010011 W
+b11111101000000010000000100010011 Z
+1+
+14
+#220
+0+
+04
+#225
+1+
+14
+#230
+0+
+04
+#235
+1+
+14
+#240
+0+
+04
+#245
+1+
+14
+#250
+0+
+04
+#255
+1+
+14

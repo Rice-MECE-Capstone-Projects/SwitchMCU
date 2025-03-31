@@ -20,6 +20,6 @@ module testbench;
         #10 reset = 0;  // Release reset after 10 time units
 
         // Run the simulation for 200 time units
-        #200 $finish;
+        #20 $finish;
     end
 endmodule
