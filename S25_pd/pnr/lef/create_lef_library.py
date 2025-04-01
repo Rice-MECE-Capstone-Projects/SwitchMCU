@@ -1,7 +1,8 @@
 """
 This script is based on 'create_lef_library.py' from R. Timothy Edwards.
 Original source: https://github.com/RTimothyEdwards/open_pdks/blob/master/common/create_lef_library.py
-Modified by: Charlie
+Modified by: Charlie Liu
+Last Modified: 4/1/2025
 """
 
 
