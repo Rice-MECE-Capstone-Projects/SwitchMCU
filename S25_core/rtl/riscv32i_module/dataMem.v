@@ -78,9 +78,8 @@ output wire      load_into_reg,
 
 
 
-
     initial begin 
-        retrive_cycles <= 0;
+        retrive_cycles <= 0; // number of stall cycles
         store_data <= 32'b0;
 
     end 
