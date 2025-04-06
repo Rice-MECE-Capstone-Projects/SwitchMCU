@@ -9,9 +9,9 @@ ELF Header:
   Type:                              EXEC (Executable file)
   Machine:                           RISC-V
   Version:                           0x1
-  Entry point address:               0x384
+  Entry point address:               0x16c
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          7088 (bytes into file)
+  Start of section headers:          7004 (bytes into file)
   Flags:                             0x0
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)

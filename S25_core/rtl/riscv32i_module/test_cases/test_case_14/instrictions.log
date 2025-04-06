@@ -1,0 +1,154 @@
+
+program.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <write_mmio>:
+   0:	fd010113          	addi	sp,sp,-48
+   4:	02112623          	sw	ra,44(sp)
+   8:	02812423          	sw	s0,40(sp)
+   c:	03010413          	addi	s0,sp,48
+  10:	fca42e23          	sw	a0,-36(s0)
+  14:	fcb42c23          	sw	a1,-40(s0)
+  18:	fdc42783          	lw	a5,-36(s0)
+  1c:	fef42623          	sw	a5,-20(s0)
+  20:	fec42783          	lw	a5,-20(s0)
+  24:	fd842703          	lw	a4,-40(s0)
+  28:	00e7a023          	sw	a4,0(a5)
+  2c:	00000013          	nop
+  30:	02c12083          	lw	ra,44(sp)
+  34:	02812403          	lw	s0,40(sp)
+  38:	03010113          	addi	sp,sp,48
+  3c:	00008067          	ret
+
+00000040 <fail>:
+  40:	fe010113          	addi	sp,sp,-32
+  44:	00112e23          	sw	ra,28(sp)
+  48:	00812c23          	sw	s0,24(sp)
+  4c:	02010413          	addi	s0,sp,32
+  50:	fea42623          	sw	a0,-20(s0)
+  54:	fec42783          	lw	a5,-20(s0)
+  58:	00078593          	mv	a1,a5
+  5c:	60400513          	li	a0,1540
+  60:	fa1ff0ef          	jal	0 <write_mmio>
+  64:	0badf7b7          	lui	a5,0xbadf
+  68:	00d78593          	addi	a1,a5,13 # badf00d <_stack_start+0xbade00d>
+  6c:	60000513          	li	a0,1536
+  70:	f91ff0ef          	jal	0 <write_mmio>
+  74:	0000006f          	j	74 <fail+0x34>
+
+00000078 <test_beq>:
+  78:	fe010113          	addi	sp,sp,-32
+  7c:	00112e23          	sw	ra,28(sp)
+  80:	00812c23          	sw	s0,24(sp)
+  84:	02010413          	addi	s0,sp,32
+  88:	03200793          	li	a5,50
+  8c:	fef42423          	sw	a5,-24(s0)
+  90:	03200793          	li	a5,50
+  94:	fef42223          	sw	a5,-28(s0)
+  98:	fe842783          	lw	a5,-24(s0)
+  9c:	fe442703          	lw	a4,-28(s0)
+  a0:	40e782b3          	sub	t0,a5,a4
+  a4:	00028663          	beqz	t0,b0 <test_beq+0x38>
+  a8:	00000793          	li	a5,0
+  ac:	0080006f          	j	b4 <test_beq+0x3c>
+  b0:	00100793          	li	a5,1
+  b4:	fef42623          	sw	a5,-20(s0)
+  b8:	fec42783          	lw	a5,-20(s0)
+  bc:	00078513          	mv	a0,a5
+  c0:	01c12083          	lw	ra,28(sp)
+  c4:	01812403          	lw	s0,24(sp)
+  c8:	02010113          	addi	sp,sp,32
+  cc:	00008067          	ret
+
+000000d0 <write_mtvec>:
+  d0:	fe010113          	addi	sp,sp,-32
+  d4:	00112e23          	sw	ra,28(sp)
+  d8:	00812c23          	sw	s0,24(sp)
+  dc:	02010413          	addi	s0,sp,32
+  e0:	fea42623          	sw	a0,-20(s0)
+  e4:	fec42783          	lw	a5,-20(s0)
+  e8:	30579073          	csrw	mtvec,a5
+  ec:	00000013          	nop
+  f0:	01c12083          	lw	ra,28(sp)
+  f4:	01812403          	lw	s0,24(sp)
+  f8:	02010113          	addi	sp,sp,32
+  fc:	00008067          	ret
+
+00000100 <write_to_peripheral>:
+ 100:	fd010113          	addi	sp,sp,-48
+ 104:	02112623          	sw	ra,44(sp)
+ 108:	02812423          	sw	s0,40(sp)
+ 10c:	03010413          	addi	s0,sp,48
+ 110:	fca42e23          	sw	a0,-36(s0)
+ 114:	fcb42c23          	sw	a1,-40(s0)
+ 118:	fdc42783          	lw	a5,-36(s0)
+ 11c:	fef42623          	sw	a5,-20(s0)
+ 120:	fec42783          	lw	a5,-20(s0)
+ 124:	fd842703          	lw	a4,-40(s0)
+ 128:	00e7a023          	sw	a4,0(a5)
+ 12c:	00000013          	nop
+ 130:	02c12083          	lw	ra,44(sp)
+ 134:	02812403          	lw	s0,40(sp)
+ 138:	03010113          	addi	sp,sp,48
+ 13c:	00008067          	ret
+
+00000140 <main>:
+ 140:	ff010113          	addi	sp,sp,-16
+ 144:	00112623          	sw	ra,12(sp)
+ 148:	00812423          	sw	s0,8(sp)
+ 14c:	01010413          	addi	s0,sp,16
+ 150:	00100537          	lui	a0,0x100
+ 154:	f7dff0ef          	jal	d0 <write_mtvec>
+ 158:	deadc7b7          	lui	a5,0xdeadc
+ 15c:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
+ 160:	60000513          	li	a0,1536
+ 164:	e9dff0ef          	jal	0 <write_mmio>
+ 168:	0000006f          	j	168 <main+0x28>
+
+0000016c <_start>:
+ 16c:	00001117          	auipc	sp,0x1
+ 170:	e9410113          	addi	sp,sp,-364 # 1000 <_stack_start>
+ 174:	fcdff0ef          	jal	140 <main>
+ 178:	ff5ff06f          	j	16c <_start>
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.insn	4, 0x3a434347
+   4:	2820                	.insn	2, 0x2820
+   6:	36343067          	.insn	4, 0x36343067
+   a:	3639                	.insn	2, 0x3639
+   c:	6664                	.insn	2, 0x6664
+   e:	3930                	.insn	2, 0x3930
+  10:	3336                	.insn	2, 0x3336
+  12:	2029                	.insn	2, 0x2029
+  14:	3431                	.insn	2, 0x3431
+  16:	322e                	.insn	2, 0x322e
+  18:	302e                	.insn	2, 0x302e
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	2841                	.insn	2, 0x2841
+   2:	0000                	.insn	2, 0x
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <write_mmio+0x14>
+   c:	001e                	.insn	2, 0x001e
+   e:	0000                	.insn	2, 0x
+  10:	1004                	.insn	2, 0x1004
+  12:	7205                	.insn	2, 0x7205
+  14:	3376                	.insn	2, 0x3376
+  16:	6932                	.insn	2, 0x6932
+  18:	7032                	.insn	2, 0x7032
+  1a:	5f31                	.insn	2, 0x5f31
+  1c:	697a                	.insn	2, 0x697a
+  1e:	32727363          	bgeu	tp,t2,344 <_etext+0x1c8>
+  22:	3070                	.insn	2, 0x3070
+  24:	0800                	.insn	2, 0x0800
+  26:	0a01                	.insn	2, 0x0a01
+  28:	Address 0x28 is out of bounds.
+
