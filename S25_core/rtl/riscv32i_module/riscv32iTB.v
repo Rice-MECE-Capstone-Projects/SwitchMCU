@@ -5,7 +5,7 @@ module riscv32iTB
     parameter  N_param = 32, 
     parameter memory_offset_param = 32'h00000600,
     parameter success_code = 32'hDEADBEEF,
-    parameter cycles_timeout = 8000,
+    parameter cycles_timeout = 4000,
     parameter initial_pc    = 32'h00000384
 )
 (
@@ -122,7 +122,7 @@ initial begin
     // if ($value$plusargs("VCDFILE=%s", vcdfile))
         $dumpfile("sim.vcd");
     // if ($value$plusargs("VCDLEVEL=%d", vcdlevel))
-        $dumpvars(4);
+        $dumpvars(5);
 end
 
 

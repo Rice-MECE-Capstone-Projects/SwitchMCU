@@ -19,38 +19,37 @@ input wire      [31:0] memory_offset,
 output wire     [31:0] loadData_w,
 output wire     [31:0] final_value, // debug port not in actual FPGA
 output wire     stall_mem_not_avalible,
-output wire      load_into_reg,
+output wire     load_into_reg,
 
 
-
-/// BRAM PORTS
-    output wire        data_mem_clkb,
-    output wire        data_mem_enb,
-    output wire        data_mem_rstb,
-    output wire [3:0 ] data_mem_web,
-    output wire [31:0] data_mem_addrb,
-    output wire [31:0] data_mem_dinb,
-    input  wire        data_mem_rstb_busy,
-    input  wire [31:0] data_mem_doutb
+    // Memory interface
+    output wire           data_clk,
+    output wire           data_req_o,
+    output wire  [31:0]   data_addr_o,
+    output wire           data_we_o,
+    output wire  [3:0]    data_be_o,
+    output wire  [31:0]   data_wdata_o,
+    input  wire [31:0]    data_rdata_i,
+    input  wire           data_rvalid_i,
+    input  wire           data_gnt_i
 );
-
+    assign data_clk = clk;
     wire [29:0] word_address;
     wire [ 1:0] byte_address;
     reg         stall_mem_not_avalible_reg;
-    reg load_data_valid;
-    wire stall_needed,store_wire,load_wire;
+    wire load_data_valid;
+    wire store_wire,load_wire;
     wire [31:0] raw_word;
     reg [31:0] loadData;               // Data to be loaded
     reg  [3:0] loadData_byte;               // Data to be loaded
     reg [31:0] storeaddress;           // Data to be loaded
-    wire [31:0] raw_bram_data_word,raw_bram_data_word_end;          
+    wire [31:0] raw_bram_data_word;          
 
     reg [31:0] last_stored_data,last_stored_word_address,last_stored_address;
     reg [31:0] last_loaded_data,last_loaded_address;
     reg stored_happened,loaded_happened;
 
     wire [15:0] raw_data_byte_LHU;
-
     wire [31:0] address;
 
     reg [31:0] cycles_request; 
@@ -62,30 +61,33 @@ output wire      load_into_reg,
     wire [ 7:0] raw_data_byte_LBU;
     reg [31:0] store_data;
 
-    assign address = address_i - memory_offset;
-
-    assign data_mem_clkb      =  clk;
-    assign data_mem_addrb     = address;
-    assign data_mem_dinb      = store_data;
-    assign data_mem_enb       = enb;
-    assign data_mem_rstb      = 1'b0;
-    assign data_mem_web       = web;
-    assign raw_bram_data_word = data_mem_doutb ;
-    assign rstb_busy          = data_mem_rstb_busy;
-
-
-
-
-
 
     initial begin 
-        retrive_cycles <= 0; // number of stall cycles
-        store_data <= 32'b0;
-
+        retrive_cycles <= 2; // number of stall cycles
+        store_data    <= 32'b0;
     end 
 
-    assign load_into_reg = load_wire;
-    assign stall_mem_not_avalible = stall_needed && ~load_data_valid;
+
+  // inputs assigned to logic
+    assign raw_bram_data_word = data_rdata_i;
+    // assign rstb_busy          = data_mem_rstb_busy;
+
+  //Outputs
+    assign load_into_reg      = load_wire;
+    assign stall_mem_not_avalible = fsm_mem_stall;
+
+assign    data_req_o   = data_req_o_internal;
+assign    data_addr_o  = address;
+assign    data_we_o    = data_we_o_internal;
+assign    data_be_o    = data_be_o_internal;
+assign    data_wdata_o = store_data;
+
+
+
+
+
+//--|control data|--\\\
+    assign address = address_i - memory_offset;
     // assign address = address_i;
     assign word_address = address[31:2];  
     assign byte_address = address[ 1:0];
@@ -93,24 +95,16 @@ output wire      load_into_reg,
     assign loadData_w = loadData;
 
 
-
-
 assign load_wire  =     ((Single_Instruction == `inst_LB)  ||
                          (Single_Instruction == `inst_LH)  ||
                          (Single_Instruction == `inst_LW)  ||
                          (Single_Instruction == `inst_LBU) ||
-                         (Single_Instruction == `inst_LHU));
-
-assign stall_needed   = ((Single_Instruction == `inst_LB)  ||
-                        (Single_Instruction == `inst_LH)  ||
-                        (Single_Instruction == `inst_LW)  ||
-                        (Single_Instruction == `inst_LBU) ||
-                        (Single_Instruction == `inst_LHU));
-                    
+                         (Single_Instruction == `inst_LHU));       
 assign store_wire    = ((Single_Instruction == `inst_SB) ||
                         (Single_Instruction == `inst_SH) ||
                         (Single_Instruction == `inst_SW));
-assign enb = store_wire | load_wire;
+
+// assign enb = store_wire | load_wire;
 
 assign loadData_w =   loadData;
 
@@ -152,25 +146,6 @@ always @(*) begin
   end
 end
 
-always @(posedge clk) begin
-  if (reset) begin
-    cycles_request  <= 8'b0;
-    load_data_valid <= 1'b0;
-  end else if (load_wire) begin
-    if (cycles_request >= retrive_cycles) begin
-      if ( ~load_data_valid) begin
-        load_data_valid         <= 1'b1;
-      end else begin 
-        load_data_valid         <= 1'b0;
-      end end else begin
-        load_data_valid         <= 1'b0;
-      cycles_request <= cycles_request + 1'b1;
-      end
-    end else begin
-      load_data_valid      <= 1'b0;
-      cycles_request       <= 8'b0;
-  end
-end
 
 
 integer i;
@@ -201,68 +176,191 @@ always @(*) begin
             end else begin
                 web       <= 4'b0;
                 store_data <= 32'b0;
-            end end
+            end 
+end
+
+
+// Memory interface
+reg           data_req_o_internal;
+reg [31:0]    data_addr_o_internal;
+wire          data_we_o_internal;
+reg [3:0]     data_be_o_internal;
+reg [31:0]    data_wdata_o_internal;
+reg [31:0]    data_rdata_i_internal;
+reg           data_rvalid_i_internal;
+reg           data_gnt_i_internal;
+
+
+assign data_we_o_internal = store_wire & data_req_o_internal;
+reg [3:0] data_out; // Output should be reg type inside always block
+wire [1:0] select;
+
+assign select = data_req_o_internal ? {store_wire, load_wire} : 2'b00;
+
+always @(*) begin
+  case (select)
+    2'b00:   data_be_o_internal =      4'b0;
+    2'b01:   data_be_o_internal =   4'b1111; // load
+    2'b10:   data_be_o_internal =       web; //store
+    2'b11:   data_be_o_internal =   4'bZZZZ; // ERROR??? should never reach
+    default: data_be_o_internal =      4'b0; // Optional default case
+  endcase
+end
+// FSM for memory request
+// NOTE that the FSM will not accept two request at the same time
+    localparam [1:0] S_IDLE         = 2'b00, // Accepts new requests from EXEC
+                     S_WAIT_GNT     = 2'b01, // Waiting for request to be taken by memory (recognized by mem), no new request from EXC 
+                     S_WAIT_RVALID  = 2'b10; // waiting for request to be satsisfied, if satsitisfied can accept new request from EXEC
+                    //  S_ABORT_RVALID = 2'b11; No Abort, only reset
+    reg [1:0] current_state, next_state;
+    reg [31:0] pc_decode;
+    reg [31:0] current_PC_wating_rvalid, instruction_o_backup;
+    reg [31:0] PC_requested;
+    reg fsm_mem_stall;
+    wire accept_new_req;
+
+    assign load_data_valid = (current_state == S_WAIT_RVALID) && data_rvalid_i;
+
+    assign accept_new_req = (load_wire || store_wire) && ~load_data_valid;
+
+    always @(*) begin
+
+        case (current_state)
+        S_IDLE: begin
+            if (accept_new_req) begin
+                data_req_o_internal   = 1'b1;
+                data_addr_o_internal  = address;
+                fsm_mem_stall   = 1; // stall for load or store (because of store you need rvalid in next or upcoming cycles)
+                  if (data_gnt_i) begin
+                      next_state      = S_WAIT_RVALID;
+                  end else begin      
+                      next_state      = S_WAIT_GNT;
+                  end                 
+            end else begin            
+                data_req_o_internal   = 1'b0;
+                fsm_mem_stall         = 0; 
+                data_addr_o_internal  = 0;
+                next_state            = S_IDLE;
+            end
+        end
+
+        S_WAIT_GNT: begin
+              data_req_o_internal     = 1'b1;
+              data_addr_o_internal    = address;
+              fsm_mem_stall           = 1; // Stall because next cycle you need to wait for rvalid 
+              if (data_gnt_i) begin   
+                next_state            = S_WAIT_RVALID;
+              end else begin          
+                next_state            = S_WAIT_GNT;
+              end
+        end    
+
+        S_WAIT_RVALID: begin
+            data_req_o_internal         = 1'b0; 
+            data_addr_o_internal        = 32'h0;
+            if (data_rvalid_i) begin  // if grant satisfied
+              fsm_mem_stall             = 0; 
+              next_state                = S_IDLE;
+            end else begin // else rvalid, wait 
+              fsm_mem_stall             = 1; 
+              next_state                = S_WAIT_RVALID;
+            end
+        end
+
+        default: begin
+            next_state = S_IDLE;
+        end
+  
+    endcase
+
+    end
+    
+
+
+
+
+always @(posedge clk) begin 
+        if (reset) begin
+            current_state        <= S_IDLE;
+        end else begin 
+            current_state <= next_state; // Update the state
+        //     case(current_state)
+        //     S_WAIT_RVALID: begin
+        //         if (pc_i_valid && stall_i_EXEC && ~abort_rvalid) begin 
+        //         instruction_o_backup         <= data_rdata_i; // Store the requested PC   
+        //         saved_instruction_from_stall <= 1'b1; // Store the requested PC   
+        //         end 
+        //     end
+        // endcase
+  end 
+end
 
 
 // used for final endpoint      
 end_write end_write (
-  .final_value(final_value),// debug port not in actual FPGA
-  .clkb(clk),
-  .addrb(address),
-  .dinb(store_data),
-  .doutb(raw_bram_data_word_end),
-  .enb( enb),
-  .rstb(1'b0),
-  .web(web),
-  .rstb_busy(rstb_busy) );
+    .clkb(clk),
+    .rstb(reset),
+    .data_req_o(data_req_o),
+    .data_addr_o(data_addr_o_internal),
+    .data_we_o(data_we_o_internal),
+    .data_be_o(data_be_o_internal),
+    .data_wdata_o(data_wdata_o),
+    .data_gnt_i(data_gnt_i),
+    .final_value(final_value)
+      );
 
 endmodule
 
 
 
-
 module end_write (
-    input  wire        clkb,
-    input  wire        enb,
-    input  wire        rstb,
-    input  wire [3:0 ] web,
-    input  wire [31:0] addrb,
-    input  wire [31:0] dinb,
-    output wire        rstb_busy,
-    output wire [31:0] doutb,
-    output wire [31:0] final_value
 
+    input  wire            clkb,
+    input  wire            rstb,
+
+    input wire             data_req_o,
+    input wire  [31:0]     data_addr_o,
+    input wire             data_we_o,
+    input wire  [3:0]      data_be_o,
+    input wire  [31:0]     data_wdata_o,
+    input  wire            data_gnt_i,
+    
+    output wire [31:0]     final_value
 );
+
+  wire        enb;
+  // wire        rstb;
+  wire [3:0 ] web;
+  // wire [31:0] final_value;
 
   reg [31:0] DMEM;
   reg [31:0] doutb_reg;
-  reg [29:0] addrb_word;
   wire [29:0] word_address;
-  wire [ 1:0] byte_address;
 
-  assign doutb = doutb_reg;
-  assign rstb_busy = 0;
-  assign word_address = addrb[31:2];  
-  assign byte_address = addrb[ 1:0];
+  assign word_address = data_addr_o[31:2];  
   initial begin
       DMEM <= 32'h00000000;
   end
-  assign final_value           = DMEM;
+
+  assign enb = data_req_o && data_gnt_i;
+  assign web = data_we_o ? data_be_o: 4'b0;
+  assign final_value = DMEM;
+
   always @(posedge clkb) begin
     if (rstb) begin
       doutb_reg <= 32'b0;
       DMEM <= 32'h00000000;
     end else if ((enb==1'b1) &&( word_address == 29'b0)) begin
       if (web != 4'b0000) begin
-        if (web[0]) begin DMEM[ 7: 0]  <=  dinb[ 7: 0];   end 
-        if (web[1]) begin DMEM[15: 8]  <=  dinb[15: 8];   end 
-        if (web[2]) begin DMEM[23:16]  <=  dinb[23:16];   end 
-        if (web[3]) begin DMEM[31:24]  <=  dinb[31:24];   end 
+        if (web[0]) begin DMEM[ 7: 0]  <=  data_wdata_o[ 7: 0];   end 
+        if (web[1]) begin DMEM[15: 8]  <=  data_wdata_o[15: 8];   end 
+        if (web[2]) begin DMEM[23:16]  <=  data_wdata_o[23:16];   end 
+        if (web[3]) begin DMEM[31:24]  <=  data_wdata_o[31:24];   end 
        doutb_reg <= {
-          (web[3] ? dinb[31:24] : DMEM[31:24]),
-          (web[2] ? dinb[23:16] : DMEM[23:16]),
-          (web[1] ? dinb[15: 8] : DMEM[15: 8]),
-          (web[0] ? dinb[ 7: 0] : DMEM[ 7: 0])
+          (web[3] ? data_wdata_o[31:24] : DMEM[31:24]),
+          (web[2] ? data_wdata_o[23:16] : DMEM[23:16]),
+          (web[1] ? data_wdata_o[15: 8] : DMEM[15: 8]),
+          (web[0] ? data_wdata_o[ 7: 0] : DMEM[ 7: 0])
         };
       end else begin
         doutb_reg <= DMEM;

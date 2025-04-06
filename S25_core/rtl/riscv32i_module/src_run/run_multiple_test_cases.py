@@ -6,6 +6,7 @@ import subprocess
 import sys
 import shutil
 import argparse
+import re
 
 def clear_output_files(test_case):
     """
@@ -45,22 +46,53 @@ def run_test_case(test_case):
 
 def check_simulation_result(test_case):
     """
-    Check the sim.log file for the pass string.
+    Check the sim.log file for the pass string and the last cycle count.
     Expected sim.log path: test_cases/test_case_{test_case}/outputs/sim.log
+    Looks for a line matching "Cycle_count   {number},"
     Returns a string summarizing the result.
     """
     cwd = os.getcwd()
     sim_log_path = os.path.join(cwd, "test_cases", f"test_case_{test_case}", "outputs", "sim.log")
     
     if not os.path.exists(sim_log_path):
-        return f"Test case {test_case}: sim.log not found. (FAIL)"
+        return f"Test case {test_case}: sim.log not found. (FAIL, Cycle count: N/A)"
     
+    cycle_count = "N/A"
+    passed = False
     with open(sim_log_path, 'r') as f:
-        content = f.read()
-        if "----TB FINISH:Test Passed----" in content:
-            return f"Test case {test_case}: PASSED"
-        else:
-            return f"Test case {test_case}: FAILED (Pass string not found)"
+        for line in f:
+            # Look for cycle count line. Example: "Cycle_count   12345,"
+            match = re.search(r"Cycle_count\s+(\d+),", line)
+            if match:
+                cycle_count = match.group(1)
+            # Check for the success string.
+            if "----TB FINISH:Test Passed----" in line:
+                passed = True
+
+    if passed:
+        return f"Test case {test_case}: PASSED (Cycle count: {cycle_count})"
+    else:
+        return f"Test case {test_case}: FAILED (Cycle count: {cycle_count})"
+
+
+# def check_simulation_result(test_case):
+#     """
+#     Check the sim.log file for the pass string.
+#     Expected sim.log path: test_cases/test_case_{test_case}/outputs/sim.log
+#     Returns a string summarizing the result.
+#     """
+#     cwd = os.getcwd()
+#     sim_log_path = os.path.join(cwd, "test_cases", f"test_case_{test_case}", "outputs", "sim.log")
+    
+#     if not os.path.exists(sim_log_path):
+#         return f"Test case {test_case}: sim.log not found. (FAIL)"
+    
+#     with open(sim_log_path, 'r') as f:
+#         content = f.read()
+#         if "----TB FINISH:Test Passed----" in content:
+#             return f"Test case {test_case}: PASSED"
+#         else:
+#             return f"Test case {test_case}: FAILED (Pass string not found)"
 
 def main():
     num_test_cases = 12

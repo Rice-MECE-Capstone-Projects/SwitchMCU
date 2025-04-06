@@ -101,21 +101,50 @@ def modify_riscv_tb(v_file_path, new_entry_hex):
         print("Warning: No line with 'parameter initial_pc' was found in riscv32iTB.v.")
     shutil.move(temp_file, v_file_path)
 
+# def check_sim_log(sim_log_path, test_case_number):
+#     """
+#     Parse sim.log to check if it contains the success string.
+#     If found, print a success message including the test case number.
+#     """
+#     if not os.path.exists(sim_log_path):
+#         print(f"Error: {sim_log_path} does not exist.")
+#         sys.exit(1)
+    
+#     with open(sim_log_path, 'r') as file:
+#         content = file.read()
+#         if "----TB FINISH:Test Passed----" in content:
+#             print(f"\n\n-----TEST PASSED: success code for test case {test_case_number} found -----\n\n")
+#         else:
+#             print(f"Test case {test_case_number} did not pass as expected.")
+
 def check_sim_log(sim_log_path, test_case_number):
     """
-    Parse sim.log to check if it contains the success string.
-    If found, print a success message including the test case number.
+    Parse sim.log to check for the success string and extract the last cycle count.
+    Expected cycle count line format: "Cycle_count   {number},"
+    Prints a message including test case number, pass/fail status, and last cycle count.
     """
     if not os.path.exists(sim_log_path):
         print(f"Error: {sim_log_path} does not exist.")
         sys.exit(1)
     
+    passed = False
+    cycle_count = "N/A"
+    
     with open(sim_log_path, 'r') as file:
-        content = file.read()
-        if "----TB FINISH:Test Passed----" in content:
-            print(f"\n\n-----TEST PASSED: success code for test case {test_case_number} found -----\n\n")
-        else:
-            print(f"Test case {test_case_number} did not pass as expected.")
+        for line in file:
+            if "----TB FINISH:Test Passed----" in line:
+                passed = True
+            # Look for a cycle count line, e.g., "Cycle_count   12345,"
+            match = re.search(r"Cycle_count\s+(\d+),", line)
+            if match:
+                cycle_count = match.group(1)
+    
+    if passed:
+        print(f"\n-----TEST PASSED: success code for test case {test_case_number} found. Cycle count: {cycle_count}-----\n")
+    else:
+        print(f"Test case {test_case_number} did not pass as expected. Cycle count: {cycle_count}")
+
+
 
 def main():
     rtl_directory = os.getcwd()

@@ -25,8 +25,6 @@ module riscv32i
 
     // // BRAM ports for Ins Mem
 
-
-    
     output wire         ins_mem_clkb,
     output wire         ins_mem_enb,
     output wire         ins_mem_rstb,
@@ -60,6 +58,17 @@ wire [31:0] ins_data_wdata_o;
 wire   [31:0]     ins_data_rdata_i;
 wire        ins_data_rvalid_i;
 wire        ins_data_gnt_i;
+
+
+
+wire              Dmem_data_req_o;
+wire [31:0]       Dmem_data_addr_o;
+wire              Dmem_data_we_o;
+wire [ 3:0]       Dmem_data_be_o;
+wire [31:0]       Dmem_data_wdata_o;
+wire   [31:0]     Dmem_data_rdata_i;
+wire              Dmem_data_rvalid_i;
+wire              Dmem_data_gnt_i;
 
 
 
@@ -120,7 +129,7 @@ end
 end 
 
 
-
+wire Dmem_clk, Imem_clk;
     // Instantiation of riscv32i_main
     riscv32i_main #(
         .N_param(32)
@@ -134,15 +143,27 @@ end
         .initial_pc_i(initial_pc_i),
         .final_value(final_value),
         
-        .data_mem_clkb(data_mem_clkb),
-        .data_mem_enb(data_mem_enb),
-        .data_mem_rstb(data_mem_rstb),
-        .data_mem_web(data_mem_web),
-        .data_mem_addrb(data_mem_addrb),
-        .data_mem_dinb(data_mem_dinb),
-        .data_mem_rstb_busy(data_mem_rstb_busy),
-        .data_mem_doutb(data_mem_doutb),
+        // .data_mem_clkb(data_mem_clkb),
+        // .data_mem_enb(data_mem_enb),
+        // .data_mem_rstb(data_mem_rstb),
+        // .data_mem_web(data_mem_web),
+        // .data_mem_addrb(data_mem_addrb),
+        // .data_mem_dinb(data_mem_dinb),
+        // .data_mem_rstb_busy(data_mem_rstb_busy),
+        // .data_mem_doutb(data_mem_doutb),
         
+
+      .Dmem_clk(            Dmem_clk),
+      .Dmem_data_req_o(     Dmem_data_req_o),
+      .Dmem_data_addr_o(    Dmem_data_addr_o),
+      .Dmem_data_we_o(      Dmem_data_we_o),
+      .Dmem_data_be_o(      Dmem_data_be_o),
+      .Dmem_data_wdata_o(   Dmem_data_wdata_o),
+      .Dmem_data_rdata_i(   Dmem_data_rdata_i),
+      .Dmem_data_rvalid_i(  Dmem_data_rvalid_i),
+      .Dmem_data_gnt_i(     Dmem_data_gnt_i),
+
+
         // .ins_mem_clkb(ins_mem_clkb),
         // .ins_mem_enb(ins_mem_enb),
         // .ins_mem_rstb(ins_mem_rstb),
@@ -165,6 +186,35 @@ end
     );
 
 
+
+    data_mem_bram_wrapper  data_mem_bram_wrapper (
+        .clk               (    clk),
+        .reset             (    reset),
+
+        .ins_data_req_o    (    Dmem_data_req_o),
+        .ins_data_addr_o   (    Dmem_data_addr_o),
+        .ins_data_we_o     (    Dmem_data_we_o),
+        .ins_data_be_o     (    Dmem_data_be_o),
+        .ins_data_wdata_o  (    Dmem_data_wdata_o),
+        .ins_data_rdata_i  (    Dmem_data_rdata_i),
+        .ins_data_rvalid_i (    Dmem_data_rvalid_i),
+        .ins_data_gnt_i    (    Dmem_data_gnt_i),
+
+
+        // .data_clk(Imem_clk),
+        .ins_mem_clkb (       data_mem_clkb),
+        .ins_mem_enb (        data_mem_enb),
+        .ins_mem_rstb (       data_mem_rstb),
+        .ins_mem_web (        data_mem_web),
+        .ins_mem_addrb (      data_mem_addrb),
+        .ins_mem_dinb (       data_mem_dinb),
+        .ins_mem_rstb_busy (  data_mem_rstb_busy),
+        .ins_mem_doutb (      data_mem_doutb)
+
+    );
+    
+
+
     inst_mem_bram_wrapper  inst_mem_bram_wrapper (
         .clk               (clk),
         .reset             (reset),
@@ -177,6 +227,8 @@ end
         .ins_data_rvalid_i (ins_data_rvalid_i),
         .ins_data_gnt_i    (ins_data_gnt_i),
 
+
+        // .data_clk(Imem_clk),
         .ins_mem_clkb (ins_mem_clkb),
         .ins_mem_enb (ins_mem_enb),
         .ins_mem_rstb (ins_mem_rstb),
@@ -209,15 +261,28 @@ module riscv32i_main
     output wire [31:0] final_value,
 
 
-    // BRAM ports for Data Mem
-    output wire        data_mem_clkb,
-    output wire        data_mem_enb,
-    output wire        data_mem_rstb,
-    output wire [3:0 ] data_mem_web,
-    output wire [31:0] data_mem_addrb,
-    output wire [31:0] data_mem_dinb,
-    input  wire        data_mem_rstb_busy,
-    input  wire [31:0] data_mem_doutb,
+    // // BRAM ports for Data Mem
+    // output wire        data_mem_clkb,
+    // output wire        data_mem_enb,
+    // output wire        data_mem_rstb,
+    // output wire [3:0 ] data_mem_web,
+    // output wire [31:0] data_mem_addrb,
+    // output wire [31:0] data_mem_dinb,
+    // input  wire        data_mem_rstb_busy,
+    // input  wire [31:0] data_mem_doutb,
+
+
+    // Memory interface signals
+    output  wire          Dmem_clk,
+    output wire           Dmem_data_req_o,
+    output wire [31:0]    Dmem_data_addr_o,
+    output wire           Dmem_data_we_o,
+    output wire  [3:0]    Dmem_data_be_o,
+    output wire [31:0]    Dmem_data_wdata_o,
+    input  wire  [31:0]   Dmem_data_rdata_i,
+    input  wire           Dmem_data_rvalid_i,
+    input  wire           Dmem_data_gnt_i,
+
 
     // //bram  Ins_mem
     // output wire        ins_mem_clkb,
@@ -229,15 +294,15 @@ module riscv32i_main
     // input  wire        ins_mem_rstb_busy,
     // input  wire [31:0] ins_mem_doutb
 
-
-    output wire        ins_data_req_o,
-    output wire [31:0] ins_data_addr_o,
-    output wire        ins_data_we_o,
-    output wire  [3:0] ins_data_be_o,
-    output wire [31:0] ins_data_wdata_o,
-    input  wire  [31:0]      ins_data_rdata_i,
-    input  wire        ins_data_rvalid_i,
-    input  wire        ins_data_gnt_i
+    input  wire           Imem_clk,
+    output wire           ins_data_req_o,
+    output wire [31:0]    ins_data_addr_o,
+    output wire           ins_data_we_o,
+    output wire  [3:0]    ins_data_be_o,
+    output wire [31:0]    ins_data_wdata_o,
+    input  wire  [31:0]   ins_data_rdata_i,
+    input  wire           ins_data_rvalid_i,
+    input  wire           ins_data_gnt_i
 
 
 
@@ -316,6 +381,7 @@ end
         .abort_rvalid(      delete_reg1_reg2),
 
         // Memory interface signals
+        .data_clk             (Imem_clk),
         .data_req_o_w         (ins_data_req_o),
         .data_addr_o_w        (ins_data_addr_o),
         .data_we_o_w          (ins_data_we_o),
@@ -539,14 +605,24 @@ dataMem dataMem
 .load_into_reg(load_into_reg),
 
 //bram
-.data_mem_clkb(      data_mem_clkb     ),
-.data_mem_addrb(     data_mem_addrb    ),
-.data_mem_dinb(      data_mem_dinb     ),
-.data_mem_enb(       data_mem_enb      ),
-.data_mem_rstb(      data_mem_rstb     ),
-.data_mem_web(       data_mem_web      ),
-.data_mem_doutb(     data_mem_doutb    ),
-.data_mem_rstb_busy( data_mem_rstb_busy )
+// .data_mem_clkb(      data_mem_clkb     ),
+// .data_mem_addrb(     data_mem_addrb    ),
+// .data_mem_dinb(      data_mem_dinb     ),
+// .data_mem_enb(       data_mem_enb      ),
+// .data_mem_rstb(      data_mem_rstb     ),
+// .data_mem_web(       data_mem_web      ),
+// .data_mem_doutb(     data_mem_doutb    ),
+// .data_mem_rstb_busy( data_mem_rstb_busy )
+
+.data_clk(        Dmem_clk),
+.data_req_o(      Dmem_data_req_o),
+.data_addr_o(     Dmem_data_addr_o),
+.data_we_o(       Dmem_data_we_o),
+.data_be_o(       Dmem_data_be_o),
+.data_wdata_o(    Dmem_data_wdata_o),
+.data_rdata_i(    Dmem_data_rdata_i),
+.data_rvalid_i(   Dmem_data_rvalid_i),
+.data_gnt_i(      Dmem_data_gnt_i)
 
 
 
@@ -804,7 +880,68 @@ endmodule
 
 
 
+module data_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
+    input  wire         clk,
+    input  wire         reset,
+    
 
+    // BRAM interface Signals
+
+    output wire        ins_mem_clkb,
+    output wire        ins_mem_enb,
+    output wire        ins_mem_rstb,
+    output wire [3:0 ] ins_mem_web,
+    output wire [31:0] ins_mem_addrb,
+    output wire [31:0] ins_mem_dinb,
+    input  wire        ins_mem_rstb_busy,
+    input  wire [31:0] ins_mem_doutb,
+
+
+    // core Memory interface
+    input  wire         ins_data_req_o,     
+    input  wire [31:0]  ins_data_addr_o,    
+    input  wire         ins_data_we_o,      
+    input  wire [3:0]   ins_data_be_o,      
+    input  wire [31:0]  ins_data_wdata_o,
+    output wire [31:0]  ins_data_rdata_i,   
+    output wire         ins_data_rvalid_i,  
+    output wire         ins_data_gnt_i      
+);
+
+    reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
+    wire rstb_busy;
+    assign ins_data_gnt_i     = ins_data_req_o;
+    assign ins_data_rvalid_i  = rvalid_reg_3;
+    // assign  bram_web = 4'b0;
+
+
+  assign ins_mem_clkb      = clk;
+  assign ins_mem_enb       = ins_data_req_o;
+
+  // assign enb = data_req_o;
+  assign ins_mem_web = ins_data_we_o ? ins_data_be_o: 4'b0;
+
+  assign ins_mem_rstb      = 1'b0;
+  // assign ins_mem_web       = 4'b0000;
+  assign ins_mem_addrb     = ins_data_addr_o;
+  assign ins_mem_dinb      = ins_data_wdata_o;
+  // assign ins_mem_rstb_busy = rstb_busy;
+  assign ins_data_rdata_i = ins_mem_doutb;
+
+  reg [31:0] cycle_taken;
+initial begin
+    cycle_taken <= 0;
+end
+
+    always @(posedge clk) begin
+        if (reset) begin
+        rvalid_reg <= 1'b0; rvalid_reg_1 <= 1'b0;  rvalid_reg_2 <= 1'b0;     rvalid_reg_3 <= 1'b0; rvalid_reg_4 <= 1'b0;  rvalid_reg_5 <= 1'b0; rvalid_reg_6 <= 1'b0;  rvalid_reg_7 <= 1'b0;
+        end
+        else begin
+          rvalid_reg   <= ins_data_req_o; rvalid_reg_1 <= rvalid_reg;  rvalid_reg_2 <= rvalid_reg_1; rvalid_reg_3 <= rvalid_reg_2;  rvalid_reg_4 <= rvalid_reg_3; rvalid_reg_5 <= rvalid_reg_4;  rvalid_reg_6 <= rvalid_reg_5; rvalid_reg_7 <= rvalid_reg_6;
+        end
+    end
+endmodule
 
 
 module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
@@ -880,10 +1017,6 @@ end
           rvalid_reg_7 <= rvalid_reg_6;
         end
     end
-
-
-
-
 endmodule
 
 
@@ -944,16 +1077,12 @@ initial begin
     cycle_taken <= 0;
 end
 
-  parameter N = 3;
-  parameter L = 2;
-    assign ins_data_rvalid_i = req_done;
+  parameter N = 2;
+//   parameter L = 2;
+    // assign ins_data_rvalid_i = req_done;
 
-    // parameter L = 1; // if you wnat ins_data_rvalid_i to be high after grant imediately
-    // assign ins_data_rvalid_i = bram_en;//req_done;
-
-
-
-
+    parameter L = 1; // if you wnat ins_data_rvalid_i to be high after grant imediately
+    assign ins_data_rvalid_i = bram_en;//req_done;
   timed_pulse #(
     .N(N),
     .L(L)
@@ -966,34 +1095,6 @@ end
     .req_done(req_done),
     .bram_en(bram_en)
   );
-
-
-    // always @(posedge clk) begin
-    //     if (reset) begin
-    //     rvalid_reg <= 1'b0;
-    //     rvalid_reg_1 <= 1'b0;
-    //     rvalid_reg_2 <= 1'b0;   
-    //     rvalid_reg_3 <= 1'b0;
-    //     rvalid_reg_4 <= 1'b0;
-    //     rvalid_reg_5 <= 1'b0;
-    //     rvalid_reg_6 <= 1'b0;
-    //     rvalid_reg_7 <= 1'b0;
-    //     end
-    //     else begin
-    //       rvalid_reg   <= ins_data_req_o;
-    //       rvalid_reg_1 <= rvalid_reg;
-    //       rvalid_reg_2 <= rvalid_reg_1;
-    //       rvalid_reg_3 <= rvalid_reg_2;
-    //       rvalid_reg_4 <= rvalid_reg_3;
-    //       rvalid_reg_5 <= rvalid_reg_4;
-    //       rvalid_reg_6 <= rvalid_reg_5;
-    //       rvalid_reg_7 <= rvalid_reg_6;
-    //     end
-    // end
-
-
-
-
 
 
 

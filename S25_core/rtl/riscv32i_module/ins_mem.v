@@ -13,6 +13,8 @@ module ins_mem (
     input wire          abort_rvalid,
 
     // Memory interface
+    output  wire           data_clk,
+
     output wire           data_req_o_w,
     output wire  [31:0]   data_addr_o_w,
     output wire           data_we_o_w,
@@ -23,7 +25,7 @@ module ins_mem (
     input  wire         data_rvalid_i,
     input  wire         data_gnt_i
 );
-    
+    assign data_clk = clk; // Memory clock is the same as the system clock
     reg          data_req_o;
     reg [31:0]   data_addr_o;
     reg          data_we_o;
@@ -72,112 +74,112 @@ module ins_mem (
     always @(*) begin
         case (current_state)
             S_IDLE: begin // can service a new request, thus branch nor stall will affect output
-                instruction_o   <= 32'h00000013;
+                instruction_o    = 32'h00000013;
                 if (new_request_from_PC_accept) begin   // begin new request 
                                                         // Fetch  is active 
                                                         // DECODE is not Active
-                    data_req_o         <= 1'b1;        
-                    data_addr_o        <= pc_i;
+                    data_req_o             = 1'b1;        
+                    data_addr_o            = pc_i;
                     if (data_gnt_i) begin // gnt recognized, meaning request recognized
-                        STALL_IF_not_ready <= 1'b0;
-                        STALL_ID_not_ready <= 1'b0;
-                        next_state         <= S_WAIT_RVALID;
+                        STALL_IF_not_ready = 1'b0;
+                        STALL_ID_not_ready = 1'b0;
+                        next_state         = S_WAIT_RVALID;
                     end else begin       // gnt NOT recognized, meaning request must wait for being granted
-                        STALL_IF_not_ready       <= 1'b1; // STALL the PC module, to wait for the gnt
-                        STALL_ID_not_ready       <= 1'b0; 
-                        next_state               <= S_WAIT_GNT;
+                        STALL_IF_not_ready       = 1'b1; // STALL the PC module, to wait for the gnt
+                        STALL_ID_not_ready       = 1'b0; 
+                        next_state               = S_WAIT_GNT;
                     end 
                 end else begin  // IDLE bc no new request
                     // If there is a branch or jump, then the request is trashed
-                    data_req_o          <= 1'b0;        
-                    data_addr_o         <= 32'b0;  
-                    STALL_IF_not_ready  <= 1'b0;
-                    STALL_ID_not_ready  <= 1'b0;
-                    next_state          <= S_IDLE;
+                    data_req_o          = 1'b0;        
+                    data_addr_o         = 32'b0;  
+                    STALL_IF_not_ready  = 1'b0;
+                    STALL_ID_not_ready  = 1'b0;
+                    next_state          = S_IDLE;
             end
             end
             S_WAIT_GNT: begin // request is being  // Fetch  is active, its waiting for gnt // DECODE is not Active
-                instruction_o   <= 32'h00000013;
+                instruction_o   = 32'h00000013;
                 if (~abort_rvalid) begin // accpet another request after granting
                     if (~stall_i_EXEC) begin 
-                        data_req_o                   <= 1'b1;
-                        data_addr_o                  <= pc_i; // PC_requested is the last requested address
+                        data_req_o                   = 1'b1;
+                        data_addr_o                  = pc_i; // PC_requested is the last requested address
                         if (data_gnt_i) begin 
-                            STALL_IF_not_ready       <= 1'b0;
-                            STALL_ID_not_ready       <= 1'b0;
-                            next_state               <= S_WAIT_RVALID; // waits for rvalid meaning request done, no more stalling
+                            STALL_IF_not_ready       = 1'b0;
+                            STALL_ID_not_ready       = 1'b0;
+                            next_state               = S_WAIT_RVALID; // waits for rvalid meaning request done, no more stalling
                         end else begin 
-                            STALL_IF_not_ready       <= 1'b1;
-                            STALL_ID_not_ready       <= 1'b0;
-                            next_state               <= S_WAIT_GNT; // waait for gnt again
+                            STALL_IF_not_ready       = 1'b1;
+                            STALL_ID_not_ready       = 1'b0;
+                            next_state               = S_WAIT_GNT; // waait for gnt again
                         end
                     end else begin // Stall
-                        data_req_o               <= 1'b0;
-                        STALL_IF_not_ready       <= 1'b1;
-                        STALL_ID_not_ready       <= 1'b0;
-                        data_addr_o              <= 32'h0; 
-                        next_state               <= S_WAIT_GNT; 
-                    end 
+                        data_req_o               = 1'b0;
+                        STALL_IF_not_ready       = 1'b1;
+                        STALL_ID_not_ready       = 1'b0;
+                        data_addr_o              = 32'h0; 
+                        next_state               = S_WAIT_GNT; 
+                    end
                 end else begin // Jump or banch, meaning that current request is trashed
-                    data_req_o               <= 1'b0;
-                    STALL_IF_not_ready       <= 1'b0;
-                    STALL_ID_not_ready       <= 1'b0;
-                    data_addr_o              <= 32'h0;
-                    next_state               <= S_IDLE; // no more request, no more wait for gnt
+                    data_req_o               = 1'b0;
+                    STALL_IF_not_ready       = 1'b0;
+                    STALL_ID_not_ready       = 1'b0;
+                    data_addr_o              = 32'h0;
+                    next_state               = S_IDLE; // no more request, no more wait for gnt
                 end 
             end  // end S_WAIT_GNT
 
             S_WAIT_RVALID: begin
                 if (~abort_rvalid) begin 
                     if (data_rvalid_i) begin
-                        instruction_o <= data_rdata_i;
+                        instruction_o = data_rdata_i;
 
                         if (~stall_i_EXEC) begin
                             if (pc_i_valid) begin // accpet another request after granting
-                                data_req_o         <= 1'b1;        
-                                data_addr_o        <= pc_i;        
+                                data_req_o         = 1'b1;        
+                                data_addr_o        = pc_i;        
                                 if (data_gnt_i) begin
-                                    STALL_IF_not_ready <= 1'b0;
-                                    STALL_ID_not_ready <= 1'b0;
-                                    next_state         <= S_WAIT_RVALID;
+                                    STALL_IF_not_ready = 1'b0;
+                                    STALL_ID_not_ready = 1'b0;
+                                    next_state         = S_WAIT_RVALID;
                                 end 
                                 else begin  // new request but no gnt recognized
-                                    STALL_IF_not_ready       <= 1'b1;
-                                    STALL_ID_not_ready       <= 1'b0;
-                                    next_state               <= S_WAIT_GNT;
+                                    STALL_IF_not_ready       = 1'b1;
+                                    STALL_ID_not_ready       = 1'b0;
+                                    next_state               = S_WAIT_GNT;
                                 end 
                             end else begin // no new request
-                                STALL_IF_not_ready       <= 1'b0;
-                                STALL_ID_not_ready       <= 1'b0;
-                                next_state               <= S_IDLE;
+                                STALL_IF_not_ready       = 1'b0;
+                                STALL_ID_not_ready       = 1'b0;
+                                next_state               = S_IDLE;
                             end
                         end else begin // stall
-                            data_req_o               <=  1'b0;        
-                            data_addr_o              <= 32'h0;  
-                            STALL_IF_not_ready       <=  1'b1;
-                            STALL_ID_not_ready       <=  1'b1;
-                            next_state               <= S_IDLE;
+                            data_req_o               =  1'b0;        
+                            data_addr_o              = 32'h0;  
+                            STALL_IF_not_ready       =  1'b1;
+                            STALL_ID_not_ready       =  1'b1;
+                            next_state               = S_IDLE;
                         end
                     end else begin // rvalid not satisfied
-                        instruction_o               <= 32'h00000013;
-                        data_req_o                  <= 1'b0;
-                        data_addr_o                 <= pc_i;        
-                        STALL_IF_not_ready          <= 1'b0;
-                        STALL_ID_not_ready          <= 1'b1;
-                        next_state                  <= S_WAIT_RVALID;
+                        instruction_o               = 32'h00000013;
+                        data_req_o                  = 1'b0;
+                        data_addr_o                 = pc_i;        
+                        STALL_IF_not_ready          = 1'b0;
+                        STALL_ID_not_ready          = 1'b1;
+                        next_state                  = S_WAIT_RVALID;
                     end
                 end else begin  // Branch during request
-                        data_req_o                  <= 1'b0;
-                        data_addr_o                 <= 32'h0;
-                        instruction_o               <= 32'h00000013; // Yummy instruction, you dont care regaurdless of any new request satsifictaion
+                        data_req_o                  = 1'b0;
+                        data_addr_o                 = 32'h0;
+                        instruction_o               = 32'h00000013; // Yummy instruction, you dont care regaurdless of any new request satsifictaion
                         if (data_rvalid_i) begin
-                            STALL_IF_not_ready       <= 1'b0;
-                            STALL_ID_not_ready       <= 1'b0;
-                            next_state               <= S_IDLE; // no more request, new req would be aborted
+                            STALL_IF_not_ready       = 1'b0;
+                            STALL_ID_not_ready       = 1'b0;
+                            next_state               = S_IDLE; // no more request, new req would be aborted
                         end else begin  // This means your still waiting for rvalid which you throw out anyway 
-                            STALL_IF_not_ready       <= 1'b0;
-                            STALL_ID_not_ready       <= 1'b0; // gotta stall request
-                            next_state               <= S_ABORT_RVALID; // Now I gotta wait for new request
+                            STALL_IF_not_ready       = 1'b0;
+                            STALL_ID_not_ready       = 1'b0; // gotta stall request
+                            next_state               = S_ABORT_RVALID; // Now I gotta wait for new request
                         end                    
                 end
             end
@@ -187,36 +189,36 @@ module ins_mem (
                 instruction_o               <= 32'h00000013; // Cant service new request, so you dont care about the instruction
                 if (data_rvalid_i && ~stall_i_EXEC) begin // request satisfied but thrown away can recive new request from PC
                     if (pc_i_valid) begin // begin new request // Fetch  is active // DECODE is not Active
-                        data_req_o         <= 1'b1;        
-                        data_addr_o        <= pc_i;
+                        data_req_o         = 1'b1;        
+                        data_addr_o        = pc_i;
                         if (data_gnt_i) begin // gnt recognized, meaning request recognized
-                            STALL_IF_not_ready <= 1'b0;
-                            STALL_ID_not_ready <= 1'b0;
-                            next_state         <= S_WAIT_RVALID;
+                            STALL_IF_not_ready = 1'b0;
+                            STALL_ID_not_ready = 1'b0;
+                            next_state         = S_WAIT_RVALID;
                         end else begin       // gnt NOT recognized, meaning request must wait for being granted
-                            STALL_IF_not_ready       <= 1'b1; // STALL the PC module, to wait for the gnt
-                            STALL_ID_not_ready       <= 1'b0; 
-                            next_state               <= S_WAIT_GNT;
+                            STALL_IF_not_ready       = 1'b1; // STALL the PC module, to wait for the gnt
+                            STALL_ID_not_ready       = 1'b0; 
+                            next_state               = S_WAIT_GNT;
                         end 
                     end else begin  // IDLE bc no new request
-                        data_req_o          <= 1'b0;        
-                        data_addr_o         <= 32'b0;  
-                        STALL_IF_not_ready  <= 1'b0;
-                        STALL_ID_not_ready  <= 1'b0;
-                        next_state          <= S_IDLE;
+                        data_req_o          = 1'b0;        
+                        data_addr_o         = 32'b0;  
+                        STALL_IF_not_ready  = 1'b0;
+                        STALL_ID_not_ready  = 1'b0;
+                        next_state          = S_IDLE;
                     end
                 end else begin// still awaiting rvalid to throw away
-                    data_req_o                  <=  1'b0;
-                    data_addr_o                 <= 32'h0;
-                    STALL_IF_not_ready          <=  1'b1;
-                    STALL_ID_not_ready          <=  1'b0;
-                    next_state               <= S_ABORT_RVALID; // Now I gotta wait for new request
+                    data_req_o                  =  1'b0;
+                    data_addr_o                 = 32'h0;
+                    STALL_IF_not_ready          =  1'b1;
+                    STALL_ID_not_ready          =  1'b0;
+                    next_state               = S_ABORT_RVALID; // Now I gotta wait for new request
                 end
             end
 
 
             default: begin
-                next_state <= S_IDLE;
+                next_state = S_IDLE;
             end
         endcase
     
@@ -257,51 +259,3 @@ module ins_mem (
     end
 
 endmodule
-
-
-
-
-// module ins_mem (
-//     input  wire        clk,
-//     input  wire        reset,
-//     input  wire [31:0] pc_i,
-//     input  wire        enb,
-//     output wire [31:0] instruction_o,
-
-// // BRAM ports
-//     output wire        ins_mem_clkb,
-//     output wire        ins_mem_enb,
-//     output wire        ins_mem_rstb,
-//     output wire [3:0 ] ins_mem_web,
-//     output wire [31:0] ins_mem_addrb,
-//     output wire [31:0] ins_mem_dinb,
-//     input  wire        ins_mem_rstb_busy,
-//     input  wire [31:0] ins_mem_doutb
-
-// );
-//     wire  [31:0] instruction;
-//     wire rstb_busy;
-//     assign instruction_o = reset ?  32'h00000013 : instruction ;
-    
-//     assign ins_mem_clkb      =    clk;            
-//     assign ins_mem_enb       =    enb;             
-//     assign ins_mem_rstb      =     1'b0; 
-//     assign ins_mem_web       =     4'b0; 
-//     assign ins_mem_addrb     =    pc_i; 
-//     assign ins_mem_dinb      =    32'b0; 
-//         // ins_mem_rstb_busy =    rstb_busy   ;               
-//         // ins_mem_dout      =    instruction ;
-//     assign  rstb_busy = ins_mem_rstb_busy;              
-//     assign  instruction = ins_mem_doutb;
-
-// endmodule
-
-// wire output         data_req_o,
-// wire output [31:0]  data_addr_o,
-// wire output         data_we_o,
-// wire output [ 3:0]  data_be_o,
-// wire output [31:0]  data_wdata_o,
-
-// input wire [31:0]   data_rdata_i,
-// input wire          data_rvalid_i,
-// input wire          data_gnt_i
