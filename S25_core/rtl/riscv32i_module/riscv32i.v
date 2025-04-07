@@ -304,17 +304,19 @@ end
     // );
     wire pc_i_valid = 1'b1;
     wire stall_i;
-    wire STALL_if_not_ready_w,STALL_ID_not_ready_w;
+    wire STALL_IF_not_ready_w,STALL_ID_not_ready_w;
     assign stall_i = ~stage0_IF_valid;
+    wire exec_stall = ~stage_EXEC_ready;
     ins_mem ins_mem (
         .clk                 (clk),
         .reset               (reset),
         .pc_i                (pc_i),
         .pc_i_valid          (pc_valid),
-        .STALL_if_not_ready_w(STALL_if_not_ready_w),
+        .STALL_IF_not_ready_w(STALL_IF_not_ready_w),
         .STALL_ID_not_ready_w(STALL_ID_not_ready_w),
         .instruction_o_w     (instruction),
-        .stall_i             (stall_i),
+        .stall_i_EXEC        (exec_stall),
+        .abort_rvalid(      delete_reg1_reg2),
 
         // Memory interface signals
         .data_req_o_w         (ins_data_req_o),
@@ -736,7 +738,7 @@ assign stage_DECO_done    = ~STALL_ID_not_ready_w;
 assign stage_EXEC_ready   = stage2_EXEC_valid; // 
 assign stage1_DECO_valid  = stage_EXEC_ready & stage_DECO_done;
 
-assign stage_IF_done      = ~STALL_if_not_ready_w;
+assign stage_IF_done      = ~STALL_IF_not_ready_w;
 assign stage_DECO_ready   = stage1_DECO_valid; // 
 assign stage0_IF_valid    = stage_DECO_ready & stage_IF_done;
 
@@ -776,13 +778,10 @@ end else begin
     end
 
     if (stage1_DECO_valid) begin
-        // if (pipeReg1[`instruct] != pipeReg1_wire[`instruct] ) begin
-        //     pipeReg1 <= pipeReg1_wire; 
-        // end else begin 
-        //     pipeReg1 <= 512'b0;
-        // end
         pipeReg1 <= pipeReg1_wire;
-    end 
+    end else if (stage2_EXEC_valid) begin 
+        pipeReg1 <= 512'b0;
+    end
     // else if (stage_DECO_done) begin 
     //     pipeReg1  <= 512'b0;
     // end 
@@ -872,7 +871,7 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
     output wire         ins_data_gnt_i      
 );
 
-    reg rvalid_reg,rvalid_reg_1;
+    reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
     wire rstb_busy;
     assign ins_data_gnt_i     = ins_data_req_o;
     assign ins_data_rvalid_i  = rvalid_reg;
@@ -888,15 +887,33 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
   // assign ins_mem_rstb_busy = rstb_busy;
   assign ins_data_rdata_i = ins_mem_doutb;
 
+  reg [31:0] cycle_taken;
+initial begin
+    cycle_taken <= 0;
+end
+
 
 
     always @(posedge clk) begin
         if (reset) begin
-          rvalid_reg <= 1'b0;
+        rvalid_reg <= 1'b0;
+        rvalid_reg_1 <= 1'b0;
+        rvalid_reg_2 <= 1'b0;   
+        rvalid_reg_3 <= 1'b0;
+        rvalid_reg_4 <= 1'b0;
+        rvalid_reg_5 <= 1'b0;
+        rvalid_reg_6 <= 1'b0;
+        rvalid_reg_7 <= 1'b0;
         end
         else begin
           rvalid_reg   <= ins_data_req_o;
           rvalid_reg_1 <= rvalid_reg;
+          rvalid_reg_2 <= rvalid_reg_1;
+          rvalid_reg_3 <= rvalid_reg_2;
+          rvalid_reg_4 <= rvalid_reg_3;
+          rvalid_reg_5 <= rvalid_reg_4;
+          rvalid_reg_6 <= rvalid_reg_5;
+          rvalid_reg_7 <= rvalid_reg_6;
         end
     end
 
@@ -904,3 +921,206 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
 
 
 endmodule
+
+
+
+
+
+module inst_mem_bram_wrapper_test_purpoeses #(  parameter MEM_DEPTH = 1096 ) (
+    input  wire         clk,
+    input  wire         reset,
+    
+
+    // BRAM interface Signals
+
+    output wire        ins_mem_clkb,
+    output wire        ins_mem_enb,
+    output wire        ins_mem_rstb,
+    output wire [3:0 ] ins_mem_web,
+    output wire [31:0] ins_mem_addrb,
+    output wire [31:0] ins_mem_dinb,
+    input  wire        ins_mem_rstb_busy,
+    input  wire [31:0] ins_mem_doutb,
+
+
+    // core Memory interface
+    input  wire         ins_data_req_o,     
+    input  wire [31:0]  ins_data_addr_o,    
+    input  wire         ins_data_we_o,      
+    input  wire [3:0]   ins_data_be_o,      
+    input  wire [31:0]  ins_data_wdata_o,
+    output wire [31:0]  ins_data_rdata_i,   
+    output wire         ins_data_rvalid_i,  
+    output wire         ins_data_gnt_i      
+);
+
+    reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
+    wire rstb_busy;
+    // assign ins_data_gnt_i     = ins_data_req_o;
+    // assign ins_data_rvalid_i  = rvalid_reg_2;
+    // assign  bram_web = 4'b0;
+
+
+wire grant, bram_en,req_done;
+// assign ins_data_req_o_w = req_done;
+// assign ins_data_req_o =ins_data_req_o_w;
+assign ins_data_gnt_i= grant;
+
+  assign ins_mem_clkb      = clk;
+  assign ins_mem_enb       = grant;
+  assign ins_mem_rstb      = 1'b0;
+  assign ins_mem_web       = 4'b0000;
+  assign ins_mem_addrb     = ins_data_addr_o;
+  assign ins_mem_dinb      = 32'b0;
+  // assign ins_mem_rstb_busy = rstb_busy;
+  assign ins_data_rdata_i = ins_mem_doutb;
+
+  reg [31:0] cycle_taken;
+initial begin
+    cycle_taken <= 0;
+end
+
+  parameter N = 3;
+  parameter L = 2;
+    assign ins_data_rvalid_i = req_done;
+
+    // parameter L = 1; // if you wnat ins_data_rvalid_i to be high after grant imediately
+    // assign ins_data_rvalid_i = bram_en;//req_done;
+
+
+
+
+  timed_pulse #(
+    .N(N),
+    .L(L)
+  ) dut (
+    .clk(clk),
+    .reset(reset),
+    .ins_data_req_o(ins_data_req_o),
+    // .value_o(value_o),
+    .grant(grant),
+    .req_done(req_done),
+    .bram_en(bram_en)
+  );
+
+
+    // always @(posedge clk) begin
+    //     if (reset) begin
+    //     rvalid_reg <= 1'b0;
+    //     rvalid_reg_1 <= 1'b0;
+    //     rvalid_reg_2 <= 1'b0;   
+    //     rvalid_reg_3 <= 1'b0;
+    //     rvalid_reg_4 <= 1'b0;
+    //     rvalid_reg_5 <= 1'b0;
+    //     rvalid_reg_6 <= 1'b0;
+    //     rvalid_reg_7 <= 1'b0;
+    //     end
+    //     else begin
+    //       rvalid_reg   <= ins_data_req_o;
+    //       rvalid_reg_1 <= rvalid_reg;
+    //       rvalid_reg_2 <= rvalid_reg_1;
+    //       rvalid_reg_3 <= rvalid_reg_2;
+    //       rvalid_reg_4 <= rvalid_reg_3;
+    //       rvalid_reg_5 <= rvalid_reg_4;
+    //       rvalid_reg_6 <= rvalid_reg_5;
+    //       rvalid_reg_7 <= rvalid_reg_6;
+    //     end
+    // end
+
+
+
+
+
+
+
+
+
+endmodule
+
+
+module timed_pulse #(
+  parameter N = 2, // Number of cycles to capture ins_data_req_o
+  parameter L = 3   // Number of cycles to wait after capture
+) (
+    input  clk,
+    input  reset,
+    input  ins_data_req_o,
+    output reg value_o,
+    output wire grant,
+    output wire req_done,
+    output wire bram_en
+);
+
+  reg [31:0] counter,counter_L;
+  reg capture_done;
+  reg delay_done;
+  reg pulse_out;
+  reg bram_read;
+wire grant_w;
+assign req_done = req_done_w;
+
+assign grant = grant_w;
+assign grant_w = (counter == (N - 1)) && ins_data_req_o;
+wire req_done_w;
+assign req_done_w = (counter_L == (L - 1));
+assign bram_en = bram_read;
+
+  initial begin 
+    bram_read <=0;
+  end 
+  always @ (posedge clk ) begin 
+    if (grant) begin
+      bram_read <= 1;
+    end else if (bram_read) begin
+      bram_read <= 0;
+    end
+
+  end 
+
+
+  always @(posedge clk) begin
+    if (reset) begin
+      counter       <= 0;
+      counter_L       <= 0;
+      capture_done  <= 0;
+      delay_done    <= 0;
+      value_o       <= 0;
+      pulse_out     <= 0;
+    end else begin
+      if(!capture_done)
+      begin
+            pulse_out <= 0;
+
+        if (ins_data_req_o) begin
+          if (counter < N -1) begin
+            counter <= counter + 1;
+          end else begin
+            capture_done <= 1;
+            counter <= 0;
+           end
+        end
+      end else begin//if (!delay_done) begin
+          if (counter_L < L-1) begin
+             counter_L <= counter_L + 1;
+          end else begin
+            counter_L <= 0;
+            capture_done <= 0;
+            pulse_out    <= 1;
+          end
+        // end else begin
+        //    pulse_out <= 1;
+        // end
+    end
+  end
+  end
+//   always @(posedge clk) begin
+//     if(reset) begin
+//        value_o <= 0;
+//     end else begin
+//         value_o <= pulse_out;
+//         pulse_out <= 0;
+//     end
+//   end
+
+endmodule
+

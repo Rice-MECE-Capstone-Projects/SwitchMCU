@@ -791,7 +791,7 @@ DATA LOADED:  D000009e8: ffffff80
  
 Cycle_count    21,
         pc_o  000000ac,
-PipeReg0  PC: 000000a8: I:{f99ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000000a8: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000000a4: I:{01400513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000014 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000000a4: I:{01400513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000000014} imm_i 00000014
 PipeReg2  PC: 000000a0: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d ffffff80 rs2_d ffffff80  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    172,  rd_data       0,  data_mem_     0, 
@@ -1004,7 +1004,7 @@ DATA LOADED:  D000009e0: ffff8000
  
 Cycle_count    33,
         pc_o  000000d0,
-PipeReg0  PC: 000000cc: I:{f75ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000000cc: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000000c8: I:{01500513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000015 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000000c8: I:{01500513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000000015} imm_i 00000015
 PipeReg2  PC: 000000c4: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d ffff8000 rs2_d ffff8000  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    208,  rd_data       0,  data_mem_     0, 
@@ -1192,7 +1192,7 @@ DATA_MEM*:    D000009dc: -559038737,   D000009e0:    -32768,   D000009e4: -21474
  
 Cycle_count    44,
         pc_o  000000f4,
-PipeReg0  PC: 000000f0: I:{f51ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000000f0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000000ec: I:{01600513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000016 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000000ec: I:{01600513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000000016} imm_i 00000016
 PipeReg2  PC: 000000e8: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d deadbeef rs2_d deadbeef  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    244,  rd_data       0,  data_mem_     0, 
@@ -1405,7 +1405,7 @@ DATA LOADED:  D000009d4: 00000080
  
 Cycle_count    56,
         pc_o  00000118,
-PipeReg0  PC: 00000114: I:{f2dff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 00000114: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 00000110: I:{01700513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000017 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 00000110: I:{01700513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000000017} imm_i 00000017
 PipeReg2  PC: 0000010c: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d 00000080 rs2_d 00000080  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    280,  rd_data       0,  data_mem_     0, 
@@ -1618,7 +1618,7 @@ DATA LOADED:  D000009cc: 00008000
  
 Cycle_count    68,
         pc_o  0000013c,
-PipeReg0  PC: 00000138: I:{f09ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 00000138: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 00000134: I:{01800513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000018 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 00000134: I:{01800513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000000018} imm_i 00000018
 PipeReg2  PC: 00000130: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d 00008000 rs2_d 00008000  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    316,  rd_data       0,  data_mem_     0, 
@@ -1831,7 +1831,7 @@ DATA LOADED:  D000009ca: 55550000
  
 Cycle_count    80,
         pc_o  00000160,
-PipeReg0  PC: 0000015c: I:{ee5ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 0000015c: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 00000158: I:{01900513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000019 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 00000158: I:{01900513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000000019} imm_i 00000019
 PipeReg2  PC: 00000154: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d 00000055 rs2_d 00000055  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    352,  rd_data       0,  data_mem_     0, 
@@ -2076,7 +2076,7 @@ DATA_MEM*:    D000009c4: -1437270016,   D000009c8: 1431677525,   D000009cc:     
  
 Cycle_count    94,
         pc_o  0000018c,
-PipeReg0  PC: 00000188: I:{eb9ff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 00000188: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 00000184: I:{01a00513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 0000001a branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 00000184: I:{01a00513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000001a} imm_i 0000001a
 PipeReg2  PC: 00000180: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d 0000aa55 rs2_d 0000aa55  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    396,  rd_data       0,  data_mem_     0, 
@@ -2321,7 +2321,7 @@ DATA_MEM*:    D000009bc: -559038737,   D000009c0: -559038737,   D000009c4: -1437
  
 Cycle_count   108,
         pc_o  000001b8,
-PipeReg0  PC: 000001b4: I:{e8dff0ef}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001b4: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001b0: I:{01b00513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 0000001b branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001b0: I:{01b00513}    inst_ADDI   rd_i_a   10 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000001b} imm_i 0000001b
 PipeReg2  PC: 000001ac: I:{00f70663}    inst_BEQ    rd_i_a    0 rs1_a   14 rs2_a   15  rs1_d deadbeef rs2_d deadbeef  result {00000001} imm_i 0000000c branch_en     1,  reg_write     0,  operand_a     0,  alu_res2    440,  rd_data       0,  data_mem_     0, 
@@ -2435,7 +2435,7 @@ DATA_MEM*:    D000009bc: -559038737,   D000009c0: -559038737,   D000009c4: -1437
  
 Cycle_count   115,
         pc_o  000001d0,
-PipeReg0  PC: 000001cc: I:{00001117}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001cc: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000001cc} imm_i 00000000
 PipeReg2  PC: 000001c4: I:{e3dff0ef}    inst_JAL    rd_i_a    1 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001c8} imm_i fffffe3c branch_en     0,  reg_write     1,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
@@ -2876,7 +2876,7 @@ DATA LOADED:  D000009a8: 00001000
  
 Cycle_count   139,
         pc_o  00000048,
-PipeReg0  PC: 00000044: I:{00112e23}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 00000044: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 00000040: I:{fe010113}    inst_ADDI   rd_i_a    2 rs1_a    2 rs2_a    0  rs1_d 00000f80 rs2_d 00000000  result {00000000} imm_i ffffffe0 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 00000040: I:{fe010113}    inst_ADDI   rd_i_a    2 rs1_a    2 rs2_a    0  rs1_d 00000fb0 rs2_d 00000000  result {100000f90} imm_i ffffffe0
 PipeReg2  PC: 0000003c: I:{00008067}    inst_JALR   rd_i_a    0 rs1_a    1 rs2_a    0  rs1_d 000001c8 rs2_d 00000000  result {00000040} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
@@ -2942,7 +2942,7 @@ DATA_MEM*:    D00000000: -559038737,   D00000988: -559038737,   D0000098c:      
  
 Cycle_count   143,
         pc_o  000001d4,
-PipeReg0  PC: 000001d0: I:{e3410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001d0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00001000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000011cc} imm_i 00001000
 PipeReg2  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001cc} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
@@ -3007,7 +3007,7 @@ DATA_MEM*:    D00000000: -559038737,   D00000988: -559038737,   D0000098c:      
  
 Cycle_count   147,
         pc_o  000001d4,
-PipeReg0  PC: 000001d0: I:{e3410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001d0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00001000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000011cc} imm_i 00001000
 PipeReg2  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001cc} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
@@ -3072,7 +3072,7 @@ DATA_MEM*:    D00000000: -559038737,   D00000988: -559038737,   D0000098c:      
  
 Cycle_count   151,
         pc_o  000001d4,
-PipeReg0  PC: 000001d0: I:{e3410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001d0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00001000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000011cc} imm_i 00001000
 PipeReg2  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001cc} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
@@ -3137,7 +3137,7 @@ DATA_MEM*:    D00000000: -559038737,   D00000988: -559038737,   D0000098c:      
  
 Cycle_count   155,
         pc_o  000001d4,
-PipeReg0  PC: 000001d0: I:{e3410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001d0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00001000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000011cc} imm_i 00001000
 PipeReg2  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001cc} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
@@ -3202,7 +3202,7 @@ DATA_MEM*:    D00000000: -559038737,   D00000988: -559038737,   D0000098c:      
  
 Cycle_count   159,
         pc_o  000001d4,
-PipeReg0  PC: 000001d0: I:{e3410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001d0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00001000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000011cc} imm_i 00001000
 PipeReg2  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001cc} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
@@ -3267,7 +3267,7 @@ DATA_MEM*:    D00000000: -559038737,   D00000988: -559038737,   D0000098c:      
  
 Cycle_count   163,
         pc_o  000001d4,
-PipeReg0  PC: 000001d0: I:{e3410113}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
+PipeReg0  PC: 000001d0: I:{00000013}    inst_UNKOWN rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 PipeReg1  PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {00000000} imm_i 00001000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2      0,  rd_data       0,  data_mem_     0, 
 EXEC      PC: 000001cc: I:{00001117}    inst_AUIPC  rd_i_a    2 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {0000011cc} imm_i 00001000
 PipeReg2  PC: 000001c8: I:{0000006f}    inst_JAL    rd_i_a    0 rs1_a    0 rs2_a    0  rs1_d 00000000 rs2_d 00000000  result {000001cc} imm_i 00000000 branch_en     0,  reg_write     0,  operand_a     0,  alu_res2    456,  rd_data       0,  data_mem_     0, 
