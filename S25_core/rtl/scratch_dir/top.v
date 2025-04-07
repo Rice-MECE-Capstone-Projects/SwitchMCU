@@ -1,153 +1,200 @@
-
-
-module instruction_memory (
-    input  wire         clk,
-    input  wire         reset,
-    input  wire [31:0]  pc_i,
-    input  wire         pc_i_valid,
-    output wire         STALL_if_not_ready_w,
-    output wire [31:0]   instruction_o_w,
-    input wire         stall_i,
-
-    // Memory interface
-
-
-    output wire           data_req_o_w,
-    output wire  [31:0]   data_addr_o_w,
-    output wire           data_we_o_w,
-    output wire  [3:0]    data_be_o_w,
-    output wire  [31:0]   data_wdata_o_w,
-
-
-    input  wire [31:0]  data_rdata_i,
-    input  wire         data_rvalid_i,
-    input  wire         data_gnt_i
+module timed_pulse #(
+  parameter N = 2, // Number of cycles to capture ins_data_req_o
+  parameter L = 3   // Number of cycles to wait after capture
+) (
+    input  clk,
+    input  reset,
+    input  ins_data_req_o,
+    output reg value_o,
+    output wire grant,
+    output wire req_done,
+    output wire bram_en
 );
-    
-reg          data_req_o;
-reg [31:0]   data_addr_o;
-reg          data_we_o;
-reg [3:0]    data_be_o;
-reg [31:0]   data_wdata_o;
 
-    reg          STALL_if_not_ready;
-    reg [31:0]   instruction_o;
+  reg [31:0] counter,counter_L;
+  reg capture_done;
+  reg delay_done;
+  reg pulse_out;
+  reg bram_read;
+wire grant_w;
+assign grant = grant_w;
+assign grant_w = (counter == (N - 1)) && ins_data_req_o;
+wire req_done_w;
+assign req_done = req_done_w;
+assign req_done_w = (counter_L == (L - 1));
+assign bram_en = bram_read;
 
-    assign data_we_o_w      =   32'b0; // We are not writing data, so this is always 0
-    assign data_be_o_w      =   4'b1111; // We always want the entire word;
-    assign data_wdata_o_w   =   32'b0; // We are not writing data, so this is always 0
-
-
-    assign data_req_o_w =   data_req_o  ;
-    assign data_addr_o_w =  data_addr_o ;
-
-    assign STALL_if_not_ready_w = STALL_if_not_ready;
-    assign instruction_o_w = instruction_o;
-
-    localparam [1:0] S_IDLE       = 2'b00,
-                     S_WAIT_GNT   = 2'b01,
-                     S_WAIT_RVALID= 2'b10;
-
-
-    reg [1:0] current_state, next_state;
-
-    reg [31:0] pc_decode;
-    reg [31:0] current_PC_wating_rvalid;
-
-    always @(*) begin
-        case (current_state)
-            S_IDLE: begin
-                instruction_o   <= 32'h00000013;
-                if (pc_i_valid) begin
-                    data_req_o         <= 1'b1;        
-                    data_addr_o        <= pc_i;        
-                if (data_gnt_i) begin
-                    STALL_if_not_ready <= 1'b0;
-                    next_state         <= S_WAIT_RVALID;
-                end else begin 
-                    STALL_if_not_ready       <= 1'b1;
-                    next_state               <= S_WAIT_GNT;
-                end 
-                end else begin 
-                    data_req_o          <= 1'b1;        
-                    data_addr_o         <= 32'b0;  
-                    STALL_if_not_ready  <= 1'b0;
-                    next_state          <= S_IDLE;
-            end
-
-            end
-            
-            S_WAIT_GNT: begin
-                instruction_o   <= 32'h00000013;
-                data_req_o                   <= 1'b1;
-                data_addr_o                  <= pc_i;  
-                STALL_if_not_ready           <= 1'b1;
-                if (data_gnt_i) begin 
-                    STALL_if_not_ready       <= 1'b0;
-                    next_state               <= S_WAIT_RVALID;
-                end 
-                end
-
-            S_WAIT_RVALID: begin
-                if (data_rvalid_i) begin
-                    instruction_o <= data_rdata_i;
-                    pc_decode     <= current_PC_wating_rvalid;
-
-                    if (pc_i_valid) begin
-                        data_req_o         <= 1'b1;        
-                        data_addr_o        <= pc_i;        
-                        STALL_if_not_ready <= 1'b0;
-
-                        if (data_gnt_i) begin
-                            STALL_if_not_ready <= 1'b0;
-                            next_state         <= S_WAIT_RVALID;
-                        end 
-                        else begin  
-                            STALL_if_not_ready       <= 1'b1;
-                            next_state               <= S_WAIT_GNT;
-                        end 
-                    end else begin 
-                        STALL_if_not_ready       <= 1'b0;
-                        next_state               <= S_IDLE;
-                    end 
-                    
-                end 
-                else begin 
-                    instruction_o               <= 32'h00000013;
-                    data_req_o                  <= 1'b0;
-                    data_addr_o                 <= pc_i;        
-                    STALL_if_not_ready          <= 1'b1;
-                    next_state                  <= S_WAIT_RVALID;
-                end
-            end
-
-            default: begin
-                next_state <= S_IDLE;
-            end
-        endcase
-    
+  initial begin 
+    bram_read <=0;
+  end 
+  always @ (posedge clk ) begin 
+    if (grant) begin
+      bram_read <= 1;
+    end else if (bram_read) begin
+      bram_read <= 0;
     end
 
-    always @(posedge clk) begin
-        if (reset) begin
-            current_state <= S_IDLE;
-            instruction_o <= 32'b0;
+  end 
+
+
+  always @(posedge clk) begin
+    if (reset) begin
+      counter       <= 0;
+      counter_L       <= 0;
+      capture_done  <= 0;
+      delay_done    <= 0;
+      value_o       <= 0;
+      pulse_out     <= 0;
+    end else begin
+      if(!capture_done)
+      begin
+            pulse_out <= 0;
+
+        if (ins_data_req_o) begin
+          if (counter < N -1) begin
+            counter <= counter + 1;
+          end else begin
+            capture_done <= 1;
+            counter <= 0;
+           end
         end
-        else if (~stall_i) begin
-            current_state <= next_state;
-
-            if ((next_state == S_WAIT_RVALID) && (current_state != S_WAIT_RVALID)) begin
-                current_PC_wating_rvalid <= pc_i; 
-            end   
-
-        end
-
-
+      end else begin//if (!delay_done) begin
+          if (counter_L < L-1) begin
+             counter_L <= counter_L + 1;
+          end else begin
+            counter_L <= 0;
+            capture_done <= 0;
+            pulse_out    <= 1;
+          end
+        // end else begin
+        //    pulse_out <= 1;
+        // end
     end
-
-
-
+  end
+  end
+//   always @(posedge clk) begin
+//     if(reset) begin
+//        value_o <= 0;
+//     end else begin
+//         value_o <= pulse_out;
+//         pulse_out <= 0;
+//     end
+//   end
 
 endmodule
 
 
+module timed_pulse_tb;
+
+  // Parameters
+  parameter N = 2;
+  parameter L = 1;
+
+  // Signals
+  reg clk;
+  reg reset;
+  reg ins_data_req_o;
+  wire value_o;
+  wire grant;
+
+  // Instantiate the DUT
+  timed_pulse #(
+    .N(N),
+    .L(L)
+  ) dut (
+    .clk(clk),
+    .reset(reset),
+    .ins_data_req_o(ins_data_req_o),
+    .value_o(value_o),
+    .grant(grant),
+    .req_done(req_done),
+    .bram_en(bram_en)
+  );
+
+      initial begin
+        $dumpfile("timed_pulse_tb.vcd"); // Specify the dump file name.
+        $dumpvars(3, timed_pulse_tb);   // Dump all variables in tb_pulse_generator scope.
+      end
+  // Clock generation
+  always begin
+    #5 clk = ~clk;
+  end
+
+  // Test sequence
+  initial begin
+    // Initialize signals
+    clk = 0;
+    reset = 1;
+    ins_data_req_o = 0;
+        
+    // Reset the DUT
+    @(posedge clk);
+    @(posedge clk);
+    reset = 0;
+    @(posedge clk);
+        
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+
+    ins_data_req_o = 0;
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+
+    repeat(L) @(posedge clk);
+    // ins_data_req_o = 0;
+    
+       repeat (10) @(posedge clk);
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+    repeat(L) @(posedge clk);
+    ins_data_req_o = 0;
+
+    
+       repeat (10) @(posedge clk);
+    @(posedge clk);
+    ins_data_req_o = 1;
+    repeat(N) @(posedge clk);
+    ins_data_req_o = 0;
+    repeat(L) @(posedge clk);
+    ins_data_req_o = 0;
+    // // Test case 2: Trigger the pulse again
+    //    @(posedge clk);
+    //       ins_data_req_o = 1;
+    //     repeat(N+L+2) @(posedge clk);
+    //    ins_data_req_o = 0;
+       
+     // Wait some extra cycles
+       repeat(10) @(posedge clk);
+
+
+    // End simulation
+    $finish;
+  end
+
+  //Monitor signals
+  initial begin
+    $monitor("Time=%0t, clk=%b, reset=%b, ins_data_req_o=%b, value_o=%b, grant=%b",
+      $time, clk, reset, ins_data_req_o, value_o, grant);
+  end
+endmodule
