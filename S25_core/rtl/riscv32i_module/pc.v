@@ -4,6 +4,8 @@ input wire reset_i,
 input wire stage_IF_ready,
 input wire jump_inst_wire, 
 input wire branch_inst_wire,
+input wire branch_pred_wire,
+input wire branch_pred_old2,
 input wire enable_design, 
 input wire [31:0] targetPC_i,
 input wire [31:0] initial_pc_i,
@@ -15,7 +17,7 @@ reg  [31:0] PC;
 wire [31:0] nextPC;
 reg pc_valid_r;
 wire change_PC_condition_for_jump_or_branch;
-assign change_PC_condition_for_jump_or_branch = jump_inst_wire | branch_inst_wire;
+assign change_PC_condition_for_jump_or_branch = (jump_inst_wire | branch_inst_wire | branch_pred_wire) ^ branch_pred_old2;
 assign nextPC = change_PC_condition_for_jump_or_branch ?  targetPC_i  : PC + 4;
 
 assign pc_o = PC;
@@ -47,6 +49,8 @@ always @(negedge clk_i) begin
 	#30
 	if (jump_inst_wire)    begin $write("\nPC_module: JUMP!   Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
 	if (branch_inst_wire ) begin $write("\nPC_module: BRANCH! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
+	if (branch_pred_wire ) begin $write("\nPC_module: BRANCH PRED! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
+	if (branch_pred_old2 & change_PC_condition_for_jump_or_branch) begin $write("\nPC_module: BRANCH FLUSHED! Next cycle, New PC: %8h, Destroyed PC %8h", targetPC_i,PC + 4);end
 
 end
 

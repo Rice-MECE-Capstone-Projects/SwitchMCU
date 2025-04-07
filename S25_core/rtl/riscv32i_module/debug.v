@@ -6,7 +6,7 @@ module debug # (
 input wire           i_clk,
 input wire [ 31:0]    pc_o,
 input wire [ 31:0]    Cycle_count,
-input wire [511:0] pipeReg
+input wire [512:0] pipeReg
 );
 
 
