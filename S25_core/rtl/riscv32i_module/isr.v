@@ -1,4 +1,4 @@
-module interrupt_controller (
+module isr (
     input clk,
     input rst_n,
 
