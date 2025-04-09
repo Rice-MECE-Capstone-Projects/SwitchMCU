@@ -2,16 +2,16 @@ module isr (
     input clk,
     input rst_n,
 
-    // Request signal from interrupt sources
+    // signal from core to indicate an interrupt should happen
     input interrupt_req,
 
     // Input from the core to tell which interrupt ID is being handled (needs to be locked so it doesn't update mid update)
     input [4:0] current_irq_id,
 
-    // Interrupt ID and acknowledgment signals
+    // valid signal for the interrupt request
     output [4:0] irq_id,
     output irq_pending,
-    input irq_ack
+    input irq_valid
 );
     reg [4:0] irq_id_reg;
     reg irq_pending_reg;
@@ -32,7 +32,7 @@ module isr (
                 irq_id <= current_irq_id;
             end
             // once interrupt happens signal sent back that jump was successful
-            else if (irq_ack && irq_pending_reg) begin
+            else if (irq_valid && irq_pending_reg) begin
                 if (current_irq_id == irq_id) begin
                     irq_pending_reg <= 0;
                     irq_id_reg <= 5'b0;
