@@ -12,6 +12,27 @@ typedef unsigned long   uintptr;
 
 volatile uint32 timer_triggered = 0;
 
+
+
+#define PERIPHERAL_SUCCESS 0x00000600
+#define PERIPHERAL_BYTE    0x00000604
+
+// Write a value to a memory-mapped register.
+void write_mmio(unsigned int addr, unsigned int value) {
+    volatile unsigned int *ptr = (volatile unsigned int *)addr;
+    *ptr = value;
+}
+
+
+
+
+// Called when a test fails; test_index indicates which test failed.
+void fail(int test_index) {
+    write_mmio(PERIPHERAL_BYTE, test_index);
+    write_mmio(PERIPHERAL_SUCCESS, 0xBADF00D);
+    while (1);
+}
+
 // Forward declaration
 void trap_handler(void);
 
@@ -57,8 +78,11 @@ void main() {
     while (1) {
         if (timer_triggered) {
             timer_triggered = 0;
-            // TODO: your code here (e.g., toggle GPIO, blink LED)
+            write_mmio(PERIPHERAL_SUCCESS, 0xDEADBEEF);
+            // while (1);
+            // return 0;
         }
         delay();
     }
 }
+

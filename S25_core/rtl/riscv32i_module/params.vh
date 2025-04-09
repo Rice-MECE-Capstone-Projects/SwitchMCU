@@ -25,6 +25,7 @@
 `define Single_Instruction 351:288 //[63:00]   
 `define data_mem_loaded    383:352  
 `define csr_reg            395:384 //[11:0]
+`define csr_reg_val        427:396 //[31:0]
 
 // Opcode Decoding Type
 `define R_Type            7'b0110011 //0110011

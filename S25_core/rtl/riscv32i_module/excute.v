@@ -16,6 +16,7 @@ module execute
     input wire  [31:0] imm_i,
     input wire  [31:0] pc_i,
     input wire         Noop,
+    input wire  [31:0] csr_op_in,
     output wire [31:0] alu_result_1,
     output wire [31:0] alu_result_2,
 
@@ -33,7 +34,7 @@ reg  [32:0] result;
 reg  [32:0] result_secondary;
 assign alu_result_1           = result[31:0];
 assign alu_result_2 = result_secondary[31:0];
-reg  branch_inst, jump_inst,write_reg_file,write_csr;;
+reg  branch_inst, jump_inst,write_reg_file,write_csr;
 
 initial begin 
 result           <=0;
@@ -399,30 +400,32 @@ end
 // "result_secondary" is the value that will be written to CSR
 // and operand 2 is the value that will be read from CSR for use in the register file
 {`inst_CSRRW }:begin
-    result           <= operand2_pi;
+    result           <= csr_op_in;//operand2_pi;
     result_secondary <= operand1_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
-    write_csr <= 1'b1;
+    write_csr      <= 1'b1;
 end
 {`inst_CSRRS }:begin
-    result           <= operand2_pi;
-    result_secondary <= operand2_pi | operand1_pi;
+    result           <=  csr_op_in;//operand2_pi;
+    result_secondary <=  operand1_pi |  csr_op_in;//
+    branch_inst <=0;
+    jump_inst <=0;
+    write_reg_file <= 1'b1;
+    write_csr      <= 1'b1;
+end
+{`inst_CSRRC }:begin
+    result           <=  csr_op_in;//operand2_pi;
+    result_secondary <=  csr_op_in & ~operand1_pi; //operand2_pi;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
     write_csr <= 1'b1;
-end
-{`inst_CSRRC }:begin
-    result           <= operand2_pi;
-    result_secondary <= operand2_pi & ~operand1_pi;
-    branch_inst <=0;
-    jump_inst <=0;
-    write_reg_file <= 1'b1;
+
 end
 {`inst_CSRRWI}:begin
-    result           <= operand2_pi;
+    result           <= csr_op_in;//operand2_pi;
     result_secondary <= {27'b0,rs1_i};
     branch_inst <=0;
     jump_inst <=0;

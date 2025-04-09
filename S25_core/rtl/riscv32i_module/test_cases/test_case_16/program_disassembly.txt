@@ -1,0 +1,66 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+   0:	fd010113          	addi	sp,sp,-48
+   4:	02112623          	sw	ra,44(sp)
+   8:	02812423          	sw	s0,40(sp)
+   c:	03010413          	addi	s0,sp,48
+  10:	fca42e23          	sw	a0,-36(s0)
+  14:	fcb42c23          	sw	a1,-40(s0)
+  18:	fdc42783          	lw	a5,-36(s0)
+  1c:	fef42623          	sw	a5,-20(s0)
+  20:	fec42783          	lw	a5,-20(s0)
+  24:	fd842703          	lw	a4,-40(s0)
+  28:	00e7a023          	sw	a4,0(a5)
+  2c:	00000013          	nop
+  30:	02c12083          	lw	ra,44(sp)
+  34:	02812403          	lw	s0,40(sp)
+  38:	03010113          	addi	sp,sp,48
+  3c:	00008067          	ret
+  40:	fe010113          	addi	sp,sp,-32
+  44:	00112e23          	sw	ra,28(sp)
+  48:	00812c23          	sw	s0,24(sp)
+  4c:	02010413          	addi	s0,sp,32
+  50:	fea42623          	sw	a0,-20(s0)
+  54:	fec42783          	lw	a5,-20(s0)
+  58:	00078593          	mv	a1,a5
+  5c:	60400513          	li	a0,1540
+  60:	fa1ff0ef          	jal	0x0
+  64:	0badf7b7          	lui	a5,0xbadf
+  68:	00d78593          	addi	a1,a5,13 # 0xbadf00d
+  6c:	60000513          	li	a0,1536
+  70:	f91ff0ef          	jal	0x0
+  74:	0000006f          	j	0x74
+  78:	fe010113          	addi	sp,sp,-32
+  7c:	00112e23          	sw	ra,28(sp)
+  80:	00812c23          	sw	s0,24(sp)
+  84:	02010413          	addi	s0,sp,32
+  88:	70000793          	li	a5,1792
+  8c:	fef42623          	sw	a5,-20(s0)
+  90:	deadc7b7          	lui	a5,0xdeadc
+  94:	eef78793          	addi	a5,a5,-273 # 0xdeadbeef
+  98:	fef42423          	sw	a5,-24(s0)
+  9c:	fec42783          	lw	a5,-20(s0)
+  a0:	fe842703          	lw	a4,-24(s0)
+  a4:	00e7a023          	sw	a4,0(a5)
+  a8:	fec42783          	lw	a5,-20(s0)
+  ac:	0007a783          	lw	a5,0(a5)
+  b0:	fef42223          	sw	a5,-28(s0)
+  b4:	fe442703          	lw	a4,-28(s0)
+  b8:	fe842783          	lw	a5,-24(s0)
+  bc:	00f70663          	beq	a4,a5,0xc8
+  c0:	00100513          	li	a0,1
+  c4:	f7dff0ef          	jal	0x40
+  c8:	deadc7b7          	lui	a5,0xdeadc
+  cc:	eef78593          	addi	a1,a5,-273 # 0xdeadbeef
+  d0:	60000513          	li	a0,1536
+  d4:	f2dff0ef          	jal	0x0
+  d8:	0000006f          	j	0xd8
+  dc:	00001117          	auipc	sp,0x1
+  e0:	f2410113          	addi	sp,sp,-220 # 0x1000
+  e4:	f95ff0ef          	jal	0x78
+  e8:	ff5ff06f          	j	0xdc

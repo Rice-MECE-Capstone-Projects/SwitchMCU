@@ -38,50 +38,38 @@ Disassembly of section .text:
   70:	f91ff0ef          	jal	0 <write_mmio>
   74:	0000006f          	j	74 <fail+0x34>
 
-00000078 <test_csr>:
+00000078 <main>:
   78:	fe010113          	addi	sp,sp,-32
   7c:	00112e23          	sw	ra,28(sp)
   80:	00812c23          	sw	s0,24(sp)
   84:	02010413          	addi	s0,sp,32
-  88:	deadc7b7          	lui	a5,0xdeadc
-  8c:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  90:	fef42623          	sw	a5,-20(s0)
-  94:	fe042423          	sw	zero,-24(s0)
-  98:	fec42783          	lw	a5,-20(s0)
-  9c:	34079073          	csrw	mscratch,a5
-  a0:	340027f3          	csrr	a5,mscratch
-  a4:	fef42423          	sw	a5,-24(s0)
-  a8:	fe842783          	lw	a5,-24(s0)
-  ac:	00078513          	mv	a0,a5
-  b0:	01c12083          	lw	ra,28(sp)
-  b4:	01812403          	lw	s0,24(sp)
-  b8:	02010113          	addi	sp,sp,32
-  bc:	00008067          	ret
+  88:	70000793          	li	a5,1792
+  8c:	fef42623          	sw	a5,-20(s0)
+  90:	deadc7b7          	lui	a5,0xdeadc
+  94:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
+  98:	fef42423          	sw	a5,-24(s0)
+  9c:	fec42783          	lw	a5,-20(s0)
+  a0:	fe842703          	lw	a4,-24(s0)
+  a4:	00e7a023          	sw	a4,0(a5)
+  a8:	fec42783          	lw	a5,-20(s0)
+  ac:	0007a783          	lw	a5,0(a5)
+  b0:	fef42223          	sw	a5,-28(s0)
+  b4:	fe442703          	lw	a4,-28(s0)
+  b8:	fe842783          	lw	a5,-24(s0)
+  bc:	00f70663          	beq	a4,a5,c8 <main+0x50>
+  c0:	00100513          	li	a0,1
+  c4:	f7dff0ef          	jal	40 <fail>
+  c8:	deadc7b7          	lui	a5,0xdeadc
+  cc:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
+  d0:	60000513          	li	a0,1536
+  d4:	f2dff0ef          	jal	0 <write_mmio>
+  d8:	0000006f          	j	d8 <main+0x60>
 
-000000c0 <main>:
-  c0:	fe010113          	addi	sp,sp,-32
-  c4:	00112e23          	sw	ra,28(sp)
-  c8:	00812c23          	sw	s0,24(sp)
-  cc:	02010413          	addi	s0,sp,32
-  d0:	fa9ff0ef          	jal	78 <test_csr>
-  d4:	fea42623          	sw	a0,-20(s0)
-  d8:	fec42703          	lw	a4,-20(s0)
-  dc:	deadc7b7          	lui	a5,0xdeadc
-  e0:	eef78793          	addi	a5,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  e4:	00f70663          	beq	a4,a5,f0 <main+0x30>
-  e8:	00100513          	li	a0,1
-  ec:	f55ff0ef          	jal	40 <fail>
-  f0:	deadc7b7          	lui	a5,0xdeadc
-  f4:	eef78593          	addi	a1,a5,-273 # deadbeef <_stack_start+0xdeadaeef>
-  f8:	60000513          	li	a0,1536
-  fc:	f05ff0ef          	jal	0 <write_mmio>
- 100:	0000006f          	j	100 <main+0x40>
-
-00000104 <_start>:
- 104:	00001117          	auipc	sp,0x1
- 108:	efc10113          	addi	sp,sp,-260 # 1000 <_stack_start>
- 10c:	fb5ff0ef          	jal	c0 <main>
- 110:	ff5ff06f          	j	104 <_start>
+000000dc <_start>:
+  dc:	00001117          	auipc	sp,0x1
+  e0:	f2410113          	addi	sp,sp,-220 # 1000 <_stack_start>
+  e4:	f95ff0ef          	jal	78 <main>
+  e8:	ff5ff06f          	j	dc <_start>
 
 Disassembly of section .comment:
 
@@ -102,12 +90,12 @@ Disassembly of section .comment:
 Disassembly of section .riscv.attributes:
 
 00000000 <.riscv.attributes>:
-   0:	2841                	.insn	2, 0x2841
+   0:	2441                	.insn	2, 0x2441
    2:	0000                	.insn	2, 0x
    4:	7200                	.insn	2, 0x7200
    6:	7369                	.insn	2, 0x7369
    8:	01007663          	bgeu	zero,a6,14 <write_mmio+0x14>
-   c:	001e                	.insn	2, 0x001e
+   c:	001a                	.insn	2, 0x001a
    e:	0000                	.insn	2, 0x
   10:	1004                	.insn	2, 0x1004
   12:	7205                	.insn	2, 0x7205
@@ -116,9 +104,6 @@ Disassembly of section .riscv.attributes:
   18:	7032                	.insn	2, 0x7032
   1a:	5f31                	.insn	2, 0x5f31
   1c:	697a                	.insn	2, 0x697a
-  1e:	32727363          	bgeu	tp,t2,344 <_etext+0x230>
+  1e:	32727363          	bgeu	tp,t2,344 <_etext+0x258>
   22:	3070                	.insn	2, 0x3070
-  24:	0800                	.insn	2, 0x0800
-  26:	0a01                	.insn	2, 0x0a01
-  28:	Address 0x28 is out of bounds.
-
+	...

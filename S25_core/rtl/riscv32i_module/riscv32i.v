@@ -413,6 +413,7 @@ wire [ 6:0] opcode_stage1;
 wire [ 4:0] rs1_stage1;
 wire [ 4:0] rs2_stage1;
 wire [11:0] csr_stage1;
+wire [31:0] csr_val_stage1;
 wire [31:0] operand1_stage1;
 wire [31:0] operand2_stage1;
 wire [31:0] imm_stage1;
@@ -432,6 +433,7 @@ wire [ 6:0] opcode_stage2;
 wire [ 4:0] rs1_stage2;
 wire [ 4:0] rs2_stage2;
 wire [11:0] csr_stage2;
+wire [31:0] csr_val_stage2;
 wire [31:0] operand1_stage2;
 wire [31:0] operand2_stage2;
 wire [31:0] imm_stage2;
@@ -451,6 +453,7 @@ wire [ 6:0] opcode_stage3;
 wire [ 4:0] rs1_stage3;
 wire [ 4:0] rs2_stage3;
 wire [11:0] csr_stage3;
+wire [31:0] csr_val_stage3;
 wire [31:0] operand1_stage3;
 wire [31:0] operand2_stage3;
 wire [31:0] imm_stage3;
@@ -485,6 +488,8 @@ wire write_reg_file_wire_stage2;
 wire [31:0] rd_result_stage2;
 
 reg delete_reg1_reg2_reg;
+
+wire [31:0] csr_regfile_o;
 
 
 //Control signals 
@@ -521,7 +526,7 @@ assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
 
 //Value being wrtten to regfile in WBB stage, also may be forwarded to ALU
 assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
-assign csrData_pi       = alu_result_2_stage3;
+// assign csrData_pi       = alu_result_2_stage3;
 
 
 //Value being wrtten to regfile in MEM stage, also may be forwarded to ALU
@@ -572,13 +577,22 @@ debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3)
 .reg1_pi(rs1_o), 
 .reg2_pi(rs2_o), 
 .destReg_pi(rd_stage3),
-.csrReg_pi(csr_o),
 .we_pi(write_reg_file_wire_stage3), 
 .writeData_pi(writeData_pi), 
-.csrData_pi(csrData_pi),
-.write_csr(write_csr_wire_stage3),
 .operand1_po(operand1_po),
-.operand2_po(operand2_po)
+.operand2_po(operand2_po),
+
+
+.write_csr(          write_csr_wire_stage3),
+.csrReg_write_dest_reg(         csr_stage3),
+.csrReg_write_dest_reg_data(csr_val_stage3),
+
+.csrReg_read_src_reg(csr_o),
+.csrReg_read_src_reg_data(csr_regfile_o)
+
+
+
+
 );
 
 execute  #(.N_param(32)) execute 
@@ -586,6 +600,7 @@ execute  #(.N_param(32)) execute
      .Single_Instruction_i(Single_Instruction_stage1),
      .operand1_pi(operand1_into_exec),
      .operand2_pi(operand2_into_exec),
+     .csr_op_in(csr_into_exec),
      .instruction(instruction_stage_1),
      .pc_i(pc_stage_1),
      .rd_i(rd_stage1),
@@ -598,7 +613,7 @@ execute  #(.N_param(32)) execute
      .branch_inst_wire(branch_inst_wire),
      .jump_inst_wire(jump_inst_wire),
      .write_reg_file_wire(write_reg_file_wire),
-     .write_csr_wire(write_csr_wire)
+     .write_csr_wire(         write_csr_wire)
      
    );
 
@@ -640,7 +655,7 @@ dataMem dataMem
 
 
 );
-
+wire [31:0] csr_into_exec;
 hazard hazard (
 .clk(clk),
 .rs1_stage1(rs1_stage1),
@@ -657,7 +672,21 @@ hazard hazard (
 .operand1_stage1(operand1_stage1),
 .operand1_into_exec(operand1_into_exec),
 .operand2_into_exec(operand2_into_exec),
-.operand2_stage1(operand2_stage1)
+.operand2_stage1(operand2_stage1),
+
+
+.csr_into_exec(csr_into_exec),
+
+.csr_stage1(                               csr_stage1),
+.csr_result_stage1(                    csr_val_stage1),
+
+.csr_destination_reg_stage2(               csr_stage2),
+.csr_write_reg_stage2(          write_csr_wire_stage2),
+.csr_destination_reg_stage3(               csr_stage3),
+.csr_write_reg_stage3(          write_csr_wire_stage3),
+.csr_memstage_data(                    csr_val_stage2),
+.csr_wbstage_data(                     csr_val_stage3)
+
 );
 
 
@@ -671,6 +700,7 @@ assign rd_stage1 =                  pipeReg1[`rd];
 assign rs1_stage1 =                 pipeReg1[`opRs1_reg];
 assign rs2_stage1 =                 pipeReg1[`opRs2_reg];
 assign csr_stage1 =                 pipeReg1[`csr_reg];
+assign csr_val_stage1 =             pipeReg1[`csr_reg_val];
 assign operand1_stage1 =            pipeReg1[`op1_reg];
 assign operand2_stage1 =            pipeReg1[`op2_reg];
 assign imm_stage1 =                 pipeReg1[`immediate];
@@ -683,6 +713,7 @@ assign rd_stage2 =                  pipeReg2[`rd];
 assign rs1_stage2 =                 pipeReg2[`opRs1_reg];
 assign rs2_stage2 =                 pipeReg2[`opRs2_reg];
 assign csr_stage2 =                 pipeReg2[`csr_reg];
+assign csr_val_stage2 =             pipeReg2[`csr_reg_val];
 assign operand1_stage2 =            pipeReg2[`op1_reg];
 assign operand2_stage2 =            pipeReg2[`op2_reg];
 assign imm_stage2 =                 pipeReg2[`immediate];
@@ -694,12 +725,15 @@ assign branch_inst_wire_stage2    = pipeReg2[`branch_en         ];
 assign write_reg_file_wire_stage2 = pipeReg2[`reg_write_en      ];  
 assign write_csr_wire_stage2      = pipeReg2[`csr_write_en      ];
 
+
+wire HELLO;
 assign pc_stage_3 =                 pipeReg3[`PC_reg];
 assign instruction_stage_3 =        pipeReg3[`instruct];
 assign rd_stage3 =                  pipeReg3[`rd];
 assign rs1_stage3 =                 pipeReg3[`opRs1_reg];
 assign rs2_stage3 =                 pipeReg3[`opRs2_reg];
 assign csr_stage3 =                 pipeReg3[`csr_reg];
+assign csr_val_stage3 =             pipeReg3[`csr_reg_val];
 assign operand1_stage3 =            pipeReg3[`op1_reg];
 assign operand2_stage3 =            pipeReg3[`op2_reg];
 assign imm_stage3 =                 pipeReg3[`immediate];
@@ -708,6 +742,7 @@ assign alu_result_1_stage3 =        pipeReg3[`alu_res1          ];
 assign alu_result_2_stage3 =        pipeReg3[`alu_res2          ];
 assign write_reg_file_wire_stage3 = pipeReg3[`reg_write_en      ];
 assign write_csr_wire_stage3      = pipeReg3[`csr_write_en      ];
+assign HELLO      = pipeReg3[`csr_write_en      ];
 assign load_into_reg_stage3       = pipeReg3[`load_reg          ];  
 assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
 
@@ -723,6 +758,7 @@ assign pipeReg1_wire[`load_reg          ] = 0;
 assign pipeReg1_wire[`jump_en           ] = 0;
 assign pipeReg1_wire[`branch_en         ] = 0;
 assign pipeReg1_wire[`reg_write_en      ] = 0;
+assign pipeReg1_wire[`csr_write_en      ] = 0;
 assign pipeReg1_wire[`LD_ready          ] = 0;
 assign pipeReg1_wire[`SD_ready          ] = 0;
 assign pipeReg1_wire[`rd                ] = rd_o;
@@ -730,6 +766,7 @@ assign pipeReg1_wire[`operand_amt       ] = 0;
 assign pipeReg1_wire[`opRs1_reg         ] = rs1_o;
 assign pipeReg1_wire[`opRs2_reg         ] = rs2_o;
 assign pipeReg1_wire[`csr_reg           ] = csr_o;
+assign pipeReg1_wire[`csr_reg_val       ] = csr_regfile_o;
 assign pipeReg1_wire[`op1_reg           ] = operand1_po;
 assign pipeReg1_wire[`op2_reg           ] = operand2_po;
 assign pipeReg1_wire[`immediate         ] = imm_o;
@@ -755,6 +792,8 @@ assign pipeReg2_wire[`operand_amt       ] = 0;
 assign pipeReg2_wire[`opRs1_reg         ] = rs1_stage1;
 assign pipeReg2_wire[`opRs2_reg         ] = rs2_stage1;
 assign pipeReg2_wire[`csr_reg           ] = csr_stage1;
+assign pipeReg2_wire[`csr_reg_val       ] = alu_result_2; 
+
 assign pipeReg2_wire[`op1_reg           ] = operand1_into_exec;
 assign pipeReg2_wire[`op2_reg           ] = operand2_into_exec;
 assign pipeReg2_wire[`immediate         ] = imm_stage1;
@@ -780,6 +819,7 @@ assign pipeReg3_wire[`operand_amt       ] = 0;
 assign pipeReg3_wire[`opRs1_reg         ] = rs1_stage2;
 assign pipeReg3_wire[`opRs2_reg         ] = rs2_stage2;
 assign pipeReg3_wire[`csr_reg           ] = csr_stage2;
+assign pipeReg3_wire[`csr_reg_val       ] = csr_val_stage2;
 assign pipeReg3_wire[`op1_reg           ] = operand1_stage2;
 assign pipeReg3_wire[`op2_reg           ] = operand2_stage2;
 assign pipeReg3_wire[`immediate         ] = imm_stage2;
@@ -933,9 +973,10 @@ module data_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
 
     reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
     wire rstb_busy;
-    // assign ins_data_gnt_i     = ins_data_req_o;
-    assign ins_data_gnt_i     = rvalid_reg_3;
-    assign ins_data_rvalid_i  = rvalid_reg_7;
+    assign ins_data_gnt_i     = ins_data_req_o;
+    assign ins_data_rvalid_i  = rvalid_reg;
+    // assign ins_data_gnt_i     = rvalid_reg_1;
+    // assign ins_data_rvalid_i  = rvalid_reg_2;
     // assign  bram_web = 4'b0;
 
 
