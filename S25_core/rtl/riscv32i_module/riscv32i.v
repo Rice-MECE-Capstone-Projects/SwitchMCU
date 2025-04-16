@@ -516,6 +516,7 @@ debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3)
 parameter prediction_type = 2'b01;
 wire predict_trigger = (INST_typ_o == 7'b0001000);
 wire branch_predicted;
+wire predict_trigger_prev;
 
     branch_prediction branch_prediction(
         .predict_trigger    (predict_trigger),
@@ -530,7 +531,7 @@ wire branch_predicted;
         .prediction (branch_predicted)
     );
 
-assign target_pc = (branch_predicted == 1) ? pc_out_branch : (branch_predicted_stage1 == 1 & branch_inst_wire_stage2 == 0) ? (pc_stage_1) : alu_result_2_stage2;
+assign target_pc = (branch_predicted == 1) ? pc_out_branch : (branch_predicted_stage1 == 1 & branch_inst_wire_stage2 == 0) ? (pc_stage_2+4) : alu_result_2_stage2;
 
 execute  #(.N_param(32)) execute 
     (.i_clk(clk),    
@@ -764,10 +765,15 @@ if  (delete_reg1_reg2) begin
      end else begin
         pipeReg3 <= pipeReg3;
      end
-
+// end else if (branch_predicted) begin
+//     pipeReg0 <= 65'b0;
 end else begin 
 
     if (stage0_IF_valid) begin 
+      if (branch_predicted) begin
+        pipeReg0 <= 65'b1 << 64;
+        //pipeReg0[`branch_predicted_0] = 1;
+      end else
         pipeReg0   <= pipeReg0_wire;
     end 
     // else if (stage_DECO_done) begin 
@@ -778,7 +784,10 @@ end else begin
     end
 
     if (stage1_DECO_valid) begin
-        pipeReg1 <= pipeReg1_wire;
+        if(branch_predicted_stage0) begin
+          pipeReg1 <= 512'b1 << 384;
+        end else
+          pipeReg1 <= pipeReg1_wire;
     end else if (stage2_EXEC_valid) begin 
         pipeReg1 <= 512'b0;
     end
