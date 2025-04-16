@@ -13,7 +13,7 @@ wire [31:0] mem_addr_block;
 wire [31:0] mem_addr;
 wire mem_read;
 wire mem_write;
-wire [255:0] mem_wdata_array;
+wire [255:0] mem_wdata_block;
 wire [31:0] miss_mem_wdata;
 reg [255:0] mem_rdata_array;
 reg mem_ready;
@@ -37,7 +37,7 @@ cache U1 (
     .mem_addr(mem_addr),
     .mem_read(mem_read),
     .mem_write(mem_write),
-    .mem_wdata_array(mem_wdata_array),
+    .mem_wdata_block(mem_wdata_block),
     .miss_mem_wdata(miss_mem_wdata),
     .mem_rdata_array(mem_rdata_array),
     .mem_ready(mem_ready),
@@ -79,8 +79,8 @@ cache U1 (
         $dumpfile("cache_tb.vcd");
         $dumpvars(0, cache_tb);
 
-        $monitor("Time:%0t | state=%b | data_rvalid=%b | data_gnt=%b | cpu_addr=%h | cpu_wdata=%h | cpu_rdata=%h | cpu_stall=%b | mem_addr_block=%h | mem_addr=%h | mem_read=%b | mem_write=%b | mem_wdata_array=%h | miss_mem_wdata=%h | mem_ready=%b", 
-            $time, state, data_rvalid, data_gnt, cpu_addr, cpu_wdata, cpu_rdata, cpu_stall, mem_addr_block, mem_addr, mem_read, mem_write, mem_wdata_array, miss_mem_wdata, mem_ready);
+        $monitor("Time:%0t | state=%b | data_rvalid=%b | data_gnt=%b | cpu_addr=%h | cpu_wdata=%h | cpu_rdata=%h | cpu_stall=%b | mem_addr_block=%h | mem_addr=%h | mem_read=%b | mem_write=%b | mem_wdata_block=%h | miss_mem_wdata=%h | mem_ready=%b", 
+            $time, state, data_rvalid, data_gnt, cpu_addr, cpu_wdata, cpu_rdata, cpu_stall, mem_addr_block, mem_addr, mem_read, mem_write, mem_wdata_block, miss_mem_wdata, mem_ready);
             
         clk = 0;
         reset = 1;
@@ -124,16 +124,7 @@ cache U1 (
         data_be = 4'b0010;
         #10;
         print_data_table();
-
-        //idle - Load Word - Cache Hit
-        #10;
-        data_req = 0;
-        data_we = 0;
-        cpu_addr = 32'h1000_0000; 
-        data_be = 4'b0010;
-        #10;
-        print_data_table();
-
+      
         //Store half word - Cache miss
         #10;
         data_req = 1;

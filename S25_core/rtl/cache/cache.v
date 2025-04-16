@@ -17,11 +17,10 @@ module cache (
     output reg [31:0] mem_addr,
     output reg mem_read,
     output reg mem_write,
-    output reg [255:0] mem_wdata_array,
+    output reg [255:0] mem_wdata_block,
     output reg [31:0] miss_mem_wdata,
     input wire [255:0] mem_rdata_array,
     input wire mem_ready,
-
     output reg [2:0] state
 );
 
@@ -42,7 +41,7 @@ reg [31:0] mem_rdata[0:((block_size/4) - 1)];
 
 always @(*) begin
     for (integer i = 0; i < (block_size/4); i++) begin
-        mem_wdata_array[(i * 32) +: 32] = mem_wdata[i];
+        mem_wdata_block[(i * 32) +: 32] = mem_wdata[i];
         mem_rdata[i] = mem_rdata_array[(i * 32) +: 32];
     end
 end
@@ -53,6 +52,7 @@ reg [3:0] save_store_inst;
 reg [31:0] save_store_addr;
 wire new_inst_req;
 wire new_addr_req;
+wire data_req_in;
 
 reg [tag_width-1:0] tag_table [0:num_lines-1];
 reg [31:0]          data_table [0:num_lines-1][0:(block_size/4) - 1];
@@ -77,6 +77,7 @@ end
 
 assign new_inst_req = (data_be != save_store_inst);
 assign new_addr_req = (cpu_addr != save_store_addr);
+assign data_req_in = data_req && (new_addr_req || new_inst_req);
 
 always @(posedge clk) begin
     if (reset) begin
@@ -84,14 +85,14 @@ always @(posedge clk) begin
         cpu_stall <= 0;
         miss_mem_wdata <= 32'b0;
         state <= 3'b000;
-        data_rvalid = 0;
-        data_gnt = 0;
+        data_rvalid <= 0;
+        data_gnt <= 0;
         for (integer i = 0; i < num_lines; i++) begin
         tag_table[i] <= 21'b0;
         valid_table[i] <= 0;
             for (integer j = 0; j < (block_size/4); j++) begin
                 data_table[i][j] <= 32'b0;
-                mem_wdata[j] = 32'b0;
+                mem_wdata[j] <= 32'b0;
             end
         end
     end else begin
@@ -114,8 +115,8 @@ always @(*) begin
     case (current_state) 
     idle_state: begin
         state = idle_state;
-        if (data_req) begin
-            // cache hit
+        if (data_req_in) begin
+          // cache hit
             if (valid_table[index] && (tag_table[index] == tag)) begin
                 if (data_we == 0) begin
                     case (data_be)
@@ -323,6 +324,8 @@ always @(*) begin
                     endcase
                 end
             end
+        end else begin
+            next_state = idle_state;
         end
     end
 
