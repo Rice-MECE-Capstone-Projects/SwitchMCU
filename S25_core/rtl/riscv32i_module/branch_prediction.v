@@ -9,7 +9,8 @@ module branch_prediction
 	input wire [31:0] pc,
 	output wire [31:0] pc_o,
 	input wire reset,
-	output reg prediction
+	output wire prediction,
+	output reg predict_trigger_prev
 );
 
 parameter STATIC = 2'b00;
@@ -25,8 +26,11 @@ reg old_branch;
 reg [31:0] pc_temp;
 reg [31:0] pc_x;
 reg prev_prediction;
-reg predict_trigger_prev;
+reg temp_prev_prediction;
+//reg predict_trigger_prev;
+reg temp_predict_trigger_prev;
 reg actual_branch;
+reg temp_prediction;
 
 
 
@@ -37,31 +41,43 @@ always @(posedge clk) begin
 		actual_branch <= curr_branch;
 	end
 	if(reset) begin
-		prediction <= NOT_TAKEN;
+		temp_prediction <= NOT_TAKEN;
 		prev_prediction <= NOT_TAKEN;
 		predict_trigger_prev <= 0;
 		actual_branch <= 0;
 	end
 	else if (predict_trigger & !predict_trigger_prev) begin
 		case(prediction_type)
-			STATIC: prediction <= TAKEN;
+			STATIC: begin
+				temp_prediction <= TAKEN;
+				prev_prediction <= TAKEN;
+			end
 			ONE_BIT: begin
-				if (prev_prediction != actual_branch)
-					prediction <= !prev_prediction;
+				if (prev_prediction != actual_branch) begin
+					temp_prediction <= !prev_prediction;
+					prev_prediction <= !prev_prediction;
+				end
+				else begin
+					temp_prediction <= prev_prediction;
+				end
 			end
 			TWO_BIT: begin
-				if (old_branch == actual_branch && actual_branch != prev_prediction) 
-					prediction <= !prev_prediction;
+				if (old_branch == actual_branch && actual_branch != prev_prediction) begin
+					temp_prediction <= !prev_prediction;
+					prev_prediction <= !prev_prediction;
+				end
+				else begin
+					temp_prediction <= prev_prediction;
+				end
 			end
-			default: prediction <= prev_prediction;
+			default: temp_prediction <= prev_prediction;
 		endcase
 		old_branch <= actual_branch;
 		predict_trigger_prev <= predict_trigger;
-		prev_prediction <= prediction;
 	end
 	else begin
 		predict_trigger_prev <= 0;
-		prediction <= NOT_TAKEN;
+		//temp_prediction <= NOT_TAKEN;
 	end
 	
 end
@@ -78,9 +94,12 @@ end
 always @(negedge clk) begin
 	#110
 	if (actual_branch_trigger) begin $write("\n Actual Branch value updated to %0d", curr_branch); end
+	if (prediction) begin $write("\n branching to %8h based on imm %8h and pc %8h", pc_temp + imm -4, imm, pc_temp); end
 end
+assign prediction = (predict_trigger) ? temp_prediction : NOT_TAKEN;
+//assign prediction = (predict_trigger & !predict_trigger_prev) ? temp_prediction : NOT_TAKEN;
+assign pc_o = (prediction== TAKEN & !predict_trigger_prev) ? pc_temp + imm: (prediction == TAKEN) ? (pc_temp + imm -4): pc_temp;
+//assign pc_o = (prediction== TAKEN) ? pc_temp + imm: pc_temp;
 
-
-assign pc_o = (prediction== TAKEN) ? pc_temp + imm -4: pc_temp;
 
 endmodule
