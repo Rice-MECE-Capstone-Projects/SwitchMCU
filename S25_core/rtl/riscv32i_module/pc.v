@@ -2,13 +2,20 @@ module pc(
 input wire clk_i,
 input wire reset_i,
 input wire stage_IF_ready,
-input wire jump_inst_wire, 
+input wire jump_inst_wire,
 input wire branch_inst_wire,
-input wire enable_design, 
+input wire enable_design,
 input wire [31:0] targetPC_i,
 input wire [31:0] initial_pc_i,
 output wire[31:0] pc_o,
 output wire		  pc_valid
+
+// ISR signals
+input irq_pending,
+input [4:0] irq_id,
+// Signals coming from CSR module
+input [31:0] mtvec,
+input [31:0] mepc,
 );
 
 reg  [31:0] PC;
@@ -27,19 +34,29 @@ always @(posedge clk_i) begin
   	 if (reset_i) begin
 		pc_valid_r  <= 1'b1;
 	    PC  		<= initial_pc_i; //32'h1CC;
+		interrupt_active <= 1'b0;
       //Starting memory address, this logic must be changed later
 	end else  if (enable_design) begin
-            // PC <= nextPC;
-
- 	    if (stage_IF_ready|change_PC_condition_for_jump_or_branch)  begin
-            PC <= nextPC;
-			pc_valid_r <= 1'b1;
-		end 
-		else begin
-		pc_valid_r <= 1'b0;
-		// PC <= nextPC;
+		if (irq_pending && !interrupt_active) begin
+			// assume PC is saved to mepc outside of module
+			interrupt_vector <= mtvec + (irq_id * 4);
+			// Set the PC to the interrupt vector address
+			pc <= interrupt_vector;
+			// Mark interrupt as active
+			interrupt_active <= 1;
+		end else if (interrupt_active) begin
+			pc <= mepc + 4;  // Return to the next instruction after ISR
+			interrupt_active <= 0;
+		end else begin
+			if (stage_IF_ready|change_PC_condition_for_jump_or_branch)  begin
+				PC <= nextPC;
+				pc_valid_r <= 1'b1;
+			end else begin
+			pc_valid_r <= 1'b0;
+			// PC <= nextPC;
+			end
 		end
-  end
+	end
 end
 //MARKER AUTOMATED HERE START
 
@@ -53,5 +70,5 @@ end
 //MARKER AUTOMATED HERE END
 
 
-   
+
 endmodule

@@ -33,6 +33,10 @@ module riscv32i
     output wire [31:0]  ins_mem_dinb,
     input  wire         ins_mem_rstb_busy,
     input  wire [31:0]  ins_mem_doutb
+
+    // ISR signals
+    input wire interrupt_req,
+    input wire [4:0] interrupt_id,
 );
 
 
@@ -100,8 +104,8 @@ always @(posedge clk) begin
 	    enable_design_reg   <=  1'b0;
         stop_design         <=  1'b0;
 
-    end else begin  
-    if (start_design) begin 
+    end else begin
+    if (start_design) begin
         // cycle_to_end        <= 32'h0;
 	    Cycle_count         <= 32'h0;
 	    enable_design_reg   <=  1'b1;
@@ -109,24 +113,24 @@ always @(posedge clk) begin
     end else if (enable_design_reg) begin
         Cycle_count         <= Cycle_count + 1;
 	    enable_design_reg   <= enable_design_reg;
-    end      
-    if (final_value == success_code)begin 
+    end
+    if (final_value == success_code)begin
         cycle_to_end <= cycle_to_end + 1;
         stop_design  <= 1'b0;
     end
     if (cycle_to_end >= 30) begin
         stop_design <= 1'b1;
-        
+
     //MARKER AUTOMATED HERE START
-        
+
     $display("\n\n\n\n----TB FINISH:Test Passed----\n\n\n\n\nTEST FINISHED by success write :%h \n\n\n\n\n",success_code);
-    
+
     //MARKER AUTOMATED HERE END
 
-    end   
- 
+    end
+
 end
-end 
+end
 
 
 wire Dmem_clk, Imem_clk;
@@ -142,7 +146,7 @@ wire Dmem_clk, Imem_clk;
         .memory_offset(memory_offset),
         .initial_pc_i(initial_pc_i),
         .final_value(final_value),
-        
+
         // .data_mem_clkb(data_mem_clkb),
         // .data_mem_enb(data_mem_enb),
         // .data_mem_rstb(data_mem_rstb),
@@ -151,7 +155,7 @@ wire Dmem_clk, Imem_clk;
         // .data_mem_dinb(data_mem_dinb),
         // .data_mem_rstb_busy(data_mem_rstb_busy),
         // .data_mem_doutb(data_mem_doutb),
-        
+
 
       .Dmem_clk(            Dmem_clk),
       .Dmem_data_req_o(     Dmem_data_req_o),
@@ -212,7 +216,7 @@ wire Dmem_clk, Imem_clk;
         .ins_mem_doutb (      data_mem_doutb)
 
     );
-    
+
 
 
     inst_mem_bram_wrapper  inst_mem_bram_wrapper (
@@ -239,7 +243,7 @@ wire Dmem_clk, Imem_clk;
         .ins_mem_doutb (ins_mem_doutb)
 
     );
-    
+
 
 
 endmodule
@@ -247,7 +251,7 @@ endmodule
 
 
 
-module riscv32i_main 
+module riscv32i_main
    # (
     parameter   N_param = 32
    ) (
@@ -331,7 +335,7 @@ module riscv32i_main
 
     wire pc_valid;
 
-initial begin 
+initial begin
     halt_i          <= 0;
 end
 
@@ -346,7 +350,19 @@ end
         .pc_o(pc_i),
         .initial_pc_i(initial_pc_i),
         .pc_valid(pc_valid)
+
+        .irq_pending(irq_pending),
     );
+
+    isr isr (
+        .clk(clk),
+        .rst_n(reset),
+        .interrupt_req(interrupt_req),
+        .current_irq_id(interrupt_id),
+        .irq_id(irq_id),
+        .irq_pending(irq_pending),
+        .irq_valid(irq_valid)
+    )
 
     // ins_mem  ins_mem(
     //     .clk(clk),
@@ -400,6 +416,8 @@ wire [31:0] pc_stage_0,instruction_stage_0;
 wire we_pi;
 wire [31:0] pc_o,pc_i;
 wire [31:0] writeData_pi,operand1_po,operand2_po, csrData_pi;
+wire [31:0] mtvec, mepc;
+
 
 
 //stage 1 varibles
@@ -476,7 +494,7 @@ wire branch_inst_wire_stage2;
 wire jump_inst_wire_stage2;
 
 //Going into exect
-//exec 
+//exec
 wire [31:0] operand1_into_exec;
 wire [31:0] operand2_into_exec;
 wire [31:0] result_secondary;
@@ -492,8 +510,8 @@ reg delete_reg1_reg2_reg;
 wire [31:0] csr_regfile_o;
 
 
-//Control signals 
-wire   delete_reg1_reg2; 
+//Control signals
+wire   delete_reg1_reg2;
 wire   write_reg_stage3;
 wire   write_reg_file_wire;
 
@@ -573,15 +591,17 @@ debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3)
 
  reg_file reg_file(
 .clk(clk),
-.reset(reset), 
-.reg1_pi(rs1_o), 
-.reg2_pi(rs2_o), 
+.reset(reset),
+.reg1_pi(rs1_o),
+.reg2_pi(rs2_o),
 .destReg_pi(rd_stage3),
-.we_pi(write_reg_file_wire_stage3), 
-.writeData_pi(writeData_pi), 
+.we_pi(write_reg_file_wire_stage3),
+.writeData_pi(writeData_pi),
 .operand1_po(operand1_po),
 .operand2_po(operand2_po),
 
+.mtvec(mtvec),
+.mepc(mepc),
 
 .write_csr(          write_csr_wire_stage3),
 .csrReg_write_dest_reg(         csr_stage3),
@@ -595,8 +615,8 @@ debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3)
 
 );
 
-execute  #(.N_param(32)) execute 
-    (.i_clk(clk),    
+execute  #(.N_param(32)) execute
+    (.i_clk(clk),
      .Single_Instruction_i(Single_Instruction_stage1),
      .operand1_pi(operand1_into_exec),
      .operand2_pi(operand2_into_exec),
@@ -604,8 +624,8 @@ execute  #(.N_param(32)) execute
      .instruction(instruction_stage_1),
      .pc_i(pc_stage_1),
      .rd_i(rd_stage1),
-     .rs1_i(rs1_stage1), 
-     .rs2_i(rs2_stage1), 
+     .rs1_i(rs1_stage1),
+     .rs2_i(rs2_stage1),
      .csr_i(csr_stage1),
      .imm_i(imm_stage1),
      .alu_result_1(alu_result_1),
@@ -614,11 +634,11 @@ execute  #(.N_param(32)) execute
      .jump_inst_wire(jump_inst_wire),
      .write_reg_file_wire(write_reg_file_wire),
      .write_csr_wire(         write_csr_wire)
-     
+
    );
 
 
-dataMem dataMem 
+dataMem dataMem
   (
 .final_value(final_value),
 .clk(clk),
@@ -664,8 +684,8 @@ hazard hazard (
 .write_reg_stage2(write_reg_file_wire_stage2),
 .destination_reg_stage3(rd_stage3),
 .write_reg_stage3(write_reg_stage3),
-.PC_stage1(pc_stage_1), 
-.PC_stage2(pc_stage_2), 
+.PC_stage1(pc_stage_1),
+.PC_stage2(pc_stage_2),
 .PC_stage3(pc_stage_3),
 .rd_result_stage2(rd_result_stage2),
 .writeData_pi(writeData_pi),
@@ -720,9 +740,9 @@ assign imm_stage2 =                 pipeReg2[`immediate];
 assign Single_Instruction_stage2 =  pipeReg2[`Single_Instruction];
 assign alu_result_1_stage2 =        pipeReg2[`alu_res1          ];
 assign alu_result_2_stage2 =        pipeReg2[`alu_res2          ];
-assign jump_inst_wire_stage2      = pipeReg2[`jump_en           ];  
-assign branch_inst_wire_stage2    = pipeReg2[`branch_en         ];  
-assign write_reg_file_wire_stage2 = pipeReg2[`reg_write_en      ];  
+assign jump_inst_wire_stage2      = pipeReg2[`jump_en           ];
+assign branch_inst_wire_stage2    = pipeReg2[`branch_en         ];
+assign write_reg_file_wire_stage2 = pipeReg2[`reg_write_en      ];
 assign write_csr_wire_stage2      = pipeReg2[`csr_write_en      ];
 
 
@@ -743,8 +763,8 @@ assign alu_result_2_stage3 =        pipeReg3[`alu_res2          ];
 assign write_reg_file_wire_stage3 = pipeReg3[`reg_write_en      ];
 assign write_csr_wire_stage3      = pipeReg3[`csr_write_en      ];
 assign HELLO      = pipeReg3[`csr_write_en      ];
-assign load_into_reg_stage3       = pipeReg3[`load_reg          ];  
-assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
+assign load_into_reg_stage3       = pipeReg3[`load_reg          ];
+assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];
 
 
 assign pipeReg0_wire[`PC_reg]   = pc_i;
@@ -792,7 +812,7 @@ assign pipeReg2_wire[`operand_amt       ] = 0;
 assign pipeReg2_wire[`opRs1_reg         ] = rs1_stage1;
 assign pipeReg2_wire[`opRs2_reg         ] = rs2_stage1;
 assign pipeReg2_wire[`csr_reg           ] = csr_stage1;
-assign pipeReg2_wire[`csr_reg_val       ] = alu_result_2; 
+assign pipeReg2_wire[`csr_reg_val       ] = alu_result_2;
 
 assign pipeReg2_wire[`op1_reg           ] = operand1_into_exec;
 assign pipeReg2_wire[`op2_reg           ] = operand2_into_exec;
@@ -834,22 +854,22 @@ assign stage_WB_ready   = 1'b1;
 assign stage3_MEM_valid = stage_WB_ready & stage_MEM_done;
 
 assign stage_EXEC_done   = 1'b1;
-assign stage_MEM_ready   = stage3_MEM_valid; // 
+assign stage_MEM_ready   = stage3_MEM_valid; //
 assign stage2_EXEC_valid = stage_MEM_ready & stage_EXEC_done;
- 
+
 assign stage_DECO_done    = ~STALL_ID_not_ready_w;
-assign stage_EXEC_ready   = stage2_EXEC_valid; // 
+assign stage_EXEC_ready   = stage2_EXEC_valid; //
 assign stage1_DECO_valid  = stage_EXEC_ready & stage_DECO_done;
 
 assign stage_IF_done      = ~STALL_IF_not_ready_w;
-assign stage_DECO_ready   = stage1_DECO_valid; // 
+assign stage_DECO_ready   = stage1_DECO_valid; //
 assign stage0_IF_valid    = stage_DECO_ready & stage_IF_done;
 
-//for PC counter 
-assign stage_IF_ready   = stage0_IF_valid; // 
+//for PC counter
+assign stage_IF_ready   = stage0_IF_valid; //
 
 always @(posedge clk)begin
-if (reset) begin 
+if (reset) begin
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
@@ -857,41 +877,41 @@ if (reset) begin
 end else if (enable_design) begin
 
 delete_reg1_reg2_reg <= delete_reg1_reg2;
-if  (delete_reg1_reg2) begin 
+if  (delete_reg1_reg2) begin
     pipeReg0 <= 64'b0;
     pipeReg1 <= 512'b0;
     pipeReg2 <= 512'b0;
 
-    if (stage3_MEM_valid) begin      // <-- stage 2 // 
-        pipeReg3 <= pipeReg3_wire;  
+    if (stage3_MEM_valid) begin      // <-- stage 2 //
+        pipeReg3 <= pipeReg3_wire;
      end else begin
         pipeReg3 <= pipeReg3;
      end
 
-end else begin 
+end else begin
 
-    if (stage0_IF_valid) begin 
+    if (stage0_IF_valid) begin
         pipeReg0   <= pipeReg0_wire;
-    end 
-    // else if (stage_DECO_done) begin 
+    end
+    // else if (stage_DECO_done) begin
     //     pipeReg0   <= 512'b0;//pipeReg0;
-    // end 
-    else begin 
+    // end
+    else begin
         pipeReg0   <= pipeReg0;
     end
 
     if (stage1_DECO_valid) begin
         pipeReg1 <= pipeReg1_wire;
-    end else if (stage2_EXEC_valid) begin 
+    end else if (stage2_EXEC_valid) begin
         pipeReg1 <= 512'b0;
     end
-    // else if (stage_DECO_done) begin 
+    // else if (stage_DECO_done) begin
     //     pipeReg1  <= 512'b0;
-    // end 
-    else begin 
+    // end
+    else begin
    // if (pipeReg1[`instruct] != pipeReg1_wire[`instruct] ) begin
-        //     pipeReg1 <= pipeReg1_wire; 
-        // end else begin 
+        //     pipeReg1 <= pipeReg1_wire;
+        // end else begin
         //     pipeReg1 <= 512'b0;
         // end
         pipeReg1 <= pipeReg1;
@@ -899,13 +919,13 @@ end else begin
 
     if (stage2_EXEC_valid) begin
         // if (pipeReg1 !=)
-        pipeReg2 <= pipeReg2_wire;     
-    end else begin 
+        pipeReg2 <= pipeReg2_wire;
+    end else begin
         pipeReg2 <= pipeReg2;
     end
 
     if (stage3_MEM_valid) begin
-        pipeReg3 <= pipeReg3_wire;  
+        pipeReg3 <= pipeReg3_wire;
     end else begin
         pipeReg3 <= pipeReg3;
     end
@@ -946,7 +966,7 @@ endmodule
 module data_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
     input  wire         clk,
     input  wire         reset,
-    
+
 
     // BRAM interface Signals
 
@@ -961,14 +981,14 @@ module data_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
 
 
     // core Memory interface
-    input  wire         ins_data_req_o,     
-    input  wire [31:0]  ins_data_addr_o,    
-    input  wire         ins_data_we_o,      
-    input  wire [3:0]   ins_data_be_o,      
+    input  wire         ins_data_req_o,
+    input  wire [31:0]  ins_data_addr_o,
+    input  wire         ins_data_we_o,
+    input  wire [3:0]   ins_data_be_o,
     input  wire [31:0]  ins_data_wdata_o,
-    output wire [31:0]  ins_data_rdata_i,   
-    output wire         ins_data_rvalid_i,  
-    output wire         ins_data_gnt_i      
+    output wire [31:0]  ins_data_rdata_i,
+    output wire         ins_data_rvalid_i,
+    output wire         ins_data_gnt_i
 );
 
     reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
@@ -1012,7 +1032,7 @@ endmodule
 module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
     input  wire         clk,
     input  wire         reset,
-    
+
 
     // BRAM interface Signals
 
@@ -1027,14 +1047,14 @@ module inst_mem_bram_wrapper #(  parameter MEM_DEPTH = 1096 ) (
 
 
     // core Memory interface
-    input  wire         ins_data_req_o,     
-    input  wire [31:0]  ins_data_addr_o,    
-    input  wire         ins_data_we_o,      
-    input  wire [3:0]   ins_data_be_o,      
+    input  wire         ins_data_req_o,
+    input  wire [31:0]  ins_data_addr_o,
+    input  wire         ins_data_we_o,
+    input  wire [3:0]   ins_data_be_o,
     input  wire [31:0]  ins_data_wdata_o,
-    output wire [31:0]  ins_data_rdata_i,   
-    output wire         ins_data_rvalid_i,  
-    output wire         ins_data_gnt_i      
+    output wire [31:0]  ins_data_rdata_i,
+    output wire         ins_data_rvalid_i,
+    output wire         ins_data_gnt_i
 );
 
     reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
@@ -1064,7 +1084,7 @@ end
         if (reset) begin
         rvalid_reg <= 1'b0;
         rvalid_reg_1 <= 1'b0;
-        rvalid_reg_2 <= 1'b0;   
+        rvalid_reg_2 <= 1'b0;
         rvalid_reg_3 <= 1'b0;
         rvalid_reg_4 <= 1'b0;
         rvalid_reg_5 <= 1'b0;
@@ -1091,7 +1111,7 @@ endmodule
 module inst_mem_bram_wrapper_test_purpoeses #(  parameter MEM_DEPTH = 1096 ) (
     input  wire         clk,
     input  wire         reset,
-    
+
 
     // BRAM interface Signals
 
@@ -1106,14 +1126,14 @@ module inst_mem_bram_wrapper_test_purpoeses #(  parameter MEM_DEPTH = 1096 ) (
 
 
     // core Memory interface
-    input  wire         ins_data_req_o,     
-    input  wire [31:0]  ins_data_addr_o,    
-    input  wire         ins_data_we_o,      
-    input  wire [3:0]   ins_data_be_o,      
+    input  wire         ins_data_req_o,
+    input  wire [31:0]  ins_data_addr_o,
+    input  wire         ins_data_we_o,
+    input  wire [3:0]   ins_data_be_o,
     input  wire [31:0]  ins_data_wdata_o,
-    output wire [31:0]  ins_data_rdata_i,   
-    output wire         ins_data_rvalid_i,  
-    output wire         ins_data_gnt_i      
+    output wire [31:0]  ins_data_rdata_i,
+    output wire         ins_data_rvalid_i,
+    output wire         ins_data_gnt_i
 );
 
     reg rvalid_reg,rvalid_reg_1,rvalid_reg_2,rvalid_reg_3,rvalid_reg_4,rvalid_reg_5,rvalid_reg_6,rvalid_reg_7;
@@ -1195,17 +1215,17 @@ wire req_done_w;
 assign req_done_w = (counter_L == (L - 1));
 assign bram_en = bram_read;
 
-  initial begin 
+  initial begin
     bram_read <=0;
-  end 
-  always @ (posedge clk ) begin 
+  end
+  always @ (posedge clk ) begin
     if (grant) begin
       bram_read <= 1;
     end else if (bram_read) begin
       bram_read <= 0;
     end
 
-  end 
+  end
 
 
   always @(posedge clk) begin
