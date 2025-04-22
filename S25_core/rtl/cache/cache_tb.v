@@ -79,12 +79,12 @@ cache U1 (
         $dumpfile("cache_tb.vcd");
         $dumpvars(0, cache_tb);
 
-        $monitor("Time:%0t | state=%b | data_rvalid=%b | data_gnt=%b | cpu_addr=%h | cpu_wdata=%h | cpu_rdata=%h | cpu_stall=%b | mem_addr_block=%h | mem_addr=%h | mem_read=%b | mem_write=%b | mem_wdata_block=%h | miss_mem_wdata=%h | mem_ready=%b", 
-            $time, state, data_rvalid, data_gnt, cpu_addr, cpu_wdata, cpu_rdata, cpu_stall, mem_addr_block, mem_addr, mem_read, mem_write, mem_wdata_block, miss_mem_wdata, mem_ready);
+        $monitor("data_req=%b | data_rvalid=%b | data_gnt=%b | cpu_addr=%h | cpu_wdata=%h | cpu_rdata=%h | cpu_stall=%b | mem_read=%b | mem_write=%b| mem_addr_block=%h | mem_addr=%h | mem_wdata_block=%h | miss_mem_wdata=%h | mem_ready=%b", 
+        data_req, data_rvalid, data_gnt, cpu_addr, cpu_wdata, cpu_rdata, cpu_stall, mem_read, mem_write, mem_addr_block, mem_addr, mem_wdata_block, miss_mem_wdata, mem_ready);
+
             
         clk = 0;
         reset = 1;
-        //Single_Instruction = 0;
         cpu_addr = 0;
         cpu_wdata = 0;
         mem_rdata_array = 0;
@@ -320,6 +320,29 @@ cache U1 (
         #10;
         print_data_table();
         mem_ready = 0;
+
+        //Load byte - Cache miss
+        #10;
+        data_req = 1;
+        data_we = 0;
+        cpu_wdata = 32'h00000000;
+        cpu_addr = 32'h1000_0080; 
+        data_be = 4'b0000;
+        #20;
+        mem_ready = 1;
+        #10;
+        print_data_table();
+        mem_ready = 0;
+
+        //Load half word - Cache Hit
+        #10;
+        data_req = 1;
+        data_we = 0;
+        cpu_wdata = 32'h00000000;
+        cpu_addr = 32'h1000_0010; 
+        data_be = 4'b0001;
+        #10;
+        print_data_table();
         
         #50;
         $finish;

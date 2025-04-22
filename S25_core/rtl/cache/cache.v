@@ -77,7 +77,7 @@ end
 
 assign new_inst_req = (data_be != save_store_inst);
 assign new_addr_req = (cpu_addr != save_store_addr);
-assign data_req_in = data_req && (new_addr_req || new_inst_req);
+assign data_req_in = data_req && (new_addr_req || new_inst_req) || data_be == inst_SW || data_be == inst_SH || data_be == inst_SB;
 
 always @(posedge clk) begin
     if (reset) begin
@@ -115,7 +115,7 @@ always @(*) begin
     case (current_state) 
     idle_state: begin
         state = idle_state;
-        if (data_req_in) begin
+        if (data_req_in || data_be == inst_LB || data_be == inst_LH || data_be == inst_LW || data_be == inst_LBU || data_be == inst_LHU ) begin
           // cache hit
             if (valid_table[index] && (tag_table[index] == tag)) begin
                 if (data_we == 0) begin
