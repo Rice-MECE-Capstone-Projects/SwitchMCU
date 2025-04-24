@@ -257,13 +257,14 @@ module riscv32i_main
 
     // param_module params ();
     reg halt_i;
-    reg [63:0] pipeReg0;
-    reg [511:0] pipeReg1, pipeReg2, pipeReg3;
+    reg [64:0] pipeReg0;
+    reg [512:0] pipeReg1, pipeReg2, pipeReg3;
 
-    wire [63:0]  pipeReg0_wire;
-    wire [511:0] pipeReg1_wire, pipeReg2_wire, pipeReg3_wire;
+    wire [64:0]  pipeReg0_wire;
+    wire [512:0] pipeReg1_wire, pipeReg2_wire, pipeReg3_wire;
 
     wire pc_valid;
+    wire [31:0] target_pc;
 
 initial begin 
     halt_i          <= 0;
@@ -275,7 +276,9 @@ end
         .stage_IF_ready(stage_IF_ready),
         .jump_inst_wire(jump_inst_wire_stage2),
         .branch_inst_wire(branch_inst_wire_stage2),
-        .targetPC_i(alu_result_2_stage2),
+        .branch_pred_wire (branch_predicted),
+        .branch_pred_old2 (branch_predicted_stage1),
+        .targetPC_i(target_pc),
         .enable_design(enable_design),
         .pc_o(pc_i),
         .initial_pc_i(initial_pc_i),
@@ -325,14 +328,17 @@ end
         .data_rvalid_i        (ins_data_rvalid_i),
         .data_gnt_i           (ins_data_gnt_i)
     );
+    
+    
 
 
 
 // Pre Stage 0
 wire [31:0] pc_stage_0,instruction_stage_0;
 wire we_pi;
-wire [31:0] pc_o,pc_i;
+wire [31:0] pc_o,pc_i, pc_out_branch;
 wire [31:0] writeData_pi,operand1_po,operand2_po;
+wire branch_predicted_stage0;
 
 
 //stage 1 varibles
@@ -351,6 +357,7 @@ wire [31:0] imm_stage1;
 wire [63:0] Single_Instruction_stage1;
 wire [31:0] alu_result_1;
 wire [31:0] alu_result_2;
+wire branch_predicted_stage1;
 
 
 //stage 2
@@ -369,6 +376,7 @@ wire [31:0] imm_stage2;
 wire [63:0] Single_Instruction_stage2;
 wire [31:0] alu_result_1_stage2;
 wire [31:0] alu_result_2_stage2;
+wire branch_predicted_stage2;
 
 
 //Stage 3
@@ -390,6 +398,7 @@ wire [31:0] alu_result_2_stage3;
 wire        write_reg_file_wire_stage3;
 wire        load_into_reg_stage3;
 wire [31:0] loaded_data_stage3;
+wire branch_predicted_stage3;
 
 
 
@@ -447,7 +456,7 @@ wire stage_IF_ready;   // IF  ready for PC register
 assign write_reg_stage3 = write_reg_file_wire_stage3|load_into_reg_stage3;
 
 //flush from branch
-assign delete_reg1_reg2 = branch_inst_wire_stage2 | jump_inst_wire_stage2;
+assign delete_reg1_reg2 = ((branch_inst_wire_stage2 | jump_inst_wire_stage2) & !branch_predicted_stage1) | (branch_predicted_stage1 == 1 & branch_inst_wire_stage2 == 0);
 
 //Value being wrtten to regfile in WBB stage, also may be forwarded to ALU
 assign writeData_pi     = load_into_reg_stage3 ? loaded_data_stage3 : alu_result_1_stage3;
@@ -466,7 +475,7 @@ assign pipeReg0_wire_debug[`instruct] = instruction_stage_0;
 // assign pipeReg0_wire_debug[511:64] = pipeReg1[511:64];
 
 debug # (.Param_delay(5),.regCount(0), .pc_en(1)
-                                      ) debug_0 (.i_clk(clk),.pipeReg({448'b0,pipeReg0_wire_debug}), .pc_o(pc_i), .Cycle_count(Cycle_count));
+                                      ) debug_0 (.i_clk(clk),.pipeReg({449'b0,pipeReg0_wire_debug}), .pc_o(pc_i), .Cycle_count(Cycle_count));
 debug # (.Param_delay(10),.regCount(1) ) debug_1 (.i_clk(clk),.pipeReg(pipeReg1));
 debug # (.Param_delay(15),.regCount(2) ) debug_2 (.i_clk(clk),.pipeReg(pipeReg2));
 debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3));
@@ -503,6 +512,26 @@ debug # (.Param_delay(20),.regCount(3) ) debug_3 (.i_clk(clk),.pipeReg(pipeReg3)
 .operand1_po(operand1_po),
 .operand2_po(operand2_po)
 );
+
+parameter prediction_type = 2'b01;
+wire predict_trigger = (INST_typ_o == 7'b0001000);
+wire branch_predicted;
+wire predict_trigger_prev;
+
+    branch_prediction branch_prediction(
+        .predict_trigger    (predict_trigger),
+        .clk    (clk),
+        .prediction_type (prediction_type),
+        .actual_branch_trigger (branch_predicted_stage1 | branch_inst_wire_stage2),
+        .curr_branch (branch_inst_wire_stage2),
+        .imm (imm_o),
+        .pc (pc_i),
+        .pc_o (pc_out_branch),
+        .reset (reset),
+        .prediction (branch_predicted)
+    );
+
+assign target_pc = (branch_predicted == 1) ? pc_out_branch : (branch_predicted_stage1 == 1 & branch_inst_wire_stage2 == 0) ? (pc_stage_2+4) : alu_result_2_stage2;
 
 execute  #(.N_param(32)) execute 
     (.i_clk(clk),    
@@ -575,6 +604,7 @@ hazard hazard (
 assign pc_stage_0          =        pipeReg0[`PC_reg];
 // assign instruction_stage_0 =        pipeReg0[`instruct];
 assign instruction_stage_0          =  delete_reg1_reg2_reg ? 32'h00000013 : instruction;
+assign branch_predicted_stage0 = pipeReg0[`branch_predicted_0];
 // assign instruction_stage_0 =        instruction; //pipeReg0[`instruct];
 assign pc_stage_1 =                 pipeReg1[`PC_reg];
 assign instruction_stage_1 =        pipeReg1[`instruct];
@@ -585,6 +615,7 @@ assign operand1_stage1 =            pipeReg1[`op1_reg];
 assign operand2_stage1 =            pipeReg1[`op2_reg];
 assign imm_stage1 =                 pipeReg1[`immediate];
 assign Single_Instruction_stage1 =  pipeReg1[`Single_Instruction];
+assign branch_predicted_stage1 =    pipeReg1[`branch_predicted];
 
 
 assign pc_stage_2 =                 pipeReg2[`PC_reg];
@@ -600,7 +631,8 @@ assign alu_result_1_stage2 =        pipeReg2[`alu_res1          ];
 assign alu_result_2_stage2 =        pipeReg2[`alu_res2          ];
 assign jump_inst_wire_stage2      = pipeReg2[`jump_en           ];  
 assign branch_inst_wire_stage2    = pipeReg2[`branch_en         ];  
-assign write_reg_file_wire_stage2 = pipeReg2[`reg_write_en      ];  
+assign write_reg_file_wire_stage2 = pipeReg2[`reg_write_en      ]; 
+assign branch_predicted_stage2 =    pipeReg2[`branch_predicted]; 
 
 assign pc_stage_3 =                 pipeReg3[`PC_reg];
 assign instruction_stage_3 =        pipeReg3[`instruct];
@@ -615,11 +647,13 @@ assign alu_result_1_stage3 =        pipeReg3[`alu_res1          ];
 assign alu_result_2_stage3 =        pipeReg3[`alu_res2          ];
 assign write_reg_file_wire_stage3 = pipeReg3[`reg_write_en      ];  
 assign load_into_reg_stage3       = pipeReg3[`load_reg          ];  
-assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ];  
+assign loaded_data_stage3         = pipeReg3[`data_mem_loaded   ]; 
+assign branch_predicted_stage3 =    pipeReg3[`branch_predicted]; 
 
 
 assign pipeReg0_wire[`PC_reg]   = pc_i;
 assign pipeReg0_wire[`instruct] = instruction;
+assign pipeReg0_wire[`branch_predicted_0] = branch_predicted;
 
 
 assign pipeReg1_wire[`PC_reg            ] = pc_stage_0;
@@ -642,6 +676,7 @@ assign pipeReg1_wire[`alu_res2          ] = 0;
 assign pipeReg1_wire[`rd_data           ] = 0;
 assign pipeReg1_wire[`Single_Instruction] = Single_Instruction_o;
 assign pipeReg1_wire[`data_mem_loaded   ] = 0;
+assign pipeReg1_wire[`branch_predicted] = branch_predicted_stage0;
 
 
 
@@ -665,6 +700,7 @@ assign pipeReg2_wire[`alu_res2          ] = alu_result_2;
 assign pipeReg2_wire[`rd_data           ] = 0;
 assign pipeReg2_wire[`Single_Instruction] = Single_Instruction_stage1;
 assign pipeReg2_wire[`data_mem_loaded   ] = 0;
+assign pipeReg2_wire[`branch_predicted] = branch_predicted_stage1;
 
 
 
@@ -688,6 +724,7 @@ assign pipeReg3_wire[`alu_res2          ] = alu_result_2_stage2;
 assign pipeReg3_wire[`rd_data           ] = 0;
 assign pipeReg3_wire[`Single_Instruction] = Single_Instruction_stage2;
 assign pipeReg3_wire[`data_mem_loaded   ] = loaded_data;
+assign pipeReg3_wire[`branch_predicted] = branch_predicted_stage2;
 
 
 assign stage_MEM_done   = ~stall_mem_not_avalible;
@@ -711,27 +748,32 @@ assign stage_IF_ready   = stage0_IF_valid; //
 
 always @(posedge clk)begin
 if (reset) begin 
-    pipeReg0 <= 64'b0;
-    pipeReg1 <= 512'b0;
-    pipeReg2 <= 512'b0;
-	pipeReg3 <= 512'b0;
+    pipeReg0 <= 65'b0;
+    pipeReg1 <= 513'b0;
+    pipeReg2 <= 513'b0;
+	pipeReg3 <= 513'b0;
 end else if (enable_design) begin
 
 delete_reg1_reg2_reg <= delete_reg1_reg2;
 if  (delete_reg1_reg2) begin 
-    pipeReg0 <= 64'b0;
-    pipeReg1 <= 512'b0;
-    pipeReg2 <= 512'b0;
+    pipeReg0 <= 65'b0;
+    pipeReg1 <= 513'b0;
+    pipeReg2 <= 513'b0;
 
     if (stage3_MEM_valid) begin      // <-- stage 2 // 
         pipeReg3 <= pipeReg3_wire;  
      end else begin
         pipeReg3 <= pipeReg3;
      end
-
+// end else if (branch_predicted) begin
+//     pipeReg0 <= 65'b0;
 end else begin 
 
     if (stage0_IF_valid) begin 
+      if (branch_predicted) begin
+        pipeReg0 <= 65'b1 << 64;
+        //pipeReg0[`branch_predicted_0] = 1;
+      end else
         pipeReg0   <= pipeReg0_wire;
     end 
     // else if (stage_DECO_done) begin 
@@ -742,7 +784,10 @@ end else begin
     end
 
     if (stage1_DECO_valid) begin
-        pipeReg1 <= pipeReg1_wire;
+        if(branch_predicted_stage0) begin
+          pipeReg1 <= 512'b1 << 384;
+        end else
+          pipeReg1 <= pipeReg1_wire;
     end else if (stage2_EXEC_valid) begin 
         pipeReg1 <= 512'b0;
     end
