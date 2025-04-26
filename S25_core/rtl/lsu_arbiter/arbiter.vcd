@@ -1,0 +1,689 @@
+$date
+	Sat Apr 26 15:51:37 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module arbiter_tb $end
+$var wire 8 ! L_sdrc_data_len [7:0] $end
+$var wire 1 " is_icache_selected $end
+$var wire 1 # icache_data_rvalid $end
+$var wire 32 $ icache_data_rdata [31:0] $end
+$var wire 1 % icache_data_gnt $end
+$var wire 1 & dcache_data_rvalid $end
+$var wire 32 ' dcache_data_rdata [31:0] $end
+$var wire 1 ( dcache_data_gnt $end
+$var wire 1 ) L_sdrc_wr_n $end
+$var wire 1 * L_sdrc_rd_n $end
+$var wire 4 + L_sdrc_dqm [3:0] $end
+$var wire 32 , L_sdrc_data [31:0] $end
+$var wire 32 - L_sdrc_addr [31:0] $end
+$var reg 1 . O_sdrc_busy_n $end
+$var reg 32 / O_sdrc_data [31:0] $end
+$var reg 1 0 O_sdrc_rd_valid $end
+$var reg 1 1 clk $end
+$var reg 32 2 dcache_data_addr [31:0] $end
+$var reg 4 3 dcache_data_be [3:0] $end
+$var reg 1 4 dcache_data_req $end
+$var reg 32 5 dcache_data_wdata [31:0] $end
+$var reg 1 6 dcache_data_we $end
+$var reg 32 7 icache_data_addr [31:0] $end
+$var reg 4 8 icache_data_be [3:0] $end
+$var reg 1 9 icache_data_req $end
+$var reg 32 : icache_data_wdata [31:0] $end
+$var reg 1 ; icache_data_we $end
+$var reg 1 < rst_n $end
+$var reg 1 = signal_detected $end
+$var integer 32 > error_count [31:0] $end
+$var integer 32 ? test_case [31:0] $end
+$var integer 32 @ wait_count [31:0] $end
+$scope module dut $end
+$var wire 8 A L_sdrc_data_len [7:0] $end
+$var wire 1 . O_sdrc_busy_n $end
+$var wire 32 B O_sdrc_data [31:0] $end
+$var wire 1 0 O_sdrc_rd_valid $end
+$var wire 1 1 clk $end
+$var wire 32 C dcache_data_addr [31:0] $end
+$var wire 4 D dcache_data_be [3:0] $end
+$var wire 1 ( dcache_data_gnt $end
+$var wire 32 E dcache_data_rdata [31:0] $end
+$var wire 1 4 dcache_data_req $end
+$var wire 1 & dcache_data_rvalid $end
+$var wire 32 F dcache_data_wdata [31:0] $end
+$var wire 1 6 dcache_data_we $end
+$var wire 32 G icache_data_addr [31:0] $end
+$var wire 4 H icache_data_be [3:0] $end
+$var wire 1 % icache_data_gnt $end
+$var wire 32 I icache_data_rdata [31:0] $end
+$var wire 1 9 icache_data_req $end
+$var wire 1 # icache_data_rvalid $end
+$var wire 32 J icache_data_wdata [31:0] $end
+$var wire 1 ; icache_data_we $end
+$var wire 1 < rst_n $end
+$var wire 1 ) L_sdrc_wr_n $end
+$var wire 1 * L_sdrc_rd_n $end
+$var wire 4 K L_sdrc_dqm [3:0] $end
+$var wire 32 L L_sdrc_data [31:0] $end
+$var wire 32 M L_sdrc_addr [31:0] $end
+$var parameter 1 N BUSY $end
+$var parameter 1 O IDLE $end
+$var reg 1 P current_icache $end
+$var reg 1 Q next_state $end
+$var reg 32 R selected_addr [31:0] $end
+$var reg 4 S selected_be [3:0] $end
+$var reg 32 T selected_wdata [31:0] $end
+$var reg 1 U selected_we $end
+$var reg 1 V state $end
+$upscope $end
+$scope task init_signals $end
+$upscope $end
+$scope task reset $end
+$upscope $end
+$scope task test_both_caches $end
+$var reg 32 W dcache_addr [31:0] $end
+$var reg 1 X got_grant $end
+$var reg 1 Y got_valid $end
+$var reg 32 Z icache_addr [31:0] $end
+$upscope $end
+$scope task test_dcache_read $end
+$var reg 32 [ addr [31:0] $end
+$var reg 1 \ got_grant $end
+$var reg 1 ] got_valid $end
+$upscope $end
+$scope task test_icache_read $end
+$var reg 32 ^ addr [31:0] $end
+$var reg 1 _ got_grant $end
+$var reg 1 ` got_valid $end
+$upscope $end
+$scope task test_icache_write $end
+$var reg 32 a addr [31:0] $end
+$var reg 32 b data [31:0] $end
+$var reg 1 c got_grant $end
+$upscope $end
+$scope task wait_for_grant $end
+$var reg 1 d got_grant $end
+$var reg 1 e is_icache $end
+$upscope $end
+$scope task wait_for_read_valid $end
+$var reg 1 f got_valid $end
+$var reg 1 g is_icache $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+0O
+1N
+$end
+#0
+$dumpvars
+xg
+xf
+xe
+xd
+xc
+bx b
+bx a
+x`
+x_
+bx ^
+x]
+x\
+bx [
+bx Z
+xY
+xX
+bx W
+0V
+0U
+b0 T
+b0 S
+b0 R
+0Q
+0P
+b0 M
+b0 L
+b1111 K
+b0 J
+b0 I
+b0 H
+b0 G
+b0 F
+b0 E
+b0 D
+b0 C
+b0 B
+b100 A
+b0 @
+b0 ?
+b0 >
+0=
+0<
+0;
+b0 :
+09
+b0 8
+b0 7
+06
+b0 5
+04
+b0 3
+b0 2
+01
+00
+b0 /
+1.
+b0 -
+b0 ,
+b1111 +
+1*
+1)
+0(
+b0 '
+0&
+0%
+b0 $
+0#
+0"
+b100 !
+$end
+#5000
+11
+#10000
+01
+#15000
+11
+#20000
+01
+1<
+#25000
+11
+#30000
+01
+b1000000000000 ^
+b1 ?
+#35000
+b0 +
+b0 K
+b1000000000000 -
+b1000000000000 M
+0*
+1%
+1Q
+1e
+b1111 8
+b1111 H
+b1000000000000 7
+b1000000000000 G
+19
+11
+#40000
+01
+#45000
+0%
+1#
+0Q
+b1111 S
+b1000000000000 R
+1"
+1P
+1V
+10
+b11011110101011011011111011101111 $
+b11011110101011011011111011101111 I
+b11011110101011011011111011101111 '
+b11011110101011011011111011101111 E
+b11011110101011011011111011101111 /
+b11011110101011011011111011101111 B
+0.
+1g
+1_
+1d
+b0 @
+0=
+11
+#50000
+01
+#55000
+1%
+0#
+1Q
+0V
+1.
+00
+1`
+1f
+b1 @
+1=
+11
+#60000
+01
+#65000
+1#
+1V
+10
+0.
+0*
+b0 +
+b0 K
+b1000000000000 -
+b1000000000000 M
+0%
+0Q
+09
+11
+#70000
+01
+#75000
+b1111 +
+b1111 K
+b0 -
+b0 M
+1*
+0#
+0V
+1.
+00
+11
+#80000
+01
+#85000
+b10000000000000 [
+b10 ?
+11
+#90000
+01
+#95000
+b0 +
+b0 K
+b10000000000000 -
+b10000000000000 M
+0*
+1(
+1Q
+0=
+b0 @
+0e
+b1111 3
+b1111 D
+b10000000000000 2
+b10000000000000 C
+14
+11
+#100000
+01
+#105000
+0(
+1&
+0Q
+b10000000000000 R
+0"
+0P
+1V
+10
+0.
+0g
+1\
+b0 @
+0=
+11
+#110000
+01
+#115000
+1(
+0&
+1Q
+0V
+1.
+00
+1]
+b1 @
+1=
+11
+#120000
+01
+#125000
+1&
+1V
+10
+0.
+b0 +
+b0 K
+b10000000000000 -
+b10000000000000 M
+0*
+0(
+0Q
+04
+11
+#130000
+01
+#135000
+b1111 +
+b1111 K
+b0 -
+b0 M
+1*
+0&
+0V
+1.
+00
+11
+#140000
+01
+#145000
+b10000000000000 W
+b11000000000000 Z
+b11 ?
+11
+#150000
+01
+#155000
+b0 +
+b0 K
+b11000000000000 -
+b11000000000000 M
+0*
+1%
+1Q
+0=
+b0 @
+1e
+14
+b11000000000000 7
+b11000000000000 G
+19
+11
+#160000
+01
+#165000
+0%
+1#
+0Q
+b11000000000000 R
+1"
+1P
+1V
+10
+0.
+1X
+b1 @
+1=
+11
+#170000
+01
+#175000
+1%
+0#
+1Q
+0V
+1.
+00
+0=
+b0 @
+1g
+11
+#180000
+01
+#185000
+0%
+1#
+0Q
+1V
+10
+0.
+b1 @
+11
+#190000
+01
+#195000
+1%
+0#
+1Q
+0V
+1.
+00
+1Y
+b10 @
+1=
+11
+#200000
+01
+#205000
+1#
+1V
+10
+0.
+b0 +
+b0 K
+0*
+b11000000000000 -
+b11000000000000 M
+0%
+0Q
+04
+09
+11
+#210000
+01
+#215000
+1(
+b10000000000000 -
+b10000000000000 M
+0#
+0V
+1.
+00
+1Q
+14
+11
+#220000
+01
+#225000
+0(
+1&
+0Q
+b10000000000000 R
+0"
+0P
+1V
+10
+0.
+0=
+b0 @
+0e
+11
+#230000
+01
+#235000
+1(
+0&
+1Q
+0V
+1.
+00
+b1 @
+11
+#240000
+01
+#245000
+0(
+1&
+0Q
+1V
+10
+0.
+b10 @
+1=
+11
+#250000
+01
+#255000
+1(
+0&
+1Q
+0V
+1.
+00
+0=
+b0 @
+0g
+11
+#260000
+01
+#265000
+0(
+1&
+0Q
+1V
+10
+0.
+b1 @
+11
+#270000
+01
+#275000
+1(
+0&
+1Q
+0V
+1.
+00
+b10 @
+1=
+11
+#280000
+01
+#285000
+1&
+1V
+10
+0.
+b0 +
+b0 K
+b10000000000000 -
+b10000000000000 M
+0*
+0(
+0Q
+04
+11
+#290000
+01
+#295000
+b1111 +
+b1111 K
+b0 -
+b0 M
+1*
+0&
+0V
+1.
+00
+11
+#300000
+01
+#305000
+b11001010111111101011101010111110 b
+b100000000000000 a
+b100 ?
+11
+#310000
+01
+#315000
+b11001010111111101011101010111110 ,
+b11001010111111101011101010111110 L
+b0 +
+b0 K
+b100000000000000 -
+b100000000000000 M
+0)
+1%
+1Q
+0=
+b0 @
+1e
+b11001010111111101011101010111110 :
+b11001010111111101011101010111110 J
+1;
+b100000000000000 7
+b100000000000000 G
+19
+11
+#320000
+01
+#325000
+0%
+0Q
+b11001010111111101011101010111110 T
+1U
+b100000000000000 R
+1"
+1P
+1V
+0.
+1c
+b1 @
+1=
+11
+#330000
+01
+#335000
+1%
+1Q
+0V
+1.
+11
+#340000
+01
+#345000
+0%
+0Q
+1V
+0.
+11
+#350000
+01
+#355000
+1%
+1Q
+0V
+1.
+11
+#360000
+01
+#365000
+1V
+0.
+b0 +
+b0 K
+0)
+1*
+b100000000000000 -
+b100000000000000 M
+b11001010111111101011101010111110 ,
+b11001010111111101011101010111110 L
+0%
+0Q
+09
+11
+#370000
+01
+#375000
+b0 ,
+b0 L
+b1111 +
+b1111 K
+b0 -
+b0 M
+1)
+0V
+1.
+11
+#380000
+01
+#385000
+11
