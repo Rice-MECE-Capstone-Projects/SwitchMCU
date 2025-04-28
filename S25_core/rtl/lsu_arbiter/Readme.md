@@ -27,7 +27,7 @@ The arbiter implements a simple FSM with two states:
 - IDLE: Ready to accept new requests
 - BUSY: Processing an ongoing request
 
-![alt text](General-Structure.jpg)
+![alt text](resource/General-Structure.jpg)
 
 ## Interface Description
 #### I-cache and D-cache Interfaces
