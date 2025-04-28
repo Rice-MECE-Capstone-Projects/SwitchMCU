@@ -62,7 +62,7 @@ Both cache interfaces share the same signal structure:
 
 ## Usage
 #### Testbench
-Please refer to [LSU_Arbiter_Testbench.md](LSU_Arbiter_Testbench.md) for the testbench documentation.
+Please refer to [LSU_Arbiter_Testbench.md](resource/tb-lsu-arbiter-testbench.md) for the testbench documentation.
 #### Simulation
 To simulate the design using a Verilog simulator like Icarus Verilog:
 ```bash
