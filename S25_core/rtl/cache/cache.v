@@ -24,8 +24,10 @@ module cache (
     output reg [2:0] state
 );
 
+// FSM state variables
 reg [2:0] current_state, next_state;
 localparam idle_state = 3'b000, fetch_mem_state = 3'b001, write_mem_state = 3'b010, miss_write_mem_state = 3'b011, wait_store_state = 3'b100;
+// Instruction type decoding
 localparam inst_LB = 4'b0000, inst_LH = 4'b0001, inst_LW = 4'b0010, inst_LBU = 4'b0011, inst_LHU = 4'b0100, inst_SB = 4'b0101, inst_SH = 4'b0110, inst_SW = 4'b0111; 
 
 localparam cache_size = 2048; // 2KB
@@ -54,16 +56,17 @@ wire new_inst_req;
 wire new_addr_req;
 wire data_req_in;
 
+// Cache structures
 reg [tag_width-1:0] tag_table [0:num_lines-1];
 reg [31:0]          data_table [0:num_lines-1][0:(block_size/4) - 1];
 reg                 valid_table [0:num_lines-1];
 
+// Address decomposition
 wire [tag_width-1:0] tag;
 wire [index_width-1:0] index;
 wire [word_offset_width-1:0] word_offset;
 wire [byte_offset_width-1:0] byte_offset;
 wire [31:0] selected_word;
-
 assign tag = cpu_addr[31:(32-tag_width)];
 assign index = cpu_addr[(32-tag_width-1):(word_offset_width + byte_offset_width)];
 assign word_offset = cpu_addr[(word_offset_width + byte_offset_width - 1): byte_offset_width];
@@ -77,8 +80,11 @@ end
 
 assign new_inst_req = (data_be != save_store_inst);
 assign new_addr_req = (cpu_addr != save_store_addr);
+
+// Detect valid data request (new address or instruction, or any store)
 assign data_req_in = data_req && (new_addr_req || new_inst_req) || data_be == inst_SW || data_be == inst_SH || data_be == inst_SB;
 
+// Sequential block for state transition and cache reset
 always @(posedge clk) begin
     if (reset) begin
         current_state <= idle_state;
@@ -100,6 +106,7 @@ always @(posedge clk) begin
     end 
 end
 
+// FSM logic: decode current state and generate next state and outputs
 always @(*) begin
 
     next_state = current_state;
@@ -116,6 +123,7 @@ always @(*) begin
     idle_state: begin
         state = idle_state;
         if (data_req_in || data_be == inst_LB || data_be == inst_LH || data_be == inst_LW || data_be == inst_LBU || data_be == inst_LHU ) begin
+          
           // cache hit
             if (valid_table[index] && (tag_table[index] == tag)) begin
                 if (data_we == 0) begin
@@ -214,6 +222,7 @@ always @(*) begin
                         end
                     endcase
                 end
+
             // cache miss
             end else begin
                 cpu_stall = 1;
@@ -329,6 +338,7 @@ always @(*) begin
         end
     end
 
+// Cache miss: Fetch block from memory
     fetch_mem_state: begin
         cpu_stall = 1;
         mem_read = 1;
@@ -349,6 +359,7 @@ always @(*) begin
         end
     end
 
+// Cache write-back
     write_mem_state: begin
         cpu_stall = 1;
         mem_write = 1;
@@ -371,6 +382,7 @@ always @(*) begin
         end
     end
 
+// No-write-allocate policy: Write the value directly to memory on store miss
     miss_write_mem_state: begin
         state = miss_write_mem_state;
         cpu_stall = 1;
@@ -387,6 +399,7 @@ always @(*) begin
         end
     end
 
+// CPU can proceed after store/memory write is done
     wait_store_state: begin
         cpu_stall = 0;
         data_gnt = 1;
