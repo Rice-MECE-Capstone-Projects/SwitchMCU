@@ -102,3 +102,7 @@ python verify.py DUT1.v DUT2.v ... DUTn.v
 Normally first time running this won't success because the v_connector can't wire all the signals correctly and competely, please mannually modify the top wrapper file.
 
 Same as single file verification, you can check the simulation result on your command line.
+
+## Completed Testbench Block Diagrams
+
+Below are block diagrams for all of the completed testbenches for the core. These diagrams present a digestable view of what is happening in the tests. They do not show every single signal, but they do give insights into our testing approach and will be useful for anymore aiming to recreate out tests or make similar tests in the future. 
