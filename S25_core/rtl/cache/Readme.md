@@ -80,7 +80,7 @@ miss_write_mem_state (011): Directly writes to memory during a store miss
 
 wait_store_state (100): Waits for store operation to complete in memory
 
-Cache Hit vs Miss Logic
+Cache Hit
 --
 On a Cache Hit:
 
@@ -88,7 +88,7 @@ For loads: Data is directly read from the corresponding cache line.
 
 For stores: Data is written to both the cache and memory (write-through).
 
-On a Cache Miss:
+Cache Miss:
 --
 For loads: The cache issues a memory read to fetch the entire block, which is then stored in the appropriate cache line.
 
