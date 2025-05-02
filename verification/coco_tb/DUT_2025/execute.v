@@ -16,6 +16,7 @@ module execute
     input wire  [31:0] operand2_pi,
     input wire  [31:0] imm_i,
     input wire  [31:0] pc_i,
+    input wire         Noop,
     output wire [31:0] alu_result_1,
     output wire [31:0] alu_result_2,
 
@@ -24,8 +25,6 @@ module execute
     output wire  write_reg_file_wire,
 
     input wire [63:0] Single_Instruction_i
-    // output wire [6:0] INST_typ_o,
-    // output wire [6:0] opcode_o
     // outputs to ALU
 );
 
@@ -34,353 +33,362 @@ reg  [32:0] result;
 reg  [32:0] result_secondary;
 assign alu_result_1           = result[31:0];
 assign alu_result_2 = result_secondary[31:0];
+reg  branch_inst, jump_inst,write_reg_file;
+
 initial begin 
-result <=0;
+result           <=0;
+result_secondary <=0;
+branch_inst      <=0;
+jump_inst        <=0;
+write_reg_file   <=0;
 end 
+
+
 wire signed [31:0] operand1_pi_signed = operand1_pi;
 wire signed [31:0] operand2_pi_signed = operand2_pi; 
 wire signed [31:0] imm_i_signed       = imm_i; 
 
-reg  branch_inst, jump_inst,write_reg_file;
-assign jump_inst_wire  = jump_inst;
-assign branch_inst_wire = branch_inst & result[0];
-assign write_reg_file_wire = write_reg_file;
 
 
-// wire branch_inst_wire, jump_inst_wire;
+assign jump_inst_wire                 = jump_inst;
+assign branch_inst_wire               =  branch_inst & result[0];
+assign write_reg_file_wire            = (~(rd_i==0)) & write_reg_file; 
+
+
 
 always @(*) begin 
 case(Single_Instruction_i)
-{inst_UNKNOWN   }:begin 
+{`inst_UNKNOWN   }:begin 
 result <=0;
 result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
-    write_reg_file <= 1'b1;
+    write_reg_file <= 1'b0;
 end
-{inst_ADD   }:begin 
+{`inst_ADD   }:begin 
 result <= operand1_pi + operand2_pi;
 result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SUB   }:begin 
-    result <= operand1_pi_signed - operand2_pi_signed;
+{`inst_SUB   }:begin 
+    result <= operand1_pi - operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_XOR   }:begin 
+{`inst_XOR   }:begin 
     result <= operand1_pi ^ operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_OR    }:begin 
+{`inst_OR    }:begin 
     result <= operand1_pi | operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_AND    }:begin 
+{`inst_AND    }:begin 
     result <= operand1_pi & operand2_pi;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLL   }:begin 
+{`inst_SLL   }:begin 
     result <= (operand1_pi << (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRL   }:begin 
+{`inst_SRL   }:begin 
     result <= (operand1_pi >> (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRA   }:begin 
-    result <= (operand1_pi_signed >>> (operand2_pi_signed));
+{`inst_SRA   }:begin 
+    result <= (operand1_pi_signed >>> (operand2_pi));
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLT   }:begin 
-    result <= (operand1_pi_signed < operand2_pi_signed ) ? 1'b1 : 1'b0;
+{`inst_SLTU  }:begin 
+    result <= (operand1_pi        < operand2_pi       ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTU  }:begin 
-    result <= (operand1_pi        < operand2_pi        ) ? 1'b1 : 1'b0;
+{`inst_SLT   }:begin 
+    result <= (operand1_pi_signed < operand2_pi_signed) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_ADDI  }:begin 
+{`inst_ADDI  }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_XORI  }:begin 
+{`inst_XORI  }:begin 
     result <= operand1_pi ^ imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_ORI  }:begin 
+{`inst_ORI  }:begin 
     result <= operand1_pi | imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_ANDI  }:begin 
+{`inst_ANDI  }:begin 
     result <= operand1_pi & imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLLI  }:begin 
-    result <= operand1_pi << imm_i;
+{`inst_SLLI  }:begin 
+    result <= operand1_pi << imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRLI  }:begin 
-    result <= operand1_pi >> imm_i;
+{`inst_SRLI  }:begin 
+    result <= operand1_pi >> imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SRAI    }:begin 
-    result <= operand1_pi_signed >>> imm_i_signed;
+{`inst_SRAI    }:begin 
+    result <=  operand1_pi_signed >>> imm_i[4:0];
+    // $signed(operand1_pi) >>> imm_i[4:0];
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTI  }:begin 
+{`inst_SLTI  }:begin 
     result <= (operand1_pi        < imm_i       ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SLTIU }:begin 
-    result <= (operand1_pi < imm_i      ) ? 1'b1 : 1'b0;
+{`inst_SLTIU }:begin 
+    result <= (operand1_pi_signed < imm_i_signed      ) ? 1'b1 : 1'b0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LB    }:begin 
+{`inst_LB    }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LH    }:begin 
+{`inst_LH    }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LW    }:begin 
+{`inst_LW    }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LBU   }:begin 
+{`inst_LBU   }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_LHU   }:begin 
+{`inst_LHU   }:begin 
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_SB    }:begin
+{`inst_SB    }:begin
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_SH    }:begin
+{`inst_SH    }:begin
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_SW    }:begin
+{`inst_SW    }:begin
     result <= operand1_pi + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BEQ   }:begin
+{`inst_BEQ   }:begin
     result <= {31'b0,(operand1_pi == operand2_pi)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BNE   }:begin
+{`inst_BNE   }:begin
     result <= {31'b0,(operand1_pi != operand2_pi)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BLT   }:begin
+{`inst_BLT   }:begin
+    result <= {31'b0,(operand1_pi_signed <  operand2_pi_signed)};
+    result_secondary <=pc_i + imm_i;
+    branch_inst <=1'b1;
+    jump_inst <=0;
+    write_reg_file <= 1'b0;
+end
+{`inst_BGE   }:begin
+    result <= {31'b0,(operand1_pi_signed >= operand2_pi_signed)};
+    result_secondary <=pc_i + imm_i;
+    branch_inst <=1'b1;
+    jump_inst <=0;
+    write_reg_file <= 1'b0;
+end
+{`inst_BLTU  }:begin
     result <= {31'b0,(operand1_pi <  operand2_pi)};
     result_secondary <=pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_BGE   }:begin
-    result <= {31'b0,(operand1_pi >= operand2_pi)};
-    result_secondary <=pc_i + imm_i;
-    branch_inst <=1'b1;
-    jump_inst <=0;
-    write_reg_file <= 1'b0;
-end
-{inst_BLTU  }:begin
-    result <= {31'b0,(operand1_pi <  operand2_pi)};
-    result_secondary <=pc_i + imm_i;
-    branch_inst <=1'b1;
-    jump_inst <=0;
-    write_reg_file <= 1'b0;
-end
-{inst_BGEU  }:begin
+{`inst_BGEU  }:begin
     result <= {31'b0,(operand1_pi >= operand2_pi)};
     result_secondary <= pc_i + imm_i;
     branch_inst <=1'b1;
     jump_inst <=0;
     write_reg_file <= 1'b0;
 end
-{inst_JAL   }:begin
+{`inst_JAL   }:begin
     result <= pc_i + 4;
     result_secondary <= pc_i + imm_i;
     branch_inst <=0;
     jump_inst <=1'b1;
     write_reg_file <= 1'b1;
 end
-{inst_JALR  }:begin
+{`inst_JALR  }:begin
     result <= pc_i + 4;
     result_secondary <= operand1_pi + imm_i;
     branch_inst <=0;
     jump_inst <=1'b1;
     write_reg_file <= 1'b1;
 end
-{inst_LUI   }:begin
-    result           <= imm_i << 12;
+{`inst_LUI   }:begin
+    result           <=imm_i << 12;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_AUIPC }:begin
+{`inst_AUIPC }:begin
     result           <=pc_i + imm_i;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
      end
-{inst_ECALL }:begin
+{`inst_ECALL }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_EBREAK}:begin
+{`inst_EBREAK}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_FENCE }:begin
+{`inst_FENCE }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_FENCEI}:begin
+{`inst_FENCEI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRW }:begin
+{`inst_CSRRW }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRS }:begin
+{`inst_CSRRS }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRC }:begin
+{`inst_CSRRC }:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRWI}:begin
+{`inst_CSRRWI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRSI}:begin
+{`inst_CSRRSI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
     jump_inst <=0;
     write_reg_file <= 1'b1;
 end
-{inst_CSRRCI}:begin
+{`inst_CSRRCI}:begin
     result           <=0;
     result_secondary <=0;
     branch_inst <=0;
@@ -398,323 +406,173 @@ endcase
 end
 
 
+//MARKER AUTOMATED HERE START
 
 
-
+wire debug_i;
+assign debug_i = 1;
 always @(negedge i_clk) begin 
+#11
+if (debug_i) begin
+    $write("\nEXEC      PC: %h: I:{%h}    ",pc_i,  instruction   );
 
-#1
 case(Single_Instruction_i)
-
-{inst_UNKNOWN   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_UNKOWN   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_UNKNOWN   }:begin 
+    $write("inst_UNKOWN ");
+end
+{`inst_ADD   }:begin 
+    $write("inst_ADD    ");
 
 end
-{inst_ADD   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_ADD   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
+{`inst_SUB   }:begin 
+    $write("inst_SUB    ");
 
 end
-{inst_SUB   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SUB   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
+{`inst_XOR   }:begin 
+    $write("inst_XOR    ");
 
 end
-{inst_XOR   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_XOR   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_OR    }:begin 
+    $write("inst_OR     ");
 end
-{inst_OR    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_OR    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_AND    }:begin 
+    $write("inst_AND     ");
 end
-
-{inst_AND    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_AND    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SLL   }:begin 
+    $write("inst_SLL    ");
 end
-{inst_SLL   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SLL   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SRL   }:begin 
+    $write("inst_SRL    ");
 end
-{inst_SRL   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SRL   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SRA   }:begin 
+    $write("inst_SRA    ");
 end
-{inst_SRA   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SRA   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SLT   }:begin 
+    $write("inst_SLT    ");
 end
-
-{inst_SLT   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SLT   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SLTU  }:begin 
+    $write("inst_SLTU   ");
 end
-{inst_SLTU  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SLTU  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_ADDI  }:begin 
+    $write("inst_ADDI   ");
 end
-{inst_ADDI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_ADDI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_XORI  }:begin 
+    $write("inst_XORI   ");
 end
-{inst_XORI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_XORI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_ORI  }:begin 
+    $write("inst_ORI   ");
 end
-
-{inst_ORI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_ORI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_ANDI  }:begin 
+    $write("inst_ANDI   ");
 end
-{inst_ANDI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_ANDI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SLLI  }:begin 
+    $write("inst_SLLI   ");
 end
-{inst_SLLI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SLLI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SRLI  }:begin 
+    $write("inst_SRLI   ");
 end
-{inst_SRLI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SRLI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SRAI    }:begin 
+    $write("inst_SRAI     ");
 end
-
-{inst_SRAI    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SRAI    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SLTI  }:begin 
+    $write("inst_SLTI   ");
 end
-{inst_SLTI  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SLTI  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SLTIU }:begin 
+    $write("inst_SLTIU   ");
 end
-{inst_SLTIU }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SLTIU ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_LB    }:begin 
+    $write("inst_LB     ");
 end
-{inst_LB    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_LB    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_LH    }:begin 
+    $write("inst_LH     ");
 end
-
-{inst_LH    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_LH    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_LW    }:begin 
+    $write("inst_LW     ");
 end
-{inst_LW    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_LW    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_LBU   }:begin 
+    $write("inst_LBU    ");
 end
-{inst_LBU   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_LBU   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_LHU   }:begin 
+    $write("inst_LHU    ");
 end
-{inst_LHU   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_LHU   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
-end
-
-{inst_SB    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SB    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SB    }:begin 
+    $write("inst_SB     ");
      end
-{inst_SH    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SH    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SH    }:begin 
+    $write("inst_SH     ");
      end
-{inst_SW    }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_SW    ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_SW    }:begin 
+    $write("inst_SW     ");
      end
-{inst_BEQ   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_BEQ   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_BEQ   }:begin 
+    $write("inst_BEQ    ");
      end
-
-{inst_BNE   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_BNE   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_BNE   }:begin 
+    $write("inst_BNE    ");
      end
-{inst_BLT   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_BLT   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_BLT   }:begin 
+    $write("inst_BLT    ");
      end
-{inst_BGE   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_BGE   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_BGE   }:begin 
+    $write("inst_BGE    ");
      end
-{inst_BLTU  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_BLTU  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_BLTU  }:begin 
+    $write("inst_BLTU   ");
      end
-
-{inst_BGEU  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_BGEU  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_BGEU  }:begin 
+    $write("inst_BGEU   ");
      end
-{inst_JAL   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_JAL   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_JAL   }:begin 
+    $write("inst_JAL    ");
      end
-{inst_JALR  }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_JALR  ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_JALR  }:begin 
+    $write("inst_JALR   ");
      end
-{inst_LUI   }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_LUI   ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_LUI   }:begin 
+    $write("inst_LUI    ");
      end
-
-{inst_AUIPC }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_AUIPC ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_AUIPC }:begin 
+    $write("inst_AUIPC  ");
      end
-{inst_ECALL }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_ECALL ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_ECALL }:begin 
+    $write("inst_ECALL   ");
      end
-{inst_EBREAK}:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_EBREAK");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_EBREAK}:begin 
+    $write("inst_EBREAK   ");
      end
-{inst_FENCE }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_FENCE ");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_FENCE }:begin 
+    $write("inst_FENCE   ");
      end
-
-{inst_FENCEI}:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_FENCEI");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_FENCEI}:begin 
+    $write("inst_FENCEI   ");
      end
-{inst_CSRRW }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_CSRRW");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_CSRRW }:begin 
+    $write("inst_CSRRW   ");
      end
-{inst_CSRRS }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_CSRRS");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_CSRRS }:begin 
+    $write("inst_CSRRS   ");
      end
-{inst_CSRRC }:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_CSRRC");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_CSRRC }:begin 
+    $write("inst_CSRRC   ");
      end
-
-{inst_CSRRWI}:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_CSRRWI");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_CSRRWI}:begin 
+    $write("inst_CSRRWI   ");
      end
-{inst_CSRRSI}:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_CSRRSI");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_CSRRSI}:begin 
+    $write("inst_CSRRSI   ");
      end
-{inst_CSRRCI}:begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("inst_CSRRCI");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+{`inst_CSRRCI}:begin 
+    $write("inst_CSRRCI   ");
      end
 default: begin 
-    $write("\n %h: E:%b I:{%h}    ",pc_i,~ (|Single_Instruction_i),  instruction   );
-    $write("not_encoded instruction");
-    $write("rd_i_a %d rs1_a %d rs2_a %d  rs1_d %d rs2_d %d  result %d",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $display(" imm_i %d", $signed(imm_i));
-
+    $write("not_encoded instruction   ");
 end
 endcase
+   $write("rd_i_a %4d rs1_a %4d rs2_a %4d  rs1_d %8h rs2_d %8h  result {%4H}",rd_i,rs1_i,rs2_i,operand1_pi,operand2_pi,result);  $write(" imm_i %h", $signed(imm_i));
 end
 
+end
+//MARKER AUTOMATED HERE END
 
 
 

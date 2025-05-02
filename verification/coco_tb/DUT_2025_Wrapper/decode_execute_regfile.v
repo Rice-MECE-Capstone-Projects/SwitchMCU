@@ -62,7 +62,7 @@ module decode_execute_regfile (
         .alu_result_2(alu_result_2),
         .branch_inst_wire(branch_inst_wire),
         .jump_inst_wire(jump_inst_wire),
-        .write_reg_file_wire(inter_write_reg_file)
+        .we_o(inter_write_reg_file)
     );
 
     regfile regfile_inst (
@@ -71,7 +71,7 @@ module decode_execute_regfile (
         .reg1_pi(inter_rs1),
         .reg2_pi(inter_rs2),
         .destReg_pi(inter_rd),
-        .we_pi(inter_write_reg_file),
+        .we_i(inter_write_reg_file),
         .writeData_pi(alu_result_1),
         .operand1_po(inter_operand1),
         .operand2_po(inter_operand2)

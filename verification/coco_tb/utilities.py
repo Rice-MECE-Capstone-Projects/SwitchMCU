@@ -42,6 +42,8 @@ def result_gen(itype, ins_name, imm, rs2, rs1, pc):
         # addi, slti, sltiu, xori, ori, andi
         if ins_name == "ADDI":
             return [1, (rs1 + imm) & 0xFFFFFFFF]
+        if ins_name == "LW" or ins_name == "LW" or ins_name == "LB" or ins_name == "LBU" or ins_name == "LH" or ins_name == "LHU":
+            return [1, (rs1 + imm) & 0xFFFFFFFF]
     if itype == 'R':
         # add,sll,slt,sltu,xor,srl,or,and,sub,sra
         if ins_name == "ADD":
@@ -49,8 +51,8 @@ def result_gen(itype, ins_name, imm, rs2, rs1, pc):
         if ins_name == "SLL":
             return [1, (rs1 << rs2) & 0xFFFFFFFF]
         if ins_name == "SLT":
-            # rs1 = dec_sign_extend(rs1, 32)
-            # rs2 = dec_sign_extend(rs2, 32)
+            rs1 = dec_sign_extend(rs1, 32)
+            rs2 = dec_sign_extend(rs2, 32)
             return [1, 1] if rs1 < rs2 else [1, 0]
         if ins_name == "SLTU":
             return [1, 1] if rs1 < rs2 else [1, 0]
@@ -63,7 +65,7 @@ def result_gen(itype, ins_name, imm, rs2, rs1, pc):
         if ins_name == "AND":
             return [1, rs1 & rs2]
         if ins_name == "SUB":
-            return [1, rs1 + ~rs2 + 1]
+            return [1, twos_comp((twos_comp(rs1, 32) - twos_comp(rs2, 32)) & 0xFFFFFFFF, 32)]
         if ins_name == "SRA":
             rs1 = dec_sign_extend(rs1, 32)
             return [1, rs1 >> rs2]
@@ -90,7 +92,7 @@ def result_gen(itype, ins_name, imm, rs2, rs1, pc):
             return [1, rs1 >> imm ]
         if ins_name == "SRAI":
             rs1 = dec_sign_extend(rs1, 32)
-            return [1, rs1 >> imm]
+            return [1, rs1 >> (imm & 0x1F)]
         if ins_name == "LB":
             return [1, (rs1 + imm) & 0xFFFFFFFF]
         if ins_name == "LH":
@@ -154,13 +156,13 @@ def ins_gen(itype, rd_in=0, boundary=0):
     # generation part #
     # # # # # # # # # #
     if itype == 'LOAD':
-        opcode = [0b0010011, 0b0000011, 0b1100111]
-        imm = random.randint(0, 2**11-1)
+        opcode = [0b0000011]
+        imm = random.randint(0, 2**5-1)
         rs1 = random.randint(0, 2**5-1)
-        # addi
-        funct3_list1 = [0b000]
-        funct3_all = [funct3_list1]
-        rd = rd_in
+        # lb, lh, lw, lbu, lhu
+        funct3_list3 = [0b000, 0b001, 0b010, 0b100, 0b101]
+        funct3_all = [funct3_list3]
+        rd  = random.randint(1, 2**5-1)
 
         for i in range(0, len(funct3_all)):
             for funct3 in funct3_all[i]:
@@ -177,8 +179,7 @@ def ins_gen(itype, rd_in=0, boundary=0):
         # ins_list[6] = (ins_list[8] & (2 ** 25 - 1))
         # ins_list[7] = (ins_list[8] & (2 ** 25 - 1))
         # ins_list[8] = ((ins_list[8] & (2 ** 25 - 1)) | 0b0100000 << 25)
-        ins_name_list = ["ADDI"]
-        assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
+        ins_name_list = ["LB", "LH", "LW", "LBU", "LHU"]
         assert(len(ins_list) == len(ins_name_list)), "[Error] Instruction list length not match"
     elif itype == 'R':
         # add,sll,slt,sltu,xor,srl,or,and,sub,sra
@@ -214,7 +215,7 @@ def ins_gen(itype, rd_in=0, boundary=0):
         # jalr
         funct3_list4 = [0b000]
         funct3_all = [funct3_list1, funct3_list2, funct3_list3, funct3_list4]
-        rd = random.randint(0, 2**5-1)
+        rd = random.randint(1, 2**5-1)
 
         for i in range(0, len(funct3_all)):
             for funct3 in funct3_all[i]:
@@ -236,8 +237,8 @@ def ins_gen(itype, rd_in=0, boundary=0):
     elif itype == 'S':
         # sb,sh,sw
         opcode = 0b0100011
-        imm = random.randint(0, 2**12-1)
-        imm11_5 = imm & ((2**12-1 - (2**5-1))) >> 5
+        imm = random.randint(0, 2**5-1)
+        imm11_5 = imm & ((2**11-1 - (2**5-1))) >> 5
         imm4_0 = imm & (2**5-1)
         rs2 = random.randint(0, 2**5-1)
         rs1 = random.randint(0, 2**5-1)
@@ -279,7 +280,7 @@ def ins_gen(itype, rd_in=0, boundary=0):
     elif itype == 'U':
         # auipc, lui
         opcode = [0b0010111, 0b0110111]
-        rd = random.randint(0, 2**5-1)
+        rd = random.randint(1, 2**5-1)
         imm = random.randint(0, 2**20-1)
         for unit in opcode:
             ins_temp = imm << 12 | rd << 7 | unit
@@ -294,7 +295,7 @@ def ins_gen(itype, rd_in=0, boundary=0):
         imm10_1 = imm & (2 ** 10 - 1 - (2 ** 1 - 1))  >> 1
         imm11 = imm & (2 ** 12 - 1)
         imm19_12 = imm & (2 ** 20 - 1 - (2 ** 12 - 1))  >> 12
-        rd = random.randint(0, 2**5-1)
+        rd = random.randint(1, 2**5-1)
         ins_temp = (imm20|imm10_1|imm11|imm19_12) << 12 | rd << 7 | opcode
         ins_list.append(ins_temp)
         ins_name_list = ["JAL"]

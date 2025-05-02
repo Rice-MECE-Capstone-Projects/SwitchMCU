@@ -11,13 +11,15 @@ output wire [31:0] operand1_po,
 output wire [31:0] operand2_po
 );
 
-reg [31:0] REG_FILE[0:31];  // 32 32-bit registers
-
    wire   cntrl1, cntrl2;
-   assign cntrl1 =  (reg1_pi  == destReg_pi) &&  we_pi;
-   assign cntrl2 =  (reg2_pi  == destReg_pi) &&  we_pi ;
-   assign operand1_po = cntrl1  ? writeData_pi : REG_FILE[reg1_pi];
-   assign operand2_po = cntrl2  ? writeData_pi : REG_FILE[reg2_pi];
+   reg [31:0] REG_FILE[0:31];  // 32 32-bit registers
+   
+// read while writing in WB stage   
+assign cntrl1      =  (reg1_pi  == destReg_pi) &&  we_pi;
+assign cntrl2      =  (reg2_pi  == destReg_pi) &&  we_pi ;
+assign operand1_po = cntrl1  ? writeData_pi : REG_FILE[reg1_pi];
+assign operand2_po = cntrl2  ? writeData_pi : REG_FILE[reg2_pi];
+
 integer j;
 
 initial begin 
@@ -25,17 +27,41 @@ initial begin
 	  	  REG_FILE[j] <= 32'b0;	 
  end
 end
-
 integer i;
 always @(posedge clk) begin
       if (reset)
        	  for (i=0; i < 32; i=i+1) begin 
-	  	     REG_FILE[i] <= 32'b0;	
+	  	     REG_FILE[i] <= {$random} & 32'hFF;
            end
 	else
 	   if (we_pi && (destReg_pi!=0))  
 		   REG_FILE[destReg_pi] <= writeData_pi;
       end
+
+
+
+//MARKER AUTOMATED HERE START
+integer k;
+integer n;
+always @(negedge clk) begin
+      #100
+      $write("\n\nREGFILE:   ");
+      for (k=0; k < 32; k=k+1) begin 
+	  	// REG_FILE[i] <= 32'b0;
+      if (REG_FILE[k] != 0) begin
+      $write("   R%4d: %9h,", k, REG_FILE[k]);
+      end
+      end
+      $write("\nREGFILE*:  ");
+      for (n=0; n < 32; n=n+1) begin 
+	  	// REG_FILE[i] <= 32'b0;
+      if (REG_FILE[n] != 0) begin
+      $write("   R%4d: %9d,", n, $signed(REG_FILE[n]));
+      end
+      end
+end
+
+//MARKER AUTOMATED HERE END
 
 
 

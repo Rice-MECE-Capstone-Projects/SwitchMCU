@@ -6,7 +6,6 @@ TOPLEVEL_LANG ?= verilog
 
 VERILOG_SOURCES += $(shell pwd)/DUT_2025/decode.v
 VERILOG_SOURCES += $(shell pwd)/DUT_2025/execute.v
-VERILOG_SOURCES += $(shell pwd)/DUT_2025/regfile.v
 VERILOG_SOURCES += $(shell pwd)/DUT_2025_Wrapper/$(DUTWAP)
 IVERILOG_ARGS += -I $(shell pwd)/DUT_2025
 TOPLEVEL = $(basename $(DUTWAP))

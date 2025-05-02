@@ -1,0 +1,435 @@
+$date
+	Mon Mar 31 20:11:42 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module decode_execute_regfile_dataMem $end
+$var wire 64 ! Single_Instruction_o [63:0] $end
+$var wire 1 " clk $end
+$var wire 32 # data_mem_doutb [31:0] $end
+$var wire 1 $ data_mem_rstb $end
+$var wire 1 % data_mem_rstb_busy $end
+$var wire 1 & en $end
+$var wire 32 ' imm_o [31:0] $end
+$var wire 32 ( instruction [31:0] $end
+$var wire 32 ) loadData_w [31:0] $end
+$var wire 32 * memory_offset [31:0] $end
+$var wire 32 + operand1_po [31:0] $end
+$var wire 32 , operand2_po [31:0] $end
+$var wire 32 - pc_i [31:0] $end
+$var wire 5 . rd_o [4:0] $end
+$var wire 1 / reset $end
+$var wire 5 0 rs1_o [4:0] $end
+$var wire 5 1 rs2_o [4:0] $end
+$var wire 32 2 writeRegData [31:0] $end
+$var wire 1 3 stall_mem_not_avalible $end
+$var wire 4 4 operand_amt_o [3:0] $end
+$var wire 7 5 opcode_o [6:0] $end
+$var wire 1 6 load_into_reg $end
+$var wire 1 7 jump_inst_wire $end
+$var wire 1 8 inter_write_reg_file $end
+$var wire 5 9 inter_rs2 [4:0] $end
+$var wire 5 : inter_rs1 [4:0] $end
+$var wire 5 ; inter_rd [4:0] $end
+$var wire 32 < inter_operand2 [31:0] $end
+$var wire 32 = inter_operand1 [31:0] $end
+$var wire 32 > inter_imm [31:0] $end
+$var wire 64 ? inter_Single_Instruction [63:0] $end
+$var wire 7 @ fun7_o [6:0] $end
+$var wire 3 A fun3_o [2:0] $end
+$var wire 32 B final_value [31:0] $end
+$var wire 4 C data_mem_web [3:0] $end
+$var wire 1 D data_mem_enb $end
+$var wire 32 E data_mem_dinb [31:0] $end
+$var wire 1 F data_mem_clkb $end
+$var wire 32 G data_mem_addrb [31:0] $end
+$var wire 1 H branch_inst_wire $end
+$var wire 32 I alu_result_2 [31:0] $end
+$var wire 32 J alu_result_1 [31:0] $end
+$var wire 7 K INST_typ_o [6:0] $end
+$scope module dataMem_inst $end
+$var wire 1 " clk $end
+$var wire 32 L data_mem_addrb [31:0] $end
+$var wire 1 F data_mem_clkb $end
+$var wire 32 M data_mem_dinb [31:0] $end
+$var wire 32 N data_mem_doutb [31:0] $end
+$var wire 1 D data_mem_enb $end
+$var wire 1 $ data_mem_rstb $end
+$var wire 1 % data_mem_rstb_busy $end
+$var wire 4 O data_mem_web [3:0] $end
+$var wire 1 P enb $end
+$var wire 32 Q loadData_w [31:0] $end
+$var wire 1 6 load_into_reg $end
+$var wire 1 R load_wire $end
+$var wire 32 S memory_offset [31:0] $end
+$var wire 32 T pc_i [31:0] $end
+$var wire 32 U raw_bram_data_word [31:0] $end
+$var wire 1 / reset $end
+$var wire 1 V rstb_busy $end
+$var wire 1 3 stall_mem_not_avalible $end
+$var wire 1 W stall_needed $end
+$var wire 1 X store_wire $end
+$var wire 30 Y word_address [29:0] $end
+$var wire 32 Z storeData [31:0] $end
+$var wire 16 [ raw_data_byte_LHU [15:0] $end
+$var wire 8 \ raw_data_byte_LBU [7:0] $end
+$var wire 32 ] raw_bram_data_word_end [31:0] $end
+$var wire 32 ^ final_value [31:0] $end
+$var wire 2 _ byte_address [1:0] $end
+$var wire 32 ` address_i [31:0] $end
+$var wire 32 a address [31:0] $end
+$var wire 64 b Single_Instruction [63:0] $end
+$var reg 32 c cycles_request [31:0] $end
+$var reg 32 d loadData [31:0] $end
+$var reg 1 e load_data_valid $end
+$var reg 32 f retrive_cycles [31:0] $end
+$var reg 32 g store_data [31:0] $end
+$var reg 4 h web [3:0] $end
+$scope module end_write $end
+$var wire 32 i addrb [31:0] $end
+$var wire 1 " clkb $end
+$var wire 32 j dinb [31:0] $end
+$var wire 32 k doutb [31:0] $end
+$var wire 1 P enb $end
+$var wire 32 l final_value [31:0] $end
+$var wire 1 m rstb $end
+$var wire 1 V rstb_busy $end
+$var wire 4 n web [3:0] $end
+$var wire 30 o word_address [29:0] $end
+$var wire 2 p byte_address [1:0] $end
+$var reg 32 q DMEM [31:0] $end
+$var reg 32 r doutb_reg [31:0] $end
+$upscope $end
+$upscope $end
+$scope module decode_inst $end
+$var wire 7 s INST_typ_o [6:0] $end
+$var wire 64 t Single_Instruction_o [63:0] $end
+$var wire 3 u fun3_o [2:0] $end
+$var wire 7 v fun7_o [6:0] $end
+$var wire 1 " i_clk $end
+$var wire 1 & i_en $end
+$var wire 32 w imm_o [31:0] $end
+$var wire 32 x instruction [31:0] $end
+$var wire 4 y operand_amt_o [3:0] $end
+$var wire 5 z rd_o [4:0] $end
+$var wire 5 { rs1_o [4:0] $end
+$var wire 5 | rs2_o [4:0] $end
+$var wire 7 } opcode_o [6:0] $end
+$var wire 7 ~ opcode [6:0] $end
+$var parameter 32 !" N_param $end
+$var reg 7 "" INST_typ [6:0] $end
+$var reg 64 #" Single_Instruction [63:0] $end
+$var reg 3 $" fun3 [2:0] $end
+$var reg 7 %" fun7 [6:0] $end
+$var reg 32 &" imm [31:0] $end
+$var reg 4 '" operand_amt [3:0] $end
+$var reg 5 (" rd [4:0] $end
+$var reg 5 )" rs1 [4:0] $end
+$var reg 5 *" rs2 [4:0] $end
+$upscope $end
+$scope module execute_inst $end
+$var wire 1 +" Noop $end
+$var wire 64 ," Single_Instruction_i [63:0] $end
+$var wire 1 H branch_inst_wire $end
+$var wire 1 -" debug_i $end
+$var wire 1 " i_clk $end
+$var wire 1 & i_en $end
+$var wire 32 ." imm_i [31:0] $end
+$var wire 32 /" imm_i_signed [31:0] $end
+$var wire 32 0" instruction [31:0] $end
+$var wire 1 7 jump_inst_wire $end
+$var wire 32 1" operand1_pi_signed [31:0] $end
+$var wire 32 2" operand2_pi_signed [31:0] $end
+$var wire 32 3" pc_i [31:0] $end
+$var wire 5 4" rd_i [4:0] $end
+$var wire 5 5" rs1_i [4:0] $end
+$var wire 5 6" rs2_i [4:0] $end
+$var wire 1 8 write_reg_file_wire $end
+$var wire 32 7" operand2_pi [31:0] $end
+$var wire 32 8" operand1_pi [31:0] $end
+$var wire 32 9" alu_result_2 [31:0] $end
+$var wire 32 :" alu_result_1 [31:0] $end
+$var parameter 32 ;" N_param $end
+$var reg 1 <" branch_inst $end
+$var reg 1 =" jump_inst $end
+$var reg 33 >" result [32:0] $end
+$var reg 33 ?" result_secondary [32:0] $end
+$var reg 1 @" write_reg_file $end
+$upscope $end
+$scope module regfile_inst $end
+$var wire 1 " clk $end
+$var wire 1 A" cntrl1 $end
+$var wire 1 B" cntrl2 $end
+$var wire 5 C" destReg_pi [4:0] $end
+$var wire 5 D" reg1_pi [4:0] $end
+$var wire 5 E" reg2_pi [4:0] $end
+$var wire 1 / reset $end
+$var wire 1 8 we_pi $end
+$var wire 32 F" writeData_pi [31:0] $end
+$var wire 32 G" operand2_po [31:0] $end
+$var wire 32 H" operand1_po [31:0] $end
+$var integer 32 I" i [31:0] $end
+$var integer 32 J" j [31:0] $end
+$var integer 32 K" k [31:0] $end
+$var integer 32 L" n [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b100000 ;"
+b100000 !"
+$end
+#0
+$dumpvars
+bx L"
+bx K"
+b100000 J"
+b100000 I"
+b0 H"
+b0 G"
+b0 F"
+b0 E"
+b0 D"
+b0 C"
+0B"
+0A"
+0@"
+b0 ?"
+b0 >"
+0="
+0<"
+b0 :"
+b0 9"
+b0 8"
+b0 7"
+b0 6"
+b0 5"
+b0 4"
+b0 3"
+b0 2"
+b0 1"
+bz 0"
+b0 /"
+b0 ."
+1-"
+b0 ,"
+z+"
+b0 *"
+b0 )"
+b0 ("
+b0 '"
+b0 &"
+b0 %"
+b0 $"
+b0 #"
+b0 ""
+bz ~
+bz }
+b0 |
+b0 {
+b0 z
+b0 y
+bz x
+b0 w
+b0 v
+b0 u
+b0 t
+b0 s
+bx r
+b0 q
+bx p
+bx o
+b0 n
+0m
+b0 l
+bx k
+b0 j
+bx i
+b0 h
+b0 g
+b0 f
+0e
+b0 d
+b0 c
+b0 b
+bx a
+b0 `
+bx _
+b0 ^
+bx ]
+bx \
+bx [
+b0 Z
+bx Y
+0X
+0W
+0V
+bz U
+b0 T
+bz S
+0R
+b0 Q
+0P
+b0 O
+bz N
+b0 M
+bx L
+b0 K
+b0 J
+b0 I
+0H
+bx G
+1F
+b0 E
+0D
+b0 C
+b0 B
+b0 A
+b0 @
+b0 ?
+b0 >
+b0 =
+b0 <
+b0 ;
+b0 :
+b0 9
+08
+07
+06
+bz 5
+b0 4
+03
+b0 2
+bz 1
+bz 0
+1/
+bz .
+b0 -
+bz ,
+bz +
+bz *
+b0 )
+bz (
+bz '
+0&
+z%
+0$
+bz #
+1"
+bz !
+$end
+#5000
+0F
+0"
+#10000
+1F
+1"
+0/
+1&
+#15000
+0F
+0"
+#20000
+1F
+1"
+#25000
+0F
+0"
+#30000
+1F
+1"
+#35000
+0F
+0"
+#40000
+1F
+1"
+#45000
+0F
+0"
+#50000
+1F
+1"
+#55000
+0F
+0"
+#60000
+1F
+1"
+#65000
+0F
+0"
+#70000
+1D
+1P
+1X
+b10000000000000000000000000 ?
+b10000000000000000000000000 b
+b10000000000000000000000000 t
+b10000000000000000000000000 #"
+b10000000000000000000000000 ,"
+b11100 9
+b11100 |
+b11100 *"
+b11100 6"
+b11100 E"
+b1011 :
+b1011 {
+b1011 )"
+b1011 5"
+b1011 D"
+b1 A
+b1 u
+b1 $"
+b100 K
+b100 s
+b100 ""
+b100011 ~
+b100011 5
+b100011 }
+1F
+1"
+b1110001011001000000100011 (
+b1110001011001000000100011 x
+b1110001011001000000100011 0"
+#75000
+0F
+0"
+#80000
+1F
+1"
+#85000
+0F
+0"
+#90000
+1F
+1"
+#95000
+0F
+0"
+#100000
+1F
+1"
+#105000
+0F
+0"
+b100000 L"
+b100000 K"
+#110000
+1F
+1"
+#115000
+0F
+0"
+#120000
+1F
+1"
+#125000
+0F
+0"
+#130001
