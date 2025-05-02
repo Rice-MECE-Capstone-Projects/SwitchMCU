@@ -82,8 +82,6 @@ wait_store_state (100): Waits for store operation to complete in memory
 
 Cache Hit
 --
-On a Cache Hit:
-
 For loads: Data is directly read from the corresponding cache line.
 
 For stores: Data is written to both the cache and memory (write-through).
