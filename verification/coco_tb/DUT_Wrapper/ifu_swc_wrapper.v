@@ -46,7 +46,7 @@ module ifu_swc_wrapper (
         .inst_out(inst_out)
     );
     initial begin
-        $dumpfile(".\vcds\ifu_swc.vcd");
+        $dumpfile("./vcds/ifu_swc.vcd");
         $dumpvars(0, ifu_swc_wrapper);
     end
 endmodule

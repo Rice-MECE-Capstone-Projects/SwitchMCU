@@ -10,7 +10,7 @@ module toggle_bit_wrapper (
         .toggle(toggle)
     );
     initial begin
-        $dumpfile(".\vcds\toggle_bit.vcd");
+        $dumpfile("./vcds/toggle_bit.vcd");
         $dumpvars(0, toggle_bit_wrapper);
     end
 endmodule

@@ -14,18 +14,19 @@ makefile.write("TOPLEVEL_LANG ?= verilog\n")
 makefile.write("\n")
 
 if(len(file_name) == 0):
-    makefile.write("VERILOG_SOURCES += $(shell pwd)/DUT/$(DUT)\n")
+    makefile.write("VERILOG_SOURCES += $(shell pwd)/DUT_2025/$(DUT)\n")
 else:
     for file in file_name:
-        makefile.write("VERILOG_SOURCES += $(shell pwd)/DUT/{}\n".format(file))
-makefile.write("VERILOG_SOURCES += $(shell pwd)/DUT_Wrapper/$(DUTWAP)\n")
+        makefile.write("VERILOG_SOURCES += $(shell pwd)/DUT_2025/{}\n".format(file))
+makefile.write("VERILOG_SOURCES += $(shell pwd)/DUT_2025_Wrapper/$(DUTWAP)\n")
+makefile.write("IVERILOG_ARGS += -I $(shell pwd)/DUT_2025")
 makefile.write("\n")
 
 makefile.write("TOPLEVEL = $(basename $(DUTWAP))\n")
 makefile.write("MODULE = $(basename $(TEST_PY))\n")
 makefile.write("\n")
 
-makefile.write("export PYTHONPATH := $(PYTHONPATH):./Testbench\n")
+makefile.write("export PYTHONPATH := $(PYTHONPATH):./Testbench_2025\n")
 makefile.write("\n")
 
 makefile.write("include $(shell cocotb-config --makefiles)/Makefile.sim\n")

@@ -1,0 +1,11 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1746035118" />
+    <testcase name="test_R" classname="test_decode_execute" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode_execute.py" lineno="10" time="0.004293918609619141" sim_time_ns="70.001" ratio_time="16302.358373348141" />
+    <testcase name="test_I" classname="test_decode_execute" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode_execute.py" lineno="46" time="0.0009686946868896484" sim_time_ns="70.001" ratio_time="72263.22281663795" />
+    <testcase name="test_S" classname="test_decode_execute" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode_execute.py" lineno="82" time="0.0011622905731201172" sim_time_ns="70.00099999999998" ratio_time="60226.76395979485" />
+    <testcase name="test_B" classname="test_decode_execute" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode_execute.py" lineno="118" time="0.0007846355438232422" sim_time_ns="70.00100000000003" ratio_time="89214.6685821939" />
+    <testcase name="test_U" classname="test_decode_execute" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode_execute.py" lineno="154" time="0.0012717247009277344" sim_time_ns="70.00099999999998" ratio_time="55044.14591376076" />
+    <testcase name="test_J" classname="test_decode_execute" file="/mnt/c/Users/benja/ELEC594/SwitchMCU/verification/coco_tb/Testbench_2025/test_decode_execute.py" lineno="190" time="0.0016455650329589844" sim_time_ns="70.00099999999998" ratio_time="42539.187815705576" />
+  </testsuite>
+</testsuites>
