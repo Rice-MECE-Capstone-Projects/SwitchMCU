@@ -5,16 +5,10 @@
 ## Contents  
 - CocoTB resources  
 - Environment setup
-<<<<<<< HEAD
-- Multiple file verification 
-- Coverage 
+- Multiple file verification  
+- Coverage
 - Completed Testbench Block Diagrams
-=======
-- Single file verification  
-- Multiple file verification
-- Completed Testbench Block Diagrams  
->>>>>>> 5403931b28f3f8efc9d538c58e2d3d6d109973e4
-  
+
 ## CocoTB resources  
 https://docs.cocotb.org/en/stable/quickstart.html  
   
