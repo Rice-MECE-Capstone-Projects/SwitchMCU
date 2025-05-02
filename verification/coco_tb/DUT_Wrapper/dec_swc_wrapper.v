@@ -140,7 +140,7 @@ module dec_swc_wrapper (
         .dec_imm_type_j(dec_imm_type_j)
     );
     initial begin
-        $dumpfile(".\vcds\dec_swc.vcd");
+        $dumpfile("./vcds/dec_swc.vcd");
         $dumpvars(0, dec_swc_wrapper);
     end
 endmodule
