@@ -1,4 +1,5 @@
 Objective:
+--------------------------------------------------------------------------------------------------------------------------------------------------
 The goal of this testbench is to verify the functionality of a Verilog-based direct-mapped cache module by simulating a sequence of read and write operations from a CPU. It ensures correct handling of cache hits, misses, data alignment, byte/halfword/word access, and memory interaction.
 
 Cache Testbench Overview:
