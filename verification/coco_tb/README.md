@@ -7,7 +7,7 @@
 - Environment setup
 - Single file verification  
 - Multiple file verification
-- Completed Testbench Diagrams  
+- Completed Testbench Block Diagrams  
   
 ## CocoTB resources  
 https://docs.cocotb.org/en/stable/quickstart.html  
