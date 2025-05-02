@@ -32,7 +32,7 @@ data_req (1-bit): Indicates that the CPU is requesting a memory access
 
 data_we (1-bit): Write enable signal
 
-data_be (4-bit): Byte enable signal, also encodes instruction type
+data_be (4-bit): Encodes instruction type
 
 clk, reset (1-bit each): Standard clock and reset signals
 
