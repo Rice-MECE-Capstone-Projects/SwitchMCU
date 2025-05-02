@@ -1,7 +1,0 @@
-<testsuites name="results">
-  <testsuite name="all" package="all">
-    <property name="random_seed" value="1732077965" />
-    <testcase name="exu_store_cocotb" classname="exu_store_cocotb" file="/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_store_swc/exu_store_cocotb.py" lineno="86" time="0.026885271072387695" sim_time_ns="13.001" ratio_time="483.5733277524054" />
-    <testcase name="exu_reg_randomized_test" classname="exu_store_cocotb" file="/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_store_swc/exu_store_cocotb.py" lineno="118" time="0.05919909477233887" sim_time_ns="650.001" ratio_time="10979.914515580005" />
-  </testsuite>
-</testsuites>
