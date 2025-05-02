@@ -9,6 +9,7 @@ class ins_txn:
         self.r_situation = ''
         self.trans_gen('R')
 
+    # print info
     def __str__(self):
         try:
             str_rs1 = f"rs1\t=\t{bin(int(self.rs1))}\n"
@@ -281,8 +282,8 @@ class ins_txn:
         self.rd = return_list[6] 
         self.imm = return_list[3]
         self.ins_result = self.trans_result_gen()
-        self.result = ins_result[1] if ins_result[0] else "None"
-        ins_result.insert(0, ins_name)
+        self.result = self.ins_result[1] if self.ins_result[0] else "None"
+        self.ins_result.insert(0, ins_name)
     
     def trans_result_gen(self):
         # TODO: figure out when to use dec_sign_extend, like for imm
