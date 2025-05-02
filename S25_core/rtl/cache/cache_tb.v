@@ -116,15 +116,39 @@ cache U1 (
         #10;
         print_data_table();
 
-        //Load Word - Cache Hit
+        //Load Half Word - Cache Hit
         #10;
         data_req = 1;
         data_we = 0;
         cpu_addr = 32'h1000_0004; 
-        data_be = 4'b0010;
+        data_be = 4'b0001;
+        #10;
+        print_data_table();
+
+        //Load half signed word - Cache miss
+        #10;
+        data_req = 1;
+        data_we = 0;
+        cpu_wdata = 32'h00000000;
+        cpu_addr = 32'h1000_003c; 
+        data_be = 4'b0001;
+        main_memory();
         #10;
         print_data_table();
       
+        //Store word - Cache miss
+        #10;
+        data_req = 1;
+        data_we = 1;
+        cpu_addr = 32'h1000_5106;
+        data_be = 4'b0111;
+        cpu_wdata = 32'hbbbbbbbb;
+        #20;
+        mem_ready = 1;
+        #10;
+        print_data_table();
+        mem_ready = 0;
+        
         //Store half word - Cache miss
         #10;
         data_req = 1;
@@ -133,6 +157,19 @@ cache U1 (
         data_be = 4'b0110;
         cpu_wdata = 32'hcccccccc;
         #20;
+        mem_ready = 1;
+        #10;
+        print_data_table();
+        mem_ready = 0;
+
+         //Store half Word - Cache hit
+        #10;
+        data_req = 1;
+        data_we = 1;
+        cpu_addr = 32'h1000_002c;
+        data_be = 4'b0110;
+        cpu_wdata = 32'hcccccccc;
+        #10;
         mem_ready = 1;
         #10;
         print_data_table();
