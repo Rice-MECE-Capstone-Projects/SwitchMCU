@@ -5,7 +5,9 @@ This cache design implements a 2KB direct-mapped cache with a total of 64 cache 
 Architecture:
 --
 Cache Size: 2048 bytes
+
 Block Size: 32 bytes (8 words of 4 bytes each)
+
 Number of Lines: 64 (2048 bytes / 32 bytes per line)
 The 32-bit CPU address is divided as follows:
 Tag: 21 bits (used to identify which memory block is stored in the cache line)
