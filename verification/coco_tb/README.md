@@ -108,38 +108,38 @@ Same as single file verification, you can check the simulation result on your co
 Below are block diagrams for all of the completed testbenches for the core. These diagrams present a digestable view of what is happening in the tests. They do not show every single signal, but they do give insights into our testing approach and will be useful for anymore aiming to recreate out tests or make similar tests in the future. 
 
 <div align="center">  
-<img src="https://ibb.co/YFkt8WsN" alt="workflow" width="80%" />
+<img src="https://i.ibb.co/nNcDf0Jw/decode-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-work flow for single verilog file  
+Decode Test  
 </div>  
 <div align="center">  
-<img src="https://ibb.co/VYHMt8zc" alt="workflow" width="80%" />
+<img src="https://i.ibb.co/chb21dZS/execute-test-drawio-1.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-work flow for single verilog file  
+Execute Test  
 </div>  
 <div align="center">  
-<img src="https://ibb.co/7PBH4w8" alt="workflow" width="80%" />
+<img src="https://i.ibb.co/GyGXTKB/decode-execute-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-work flow for single verilog file  
+Decode and Execute Test  
 </div>  
 <div align="center">  
-<img src="https://ibb.co/BKnd4wyt" alt="workflow" width="80%" />
+<img src="https://i.ibb.co/tPLkZ3q4/decode-execute-regfile-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-work flow for single verilog file  
+Decode, Execute and Regfile Test  
 </div>  
 <div align="center">  
-<img src="https://ibb.co/ZRCnxYmG" alt="workflow" width="80%" />
+<img src="https://i.ibb.co/20BDdsNW/load-test-drawio-1.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-work flow for single verilog file  
+Load Test  
 </div>  
 <div align="center">  
-<img src="https://ibb.co/Q3hzsCSh" alt="workflow" width="80%" />
+<img src="https://i.ibb.co/rRqTnc8q/store-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-work flow for single verilog file  
+Store Test  
 </div>  
