@@ -28,6 +28,7 @@ cpu_rdata (32-bit): Data read from cache to the CPU
 data_rvalid (1-bit): Indicates that valid read data is available
 data_gnt (1-bit): Indicates the cache is ready to handle the request
 cpu_stall (1-bit): Instructs the CPU to stall while the cache is busy
+
 Memory Interface Signals:
 mem_addr_block (32-bit): Aligned base address of the cache block to read/write
 mem_addr (32-bit): Exact address for memory writes on store misses
