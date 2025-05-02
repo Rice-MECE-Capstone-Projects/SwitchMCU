@@ -111,35 +111,35 @@ Below are block diagrams for all of the completed testbenches for the core. Thes
 <img src="https://i.ibb.co/nNcDf0Jw/decode-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-Decode Test  
+The verification testbench for the decode module is structured on a randomly driven instruction-based methodology. The DUT is driven with a random instruction by an instruction generator, which also provides the set of expected control signals, which represent the correct decode behavior. Once the instruction is embedded in the DUT, its actual outputs are tracked and passed to a scoreboard. The scoreboard compares the DUT's outputs to expected values and reports discrepancies. This structure enables robust and automated verification of the decode logic, and high coverage is achieved with random instruction generation and tight integration between stimulus, reference model, and result check.
 </div>  
 <div align="center">  
 <img src="https://i.ibb.co/chb21dZS/execute-test-drawio-1.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-Execute Test  
+A similar verification strategy was employed on the execute module with some key differences. Instead of taking a raw instruction as its input, the execute module takes a set of control signals that simulate the decode stage’s output. When the execute module computes the outputs, these computations are compared with the theoretical calculations produced by the control signal generator. 
 </div>  
 <div align="center">  
 <img src="https://i.ibb.co/GyGXTKB/decode-execute-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-Decode and Execute Test  
+A testbench was also incorporated to verify the combined operation of the decode and execute modules executed in sequence. In this setup, the instruction generator produces a random instruction and feeds it into the decode module only. The generated control signals are then forwarded to the execute module, simulating the actual data flow in the processor pipeline. Parallely, the instruction generator internally produces the predicted end result of the execute phase through emulating decode and execute activity in software. The scoreboard compares the output of the execute module with the end-to-end theoretical result created internally by this simulator so that the testbench is able to catch errors produced by incorrect decoding, faulty control propagation, or flawed execution logic.   
 </div>  
 <div align="center">  
 <img src="https://i.ibb.co/tPLkZ3q4/decode-execute-regfile-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-Decode, Execute and Regfile Test  
+A more extensive testbench was developed to guarantee the interface between the decode, execute, and register file modules. The decode and execute pipeline receive a random instruction, with the output write-back data and destination register forwarded to the register file. The test proceeds to read out the value stored into the register file to confirm correct execution and write-back. The expected result—created in software through emulation of the entire decode and execute cycle—is compared against the value read from the register file, checking for correctness across three phases of the pipeline.  
 </div>  
 <div align="center">  
 <img src="https://i.ibb.co/20BDdsNW/load-test-drawio-1.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-Load Test  
+To test load instructions, a testbench was created that incorporated the decode, execute, register file, and data memory modules. A random load instruction is passed through decode and execute, where the effective memory address is determined. The address is sent to the data memory module, which interacts with a BRAM controller to fetch the correct data from main memory via BRAM. When retrieved, the data is written back to the destination register within the register file. The testbench then reads the value from the register file and compares it with the result expected, precomputed in software by modeling the complete instruction path. 
 </div>  
 <div align="center">  
 <img src="https://i.ibb.co/rRqTnc8q/store-test-drawio.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
-Store Test  
+Store instruction testing is performed in the reverse dataflow: the register operands and decoded instruction are used to compute a memory address in the execute phase, and source data is read from the register file. This data and target address are passed through the data memory module, which sends them through the BRAM controller for writing into BRAM. The testbench subsequently reads directly from BRAM and verifies the value stored against expected data as produced in software, verifying correct operand selection, address calculation, and memory write operation.
 </div>  
