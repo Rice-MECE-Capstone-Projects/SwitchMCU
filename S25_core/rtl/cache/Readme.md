@@ -1,7 +1,9 @@
 Features:
+--
 This cache design implements a 2KB direct-mapped cache with a total of 64 cache lines, where each block is 32 bytes (8 words) in size. It supports byte-, half-word-, and word-addressable memory access, following a write-through and no-write-allocate policy for store instructions. A separate finite state machine (FSM) handles cache misses and write-backs. Internally, the cache contains built-in tag, valid, and data arrays. It is designed to be compatible with RISC-V-like memory semantics.
 
 Architecture:
+--
 Cache Size: 2048 bytes
 Block Size: 32 bytes (8 words of 4 bytes each)
 Number of Lines: 64 (2048 bytes / 32 bytes per line)
@@ -12,6 +14,7 @@ Word Offset: 3 bits (selects one of 8 words within the cache block)
 Byte Offset: 2 bits (selects one of 4 bytes within a word)
 
 Interface:
+--
 Inputs from the CPU:
 cpu_addr (32-bit): Address from the CPU
 cpu_wdata (32-bit): Data to be written by the CPU
@@ -37,6 +40,7 @@ mem_ready (1-bit): Indicates memory access is complete
 state (3-bit): Current state of the FSM (useful for debugging)
 
 FSM States:
+--
 The FSM controlling miss handling and write-back uses five distinct states:
 idle_state (000): Idle or ready state, waiting for CPU requests
 fetch_mem_state (001): Reads an entire cache block from memory due to a miss
@@ -45,10 +49,12 @@ miss_write_mem_state (011): Directly writes to memory during a store miss
 wait_store_state (100): Waits for store operation to complete in memory
 
 Cache Hit vs Miss Logic
+--
 On a Cache Hit:
 For loads: Data is directly read from the corresponding cache line.
 For stores: Data is written to both the cache and memory (write-through).
 
 On a Cache Miss:
+--
 For loads: The cache issues a memory read to fetch the entire block, which is then stored in the appropriate cache line.
 For stores: The data is written directly to memory without allocating a new cache block (no-write-allocate).
