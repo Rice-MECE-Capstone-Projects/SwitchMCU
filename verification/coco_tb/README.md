@@ -105,7 +105,7 @@ Same as single file verification, you can check the simulation result on your co
 
 ## Completed Testbench Block Diagrams
 
-Below are block diagrams for all of the completed testbenches for the core. These diagrams present a digestable view of what is happening in the tests. They do not show every single signal, but they do give insights into our testing approach and will be useful for anymore aiming to recreate out tests or make similar tests in the future. 
+Below are block diagrams for all of the completed testbenches for the core. These diagrams present a digestable view of what is happening in the tests. They do not show every single signal, but they do give insights into our testing approach and will be useful for anymore aiming to recreate our tests or make similar tests in the future. 
 
 <div align="center">  
 <img src="https://i.ibb.co/nNcDf0Jw/decode-test-drawio.png" alt="workflow" width="80%" />
