@@ -35,3 +35,4 @@ Addresses with different alignments are used to verify byte/half/word addressing
 Tasks Used
 main_memory(): Simulates a memory response by setting mem_ready high and returning a pre-defined block.
 print_data_table(): Prints the internal state of the cache (data_table) to monitor updates in each cache set after each access.
+
