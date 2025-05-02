@@ -1,12 +1,13 @@
-# <div align="center"> CocoTB Auto Verification Suite </div>  
+# <div align="center"> CocoTB Verification Suite </div>  
   
 <div align="center"> <b> Rice Switch Core </div>  
   
 ## Contents  
 - CocoTB resources  
 - Environment setup
-- Single file verification  
-- Multiple file verification  
+- Multiple file verification 
+- Coverage 
+- Completed Testbench Block Diagrams
   
 ## CocoTB resources  
 https://docs.cocotb.org/en/stable/quickstart.html  
@@ -52,7 +53,7 @@ cd /mnt/YOUR_WORKING_DIRECTORY
 source ~/YOUR_VENV_NAME/bin/activate
 ```
 A screenshot for your reference:
- <div align="center">  
+<div align="center">  
 <img src="https://s2.loli.net/2024/12/07/e4hoD9zYujrKaJT.png" alt="setup" width="85%" />
 </div>  
 <div align="center">  
@@ -63,30 +64,10 @@ A screenshot for your reference:
  
 Congratulations! You have finish all the cocotb setup, don't forget to use it in your vistual studio code!
   
-## Single file verification  
-### Work flow diagram  
-<div align="center">  
-<img src="https://s2.loli.net/2024/12/07/DpC1eFksMKhn43f.png" alt="workflow" width="50%" />
-</div>  
-<div align="center">  
-work flow for single verilog file  
-</div>  
-When we want to use cocotb to verification single verilog file, you just need to follow the instruction below, take decoder_swc.v as an example:  
-  
-1. Put your dut file under "./DUT" folder, like "./DUT/decoder_swc.v"  
-2. Write your testbench and put it under "./Testbench", like "./Testbench/test_dec.py"  
-3. Run the command as below:  
-```
-python verify.py dec_swc.v
-```
-By doing this an automatically wrapper file will be generated under "./DUT_Wrapper" folder, in this example the wrapper file name would be "dec_swc_wrapper.v", feel free to add extra logic or command to this wrapper file for detailed test.
-
-Also you shall see the result in your command line.
-
 ## Multiple files verification  
 ### Work flow diagram  
 <div align="center">  
-<img src="https://s2.loli.net/2024/12/07/BA7PbuDf2ckdRWn.png" alt="workflow" width="80%" />
+<img src="https://s2.loli.net/2025/05/03/8liOz3VtTjaD62A.png" alt="workflow" width="80%" />
 </div>  
 <div align="center">  
 work flow for single verilog file  
@@ -96,12 +77,25 @@ When we want to use cocotb to verify multiple files things become much more comp
  1. Put all of DUTs under "./DUT" folder
  2. Write your testbench and put it under "./Testbench", the filename should be "test_top.py".
  3. Run the command as below:
- ```
-python verify.py DUT1.v DUT2.v ... DUTn.v 
+```
+python multi_verify.py DUT1.v DUT2.v ... DUTn.v 
 ```
 Normally first time running this won't success because the v_connector can't wire all the signals correctly and competely, please mannually modify the top wrapper file.
 
 Same as single file verification, you can check the simulation result on your command line.
+
+## Coverage 
+### Coverage bins setup
+For now we only focus on the instruction coverage. We set the coverage bins based on instruction types, instruction source/destination register addresses, instruction immediate number and the cross-coverage when one type of instruction has both register addresses and immediate numbers. Below is the diagram of detailed bins setting.
+<div align="center">  
+<img src="https://s2.loli.net/2025/05/03/VNvLdwIqRrXZiC2.png" alt="bins" width="85%" />
+</div>
+### Coverage bins hit and report
+A detailed sample usage has been written in the coverage.py for your reference.
+<div align="center">  
+<img src="https://s2.loli.net/2025/05/03/xOMtudS2HXPivW5.png" alt="sample usage" width="85%" />
+</div>
+You can either choose to fill in all the elements (R,I,S,B,U,J,IMM) or just fill in the necessary parts. The numbers you feed to the coverage library can be fetched from the transaction module. When the transaction module generate a transaction, it will also generate a list which are the labels of the bins.
 
 ## Completed Testbench Block Diagrams
 
