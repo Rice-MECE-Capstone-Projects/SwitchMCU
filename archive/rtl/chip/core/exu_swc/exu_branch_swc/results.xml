@@ -1,7 +1,0 @@
-<testsuites name="results">
-  <testsuite name="all" package="all">
-    <property name="random_seed" value="1732114944" />
-    <testcase name="exu_branch_cocotb" classname="exu_branch_cocotb" file="/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_branch_swc/exu_branch_cocotb.py" lineno="74" time="0.00450587272644043" sim_time_ns="17.001" ratio_time="3773.0759460288905" />
-    <testcase name="exu_branch_randomized_test" classname="exu_branch_cocotb" file="/mnt/c/Users/linds/OneDrive/Desktop/2024-2025_Semester_1/Masters_Capstone/SwitchMCU/rtl/chip/core/exu_swc/exu_branch_swc/exu_branch_cocotb.py" lineno="101" time="0.09459543228149414" sim_time_ns="850.001" ratio_time="8985.645284336706" />
-  </testsuite>
-</testsuites>
