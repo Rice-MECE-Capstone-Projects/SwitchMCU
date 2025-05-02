@@ -14,7 +14,7 @@ Main Signals Driven by Testbench:
 
 cpu_addr, cpu_wdata, data_req, data_we, and data_be simulate CPU memory access behavior.
 mem_rdata_array and mem_ready simulate main memory responses.
-The memory block always returns a fixed 256-bit block to simplify validation.
+The memory block always returns a fixed 256-bit block or a fixed 32-bit word to simplify validation.
 
 Testing Methodology:
 --
@@ -24,8 +24,7 @@ Key features tested:
 
 Cache Miss Handling:
 
-First access to a new address fetches the corresponding block from memory.
-Miss handling is verified for different access types (load/store, byte/half/word).
+First access to a new address fetches the corresponding block from memory. Miss handling is verified for different access types (load/store, byte/half/word).
 
 Cache Hit Behavior:
 
@@ -46,5 +45,6 @@ Addresses with different alignments are used to verify byte/half/word addressing
 Tasks Used
 --
 main_memory(): Simulates a memory response by setting mem_ready high and returning a pre-defined block.
+
 print_data_table(): Prints the internal state of the cache (data_table) to monitor updates in each cache set after each access.
 
