@@ -1,0 +1,9 @@
+To comment out the display staments automatically use the folowing commend within the S25_core/rtl directory
+
+C/U  - comment or uncomment --> takes out comments on designated debug sections
+
+python format_rtl.py C riscv32i_module -->
+Verilog files have been processed with action: comment.
+
+python format_rtl.py U riscv32i_module -->
+Verilog files have been processed with action: uncomment.

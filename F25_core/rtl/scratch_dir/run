@@ -1,0 +1,2 @@
+iverilog -g2001 *.v -o out
+vvp out

@@ -1,0 +1,52 @@
+
+program.bin:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+   0:	fd010113          	addi	sp,sp,-48
+   4:	02112623          	sw	ra,44(sp)
+   8:	02812423          	sw	s0,40(sp)
+   c:	03010413          	addi	s0,sp,48
+  10:	fca42e23          	sw	a0,-36(s0)
+  14:	fcb42c23          	sw	a1,-40(s0)
+  18:	fdc42783          	lw	a5,-36(s0)
+  1c:	fef42623          	sw	a5,-20(s0)
+  20:	fec42783          	lw	a5,-20(s0)
+  24:	fd842703          	lw	a4,-40(s0)
+  28:	00e7a023          	sw	a4,0(a5)
+  2c:	00000013          	nop
+  30:	02c12083          	lw	ra,44(sp)
+  34:	02812403          	lw	s0,40(sp)
+  38:	03010113          	addi	sp,sp,48
+  3c:	00008067          	ret
+  40:	fe010113          	addi	sp,sp,-32
+  44:	00112e23          	sw	ra,28(sp)
+  48:	00812c23          	sw	s0,24(sp)
+  4c:	02010413          	addi	s0,sp,32
+  50:	0000d7b7          	lui	a5,0xd
+  54:	fc778793          	addi	a5,a5,-57 # 0xcfc7
+  58:	fef42623          	sw	a5,-20(s0)
+  5c:	fec42783          	lw	a5,-20(s0)
+  60:	01079793          	slli	a5,a5,0x10
+  64:	4107d793          	srai	a5,a5,0x10
+  68:	fef42423          	sw	a5,-24(s0)
+  6c:	fe842703          	lw	a4,-24(s0)
+  70:	ffffd7b7          	lui	a5,0xffffd
+  74:	fc778793          	addi	a5,a5,-57 # 0xffffcfc7
+  78:	00f71c63          	bne	a4,a5,0x90
+  7c:	deadc7b7          	lui	a5,0xdeadc
+  80:	eef78593          	addi	a1,a5,-273 # 0xdeadbeef
+  84:	60000513          	li	a0,1536
+  88:	f79ff0ef          	jal	0x0
+  8c:	0140006f          	j	0xa0
+  90:	0badf7b7          	lui	a5,0xbadf
+  94:	00d78593          	addi	a1,a5,13 # 0xbadf00d
+  98:	60000513          	li	a0,1536
+  9c:	f65ff0ef          	jal	0x0
+  a0:	0000006f          	j	0xa0
+  a4:	00001117          	auipc	sp,0x1
+  a8:	f5c10113          	addi	sp,sp,-164 # 0x1000
+  ac:	f95ff0ef          	jal	0x40
+  b0:	ff5ff06f          	j	0xa4
