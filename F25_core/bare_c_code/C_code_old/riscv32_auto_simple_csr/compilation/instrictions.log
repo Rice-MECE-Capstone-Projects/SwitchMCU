@@ -1,0 +1,115 @@
+
+program.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <read_mcycle>:
+   0:	fe010113          	addi	sp,sp,-32
+   4:	00112e23          	sw	ra,28(sp)
+   8:	00812c23          	sw	s0,24(sp)
+   c:	02010413          	addi	s0,sp,32
+  10:	b00027f3          	csrr	a5,mcycle
+  14:	fef42623          	sw	a5,-20(s0)
+  18:	fec42783          	lw	a5,-20(s0)
+  1c:	00078513          	mv	a0,a5
+  20:	01c12083          	lw	ra,28(sp)
+  24:	01812403          	lw	s0,24(sp)
+  28:	02010113          	addi	sp,sp,32
+  2c:	00008067          	ret
+
+00000030 <write_mtvec>:
+  30:	fe010113          	addi	sp,sp,-32
+  34:	00112e23          	sw	ra,28(sp)
+  38:	00812c23          	sw	s0,24(sp)
+  3c:	02010413          	addi	s0,sp,32
+  40:	fea42623          	sw	a0,-20(s0)
+  44:	fec42783          	lw	a5,-20(s0)
+  48:	30579073          	csrw	mtvec,a5
+  4c:	00000013          	nop
+  50:	01c12083          	lw	ra,28(sp)
+  54:	01812403          	lw	s0,24(sp)
+  58:	02010113          	addi	sp,sp,32
+  5c:	00008067          	ret
+
+00000060 <main>:
+  60:	fe010113          	addi	sp,sp,-32
+  64:	00112e23          	sw	ra,28(sp)
+  68:	00812c23          	sw	s0,24(sp)
+  6c:	02010413          	addi	s0,sp,32
+  70:	00100537          	lui	a0,0x100
+  74:	fbdff0ef          	jal	30 <write_mtvec>
+  78:	f89ff0ef          	jal	0 <read_mcycle>
+  7c:	fea42623          	sw	a0,-20(s0)
+  80:	fe042023          	sw	zero,-32(s0)
+  84:	0100006f          	j	94 <main+0x34>
+  88:	fe042783          	lw	a5,-32(s0)
+  8c:	00178793          	addi	a5,a5,1
+  90:	fef42023          	sw	a5,-32(s0)
+  94:	fe042703          	lw	a4,-32(s0)
+  98:	3e700793          	li	a5,999
+  9c:	fee7d6e3          	bge	a5,a4,88 <main+0x28>
+  a0:	f61ff0ef          	jal	0 <read_mcycle>
+  a4:	fea42423          	sw	a0,-24(s0)
+  a8:	fe842703          	lw	a4,-24(s0)
+  ac:	fec42783          	lw	a5,-20(s0)
+  b0:	40f707b3          	sub	a5,a4,a5
+  b4:	fef42223          	sw	a5,-28(s0)
+  b8:	00000793          	li	a5,0
+  bc:	00078513          	mv	a0,a5
+  c0:	01c12083          	lw	ra,28(sp)
+  c4:	01812403          	lw	s0,24(sp)
+  c8:	02010113          	addi	sp,sp,32
+  cc:	00008067          	ret
+
+000000d0 <_start>:
+  d0:	00040117          	auipc	sp,0x40
+  d4:	f3010113          	addi	sp,sp,-208 # 40000 <_sdata>
+  d8:	f89ff0ef          	jal	60 <main>
+  dc:	ff5ff06f          	j	d0 <_start>
+
+Disassembly of section .data:
+
+00040000 <_sdata>:
+   40000:	0000                	.insn	2, 0x
+   40002:	0008                	.insn	2, 0x0008
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.insn	4, 0x3a434347
+   4:	2820                	.insn	2, 0x2820
+   6:	36343067          	.insn	4, 0x36343067
+   a:	3639                	.insn	2, 0x3639
+   c:	6664                	.insn	2, 0x6664
+   e:	3930                	.insn	2, 0x3930
+  10:	3336                	.insn	2, 0x3336
+  12:	2029                	.insn	2, 0x2029
+  14:	3431                	.insn	2, 0x3431
+  16:	322e                	.insn	2, 0x322e
+  18:	302e                	.insn	2, 0x302e
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	2841                	.insn	2, 0x2841
+   2:	0000                	.insn	2, 0x
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <read_mcycle+0x14>
+   c:	001e                	.insn	2, 0x001e
+   e:	0000                	.insn	2, 0x
+  10:	1004                	.insn	2, 0x1004
+  12:	7205                	.insn	2, 0x7205
+  14:	3376                	.insn	2, 0x3376
+  16:	6932                	.insn	2, 0x6932
+  18:	7032                	.insn	2, 0x7032
+  1a:	5f31                	.insn	2, 0x5f31
+  1c:	697a                	.insn	2, 0x697a
+  1e:	32727363          	bgeu	tp,t2,344 <_etext+0x264>
+  22:	3070                	.insn	2, 0x3070
+  24:	0800                	.insn	2, 0x0800
+  26:	0a01                	.insn	2, 0x0a01
+  28:	Address 0x28 is out of bounds.
+
