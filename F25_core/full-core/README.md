@@ -66,7 +66,7 @@ The goal for this full core development is to simplify the code block without mo
     - Complete debug module with instruction decoding and pipeline register display
     - All $write statements for pipeline stage tracking
     - Instruction mnemonic printing
-    - 
+      > This file is safe to remove. Also do not forget to remove 4 lines assosicated with debug.v file in the testbench file.
 
 - Decode.v
     - Removed:
@@ -196,4 +196,5 @@ Installation of the AMD toolset is required. VIvado is included in the toolset. 
 
 ## License
 Apache License
+
 Version 2.0, January 2004
