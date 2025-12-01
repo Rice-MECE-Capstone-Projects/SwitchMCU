@@ -1,0 +1,65 @@
+// exec_scoreboard.sv
+`timescale 1ns/1ps
+import uvm_pkg::*;
+import pkg_tx::*; 
+`include "uvm_macros.svh"
+//`include "pkg_tx.sv"
+
+class exec_scoreboard extends uvm_component;
+  `uvm_component_utils(exec_scoreboard)
+
+  // receiver imps (connect ports to these)
+  uvm_analysis_imp#(pkg_tx::exec_tx, exec_scoreboard) expected_imp;
+  uvm_analysis_imp#(pkg_tx::exec_tx, exec_scoreboard) observed_imp;
+
+  // internal FIFOs (simple dynamic arrays)
+  pkg_tx::exec_tx expected_q[$];
+  pkg_tx::exec_tx observed_q[$];
+
+  int unsigned total_checks = 0;
+  int unsigned total_mismatches = 0;
+
+  function new(string name, uvm_component parent);
+    super.new(name, parent);
+    expected_imp = new("expected_imp", this);
+    observed_imp = new("observed_imp", this);
+  endfunction
+
+  // single write entrypoint called by both imps
+  virtual function void write(pkg_tx::exec_tx t);
+    // the imp will call this write; the tx includes is_expected flag set by writer
+    if (t.is_expected) begin
+      expected_q.push_back(t);
+    end else begin
+      observed_q.push_back(t);
+    end
+
+    // if both queues have entries, compare in-order
+    if (expected_q.size() > 0 && observed_q.size() > 0) begin
+      pkg_tx::exec_tx ex = expected_q.pop_front();
+      pkg_tx::exec_tx ob = observed_q.pop_front();
+      total_checks++;
+
+      // compare relevant fields
+      if (ex.expected_alu1 !== ob.observed_alu1 ||
+          ex.expected_alu2 !== ob.observed_alu2 ||
+          ex.expected_branch !== ob.observed_branch ||
+          ex.expected_jump !== ob.observed_jump ||
+          ex.expected_write !== ob.observed_write) begin
+        total_mismatches++;
+        `uvm_error("SCORE", $sformatf("Mismatch #%0d\n  EXP: alu1=%h alu2=%h br=%b jump=%b wr=%b\n  OBS: alu1=%h alu2=%h br=%b jump=%b wr=%b",
+                     total_mismatches,
+                     ex.expected_alu1, ex.expected_alu2, ex.expected_branch, ex.expected_jump, ex.expected_write,
+                     ob.observed_alu1, ob.observed_alu2, ob.observed_branch, ob.observed_jump, ob.observed_write))
+      end else begin
+        `uvm_info("SCORE", $sformatf("Match #%0d OK (alu1=%h)", total_checks, ex.expected_alu1), UVM_MEDIUM)
+      end
+    end
+  endfunction
+
+  // print summary in end_of_simulation
+  function void final_phase(uvm_phase phase);
+    `uvm_info("SCORE", $sformatf("Scoreboard summary: checks=%0d mismatches=%0d", total_checks, total_mismatches), UVM_LOW)
+  endfunction
+
+endclass : exec_scoreboard

@@ -1,0 +1,84 @@
+//==============================================================
+// core_smoke_test.sv  -- FIXED VERSION
+//==============================================================
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+class core_smoke_test extends uvm_test;
+
+  `uvm_component_utils(core_smoke_test)
+
+  virtual core_if vif;
+  int unsigned cycles_timeout = 80000;
+
+  function new(string name = "core_smoke_test", uvm_component parent = null);
+    super.new(name, parent);
+  endfunction;
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+
+    if (!uvm_config_db#(virtual core_if)::get(this, "", "vif", vif)) begin
+      `uvm_fatal("NO_VIF", "core_if virtual interface not set")
+    end
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    int unsigned cycles = 0;
+    phase.raise_objection(this);
+
+    `uvm_info("CORE_TEST", "Starting core smoke test", UVM_LOW)
+
+    // Default GPIO configuration
+    vif.GPIO0_R0_CH1 = 32'b0;          // control signals
+    vif.GPIO0_R0_CH2 = 32'h0000_0600;  // memory_offset
+    vif.GPIO0_R1_CH1 = 32'h0000_0000;  // initial PC = 0
+    vif.GPIO0_R1_CH2 = 32'hDEAD_BEEF;  // success code
+
+    // idle for a few cycles
+    repeat (10) @(posedge vif.clk);
+
+    //-----------------------------------
+    // ASSERT RESET = 1
+    //-----------------------------------
+    vif.GPIO0_R0_CH1 = 32'b10;   // reset=1, start=0
+    @(posedge vif.clk);
+
+    // deassert reset
+    vif.GPIO0_R0_CH1 = 32'b00;
+    repeat (5) @(posedge vif.clk);
+
+    //-----------------------------------
+    // NOW ASSERT START = 1 FOR ONE CYCLE
+    //-----------------------------------
+    vif.GPIO0_R0_CH1 = 32'b01;   // start=1
+    @(posedge vif.clk);
+    vif.GPIO0_R0_CH1 = 32'b00;   // clear start
+
+    //-----------------------------------
+    // WATCH FOR STOP_sim
+    //-----------------------------------
+    forever begin
+      @(posedge vif.clk);
+      cycles++;
+
+      if (vif.STOP_sim === 1'b1) begin
+        `uvm_info("CORE_TEST",
+                  $sformatf("STOP_sim detected after %0d cycles", cycles),
+                  UVM_LOW)
+        break;
+      end
+
+      if (cycles >= cycles_timeout) begin
+        `uvm_error("CORE_TEST",
+                   $sformatf("Timeout waiting for STOP_sim (%0d cycles)",
+                             cycles_timeout))
+        break;
+      end
+    end
+
+    phase.drop_objection(this);
+  endtask
+
+endclass
+
