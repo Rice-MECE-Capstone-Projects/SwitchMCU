@@ -10,6 +10,13 @@ QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
 Top level modules:
 	tb_top
 
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/ins_mem_model.sv {1 {vlog -work work -vopt -sv -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/ins_mem_model.sv
+QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
+-- Compiling module ins_mem_model
+
+Top level modules:
+	ins_mem_model
+
 } {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/riscv32i.v {1 {vlog -work work -vopt -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/riscv32i.v
 QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
 -- Compiling module riscv32i
@@ -36,6 +43,28 @@ QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
 Top level modules:
 	--none--
 
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/bram_ins.sv {1 {vlog -work work -vopt -sv -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/bram_ins.sv
+QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
+-- Compiling module bram_ins
+
+Top level modules:
+	bram_ins
+
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE_TB/core_if.sv {1 {vlog -work work -vopt -sv +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE_TB -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE_TB/core_if.sv
+QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
+-- Compiling interface core_if
+
+Top level modules:
+	--none--
+
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/tb_decoder_scoreboard.sv {1 {vlog -work work -vopt -sv +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/tb_decoder_scoreboard.sv
+QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
+-- Compiling module tb_decoder_scoreboard
+-- Importing package golden_decoder_pkg
+
+Top level modules:
+	tb_decoder_scoreboard
+
 } {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/tb_smoke_riscv32i.sv {1 {vlog -work work -vopt -sv -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/tb_smoke_riscv32i.sv
 QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
 -- Compiling module tb_smoke_riscv32i
@@ -45,16 +74,23 @@ QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
 Top level modules:
 	tb_smoke_riscv32i
 
-} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/ins_mem_model.sv {1 {vlog -work work -vopt -sv -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/ins_mem_model.sv
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/bram_mem.sv {1 {vlog -work work -vopt -sv -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/bram_mem.sv
 QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
--- Compiling module ins_mem_model
+-- Compiling module bram_mem
 
 Top level modules:
-	ins_mem_model
+	bram_mem
 
-} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE_TB/core_if.sv {1 {vlog -work work -vopt -sv +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE_TB -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/CORE_TB/core_if.sv
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/decoder_scoreboard.sv {1 {vlog -work work -vopt -sv +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/decoder_scoreboard.sv
 QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
--- Compiling interface core_if
+-- Compiling module decoder_scoreboard
+
+Top level modules:
+	decoder_scoreboard
+
+} {} {}} /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/golden_decocder.sv {1 {vlog -work work -vopt -sv +incdir+/storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE -stats=none /storage-home/i/ijt2/ELEC594/SwitchMCU/verification/UVM/TOP_CORE/golden_decocder.sv
+QuestaSim-64 vlog 2023.2 Compiler 2023.04 Apr 11 2023
+-- Compiling package golden_decoder_pkg
 
 Top level modules:
 	--none--
