@@ -1,0 +1,16 @@
+# Ignore Questa/Modelsim build libraries and large artifacts
+**/work/
+*.qpg
+*.qdb
+
+# Ignore very large simulation output files
+*.wlf
+*.vcd
+*.vpd
+*.ucdb
+
+# Ignore accidentally generated large temp files
+*.350431
+*.log
+*.jou
+transcript
