@@ -14,6 +14,14 @@ The combination of these environments enables modular verification, subsystem-le
 CORE - RTL files used in core implementation 
 CORE_SMOKE - Framework used specifically for running core smoke test
 
+### NOTE FOR BELOW INSTRUCTIONS
+
+If the project is new on this machine and you get “library work not found”, do in the Transcript once:
+
+        vlib work
+        vmap work work
+        --> Compile All again
+
 ## TOP_CORE — Full RISC-V Core System Test Environment
 
 TOP_CORE contains the infrastructure required to run full RISC-V programs on the RTL core using BRAM-based instruction and data memory models.
@@ -265,12 +273,6 @@ Watch the Transcript window; you want 0 errors.
 
 If you change a file later (if you edit/regenerate your own program.hex file), recompile all to ensure functionality. 
 
-If the project is new on this machine and you get “library work not found”, do in the Transcript once:
-
-        vlib work
-        vmap work work
-        --> Compile All again
-
 
 ### Run the Smoke Test (full core program execution)
 
@@ -449,4 +451,5 @@ cp out_0.hex TOP_CORE/program.hex
 ```
 
 Then run TOP_CORE testing as described in its section
+
 
