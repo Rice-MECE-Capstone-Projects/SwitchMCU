@@ -1,0 +1,11 @@
+Seq Connections:
+rd_o_5,rd_i_5
+rs1_o_5,rs1_i_5
+rs2_o_5,rs2_i_5
+imm_o_32,imm_i_32
+Single_Instruction_o_64,Single_Instruction_i_64
+
+OOO Connections:
+i_clk
+i_en
+instruction

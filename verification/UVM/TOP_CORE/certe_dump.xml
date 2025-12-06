@@ -1,0 +1,6 @@
+<certe_dump>
+  <instance type=" core_smoke_test "> 
+     uvm_test_top 
+  </instance> 
+  
+  </certe_dump>

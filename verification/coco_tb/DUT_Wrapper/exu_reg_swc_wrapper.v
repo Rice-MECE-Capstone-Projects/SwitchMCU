@@ -1,0 +1,66 @@
+module exu_reg_swc_wrapper (
+    input hclk,
+    input hrstn,
+    input [3:0] cycle_cnt,
+    input en,
+    input dec_add,
+    input dec_sub,
+    input dec_sll,
+    input dec_slt,
+    input dec_sltu,
+    input dec_xor,
+    input dec_srl,
+    input dec_sra,
+    input dec_or,
+    input dec_and,
+    input [4:0] dec_rs1,
+    input [4:0] dec_rs2,
+    input [4:0] dec_rd,
+    input [31:0] pc,
+    input [31:0] reg_rdata_1,
+    input [31:0] reg_rdata_2,
+    input exu_stall,
+    inout [4:0] reg_waddr,
+    inout reg_wen,
+    inout [31:0] reg_wdata,
+    inout [4:0] reg_raddr_1,
+    inout reg_ren_1,
+    inout [4:0] reg_raddr_2,
+    inout reg_ren_2
+);
+
+    exu_reg_swc dut (
+        .hclk(hclk),
+        .hrstn(hrstn),
+        .cycle_cnt(cycle_cnt),
+        .en(en),
+        .dec_add(dec_add),
+        .dec_sub(dec_sub),
+        .dec_sll(dec_sll),
+        .dec_slt(dec_slt),
+        .dec_sltu(dec_sltu),
+        .dec_xor(dec_xor),
+        .dec_srl(dec_srl),
+        .dec_sra(dec_sra),
+        .dec_or(dec_or),
+        .dec_and(dec_and),
+        .dec_rs1(dec_rs1),
+        .dec_rs2(dec_rs2),
+        .dec_rd(dec_rd),
+        .pc(pc),
+        .reg_rdata_1(reg_rdata_1),
+        .reg_rdata_2(reg_rdata_2),
+        .exu_stall(exu_stall),
+        .reg_waddr(reg_waddr),
+        .reg_wen(reg_wen),
+        .reg_wdata(reg_wdata),
+        .reg_raddr_1(reg_raddr_1),
+        .reg_ren_1(reg_ren_1),
+        .reg_raddr_2(reg_raddr_2),
+        .reg_ren_2(reg_ren_2)
+    );
+    initial begin
+        $dumpfile("./vcds/exu_reg_swc.vcd");
+        $dumpvars(0, exu_reg_swc_wrapper);
+    end
+endmodule
