@@ -1,0 +1,52 @@
+// *************************************************************** //
+// Sky130 Open Source PVL DRC Deck                                 //
+// Version 0.0_2.11  July 09, 2025                           		//
+// *************************************************************** //
+
+README
+
+This directory:  Sky130_DRC_rev_0.0_2.8
+
+[1] Environment Variable
+
+You must set the "PEGASUS_DRC" variable to point to this directory
+
+Do this before starting Virtuoso:
+ 
+% setenv PEGASUS_DRC {path}/Sky130_DRC_rev_0.0_2.8
+
+You can also do this inside of Virtuoso with this CIW command:
+
+setShellEnvVar("PEGASUS_DRC" "{path}/Sky130_DRC_rev_0.0_2.8")
+
+[2] Primary DRC file
+
+The top DRC file:  Sky130_DRC_rev_0.0_2.8/sky130_rev_0.0_2.8.drc.pvl
+
+In the Pegausas DRC UI, go to Rules -> Tech&Rules -> Add... (on the right under "Rules")
+
+[3] Configurator file
+
+There is a configurator file to allow setting switches in the UI.
+
+Configurator file:  Sky130_DRC_rev_0.0_2.8/sky130.drc.cfg
+
+In the Pegausas DRC UI, go to Rules -> Configurator -> Input (... on the right for browser)
+
+[4] Alternate SRAM Rules -- new in Version 0.0_2.8
+
+DRC rule deck has an "Alternate SRAM Rules" switch which can be turned from the Configurator tab.
+This switch will use the following alternate SRAM rules:
+	- licon.4a:  licon in areaid.ce must overlap li1
+	- licon.4b:  licon in areaid.ce must overlap (poly or diff or tap)
+	- mcon.cover.1:  mcon in areaid.ce must overlap li1
+** This is for debugging purposes only, errors may be missed. **
+
+[5] Rule Groups
+
+Groups are used to arrange rules by layer/type (M1, VIA2, etc.). 
+You can see these in the UI by going to DRC Options -> Rule Selector
+NOTE: when you load the configurator or change switches, 
+  you will need to "Reload Rules" at the bottom of Rule Selector to update
+
+[6] Frame Only Rules not implemented
