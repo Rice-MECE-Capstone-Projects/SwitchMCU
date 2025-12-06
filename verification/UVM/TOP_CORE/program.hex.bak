@@ -1,8 +1,0 @@
-DEADB0B7   // lui x1, 0xDEADB
-EEF08093   // addi x1, x1, 0xEEF   -> x1 = 0xDEAD_BEEF
-00060337   // lui x6, 0x00060      -> x6 = 0x60000
-00030313   // addi x6, x6, 0x0000  -> x6 = 0x00000600 (memory_offset)
-00B30023   // sw x1, 0(x6)         -> store success_code at memory_offset
-00000013   // nop
-00000013   // nop
-
